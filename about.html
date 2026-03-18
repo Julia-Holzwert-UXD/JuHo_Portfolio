@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Julia Holzwert</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <div class="nav-wrapper">
+    <nav class="nav-left">
+      <a href="Work.html">Work</a>
+      <a href="About.html" class="active">About</a>
+      <a href="CV.html">CV</a>
+    </nav>
+    <div class="nav-center"></div>
+    <nav class="nav-right">
+      <a href="https://www.linkedin.com/in/julia-holzwert/" target="_blank">LinkedIn</a>
+      <a href="https://www.instagram.com" target="_blank">Instagram</a>
+      <a href="https://www.behance.net" target="_blank">Behance</a>
+    </nav>
+    <div class="burger" id="burger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu-full" id="mobileMenuFull">
+  <div class="menu-close" id="menuClose">&times;</div>
+  <div class="menu-block menu-top">
+    <a href="Work.html">Work</a>
+    <a href="About.html" class="active">About</a>
+    <a href="CV.html">CV</a>
+  </div>
+  <div class="menu-separator"></div>
+  <div class="menu-block menu-bottom">
+    <a href="https://www.linkedin.com/in/julia-holzwert/" target="_blank">LinkedIn</a>
+    <a href="https://www.instagram.com" target="_blank">Instagram</a>
+    <a href="https://www.behance.net" target="_blank">Behance</a>
+  </div>
+</div>
+
+<!-- INTRO BLOCK -->
+<section class="intro-block">
+  <div class="intro-container">
+    <h2>Digital products that unite usability, technology and market insight</h2>
+    <p>
+      I craft user-focused experiences, interfaces and workflows that combine product development, UX/UI design and ergonomics – creating solutions that are intuitive, scalable and aligned with business goals.
+    </p>
+  </div>
+</section>
+
+<!-- COLOR BLOCK -->
+<section class="color-block"></section>
+
+<!-- WELCOME BLOCK -->
+<section class="welcome-block">
+  <div class="welcome-container">
+    <h2>Hello, Привет, Guten Tag!</h2>
+    <p>
+      I’m Julia Holzwert, a product and graphic designer passionate about UX/UI, ergonomics, and the intersection of technology, design and marketing. I create bespoke interfaces, iconography and visual systems that help organisations build clarity, consistency and trust – all while reflecting a human-centred, creative approach informed by my love for color, music, and technology.
+    </p>
+  </div>
+</section>
+
+<!-- COLOR BLOCK -->
+<section class="color-block"></section>
+
+<!-- SERVICES BLOCK -->
+<section class="services-block">
+  <div class="services-container">
+
+    <h3>What I deliver</h3>
+    <ul class="services-list">
+      <li>Clear interfaces that improve usability and reduce friction</li>
+      <li>Consistent design systems that scale across products and teams</li>
+      <li>User driven solutions grounded in research and testing</li>
+      <li>Functional, maintainable software that supports real use cases</li>
+    </ul>
+
+    <h3>How I work</h3>
+    <p>
+      I work across design and development to turn ideas into usable products. You start with research and clear user needs. I translate insights into structured concepts, test them early, and refine through iteration. I build with consistency in mind so your product stays coherent as it grows.
+    </p>
+
+    <p>
+      I collaborate closely with teams, communicate clearly, and adapt based on feedback. You get solutions that are practical, tested, and ready to ship.
+    </p>
+
+    <p class="services-cta">
+      If you want products that are simple to use and built to scale, I am ready to work with you.
+    </p>
+
+  </div>
+</section>
+
+
+
+<!-- SCROLL TO TOP -->
+<button id="toTop">↑</button>
+
+<!-- GOOEY FOOTER -->
+<footer class="footer-section">
+  <div class="gooey-animations" id="particle-container"></div>
+  <div class="footer-content">
+    <p class="footer-text">
+      2026 Copyright Julia Holzwert<br>
+      Content is not to be used<br>
+      for training generative AI technologies without explicit written permission.
+    </p>
+  </div>
+</footer>
+
+<!-- SVG FILTER -->
+<svg style="position: absolute; width: 0; height: 0; overflow: hidden;" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="liquid-effect">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur" />
+      <feColorMatrix in="blur" mode="matrix"
+        values="1 0 0 0 0  
+                0 1 0 0 0  
+                0 0 1 0 0  
+                0 0 0 19 -9" result="liquid" />
+    </filter>
+  </defs>
+</svg>
+
+<script>
+const burger = document.getElementById("burger");
+const mobileMenuFull = document.getElementById("mobileMenuFull");
+const menuClose = document.getElementById("menuClose");
+const navbar = document.querySelector(".navbar");
+const introH2 = document.querySelector(".intro-block h2");
+const introP = document.querySelector(".intro-block p");
+const colorBlock = document.querySelector(".color-block");
+const toTop = document.getElementById("toTop");
+
+// Mobile menu toggle
+burger.addEventListener("click", () => mobileMenuFull.classList.add("open"));
+menuClose.addEventListener("click", () => mobileMenuFull.classList.remove("open"));
+
+// Navbar scroll + intro fade + scroll-to-top
+window.addEventListener("scroll", () => {
+  const scrollY = window.scrollY;
+  if(scrollY > 50) navbar.classList.add("scrolled");
+  else navbar.classList.remove("scrolled");
+
+  const colorTop = colorBlock.getBoundingClientRect().top;
+  const viewportHeight = window.innerHeight;
+  let opacity = scrollY <= 0 ? 1 : colorTop <= 0 ? 0 : colorTop / viewportHeight;
+  opacity = Math.min(Math.max(opacity,0),1);
+  introH2.style.opacity = opacity;
+  introP.style.opacity = opacity;
+
+  if(scrollY > 300) toTop.classList.add("show");
+  else toTop.classList.remove("show");
+});
+
+// Scroll-to-top
+toTop.addEventListener("click", () => window.scrollTo({top:0, behavior:"smooth"}));
+
+// Gooey footer particles
+document.addEventListener("DOMContentLoaded", () => {
+  const container = document.getElementById("particle-container");
+  const fragment = document.createDocumentFragment();
+  for (let i=0;i<100;i++){
+    const span = document.createElement("span");
+    span.classList.add("particle");
+    const size = 3 + Math.random()*6;
+    const distance = 10 + Math.random()*15;
+    const position = Math.random()*100;
+    const time = 3 + Math.random()*3;
+    const delay = -1*Math.random()*10;
+    span.style.setProperty("--dim",`${size}rem`);
+    span.style.setProperty("--uplift",`${distance}rem`);
+    span.style.setProperty("--pos-x",`${position}%`);
+    span.style.setProperty("--dur",`${time}s`);
+    span.style.setProperty("--delay",`${delay}s`);
+    fragment.appendChild(span);
+  }
+  container.appendChild(fragment);
+});
+</script>
+</body>
+</html>
