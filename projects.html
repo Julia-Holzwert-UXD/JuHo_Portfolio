@@ -9,7 +9,6 @@
 </head>
 <body>
 
-<!-- NAVBAR -->
 <header class="navbar">
   <div class="nav-wrapper">
     <nav class="nav-left">
@@ -31,7 +30,6 @@
   </div>
 </header>
 
-<!-- MOBILE MENU -->
 <div class="mobile-menu-full" id="mobileMenuFull">
   <div class="menu-close" id="menuClose">&times;</div>
   <div class="menu-block menu-top">
@@ -47,7 +45,6 @@
   </div>
 </div>
 
-<!-- INTRO BLOCK -->
 <section class="intro-block">
   <div class="intro-container">
     <h2>Projects that combine UX, UI, and Product Design</h2>
@@ -55,126 +52,100 @@
   </div>
 </section>
 
-<!-- FILTER SECTION -->
+<!-- COLOR BLOCK -->
+<section class="color-block"></section>
+
 <section class="filter-section">
-  <div class="filter-bar">
-    <button class="filter-btn" data-filter="MOBILE APP">MOBILE APP</button>
-    <button class="filter-btn" data-filter="PUBLIC TRANSPORT">PUBLIC TRANSPORT</button>
-    <button class="filter-btn" data-filter="PRODUCT DESIGN">PRODUCT DESIGN</button>
-    <button class="filter-btn" data-filter="HEALTH TECH">HEALTH TECH</button>
-    <button class="filter-btn" data-filter="ACCESSIBILITY">ACCESSIBILITY</button>
-    <button class="filter-btn" data-filter="ENTERTAINMENT">ENTERTAINMENT</button>
-    <button class="filter-btn" data-filter="VISUAL STYLES">VISUAL STYLES</button>
-    <button class="filter-btn" data-filter="E-COMMERCE">E-COMMERCE</button>
-    <button class="filter-btn" data-filter="POST-PURCHASE EXPERIENCE">POST-PURCHASE EXPERIENCE</button>
-    <button class="filter-btn" data-filter="AR / VR">AR / VR</button>
-    <button class="filter-btn" data-filter="IMMERSIVE EXPERIENCE">IMMERSIVE EXPERIENCE</button>
-    <button class="filter-btn" data-filter="DATA PRIVACY">DATA PRIVACY</button>
-    <button class="filter-btn" data-filter="ETHICAL DESIGN">ETHICAL DESIGN</button>
+  <div class="filter-stats-box">
+    <h3>Search Statistics</h3>
+    <div class="search-stats">
+      <div class="stat-block">
+        <p>Total Projects</p>
+        <span id="totalCount">0</span>
+      </div>
+      <div class="stat-block">
+        <p>Visible</p>
+        <span id="visibleCount">0</span>
+      </div>
+      <div class="stat-block">
+        <p>Hidden</p>
+        <span id="hiddenCount">0</span>
+      </div>
+    </div>
+
+    <div class="filter-bar">
+      <!-- Special buttons on top -->
+      <button class="filter-btn special-btn" id="showAllBtn">SHOW ALL</button>
+      <button class="filter-btn special-btn" id="clearAllBtn">CLEAR ALL</button>
+    </div>
+
+      <div class="filter-bar">
+      <!-- Regular filters -->
+      <button class="filter-btn" data-filter="MOBILE APP">MOBILE APP</button>
+      <button class="filter-btn" data-filter="PUBLIC TRANSPORT">PUBLIC TRANSPORT</button>
+      <button class="filter-btn" data-filter="PRODUCT DESIGN">PRODUCT DESIGN</button>
+      <button class="filter-btn" data-filter="HEALTH TECH">HEALTH TECH</button>
+      <button class="filter-btn" data-filter="ACCESSIBILITY">ACCESSIBILITY</button>
+      <button class="filter-btn" data-filter="ENTERTAINMENT">ENTERTAINMENT</button>
+      <button class="filter-btn" data-filter="VISUAL STYLES">VISUAL STYLES</button>
+      <button class="filter-btn" data-filter="E-COMMERCE">E-COMMERCE</button>
+      <button class="filter-btn" data-filter="POST-PURCHASE EXPERIENCE">POST-PURCHASE EXPERIENCE</button>
+      <button class="filter-btn" data-filter="AR / VR">AR / VR</button>
+      <button class="filter-btn" data-filter="IMMERSIVE EXPERIENCE">IMMERSIVE EXPERIENCE</button>
+      <button class="filter-btn" data-filter="DATA PRIVACY">DATA PRIVACY</button>
+      <button class="filter-btn" data-filter="ETHICAL DESIGN">ETHICAL DESIGN</button>
+    </div>  
   </div>
 </section>
 
-<!-- PROJECT GRID -->
 <section class="projects-section">
   <div class="projects-grid" id="projectsGrid">
 
-    <div class="project-item" data-category="MOBILE APP PUBLIC TRANSPORT">
-      <div class="project-card">
-        <div class="card-content">
-          <h3>Store Guide</h3>
-          <p>Mobile app for grocery store routing and product comparison.</p>
-        </div>
-      </div>
+    <div class="project-item" data-category="MOBILE APP|PUBLIC TRANSPORT">
+      <div class="project-card"><div class="card-content"><h3>Store Guide</h3></div></div>
     </div>
 
-    <div class="project-item" data-category="PRODUCT DESIGN PUBLIC TRANSPORT">
-      <div class="project-card">
-        <div class="card-content">
-          <h3>Printer Display Redesign</h3>
-          <p>Web interface redesign for university printers.</p>
-        </div>
-      </div>
+    <div class="project-item" data-category="PRODUCT DESIGN|PUBLIC TRANSPORT">
+      <div class="project-card"><div class="card-content"><h3>Printer Display Redesign</h3></div></div>
     </div>
 
-    <div class="project-item" data-category="MOBILE APP VISUAL STYLES PUBLIC TRANSPORT">
-      <div class="project-card">
-        <div class="card-content">
-          <h3>INVG App Redesign</h3>
-          <p>Redesign in Glasmorphism, Bauhaus, and Material Design styles.</p>
-        </div>
-      </div>
+    <div class="project-item" data-category="MOBILE APP|VISUAL STYLES|PUBLIC TRANSPORT">
+      <div class="project-card"><div class="card-content"><h3>INVG App Redesign</h3></div></div>
     </div>
 
-    <div class="project-item" data-category="PRODUCT DESIGN HEALTH TECH ACCESSIBILITY">
-      <div class="project-card">
-        <div class="card-content">
-          <h3>MemoWe</h3>
-          <p>Product to help dementia patients stay in touch with loved ones.</p>
-        </div>
-      </div>
+    <div class="project-item" data-category="PRODUCT DESIGN|HEALTH TECH|ACCESSIBILITY">
+      <div class="project-card"><div class="card-content"><h3>MemoWe</h3></div></div>
     </div>
 
-    <div class="project-item" data-category="PRODUCT DESIGN ENTERTAINMENT">
-      <div class="project-card">
-        <div class="card-content">
-          <h3>Remote Control - PikBre</h3>
-          <p>3D concept and prototype for an entertainment device.</p>
-        </div>
-      </div>
+    <div class="project-item" data-category="PRODUCT DESIGN|ENTERTAINMENT">
+      <div class="project-card"><div class="card-content"><h3>Remote Control - PikBre</h3></div></div>
     </div>
 
-    <div class="project-item" data-category="MOBILE APP ACCESSIBILITY PUBLIC TRANSPORT">
-      <div class="project-card">
-        <div class="card-content">
-          <h3>DB Navigator Redesign</h3>
-          <p>Accessibility-first mobile app redesign for public transport.</p>
-        </div>
-      </div>
+    <div class="project-item" data-category="MOBILE APP|ACCESSIBILITY|PUBLIC TRANSPORT">
+      <div class="project-card"><div class="card-content"><h3>DB Navigator Redesign</h3></div></div>
     </div>
 
-    <div class="project-item" data-category="E-COMMERCE MOBILE APP POST-PURCHASE EXPERIENCE">
-      <div class="project-card">
-        <div class="card-content">
-          <h3>3D Luxury Watch Boutique</h3>
-          <p>Post-purchase mobile app experience concept.</p>
-        </div>
-      </div>
+    <div class="project-item" data-category="E-COMMERCE|MOBILE APP|POST-PURCHASE EXPERIENCE">
+      <div class="project-card"><div class="card-content"><h3>3D Luxury Watch Boutique</h3></div></div>
     </div>
 
-    <div class="project-item" data-category="AR / VR MOBILE APP IMMERSIVE EXPERIENCE">
-      <div class="project-card">
-        <div class="card-content">
-          <h3>Spatial To-Do</h3>
-          <p>AR/VR productivity mobile app with immersive experience.</p>
-        </div>
-      </div>
+    <div class="project-item" data-category="AR / VR|MOBILE APP|IMMERSIVE EXPERIENCE">
+      <div class="project-card"><div class="card-content"><h3>Spatial To-Do</h3></div></div>
     </div>
 
-    <div class="project-item" data-category="MOBILE APP DATA PRIVACY HEALTH TECH">
-      <div class="project-card">
-        <div class="card-content">
-          <h3>HealthyStart</h3>
-          <p>Data privacy-focused onboarding flow for health app.</p>
-        </div>
-      </div>
+    <div class="project-item" data-category="MOBILE APP|DATA PRIVACY|HEALTH TECH">
+      <div class="project-card"><div class="card-content"><h3>HealthyStart</h3></div></div>
     </div>
 
-    <div class="project-item" data-category="MOBILE APP ETHICAL DESIGN DATA PRIVACY">
-      <div class="project-card">
-        <div class="card-content">
-          <h3>FairFlow</h3>
-          <p>Dark UX audit and ethical redesign for mobile app.</p>
-        </div>
-      </div>
+    <div class="project-item" data-category="MOBILE APP|ETHICAL DESIGN|DATA PRIVACY">
+      <div class="project-card"><div class="card-content"><h3>FairFlow</h3></div></div>
     </div>
 
   </div>
 </section>
 
-<!-- SCROLL TO TOP -->
 <button id="toTop">↑</button>
 
-<!-- GOOEY FOOTER -->
 <footer class="footer-section">
   <div class="gooey-animations" id="particle-container"></div>
   <div class="footer-content">
@@ -186,7 +157,6 @@
   </div>
 </footer>
 
-<!-- SVG FILTER -->
 <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <filter id="liquid-effect">
@@ -200,79 +170,7 @@
   </defs>
 </svg>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
+<script src="script.js"></script>
 
-  // Burger menu
-  const burger = document.getElementById("burger");
-  const mobileMenuFull = document.getElementById("mobileMenuFull");
-  const menuClose = document.getElementById("menuClose");
-  burger.addEventListener("click", () => mobileMenuFull.classList.add("open"));
-  menuClose.addEventListener("click", () => mobileMenuFull.classList.remove("open"));
-
-  // Multi-select filter
-  const filterBtns = document.querySelectorAll(".filter-btn");
-  const projectsGrid = document.getElementById("projectsGrid");
-  const projectItems = Array.from(projectsGrid.children);
-
-  let activeFilters = [];
-
-  filterBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-      const filter = btn.dataset.filter;
-      btn.classList.toggle("active");
-
-      // Update active filters array
-      activeFilters = Array.from(filterBtns)
-                           .filter(b => b.classList.contains("active"))
-                           .map(b => b.dataset.filter);
-
-      projectItems.forEach(item => {
-        const categories = item.dataset.category.split(" ");
-        if(activeFilters.length === 0) {
-          item.classList.remove("hide");
-        } else {
-          const match = activeFilters.some(f => categories.includes(f));
-          item.classList.toggle("hide", !match);
-        }
-      });
-
-      // Move visible items to top
-      projectItems
-        .sort((a,b)=>a.classList.contains("hide")-b.classList.contains("hide"))
-        .forEach(item => projectsGrid.appendChild(item));
-    });
-  });
-
-  // Scroll-to-top button
-  const toTop = document.getElementById("toTop");
-  window.addEventListener("scroll", () => {
-    if(window.scrollY > 300) toTop.classList.add("show");
-    else toTop.classList.remove("show");
-  });
-  toTop.addEventListener("click", () => window.scrollTo({top:0, behavior:"smooth"}));
-
-  // Gooey footer particles
-  const container = document.getElementById("particle-container");
-  const fragment = document.createDocumentFragment();
-  for (let i=0;i<100;i++){
-    const span = document.createElement("span");
-    span.classList.add("particle");
-    const size = 3 + Math.random()*6;
-    const distance = 10 + Math.random()*15;
-    const position = Math.random()*100;
-    const time = 3 + Math.random()*3;
-    const delay = -1*Math.random()*10;
-    span.style.setProperty("--dim",`${size}rem`);
-    span.style.setProperty("--uplift",`${distance}rem`);
-    span.style.setProperty("--pos-x",`${position}%`);
-    span.style.setProperty("--dur",`${time}s`);
-    span.style.setProperty("--delay",`${delay}s`);
-    fragment.appendChild(span);
-  }
-  container.appendChild(fragment);
-
-});
-</script>
 </body>
 </html>

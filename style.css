@@ -40,7 +40,9 @@ section{margin-bottom:40px}
 .intro-container,.welcome-container,.services-container{width:60%;max-width:900px}
 .intro-container{text-align:center;padding-top:50px}
 .services-container{padding-bottom:90px}
-.color-block{height:80vh;background:var(--accent)}
+.color-block-hero{height:100vh;background:var(--accent)}
+.color-block{height:50vh;background:var(--accent)}
+
 
 /* TYPOGRAPHY */
 h2{font-size:clamp(28px,2vw,42px);margin-bottom:20px}
@@ -109,3 +111,108 @@ p{font-size:clamp(16px,1.2vw,22px);line-height:1.8;color:#77639A;margin-bottom:2
 @media(max-width:600px){.projects-grid{grid-template-columns:1fr}}
 @media(min-width:601px) and (max-width:900px){.projects-grid{grid-template-columns:repeat(2,1fr)}}
 @media(min-width:901px){.projects-grid{grid-template-columns:repeat(3,1fr)}}
+
+/* FILTER & STATS CONTAINER */
+.filter-stats-box{
+  background:#fff;
+  padding:25px 20px 25px 20px; /* less top/bottom padding */
+  max-width:60%; /* match intro-container */
+  margin:0 auto 40px auto;
+  box-shadow:0 6px 18px rgba(0,0,0,0.12);
+  border-radius:10px;
+  text-align:center;
+}
+
+/* SEARCH STATISTICS (compact layout) */
+.search-stats{
+  display:flex;
+  justify-content:center;
+  gap:2rem;
+  text-align:center;
+  margin-bottom:20px; /* spacing before filters */
+}
+
+.stat-block p{
+  margin:0;
+  font-weight:600;
+  color:#555;
+  font-size:0.95rem;
+}
+
+.stat-block span{
+  display:block;
+  font-size:1.3rem;
+  margin-top:4px; /* less vertical space */
+  color:var(--accent);
+  font-weight:700;
+  margin-bottom:0; /* remove extra space under numbers */
+}
+
+/* FILTER BAR */
+.filter-bar{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center; /* center filters */
+  gap:12px; /* spacing between filters */
+  margin-top:0;
+}
+
+/* FILTER BUTTONS */
+.filter-btn{
+  background:#f0f0f0;
+  border:none;
+  border-radius:20px; /* pill-shaped */
+  padding:8px 18px;
+  cursor:pointer;
+  font-size:14px;
+  transition:0.25s, transform 0.25s; /* include transform */
+  display:inline-block; /* shrink to text */
+}
+
+.filter-btn.active{
+  background:var(--accent);
+  color:#fff;
+  transform:scale(1.05); /* slight emphasis for active */
+}
+
+.filter-btn:hover:not(.active){
+  background:#ddd;
+  color:var(--accent);
+  transform:scale(1.05); /* subtle hover enlarge */
+}
+
+/* MOBILE FILTER ADJUSTMENTS */
+@media(max-width:900px){
+  .filter-stats-box{
+    max-width:90%; /* full width on mobile */
+    padding:20px 15px;
+  }
+
+  .filter-bar{
+    gap:10px; /* slightly smaller gap for small screens */
+    justify-content:center;
+  }
+
+  .filter-btn{
+    padding:6px 14px; /* smaller buttons */
+    font-size:13px;
+  }
+
+  .search-stats{
+    flex-wrap:wrap;
+    gap:1.5rem;
+  }
+
+  .stat-block span{
+    font-size:1.2rem;
+    margin-top:3px;
+  }
+}
+
+/* Special buttons on top */
+.filter-btn.special-btn {
+  background:#33047E;
+  color:#fff;
+  margin-bottom:15px; /* adds more space below the special buttons */
+  border-radius:5%;
+}
