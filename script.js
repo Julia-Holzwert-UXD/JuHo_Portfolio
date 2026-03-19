@@ -25,11 +25,9 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("scroll", () => {
       const scrollY = window.scrollY;
 
-      // Navbar background
       if(scrollY > 50) navbar.classList.add("scrolled");
       else navbar.classList.remove("scrolled");
 
-      // Fade intro text
       if(introH2 && introP && colorBlock){
         const colorTop = colorBlock.getBoundingClientRect().top;
         const viewportHeight = window.innerHeight;
@@ -39,14 +37,12 @@ document.addEventListener("DOMContentLoaded", () => {
         introP.style.opacity = opacity;
       }
 
-      // Scroll-to-top button
       if(toTop){
         if(scrollY > 300) toTop.classList.add("show");
         else toTop.classList.remove("show");
       }
     });
 
-    // Scroll-to-top click
     if(toTop){
       toTop.addEventListener("click", () => window.scrollTo({top:0, behavior:"smooth"}));
     }
@@ -73,13 +69,29 @@ document.addEventListener("DOMContentLoaded", () => {
     container.appendChild(fragment);
   }
 
-  // Projects filter (only if grid exists)
+  // Projects filter
   const projectsGrid = document.getElementById("projectsGrid");
   if(projectsGrid){
     const projectItems = Array.from(projectsGrid.children);
     const filterBtns = Array.from(document.querySelectorAll(".filter-btn")).filter(b => !b.classList.contains("special-btn"));
-    const showAllBtn = document.getElementById("showAllBtn");
     const clearAllBtn = document.getElementById("clearAllBtn");
+    const showAllBtn = document.getElementById("showAllBtn");
+
+    const categoryGroups = {
+      "mobile-app": "app",
+      "public-transport": "transport",
+      "product-design": "design",
+      "health-tech": "health",
+      "accessibility": "accessibility",
+      "entertainment": "entertainment",
+      "visual-styles": "visual",
+      "e-commerce": "commerce",
+      "post-purchase-experience": "postpurchase",
+      "ar-vr": "immersive",
+      "immersive-experience": "immersive",
+      "data-privacy": "privacy",
+      "ethical-design": "ethical"
+    };
 
     let activeFilters = filterBtns.map(b => b.dataset.filter);
     filterBtns.forEach(b => b.classList.add("active"));
@@ -94,15 +106,46 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function applyFilters(){
-      projectItems.forEach(item => {
-        const categories = item.dataset.category.split("|");
-        const match = activeFilters.length === 0 ? false : activeFilters.some(f => categories.includes(f));
-        item.classList.toggle("hide", !match);
-      });
-      projectItems.sort((a,b) => a.classList.contains("hide") - b.classList.contains("hide"))
-                  .forEach(item => projectsGrid.appendChild(item));
-      updateStats();
-    }
+  const allFilters = filterBtns.map(b => b.dataset.filter);
+
+  // Alle aktiv → alles anzeigen
+  if(activeFilters.length === allFilters.length){
+    projectItems.forEach(item => item.classList.remove("hide"));
+    updateStats();
+    return;
+  }
+
+  // Keine aktiv → alles ausblenden
+  if(activeFilters.length === 0){
+    projectItems.forEach(item => item.classList.add("hide"));
+    updateStats();
+    return;
+  }
+
+  // Normales Filtering
+  projectItems.forEach(item => {
+    const categories = item.dataset.category.split("|");
+
+    const groupMatches = {};
+    activeFilters.forEach(f => {
+      const group = categoryGroups[f] || f;
+      if(!groupMatches[group]) groupMatches[group] = [];
+      groupMatches[group].push(f);
+    });
+
+    const match = Object.values(groupMatches).every(filtersInGroup =>
+      filtersInGroup.some(f => categories.includes(f))
+    );
+
+    item.classList.toggle("hide", !match);
+  });
+
+  projectItems
+    .sort((a,b) => a.classList.contains("hide") - b.classList.contains("hide"))
+    .forEach(item => projectsGrid.appendChild(item));
+
+  updateStats();
+}
 
     applyFilters();
 
@@ -114,18 +157,18 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    if(showAllBtn){
+    if(clearAllBtn){
       showAllBtn.addEventListener("click", () => {
-        activeFilters = filterBtns.map(b => b.dataset.filter);
-        filterBtns.forEach(b => b.classList.add("active"));
+        activeFilters = [];
+        filterBtns.forEach(b => b.classList.remove("active"));
         applyFilters();
       });
     }
 
-    if(clearAllBtn){
+    if(showAllBtn){
       clearAllBtn.addEventListener("click", () => {
-        activeFilters = [];
-        filterBtns.forEach(b => b.classList.remove("active"));
+        activeFilters = filterBtns.map(b => b.dataset.filter);
+        filterBtns.forEach(b => b.classList.add("active"));
         applyFilters();
       });
     }
