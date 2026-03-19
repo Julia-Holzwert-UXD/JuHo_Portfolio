@@ -106,46 +106,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function applyFilters(){
-  const allFilters = filterBtns.map(b => b.dataset.filter);
+      projectItems.forEach(item => {
+        const categories = item.dataset.category.split("|");
 
-  // Alle aktiv → alles anzeigen
-  if(activeFilters.length === allFilters.length){
-    projectItems.forEach(item => item.classList.remove("hide"));
-    updateStats();
-    return;
-  }
+        const groupMatches = {};
+        activeFilters.forEach(f => {
+          const group = categoryGroups[f] || f;
+          if(!groupMatches[group]) groupMatches[group] = [];
+          groupMatches[group].push(f);
+        });
 
-  // Keine aktiv → alles ausblenden
-  if(activeFilters.length === 0){
-    projectItems.forEach(item => item.classList.add("hide"));
-    updateStats();
-    return;
-  }
+        const match = Object.values(groupMatches).every(filtersInGroup =>
+          filtersInGroup.some(f => categories.includes(f))
+        );
 
-  // Normales Filtering
-  projectItems.forEach(item => {
-    const categories = item.dataset.category.split("|");
+        item.classList.toggle("hide", !match);
+      });
 
-    const groupMatches = {};
-    activeFilters.forEach(f => {
-      const group = categoryGroups[f] || f;
-      if(!groupMatches[group]) groupMatches[group] = [];
-      groupMatches[group].push(f);
-    });
+      projectItems.sort((a,b) => a.classList.contains("hide") - b.classList.contains("hide"))
+                  .forEach(item => projectsGrid.appendChild(item));
 
-    const match = Object.values(groupMatches).every(filtersInGroup =>
-      filtersInGroup.some(f => categories.includes(f))
-    );
-
-    item.classList.toggle("hide", !match);
-  });
-
-  projectItems
-    .sort((a,b) => a.classList.contains("hide") - b.classList.contains("hide"))
-    .forEach(item => projectsGrid.appendChild(item));
-
-  updateStats();
-}
+      updateStats();
+    }
 
     applyFilters();
 
