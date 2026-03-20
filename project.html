@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Julia Holzwert - Projects</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-wrapper">
+    <nav class="nav-left">
+      <a href="projects.html" class="active">Projects</a>
+      <a href="about.html">About</a>
+      <a href="CV.html">CV</a>
+    </nav>
+    <div class="nav-center"></div>
+    <nav class="nav-right">
+      <a href="https://www.linkedin.com/in/julia-holzwert/" target="_blank">LinkedIn</a>
+      <a href="https://www.instagram.com" target="_blank">Instagram</a>
+      <a href="https://www.behance.net" target="_blank">Behance</a>
+    </nav>
+    <div class="burger" id="burger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu-full" id="mobileMenuFull">
+  <div class="menu-close" id="menuClose">&times;</div>
+  <div class="menu-block menu-top">
+    <a href="projects.html" class="active">Projects</a>
+    <a href="about.html">About</a>
+    <a href="CV.html">CV</a>
+  </div>
+  <div class="menu-separator"></div>
+  <div class="menu-block menu-bottom">
+    <a href="https://www.linkedin.com/in/julia-holzwert/" target="_blank">LinkedIn</a>
+    <a href="https://www.instagram.com" target="_blank">Instagram</a>
+    <a href="https://www.behance.net" target="_blank">Behance</a>
+  </div>
+</div>
+
+<section class="intro-block">
+  <div class="intro-container">
+    <h2>Project Title</h2>
+    <p>Summary</p>
+  </div>
+</section>
+
+<!-- COLOR BLOCK -->
+<section class="color-block"></section>
+
+<!-- SPLIT SECTION -->
+<section class="table-section">
+  <div class="table-wrapper">
+    <table class="content-table">
+      <tr>
+        <td class="text-cell">
+          <h3>Project Description</h3>
+          <p>
+            Add a short explanation of the project. Focus on concept, approach, and outcome.
+          </p>
+        </td>
+        <td class="image-cell">
+          <div class="image-box"></div>
+          <div class="image-box"></div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</section>
+  
+<button id="toTop">↑</button>
+
+<footer class="footer-section">
+  <div class="gooey-animations" id="particle-container"></div>
+  <div class="footer-content">
+    <p class="footer-text">
+      2026 Copyright Julia Holzwert<br>
+      Content is not to be used<br>
+      for training generative AI technologies without explicit permission.
+    </p>
+  </div>
+</footer>
+
+<svg style="position: absolute; width: 0; height: 0; overflow: hidden;" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="liquid-effect">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur" />
+      <feColorMatrix in="blur" mode="matrix"
+        values="1 0 0 0 0  
+                0 1 0 0 0  
+                0 0 1 0 0  
+                0 0 0 19 -9" result="liquid" />
+    </filter>
+  </defs>
+</svg>
+
+<script src="script.js"></script>
+
+</body>
+</html>
