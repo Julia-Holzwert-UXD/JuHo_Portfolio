@@ -69,93 +69,87 @@ document.addEventListener("DOMContentLoaded", () => {
     container.appendChild(fragment);
   }
 
-  // Projects filter
-  const projectsGrid = document.getElementById("projectsGrid");
-  if(projectsGrid){
-    const projectItems = Array.from(projectsGrid.children);
-    const filterBtns = Array.from(document.querySelectorAll(".filter-btn")).filter(b => !b.classList.contains("special-btn"));
-    const clearAllBtn = document.getElementById("clearAllBtn");
-    const showAllBtn = document.getElementById("showAllBtn");
+// Projects filter
+const projectsGrid = document.getElementById("projectsGrid");
 
-    const categoryGroups = {
-      "mobile-app": "app",
-      "public-transport": "transport",
-      "product-design": "design",
-      "health-tech": "health",
-      "accessibility": "accessibility",
-      "entertainment": "entertainment",
-      "visual-styles": "visual",
-      "e-commerce": "commerce",
-      "post-purchase-experience": "postpurchase",
-      "ar-vr": "immersive",
-      "immersive-experience": "immersive",
-      "data-privacy": "privacy",
-      "ethical-design": "ethical"
-    };
+if (projectsGrid) {
+  const projectItems = Array.from(projectsGrid.querySelectorAll(".project-item"));
+  const originalOrder = [...projectItems];
 
-    let activeFilters = filterBtns.map(b => b.dataset.filter);
-    filterBtns.forEach(b => b.classList.add("active"));
+  const filterBtns = Array.from(document.querySelectorAll(".filter-btn"))
+    .filter(btn => !btn.classList.contains("special-btn"));
 
-    function updateStats(){
-      const total = projectItems.length;
-      const visible = projectItems.filter(item => !item.classList.contains("hide")).length;
-      const hidden = total - visible;
-      document.getElementById("totalCount").textContent = total;
-      document.getElementById("visibleCount").textContent = visible;
-      document.getElementById("hiddenCount").textContent = hidden;
-    }
+  const clearAllBtn = document.getElementById("clearAllBtn");
+  const showAllBtn = document.getElementById("showAllBtn");
 
-    function applyFilters(){
-      projectItems.forEach(item => {
-        const categories = item.dataset.category.split("|");
+  const totalCountEl = document.getElementById("totalCount");
+  const visibleCountEl = document.getElementById("visibleCount");
+  const hiddenCountEl = document.getElementById("hiddenCount");
 
-        const groupMatches = {};
-        activeFilters.forEach(f => {
-          const group = categoryGroups[f] || f;
-          if(!groupMatches[group]) groupMatches[group] = [];
-          groupMatches[group].push(f);
-        });
+  let activeFilters = filterBtns.map(btn => btn.dataset.filter);
+  filterBtns.forEach(btn => btn.classList.add("active"));
 
-        const match = Object.values(groupMatches).every(filtersInGroup =>
-          filtersInGroup.some(f => categories.includes(f))
-        );
+  function updateStats() {
+    const total = projectItems.length;
+    const visible = projectItems.filter(item => !item.classList.contains("hide")).length;
+    const hidden = total - visible;
 
-        item.classList.toggle("hide", !match);
-      });
-
-      projectItems.sort((a,b) => a.classList.contains("hide") - b.classList.contains("hide"))
-                  .forEach(item => projectsGrid.appendChild(item));
-
-      updateStats();
-    }
-
-    applyFilters();
-
-    filterBtns.forEach(btn => {
-      btn.addEventListener("click", () => {
-        btn.classList.toggle("active");
-        activeFilters = filterBtns.filter(b => b.classList.contains("active")).map(b => b.dataset.filter);
-        applyFilters();
-      });
-    });
-
-    if(clearAllBtn){
-      showAllBtn.addEventListener("click", () => {
-        activeFilters = [];
-        filterBtns.forEach(b => b.classList.remove("active"));
-        applyFilters();
-      });
-    }
-
-    if(showAllBtn){
-      clearAllBtn.addEventListener("click", () => {
-        activeFilters = filterBtns.map(b => b.dataset.filter);
-        filterBtns.forEach(b => b.classList.add("active"));
-        applyFilters();
-      });
-    }
+    totalCountEl.textContent = total;
+    visibleCountEl.textContent = visible;
+    hiddenCountEl.textContent = hidden;
   }
 
-});
+  function restoreOriginalOrder() {
+    originalOrder.forEach(item => projectsGrid.appendChild(item));
+  }
 
+  function applyFilters() {
+    projectItems.forEach(item => {
+      const categories = item.dataset.category.split("|");
+
+      const match =
+        activeFilters.length > 0 &&
+        activeFilters.some(filter => categories.includes(filter));
+
+      item.classList.toggle("hide", !match);
+    });
+
+    updateStats();
+  }
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      btn.classList.toggle("active");
+
+      activeFilters = filterBtns
+        .filter(button => button.classList.contains("active"))
+        .map(button => button.dataset.filter);
+
+      applyFilters();
+    });
+  });
+
+  if (showAllBtn) {
+    showAllBtn.addEventListener("click", () => {
+      activeFilters = filterBtns.map(btn => btn.dataset.filter);
+      filterBtns.forEach(btn => btn.classList.add("active"));
+
+      restoreOriginalOrder();
+      applyFilters();
+    });
+  }
+
+  if (clearAllBtn) {
+    clearAllBtn.addEventListener("click", () => {
+      activeFilters = [];
+      filterBtns.forEach(btn => btn.classList.remove("active"));
+      applyFilters();
+    });
+  }
+
+  restoreOriginalOrder();
+  applyFilters();
+}
+
+});
 
