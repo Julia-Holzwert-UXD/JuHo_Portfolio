@@ -1,53 +1,4 @@
-
-
-  // Elements
-  const burger = document.getElementById("burger");
-  const mobileMenuFull = document.getElementById("mobileMenuFull");
-  const menuClose = document.getElementById("menuClose");
-  const navbar = document.querySelector(".navbar");
-  const toTop = document.getElementById("toTop");
-  //const container = document.getElementById("particle-container");
-
-  // Fade elements (optional)
-  const introBlock = document.querySelector(".intro-block");
-  const colorBlock = document.querySelector(".color-block");
-  const introH2 = introBlock ? introBlock.querySelector("h2") : null;
-  const introP = introBlock ? introBlock.querySelector("p") : null;
-
-  // Mobile menu toggle
-  if (burger && mobileMenuFull && menuClose) {
-    burger.addEventListener("click", () => mobileMenuFull.classList.add("open"));
-    menuClose.addEventListener("click", () => mobileMenuFull.classList.remove("open"));
-  }
-
-  // Scroll fade + scroll-to-top
-  if (navbar) {
-    window.addEventListener("scroll", () => {
-      const scrollY = window.scrollY;
-
-      if (scrollY > 50) navbar.classList.add("scrolled");
-      else navbar.classList.remove("scrolled");
-
-      if (introH2 && introP && colorBlock) {
-        const colorTop = colorBlock.getBoundingClientRect().top;
-        const viewportHeight = window.innerHeight;
-        let opacity = scrollY <= 0 ? 1 : colorTop <= 0 ? 0 : colorTop / viewportHeight;
-        opacity = Math.min(Math.max(opacity, 0), 1);
-        introH2.style.opacity = opacity;
-        introP.style.opacity = opacity;
-      }
-
-      if (toTop) {
-        if (scrollY > 300) toTop.classList.add("show");
-        else toTop.classList.remove("show");
-      }
-    });
-
-    if (toTop) {
-      toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
-    }
-  }
-
+// Liquid Footer Generation
 function loadFooter() {
   console.log("loadFooter started");
 
@@ -72,7 +23,6 @@ function loadFooter() {
   document.body.insertAdjacentHTML("beforeend", footerHTML);
   console.log("footer inserted");
 }
-
 function loadLiquidEffectSVG() {
   console.log("loadLiquidEffectSVG started");
 
@@ -102,7 +52,6 @@ function loadLiquidEffectSVG() {
   document.body.insertAdjacentHTML("beforeend", svg);
   console.log("svg inserted");
 }
-
 function loadGooeyParticles() {
   console.log("loadGooeyParticles started");
 
@@ -137,15 +86,122 @@ function loadGooeyParticles() {
   console.log("particles inserted:", container.children.length);
 }
 
+// Navbar
+function getBasePath() {
+  return window.location.pathname.includes("/projectSites/") ? "../" : "";
+}
+function loadNavbar() {
+  if (document.querySelector(".navbar")) return;
+
+  const base = getBasePath();
+
+  const navbarHTML = `
+    <header class="navbar">
+      <div class="nav-wrapper">
+        <nav class="nav-left">
+          <a href="${base}projects.html">Projects</a>
+          <a href="${base}about.html">About</a>
+          <a href="${base}CV.html">CV</a>
+        </nav>
+        <div class="nav-center"></div>
+        <nav class="nav-right">
+          <a href="https://www.linkedin.com/in/julia-holzwert/" target="_blank">LinkedIn</a>
+          <a href="https://www.instagram.com" target="_blank">Instagram</a>
+          <a href="https://www.behance.net" target="_blank">Behance</a>
+        </nav>
+        <div class="burger" id="burger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </header>
+
+    <div class="mobile-menu-full" id="mobileMenuFull">
+      <div class="menu-close" id="menuClose">&times;</div>
+      <div class="menu-block menu-top">
+        <a href="${base}projects.html">Projects</a>
+        <a href="${base}about.html">About</a>
+        <a href="${base}CV.html">CV</a>
+      </div>
+      <div class="menu-separator"></div>
+      <div class="menu-block menu-bottom">
+        <a href="https://www.linkedin.com/in/julia-holzwert/" target="_blank">LinkedIn</a>
+        <a href="https://www.instagram.com" target="_blank">Instagram</a>
+        <a href="https://www.behance.net" target="_blank">Behance</a>
+      </div>
+    </div>
+  `;
+
+  document.body.insertAdjacentHTML("afterbegin", navbarHTML);
+}
+function setActiveNav() {
+  const current = window.location.pathname.split("/").pop() || "projects.html";
+  const links = document.querySelectorAll(".nav-left a, .menu-top a");
+
+  links.forEach(link => {
+    const href = link.getAttribute("href");
+    const cleanHref = href.split("/").pop();
+
+    if (cleanHref === current) {
+      link.classList.add("active");
+    } else {
+      link.classList.remove("active");
+    }
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("DOMContentLoaded fired");
+  loadNavbar();
+  setActiveNav();
   loadFooter();
   loadLiquidEffectSVG();
   loadGooeyParticles();
-});
 
-  // Projects filter
-  const projectsGrid = document.getElementById("projectsGrid");
+  const burger = document.getElementById("burger");
+  const mobileMenuFull = document.getElementById("mobileMenuFull");
+  const menuClose = document.getElementById("menuClose");
+  const navbar = document.querySelector(".navbar");
+  const toTop = document.getElementById("toTop");
+
+  const introBlock = document.querySelector(".intro-block");
+  const colorBlock = document.querySelector(".color-block");
+  const introH2 = introBlock ? introBlock.querySelector("h2") : null;
+  const introP = introBlock ? introBlock.querySelector("p") : null;
+
+  if (burger && mobileMenuFull && menuClose) {
+    burger.addEventListener("click", () => mobileMenuFull.classList.add("open"));
+    menuClose.addEventListener("click", () => mobileMenuFull.classList.remove("open"));
+  }
+
+  if (navbar) {
+    window.addEventListener("scroll", () => {
+      const scrollY = window.scrollY;
+
+      if (scrollY > 50) navbar.classList.add("scrolled");
+      else navbar.classList.remove("scrolled");
+
+      if (introH2 && introP && colorBlock) {
+        const colorTop = colorBlock.getBoundingClientRect().top;
+        const viewportHeight = window.innerHeight;
+        let opacity = scrollY <= 0 ? 1 : colorTop <= 0 ? 0 : colorTop / viewportHeight;
+        opacity = Math.min(Math.max(opacity, 0), 1);
+        introH2.style.opacity = opacity;
+        introP.style.opacity = opacity;
+      }
+
+      if (toTop) {
+        if (scrollY > 300) toTop.classList.add("show");
+        else toTop.classList.remove("show");
+      }
+    });
+
+    if (toTop) {
+      toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+    }
+  }
+
+  
 
   if (projectsGrid) {
     const projectItems = Array.from(projectsGrid.querySelectorAll(".project-item"));
@@ -208,7 +264,6 @@ document.addEventListener("DOMContentLoaded", () => {
       showAllBtn.addEventListener("click", () => {
         activeFilters = filterBtns.map(btn => btn.dataset.filter);
         filterBtns.forEach(btn => btn.classList.add("active"));
-
         restoreOriginalOrder();
         applyFilters();
       });
@@ -225,6 +280,92 @@ document.addEventListener("DOMContentLoaded", () => {
     restoreOriginalOrder();
     applyFilters();
   }
+
+  applyFilterFromURL();
+});
+
+
+// Projects filter
+const projectsGrid = document.getElementById("projectsGrid");
+
+if (projectsGrid) {
+  const projectItems = Array.from(projectsGrid.querySelectorAll(".project-item"));
+  const originalOrder = [...projectItems];
+
+  const filterBtns = Array.from(document.querySelectorAll(".filter-btn"))
+    .filter(btn => !btn.classList.contains("special-btn"));
+
+  const clearAllBtn = document.getElementById("clearAllBtn");
+  const showAllBtn = document.getElementById("showAllBtn");
+
+  const totalCountEl = document.getElementById("totalCount");
+  const visibleCountEl = document.getElementById("visibleCount");
+  const hiddenCountEl = document.getElementById("hiddenCount");
+
+  let activeFilters = filterBtns.map(btn => btn.dataset.filter);
+  filterBtns.forEach(btn => btn.classList.add("active"));
+
+  function updateStats() {
+    const total = projectItems.length;
+    const visible = projectItems.filter(item => !item.classList.contains("hide")).length;
+    const hidden = total - visible;
+
+    totalCountEl.textContent = total;
+    visibleCountEl.textContent = visible;
+    hiddenCountEl.textContent = hidden;
+  }
+
+  function restoreOriginalOrder() {
+    originalOrder.forEach(item => projectsGrid.appendChild(item));
+  }
+
+  function applyFilters() {
+    projectItems.forEach(item => {
+      const categories = item.dataset.category.split("|");
+
+      const match =
+        activeFilters.length > 0 &&
+        activeFilters.some(filter => categories.includes(filter));
+
+      item.classList.toggle("hide", !match);
+    });
+
+    updateStats();
+  }
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      btn.classList.toggle("active");
+
+      activeFilters = filterBtns
+        .filter(button => button.classList.contains("active"))
+        .map(button => button.dataset.filter);
+
+      applyFilters();
+    });
+  });
+
+  if (showAllBtn) {
+    showAllBtn.addEventListener("click", () => {
+      activeFilters = filterBtns.map(btn => btn.dataset.filter);
+      filterBtns.forEach(btn => btn.classList.add("active"));
+
+      restoreOriginalOrder();
+      applyFilters();
+    });
+  }
+
+  if (clearAllBtn) {
+    clearAllBtn.addEventListener("click", () => {
+      activeFilters = [];
+      filterBtns.forEach(btn => btn.classList.remove("active"));
+      applyFilters();
+    });
+  }
+
+  restoreOriginalOrder();
+  applyFilters();
+}
 
 
 
@@ -258,8 +399,6 @@ function applyFilterFromURL() {
     }
   });
 }
-
-document.addEventListener("DOMContentLoaded", applyFilterFromURL);
 
 function applyFilterFromURL() {
   const params = new URLSearchParams(window.location.search);
