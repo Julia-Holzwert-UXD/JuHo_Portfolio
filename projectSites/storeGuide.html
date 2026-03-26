@@ -1,91 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Julia Holzwert - Projects</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Julia Holzwert - Projects</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
 </head>
-<body data-current-project="Store Guide" data-current-filters="mobile-app|public-transport">>
 
-<section class="intro-block">
-  <div class="intro-container">
-    <h2>Store Guide</h2>
-    <p class="project-tags">
-  <a href="../projects.html?filter=mobile-app#filters">mobile-app</a> |
-  <a href="../projects.html?filter=public-transport#filters">public-transport</a>
-</p>
-    <p>Group Project from 2023/24 for 6 Months</p>
-  </div>
-</section>
+<body data-project-slug="storeGuide">
 
-<!-- SPLIT SECTION -->
-<section class="project-detail-section">
-  <div class="project-detail-wrapper">
-
-    <div class="project-text">
-      <h3>Summary</h3>
-      <p>
-        Finding products in a store takes time, especially in unfamiliar layouts. This project focuses on guiding users through stores efficiently while supporting product comparison and decision making.
-      </p>
-
-      <h3>Challenge</h3>
-      <p>
-        The main challenge was building a flexible routing system while staying within a fixed project scope. Weekly team meetings produced many ideas, which made it difficult to stay focused on the core requirements. At the same time, the team had limited experience with UX design, so the process needed to stay simple and structured. The solution had to balance guidance, usability, and clarity without becoming overly complex.
-      </p>
-
-      <h3>Approach</h3>
-      <p>
-        Working in a small team, we focused on making in store navigation fast and predictable. We built the concept around guided routing, where users are led step by step through store layouts instead of searching manually.
-        My role was to define the core interaction and structure of the app. I shaped how routes are generated and how information is presented along the journey. Product details and comparison are integrated directly into the route, so users can make decisions without breaking their flow.
-        We kept the interface simple and consistent, ensuring users always know where they are and what to do next. Every decision supports speed, clarity, and reliable use in real shopping situations.
-      </p>
-
-      <h3>Result</h3>
-      <ul>
-        <li>Fast Route Generation: Users reach products quickly with minimal effort</li>
-        <li>Clear Navigation: Simple structure improves orientation inside the store</li>
-        <li>Better Decisions: Product comparison supports informed choices</li>
-        <li>Positive Feedback: Users highlighted ease of use and practical value in daily shopping</li>
-      </ul>
-
-      <h3>Clue</h3>
-      <p>
-      In store navigation often creates unnoticed friction until it disrupts the shopping experience. This project shows my ability to design structured, user focused solutions in a team, turning complex requirements into clear, usable experiences that support real behavior.      </p>
+  <section class="intro-block">
+    <div class="intro-container">
+      <h2 id="projectTitle"></h2>
+      <p class="project-tags" id="projectTags"></p>
+      <p id="projectMeta"></p>
     </div>
+  </section>
 
-    <div class="project-images">
-      <div class="image-grid">
+  <section class="project-detail-section">
+    <div class="project-detail-wrapper">
+      <div class="project-text" id="projectText"></div>
 
-        <div class="image-row one">
-          <img src="../pngs/Projects/Store Guide/app.jpg" alt="Store Guide app screen" loading="lazy">
-        </div>
-
-        <div class="image-row one">
-          <img src="../pngs/Projects/Store Guide/image-from-rawpixel-id-15235295-png.png" alt="Store Guide visual 2" loading="lazy">
-        </div>
-
-        <div class="image-row one">
-          <img src="../pngs/Projects/Store Guide/ae04bf3e4e14d61b83ed8895826c6e64b52c29bb.jpg" alt="Store Guide visual 1" loading="lazy">
-        </div>
-
+      <div class="project-images">
+        <div class="image-grid" id="projectImages"></div>
       </div>
     </div>
+  </section>
 
-  </div>
-</section>
+  <section class="other-projects-section">
+    <div class="other-projects-container">
+      <h2>More Projects</h2>
+      <div class="other-projects-grid" id="otherProjectsGrid"></div>
+    </div>
+  </section>
 
-<section class="other-projects-section">
-  <div class="other-projects-container">
-    <h2>More Projects</h2>
-    <div class="other-projects-grid" id="otherProjectsGrid"></div>
-  </div>
-</section>
+  <button id="toTop">↑</button>
 
-<button id="toTop">↑</button>
-
-<script src="../script.js"></script>
-
+  <script src="../projects-data.js"></script>
+  <script src="../script.js"></script>
 </body>
+
 </html>

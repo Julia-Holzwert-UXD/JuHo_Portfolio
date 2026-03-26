@@ -1,0 +1,81 @@
+{
+  "projects": [
+    {
+      "slug": "projectTemplate",
+      "title": "Project Template",
+      "href": "./projectSites/projectTemplate.html",
+      "categories": ["product-design", "public-transport"],
+      "coverImage": ""
+    },
+    {
+      "slug": "storeGuide",
+      "title": "Store Guide",
+      "href": "./projectSites/storeGuide.html",
+      "categories": ["mobile-app"],
+      "coverImage": "./pngs/Projects/Store Guide/logo.jpg"
+    },
+    {
+      "slug": "printerInterface",
+      "title": "Printer Interface Redesign",
+      "href": "./projectSites/printerInterface.html",
+      "categories": ["product-design"],
+      "coverImage": "./pngs/Projects/Printer Display Redesign/Xerox-Used-Office-Copier-Printer.jpg"
+    },
+    {
+      "slug": "invg",
+      "title": "INVG App Redesign",
+      "href": "./projectSites/invg.html",
+      "categories": ["mobile-app", "visual-styles", "public-transport"],
+      "coverImage": "./pngs/Projects/INVG App Redesign/Bus-VGI-1-Foto-INVG.png"
+    },
+    {
+      "slug": "memowe",
+      "title": "MemoWe",
+      "href": "./projectSites/memowe.html",
+      "categories": ["product-design", "health-tech", "accessibility"],
+      "coverImage": "./pngs/Projects/MemoWe (Product)/Memowe_laptop.png"
+    },
+    {
+      "slug": "pikBre3D-RemoteControl",
+      "title": "PikBre 3D - Remote Control",
+      "href": "./projectSites/pikBre3D-RemoteControl.html",
+      "categories": ["product-design", "entertainment"],
+      "coverImage": "./pngs/Projects/PikBre 3D - Remote Control/Unbenannt.jpg"
+    },
+    {
+      "slug": "DBNavigatorRedesign",
+      "title": "DB Navigator Redesign",
+      "href": "./projectSites/DBNavigatorRedesign.html",
+      "categories": ["mobile-app", "accessibility", "public-transport"],
+      "coverImage": ""
+    },
+    {
+      "slug": "3DLuxuryWatchBoutique",
+      "title": "3D Luxury Watch Boutique",
+      "href": "./projectSites/3DLuxuryWatchBoutique.html",
+      "categories": ["e-commerce", "mobile-app", "post-purchase-experience"],
+      "coverImage": ""
+    },
+    {
+      "slug": "spatialTo-Do",
+      "title": "Spatial To-Do",
+      "href": "./projectSites/spatialTo-Do.html",
+      "categories": ["mobile-app", "immersive-experience"],
+      "coverImage": ""
+    },
+    {
+      "slug": "healthyStart",
+      "title": "HealthyStart",
+      "href": "./projectSites/healthyStart.html",
+      "categories": ["mobile-app", "data-privacy", "health-tech"],
+      "coverImage": ""
+    },
+    {
+      "slug": "fairFlow",
+      "title": "FairFlow",
+      "href": "./projectSites/fairFlow.html",
+      "categories": ["mobile-app", "ethical-design", "data-privacy"],
+      "coverImage": ""
+    }
+  ]
+}

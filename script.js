@@ -1,4 +1,4 @@
-// Liquid Footer Generation
+
 function loadFooter() {
   console.log("loadFooter started");
 
@@ -86,7 +86,7 @@ function loadGooeyParticles() {
   console.log("particles inserted:", container.children.length);
 }
 
-// Navbar
+
 function getBasePath() {
   return window.location.pathname.includes("/projectSites/") ? "../" : "";
 }
@@ -151,12 +151,314 @@ function setActiveNav() {
   });
 }
 
+function renderProjects() {
+  const grid = document.getElementById("projectsGrid");
+  if (!grid) return false;
+
+  const base = getBasePath();
+  const data = projectsData;
+
+  grid.innerHTML = "";
+
+  data.projects.forEach(project => {
+    const item = document.createElement("div");
+    item.className = "project-item";
+    item.dataset.category = project.categories.join("|");
+
+    const href = project.href.replace("./", base);
+
+    const imageStyle = project.coverImage
+      ? `style="background-image:url('${project.coverImage.replace("./", base)}')"`
+      : "";
+
+    item.innerHTML = `
+      <a href="${href}" class="project-link">
+        <div class="project-card" ${imageStyle}>
+          <div class="card-content">
+            <h3>${project.title}</h3>
+          </div>
+        </div>
+      </a>
+    `;
+
+    grid.appendChild(item);
+  });
+
+  return true;
+}
+
+function renderProjectDetail() {
+  const slug = document.body.dataset.projectSlug;
+  if (!slug) return;
+
+  const project = projectsData.projects.find(p => p.slug === slug);
+  if (!project || !project.detail) return;
+
+  document.body.dataset.currentProject = project.title;
+  document.body.dataset.currentFilters = project.categories.join("|");
+
+  const titleEl = document.getElementById("projectTitle");
+  const tagsEl = document.getElementById("projectTags");
+  const metaEl = document.getElementById("projectMeta");
+  const textEl = document.getElementById("projectText");
+  const imagesEl = document.getElementById("projectImages");
+
+  if (titleEl) titleEl.textContent = project.title;
+  if (metaEl) metaEl.textContent = project.detail.meta || "";
+
+  if (tagsEl) {
+    const base = getBasePath();
+    tagsEl.innerHTML = project.categories.map(category => {
+      return `<a href="${base}projects.html?filter=${category}#filters">${category}</a>`;
+    }).join(" | ");
+  }
+
+  if (textEl) {
+    const s = project.detail.sections;
+
+    textEl.innerHTML = `
+      <h3>Summary</h3>
+      <p>${s.summary || ""}</p>
+
+      <h3>Challenge</h3>
+      <p>${s.challenge || ""}</p>
+
+      <h3>Approach</h3>
+      <p>${s.approach || ""}</p>
+
+      <h3>Result</h3>
+      <ul>
+        ${(s.result || []).map(item => `<li>${item}</li>`).join("")}
+      </ul>
+
+      <h3>${s.takeawayTitle || "Takeaway"}</h3>
+      <p>${s.takeaway || ""}</p>
+    `;
+  }
+
+  if (imagesEl) {
+    imagesEl.innerHTML = (project.detail.images || []).map(row => {
+      const imgs = row.items.map(img => {
+        return `<img src="${img.src}" alt="${img.alt}" loading="lazy">`;
+      }).join("");
+
+      return `<div class="image-row ${row.layout}">${imgs}</div>`;
+    }).join("");
+  }
+}
+
+function initFilters() {
+  const projectsGrid = document.getElementById("projectsGrid");
+  if (!projectsGrid) return;
+
+  const projectItems = Array.from(projectsGrid.querySelectorAll(".project-item"));
+  const filterBtns = Array.from(document.querySelectorAll(".filter-btn"))
+    .filter(btn => !btn.classList.contains("special-btn"));
+
+  const clearAllBtn = document.getElementById("clearAllBtn");
+  const showAllBtn = document.getElementById("showAllBtn");
+
+  const totalCountEl = document.getElementById("totalCount");
+  const visibleCountEl = document.getElementById("visibleCount");
+  const hiddenCountEl = document.getElementById("hiddenCount");
+
+  let activeFilters = filterBtns.map(btn => btn.dataset.filter);
+  filterBtns.forEach(btn => btn.classList.add("active"));
+
+  function updateStats() {
+    const total = projectItems.length;
+    const visible = projectItems.filter(item => !item.classList.contains("hide")).length;
+    const hidden = total - visible;
+
+    if (totalCountEl) totalCountEl.textContent = total;
+    if (visibleCountEl) visibleCountEl.textContent = visible;
+    if (hiddenCountEl) hiddenCountEl.textContent = hidden;
+  }
+
+  function applyFilters() {
+    projectItems.forEach(item => {
+      const categories = item.dataset.category.split("|");
+
+      const matchesActiveFilter =
+        activeFilters.length > 0 &&
+        activeFilters.some(filter => categories.includes(filter));
+
+      item.classList.toggle("hide", !matchesActiveFilter);
+    });
+
+    updateStats();
+  }
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      btn.classList.toggle("active");
+
+      activeFilters = filterBtns
+        .filter(b => b.classList.contains("active"))
+        .map(b => b.dataset.filter);
+
+      applyFilters();
+    });
+  });
+
+  if (showAllBtn) {
+    showAllBtn.addEventListener("click", () => {
+      activeFilters = filterBtns.map(btn => btn.dataset.filter);
+      filterBtns.forEach(btn => btn.classList.add("active"));
+      applyFilters();
+    });
+  }
+
+  if (clearAllBtn) {
+    clearAllBtn.addEventListener("click", () => {
+      activeFilters = [];
+      filterBtns.forEach(btn => btn.classList.remove("active"));
+      applyFilters();
+    });
+  }
+
+  applyFilters();
+}
+
+function shuffleArray(array) {
+  const copy = [...array];
+
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+
+  return copy;
+}
+
+function renderOtherProjects() {
+  const grid = document.getElementById("otherProjectsGrid");
+  if (!grid) return;
+
+  const currentSlug = document.body.dataset.projectSlug;
+  if (!currentSlug) return;
+
+  const currentProject = projectsData.projects.find(project => project.slug === currentSlug);
+  if (!currentProject) return;
+
+  const currentCategories = currentProject.categories || [];
+  const base = getBasePath();
+
+  const unrelatedProjects = projectsData.projects.filter(project => {
+    const isCurrentProject = project.slug === currentSlug;
+
+    const sharesCategory = project.categories.some(category =>
+      currentCategories.includes(category)
+    );
+
+    return !isCurrentProject && !sharesCategory;
+  });
+
+  const fallbackProjects = projectsData.projects.filter(project => {
+    return project.slug !== currentSlug;
+  });
+
+  let selectedProjects = shuffleArray(unrelatedProjects).slice(0, 4);
+
+  if (selectedProjects.length < 4) {
+    const selectedSlugs = selectedProjects.map(project => project.slug);
+
+    const extraProjects = shuffleArray(fallbackProjects).filter(project => {
+      return !selectedSlugs.includes(project.slug);
+    });
+
+    selectedProjects = [...selectedProjects, ...extraProjects].slice(0, 4);
+  }
+
+  grid.innerHTML = "";
+
+  selectedProjects.forEach(project => {
+    const item = document.createElement("div");
+    item.className = "project-item";
+
+    const href = project.href.replace("./", base);
+
+    const imageStyle = project.coverImage
+      ? `style="background-image:url('${project.coverImage.replace("./", base)}')"`
+      : "";
+
+    item.innerHTML = `
+      <a href="${href}" class="project-link">
+        <div class="project-card" ${imageStyle}>
+          <div class="card-content">
+            <h3>${project.title}</h3>
+          </div>
+        </div>
+      </a>
+    `;
+
+    grid.appendChild(item);
+  });
+}
+
+function applyFilterFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  const filter = params.get("filter");
+
+  if (!filter) return;
+
+  const buttons = document.querySelectorAll(".filter-btn");
+  const items = document.querySelectorAll(".project-item");
+
+  buttons.forEach(btn => {
+    if (btn.dataset.filter === filter) {
+      btn.classList.add("active");
+    } else {
+      btn.classList.remove("active");
+    }
+  });
+
+  items.forEach(item => {
+    const categories = item.dataset.category || "";
+
+    if (categories.includes(filter)) {
+      item.classList.remove("hide");
+    } else {
+      item.classList.add("hide");
+    }
+  });
+
+  const totalCountEl = document.getElementById("totalCount");
+  const visibleCountEl = document.getElementById("visibleCount");
+  const hiddenCountEl = document.getElementById("hiddenCount");
+
+  const total = items.length;
+  const visible = Array.from(items).filter(item => !item.classList.contains("hide")).length;
+  const hidden = total - visible;
+
+  if (totalCountEl) totalCountEl.textContent = total;
+  if (visibleCountEl) visibleCountEl.textContent = visible;
+  if (hiddenCountEl) hiddenCountEl.textContent = hidden;
+
+  const section = document.getElementById("filters");
+  if (section) {
+    setTimeout(() => {
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 100);
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   loadNavbar();
   setActiveNav();
   loadFooter();
   loadLiquidEffectSVG();
   loadGooeyParticles();
+
+  const projectsLoaded = renderProjects();
+
+  if (projectsLoaded) {
+    initFilters();
+    applyFilterFromURL();
+  }
+
+  renderProjectDetail();
+  renderOtherProjects();
 
   const burger = document.getElementById("burger");
   const mobileMenuFull = document.getElementById("mobileMenuFull");
@@ -200,238 +502,5 @@ document.addEventListener("DOMContentLoaded", () => {
       toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
     }
   }
-
-  
-
-  if (projectsGrid) {
-    const projectItems = Array.from(projectsGrid.querySelectorAll(".project-item"));
-    const originalOrder = [...projectItems];
-
-    const filterBtns = Array.from(document.querySelectorAll(".filter-btn"))
-      .filter(btn => !btn.classList.contains("special-btn"));
-
-    const clearAllBtn = document.getElementById("clearAllBtn");
-    const showAllBtn = document.getElementById("showAllBtn");
-
-    const totalCountEl = document.getElementById("totalCount");
-    const visibleCountEl = document.getElementById("visibleCount");
-    const hiddenCountEl = document.getElementById("hiddenCount");
-
-    let activeFilters = filterBtns.map(btn => btn.dataset.filter);
-    filterBtns.forEach(btn => btn.classList.add("active"));
-
-    function updateStats() {
-      const total = projectItems.length;
-      const visible = projectItems.filter(item => !item.classList.contains("hide")).length;
-      const hidden = total - visible;
-
-      totalCountEl.textContent = total;
-      visibleCountEl.textContent = visible;
-      hiddenCountEl.textContent = hidden;
-    }
-
-    function restoreOriginalOrder() {
-      originalOrder.forEach(item => projectsGrid.appendChild(item));
-    }
-
-    function applyFilters() {
-      projectItems.forEach(item => {
-        const categories = item.dataset.category.split("|");
-
-        const match =
-          activeFilters.length > 0 &&
-          activeFilters.some(filter => categories.includes(filter));
-
-        item.classList.toggle("hide", !match);
-      });
-
-      updateStats();
-    }
-
-    filterBtns.forEach(btn => {
-      btn.addEventListener("click", () => {
-        btn.classList.toggle("active");
-
-        activeFilters = filterBtns
-          .filter(button => button.classList.contains("active"))
-          .map(button => button.dataset.filter);
-
-        applyFilters();
-      });
-    });
-
-    if (showAllBtn) {
-      showAllBtn.addEventListener("click", () => {
-        activeFilters = filterBtns.map(btn => btn.dataset.filter);
-        filterBtns.forEach(btn => btn.classList.add("active"));
-        restoreOriginalOrder();
-        applyFilters();
-      });
-    }
-
-    if (clearAllBtn) {
-      clearAllBtn.addEventListener("click", () => {
-        activeFilters = [];
-        filterBtns.forEach(btn => btn.classList.remove("active"));
-        applyFilters();
-      });
-    }
-
-    restoreOriginalOrder();
-    applyFilters();
-  }
-
-  applyFilterFromURL();
 });
 
-
-// Projects filter
-const projectsGrid = document.getElementById("projectsGrid");
-
-if (projectsGrid) {
-  const projectItems = Array.from(projectsGrid.querySelectorAll(".project-item"));
-  const originalOrder = [...projectItems];
-
-  const filterBtns = Array.from(document.querySelectorAll(".filter-btn"))
-    .filter(btn => !btn.classList.contains("special-btn"));
-
-  const clearAllBtn = document.getElementById("clearAllBtn");
-  const showAllBtn = document.getElementById("showAllBtn");
-
-  const totalCountEl = document.getElementById("totalCount");
-  const visibleCountEl = document.getElementById("visibleCount");
-  const hiddenCountEl = document.getElementById("hiddenCount");
-
-  let activeFilters = filterBtns.map(btn => btn.dataset.filter);
-  filterBtns.forEach(btn => btn.classList.add("active"));
-
-  function updateStats() {
-    const total = projectItems.length;
-    const visible = projectItems.filter(item => !item.classList.contains("hide")).length;
-    const hidden = total - visible;
-
-    totalCountEl.textContent = total;
-    visibleCountEl.textContent = visible;
-    hiddenCountEl.textContent = hidden;
-  }
-
-  function restoreOriginalOrder() {
-    originalOrder.forEach(item => projectsGrid.appendChild(item));
-  }
-
-  function applyFilters() {
-    projectItems.forEach(item => {
-      const categories = item.dataset.category.split("|");
-
-      const match =
-        activeFilters.length > 0 &&
-        activeFilters.some(filter => categories.includes(filter));
-
-      item.classList.toggle("hide", !match);
-    });
-
-    updateStats();
-  }
-
-  filterBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-      btn.classList.toggle("active");
-
-      activeFilters = filterBtns
-        .filter(button => button.classList.contains("active"))
-        .map(button => button.dataset.filter);
-
-      applyFilters();
-    });
-  });
-
-  if (showAllBtn) {
-    showAllBtn.addEventListener("click", () => {
-      activeFilters = filterBtns.map(btn => btn.dataset.filter);
-      filterBtns.forEach(btn => btn.classList.add("active"));
-
-      restoreOriginalOrder();
-      applyFilters();
-    });
-  }
-
-  if (clearAllBtn) {
-    clearAllBtn.addEventListener("click", () => {
-      activeFilters = [];
-      filterBtns.forEach(btn => btn.classList.remove("active"));
-      applyFilters();
-    });
-  }
-
-  restoreOriginalOrder();
-  applyFilters();
-}
-
-
-
-/* APPLY FILTER FROM URL */
-function applyFilterFromURL() {
-  const params = new URLSearchParams(window.location.search);
-  const filter = params.get("filter");
-
-  if (!filter) return;
-
-  const buttons = document.querySelectorAll(".filter-btn");
-  const items = document.querySelectorAll(".project-item");
-
-  // activate correct button
-  buttons.forEach(btn => {
-    if (btn.dataset.filter === filter) {
-      btn.classList.add("active");
-    } else {
-      btn.classList.remove("active");
-    }
-  });
-
-  // filter projects
-  items.forEach(item => {
-    const categories = item.dataset.category || "";
-
-    if (categories.includes(filter)) {
-      item.classList.remove("hide");
-    } else {
-      item.classList.add("hide");
-    }
-  });
-}
-
-function applyFilterFromURL() {
-  const params = new URLSearchParams(window.location.search);
-  const filter = params.get("filter");
-
-  if (!filter) return;
-
-  const buttons = document.querySelectorAll(".filter-btn");
-  const items = document.querySelectorAll(".project-item");
-
-  buttons.forEach(btn => {
-    if (btn.dataset.filter === filter) {
-      btn.classList.add("active");
-    } else {
-      btn.classList.remove("active");
-    }
-  });
-
-  items.forEach(item => {
-    const categories = item.dataset.category || "";
-
-    if (categories.includes(filter)) {
-      item.classList.remove("hide");
-    } else {
-      item.classList.add("hide");
-    }
-  });
-
-  // smooth scroll to filter section
-  const section = document.getElementById("filters");
-  if (section) {
-    setTimeout(() => {
-      section.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 100);
-  }
-}

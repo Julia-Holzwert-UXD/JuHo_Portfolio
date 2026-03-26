@@ -9,115 +9,37 @@
   <link rel="stylesheet" href="../style.css">
 </head>
 
-<body>
+<body data-project-slug="fairFlow">
 
   <section class="intro-block">
     <div class="intro-container">
-      <h2>FairFlow – Dark UX Audit & Ethical Redesign </h2>
-      <p class="project-tags">
-        <a href="../projects.html?filter=mobile-app#filters">mobile-app</a> |
-        <a href="../projects.html?filter=ethical-design#filters">ethical-design</a>
-        <a href="../projects.html?filter=data-privacy#filters">data-privacy</a>
-      </p>
-      <p>Private Project from 2026</p>
+      <h2 id="projectTitle"></h2>
+      <p class="project-tags" id="projectTags"></p>
+      <p id="projectMeta"></p>
     </div>
   </section>
 
-  <!-- PROJECT DETAIL TEMPLATE -->
   <section class="project-detail-section">
     <div class="project-detail-wrapper">
+      <div class="project-text" id="projectText"></div>
 
-      <!-- TEXT COLUMN -->
-      <div class="project-text">
-
-        <h3>Summary</h3>
-        <p>
-          “Users should never feel trapped by design.” FairFlow focuses on auditing a popular German subscription app
-          with hidden unsubscribe options, misleading defaults, and manipulative upsells. The project rethinks these
-          interactions to make them ethical, transparent, and trustworthy while maintaining business goals and revenue.
-        </p>
-
-        <h3>Challenge</h3>
-        <p>
-          Balancing user trust with profitability. Many German users are highly sensitive to deceptive practices and
-          expect transparency, but the app also operates internationally, where subscription models rely on clear
-          upsells. The challenge was to remove dark patterns that frustrate users while designing flows that still
-          encourage conversion and retention.
-        </p>
-
-        <h3>Approach</h3>
-        <p>
-          I conducted a full dark UX audit, mapping every point where the user could be misled or trapped. Subscription
-          flows, consent dialogs, and hidden options were redesigned with clear labeling, visible opt-out buttons, and
-          plain-language explanations. Incentives were reframed ethically: discounts, benefits, and reminders were
-          transparent but compelling. Microcopy reassured users of control and privacy. Testing with German participants
-          validated trust and comprehension, while international testing ensured flows were culturally neutral and
-          effective globally.
-        </p>
-
-        <h3>Result</h3>
-        <ul>
-          <li>Ethical Monetization: Subscription and upsell flows remain profitable but are fully transparent, reducing
-            complaints and cancellations caused by frustration.</li>
-          <li>Trust as Differentiator: Clear unsubscribe options, consent dialogs, and transparent incentives increase
-            user confidence, particularly in Bavaria and Germany, where privacy and honesty are highly valued.</li>
-          <li>Global Consistency: Ethical design choices scale across international markets, proving that transparency
-            and business goals can coexist.</li>
-          <li>Business-Aligned UX: The project demonstrates the ability to argue for users’ rights while understanding
-            revenue, retention, and conversion metrics.</li>
-        </ul>
-
-        <h3>Takeaway</h3>
-        <p>
-          Ethical design is both a legal and reputational requirement. This project shows I can defend users while
-          supporting business objectives, a key skill for high-end agencies seeking senior UX leadership.
-        </p>
-
-      </div>
-
-      <!-- IMAGE COLUMN -->
       <div class="project-images">
-        <div class="image-grid">
-
-          <!-- SINGLE IMAGE -->
-          <div class="image-row one">
-            <img src="../pngs/your-image-1.jpg" alt="Project image 1" loading="lazy">
-          </div>
-
-          <!-- TWO IMAGES SIDE BY SIDE -->
-          <div class="image-row two">
-            <img src="../pngs/your-image-2.jpg" alt="Project image 2" loading="lazy">
-            <img src="../pngs/your-image-3.jpg" alt="Project image 3" loading="lazy">
-          </div>
-
-          <!-- ANOTHER SINGLE IMAGE -->
-          <div class="image-row one">
-            <img src="../pngs/your-image-4.jpg" alt="Project image 4" loading="lazy">
-          </div>
-
-        </div>
+        <div class="image-grid" id="projectImages"></div>
       </div>
-
     </div>
   </section>
 
   <section class="other-projects-section">
     <div class="other-projects-container">
       <h2>More Projects</h2>
-      <div class="other-projects-grid">
-        <a href="https://addsoul.com/brand-illustration-ahm-insurance" target="_blank" class="other-project-card">
-          <div class="other-project-image"
-            style="background-image:url('https://addsoul.com/brand-illustration-ahm-insurance');"></div>
-          <p>Brand Illustration AHM Insurance</p>
-        </a>
-      </div>
+      <div class="other-projects-grid" id="otherProjectsGrid"></div>
     </div>
   </section>
 
   <button id="toTop">↑</button>
 
+  <script src="../projects-data.js"></script>
   <script src="../script.js"></script>
-
 </body>
 
 </html>
