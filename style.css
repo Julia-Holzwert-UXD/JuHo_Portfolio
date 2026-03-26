@@ -57,7 +57,7 @@ p{font-size:clamp(16px,1.2vw,22px);line-height:1.8;color:#77639A;margin-bottom:2
 #toTop:hover{transform:translateY(-3px)}
 
 /* FOOTER */
-.footer-section{background:var(--accent);margin-top:6rem;position:relative;}
+.footer-section{background:var(--accent);margin-top:13rem;position:relative;}
 .gooey-animations{position:absolute;top:0;left:-10%;width:120%;height:6rem;background:var(--accent);transform:translateY(-99%);filter:url('#liquid-effect');pointer-events:none}
 .particle{position:absolute;top:50%;left:var(--pos-x,50%);width:var(--dim,5rem);height:var(--dim,5rem);background:var(--accent);border-radius:50%;transform:translate(-50%,-50%);animation:float-up var(--dur,4s) ease-in infinite;animation-delay:var(--delay,0s)}
 .footer-content{text-align:center;padding:4rem 2rem;position:relative;z-index:2}
@@ -246,3 +246,10 @@ p{font-size:clamp(16px,1.2vw,22px);line-height:1.8;color:#77639A;margin-bottom:2
 
 /* SQUARE CARDS */
 .other-projects-grid .project-item{position:relative;width:100%;padding-top:100%; /* 1:1 ratio */overflow:hidden;}
+
+.project-tags a{
+  text-decoration:none;
+  color:var(--accent);
+  font-weight:600;
+  margin:0 4px;
+}

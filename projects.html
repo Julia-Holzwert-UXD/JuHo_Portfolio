@@ -55,7 +55,7 @@
 <!-- COLOR BLOCK -->
 <section class="color-block"></section>
 
-<section class="filter-section">
+<section class="filter-section" id="filters">
   <div class="filter-stats-box">
     <h3>Search Statistics</h3>
     <div class="search-stats">
@@ -97,62 +97,71 @@
     </div>  
   </div>
 </section>
+
 <section class="projects-section">
   <div class="projects-grid" id="projectsGrid">
+
+    <div class="project-item" data-category="product-design|public-transport">
+      <a href="./projectSites/projectTemplate.html" class="project-link">
+      <div class="project-card"><div class="card-content"><h3>Project Template</h3></div></div>
+    </a>
+    </div>
     <div class="project-item" data-category="mobile-app|public-transport">
       <a href="./projectSites/storeGuide.html" class="project-link">
       <div class="project-card" style="background-image: url('./pngs/Projects/Store Guide/logo.jpg');"><div class="card-content"><h3>Store Guide</h3></div></div>
     </a>
     </div>
 
-    <div class="project-item" data-category="product-design|public-transport">
-      <a href="./projectSites/projectTemplate.html" class="project-link">
+    <div class="project-item" data-category="product-design">
+      <a href="./projectSites/printerInterface.html" class="project-link">
       <div class="project-card" style="background-image: url('./pngs/Projects/Printer Display Redesign/Xerox-Used-Office-Copier-Printer.jpg');"><div class="card-content"><h3>Printer Interface Redesign</h3></div></div>
     </a>
     </div>
 
     <div class="project-item" data-category="mobile-app|visual-styles|public-transport">
-      <a href="./projectSites/projectTemplate.html" class="project-link">
+      <a href="./projectSites/invg.html" class="project-link">
       <div class="project-card" style="background-image: url('./pngs/Projects/INVG App Redesign/Bus-VGI-1-Foto-INVG.png');" href=""><div class="card-content"><h3>INVG App Redesign</h3></div></div>
     </a>
     </div>
 
     <div class="project-item" data-category="product-design|health-tech|accessibility">
-      <a href="./projectSites/projectTemplate.html" class="project-link">
+      <a href="./projectSites/memowe.html" class="project-link">
       <div class="project-card" style="background-image: url('./pngs/Projects/MemoWe (Product)/Memowe_laptop.png');"><div class="card-content"><h3>MemoWe</h3></div></div>
     </a>
   </div>
 
     <div class="project-item" data-category="product-design|entertainment">
+      <a href="./projectSites/pikBre3D-RemoteControl.html" class="project-link">
       <div class="project-card" style="background-image: url('./pngs/Projects/PikBre\ 3D\ -\ Remote\ Control/Unbenannt.jpg');"><div class="card-content"><h3>PikBre 3D - Remote Control</h3></div></div>
+        </a>
     </div>
 
     <div class="project-item" data-category="mobile-app|accessibility|public-transport">
-      <a href="./projectSites/projectTemplate.html" class="project-link">
+      <a href="./projectSites/DBNavigatorRedesign.html" class="project-link">
       <div class="project-card"><div class="card-content"><h3>DB Navigator Redesign</h3></div></div>
     </a>
   </div>
 
     <div class="project-item" data-category="e-commerce|mobile-app|post-purchase-experience">
-      <a href="./projectSites/projectTemplate.html" class="project-link">
+      <a href="./projectSites/3DLuxuryWatchBoutique.html" class="project-link">
       <div class="project-card"><div class="card-content"><h3>3D Luxury Watch Boutique</h3></div></div>
     </a>
     </div>
 
     <div class="project-item" data-category="mobile-app|immersive-experience">
-      <a href="./projectSites/projectTemplate.html" class="project-link">
+      <a href="./projectSites/spatialTo-Do.html" class="project-link">
       <div class="project-card"><div class="card-content"><h3>Spatial To-Do</h3></div></div>
     </a>
     </div>
 
     <div class="project-item" data-category="mobile-app|data-privacy|health-tech">
-      <a href="./projectSites/projectTemplate.html" class="project-link">
+      <a href="./projectSites/healthyStart.html" class="project-link">
       <div class="project-card"><div class="card-content"><h3>HealthyStart</h3></div></div>
     </a>
     </div>
 
     <div class="project-item" data-category="mobile-app|ethical-design|data-privacy">
-      <a href="./projectSites/projectTemplate.html" class="project-link">
+      <a href="./projectSites/fairFlow.html" class="project-link">
       <div class="project-card"><div class="card-content"><h3>FairFlow</h3></div></div>
     </a>
     </div>
@@ -161,30 +170,6 @@
 </section>
 
 <button id="toTop">↑</button>
-
-<footer class="footer-section">
-  <div class="gooey-animations" id="particle-container"></div>
-  <div class="footer-content">
-    <p class="footer-text">
-      2026 Copyright Julia Holzwert<br>
-      Content is not to be used<br>
-      for training generative AI technologies without explicit permission.
-    </p>
-  </div>
-</footer>
-
-<svg style="position: absolute; width: 0; height: 0; overflow: hidden;" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <filter id="liquid-effect">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur" />
-      <feColorMatrix in="blur" mode="matrix"
-        values="1 0 0 0 0  
-                0 1 0 0 0  
-                0 0 1 0 0  
-                0 0 0 19 -9" result="liquid" />
-    </filter>
-  </defs>
-</svg>
 
 <script src="script.js"></script>
 

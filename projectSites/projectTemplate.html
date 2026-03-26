@@ -1,155 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Julia Holzwert - Projects</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Julia Holzwert - Projects</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
 </head>
+
 <body>
 
-<header class="navbar">
-  <div class="nav-wrapper">
-    <nav class="nav-left">
-      <a href="../projects.html" class="active">Projects</a>
-      <a href="../about.html">About</a>
-      <a href="../CV.html">CV</a>
-    </nav>
-    <div class="nav-center"></div>
-    <nav class="nav-right">
+  <header class="navbar">
+    <div class="nav-wrapper">
+      <nav class="nav-left">
+        <a href="../projects.html" class="active">Projects</a>
+        <a href="../about.html">About</a>
+        <a href="../CV.html">CV</a>
+      </nav>
+      <div class="nav-center"></div>
+      <nav class="nav-right">
+        <a href="https://www.linkedin.com/in/julia-holzwert/" target="_blank">LinkedIn</a>
+        <a href="https://www.instagram.com" target="_blank">Instagram</a>
+        <a href="https://www.behance.net" target="_blank">Behance</a>
+      </nav>
+      <div class="burger" id="burger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-menu-full" id="mobileMenuFull">
+    <div class="menu-close" id="menuClose">&times;</div>
+    <div class="menu-block menu-top">
+      <a href="projects.html" class="active">Projects</a>
+      <a href="about.html">About</a>
+      <a href="CV.html">CV</a>
+    </div>
+    <div class="menu-separator"></div>
+    <div class="menu-block menu-bottom">
       <a href="https://www.linkedin.com/in/julia-holzwert/" target="_blank">LinkedIn</a>
       <a href="https://www.instagram.com" target="_blank">Instagram</a>
       <a href="https://www.behance.net" target="_blank">Behance</a>
-    </nav>
-    <div class="burger" id="burger">
-      <span></span>
-      <span></span>
-      <span></span>
     </div>
   </div>
-</header>
 
-<div class="mobile-menu-full" id="mobileMenuFull">
-  <div class="menu-close" id="menuClose">&times;</div>
-  <div class="menu-block menu-top">
-    <a href="projects.html" class="active">Projects</a>
-    <a href="about.html">About</a>
-    <a href="CV.html">CV</a>
-  </div>
-  <div class="menu-separator"></div>
-  <div class="menu-block menu-bottom">
-    <a href="https://www.linkedin.com/in/julia-holzwert/" target="_blank">LinkedIn</a>
-    <a href="https://www.instagram.com" target="_blank">Instagram</a>
-    <a href="https://www.behance.net" target="_blank">Behance</a>
-  </div>
-</div>
-
-<section class="intro-block">
-  <div class="intro-container">
-    <h2>Project Name</h2>
-    <p>Filter</p>
-    <p>Private / Group Project from Date</p>
-  </div>
-</section>
-
-<!-- PROJECT DETAIL TEMPLATE -->
-<section class="project-detail-section">
-  <div class="project-detail-wrapper">
-
-    <!-- TEXT COLUMN -->
-    <div class="project-text">
-
-      <h3>Summary</h3>
-      <p>
-        Short overview of the project. What problem you solved and why it matters.
+  <section class="intro-block">
+    <div class="intro-container">
+      <h2>Project Name</h2>
+      <p class="project-tags">
+        <a href="../projects.html?filter=1#filters">1</a> |
+        <a href="../projects.html?filter=2#filters">2</a> |
+        <a href="../projects.html?filter=3#filters">3</a>
       </p>
+      <p>Private / Group Project from Date</p>
+    </div>
+  </section>
 
-      <h3>Challenge</h3>
-      <p>
-        Describe the main problem. Constraints, complexity, or user needs.
-      </p>
+  <!-- PROJECT DETAIL TEMPLATE -->
+  <section class="project-detail-section">
+    <div class="project-detail-wrapper">
 
-      <h3>Approach</h3>
-      <p>
-        Explain how you solved it. Focus on your role, decisions, and process.
-      </p>
+      <!-- TEXT COLUMN -->
+      <div class="project-text">
 
-      <h3>Result</h3>
-      <ul>
-        <li>Outcome 1</li>
-        <li>Outcome 2</li>
-        <li>Outcome 3</li>
-        <li>Outcome 4</li>
-      </ul>
+        <h3>Summary</h3>
+        <p>
+          Short overview of the project. What problem you solved and why it matters.
+        </p>
 
-      <h3>Takeaway</h3>
-      <p>
-        What you learned. What this project shows about your skills.
-      </p>
+        <h3>Challenge</h3>
+        <p>
+          Describe the main problem. Constraints, complexity, or user needs.
+        </p>
+
+        <h3>Approach</h3>
+        <p>
+          Explain how you solved it. Focus on your role, decisions, and process.
+        </p>
+
+        <h3>Result</h3>
+        <ul>
+          <li>Outcome 1</li>
+          <li>Outcome 2</li>
+          <li>Outcome 3</li>
+          <li>Outcome 4</li>
+        </ul>
+
+        <h3>Takeaway</h3>
+        <p>
+          What you learned. What this project shows about your skills.
+        </p>
+
+      </div>
+
+      <!-- IMAGE COLUMN -->
+      <div class="project-images">
+        <div class="image-grid">
+
+          <!-- SINGLE IMAGE -->
+          <div class="image-row one">
+            <img src="../pngs/your-image-1.jpg" alt="Project image 1" loading="lazy">
+          </div>
+
+          <!-- TWO IMAGES SIDE BY SIDE -->
+          <div class="image-row two">
+            <img src="../pngs/your-image-2.jpg" alt="Project image 2" loading="lazy">
+            <img src="../pngs/your-image-3.jpg" alt="Project image 3" loading="lazy">
+          </div>
+
+          <!-- ANOTHER SINGLE IMAGE -->
+          <div class="image-row one">
+            <img src="../pngs/your-image-4.jpg" alt="Project image 4" loading="lazy">
+          </div>
+
+        </div>
+      </div>
 
     </div>
+  </section>
 
-    <!-- IMAGE COLUMN -->
-    <div class="project-images">
-      <div class="image-grid">
+  <section class="other-projects-section">
+    <div class="other-projects-container">
+      <h2>More Projects</h2>
 
-        <!-- SINGLE IMAGE -->
-        <div class="image-row one">
-          <img src="../pngs/your-image-1.jpg" alt="Project image 1" loading="lazy">
+      <div class="other-projects-grid">
+
+        <div class="project-item">
+          <a href="../projectSites/storeGuide.html" class="project-link">
+            <div class="project-card" style="background-image:url('../images/storeguide.jpg')">
+              <div class="card-content">
+                <h3>Store Guide</h3>
+              </div>
+            </div>
+          </a>
         </div>
 
-        <!-- TWO IMAGES SIDE BY SIDE -->
-        <div class="image-row two">
-          <img src="../pngs/your-image-2.jpg" alt="Project image 2" loading="lazy">
-          <img src="../pngs/your-image-3.jpg" alt="Project image 3" loading="lazy">
+        <div class="project-item">
+          <a href="../projectSites/printerInterface.html" class="project-link">
+            <div class="project-card" style="background-image:url('../images/printer.jpg')">
+              <div class="card-content">
+                <h3>Printer Interface Redesign</h3>
+              </div>
+            </div>
+          </a>
         </div>
 
-        <!-- ANOTHER SINGLE IMAGE -->
-        <div class="image-row one">
-          <img src="../pngs/your-image-4.jpg" alt="Project image 4" loading="lazy">
+        <div class="project-item">
+          <a href="../projectSites/invg.html" class="project-link">
+            <div class="project-card" style="background-image:url('../images/invg.jpg')">
+              <div class="card-content">
+                <h3>INVG App Redesign</h3>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="project-item">
+          <a href="../projectSites/memowe.html" class="project-link">
+            <div class="project-card" style="background-image:url('../images/memowe.jpg')">
+              <div class="card-content">
+                <h3>MemoWe</h3>
+              </div>
+            </div>
+          </a>
         </div>
 
       </div>
     </div>
+  </section>
 
-  </div>
-</section>
+  <button id="toTop">↑</button>
 
-<section class="other-projects-section">
-  <div class="other-projects-container">
-    <h2>More Projects</h2>
-    <div class="other-projects-grid" id="otherProjectsGrid"></div>
-  </div>
-</section>
-
-<button id="toTop">↑</button>
-
-<footer class="footer-section">
-  <div class="gooey-animations" id="particle-container"></div>
-  <div class="footer-content">
-    <p class="footer-text">
-      2026 Copyright Julia Holzwert<br>
-      Content is not to be used<br>
-      for training generative AI technologies without explicit permission.
-    </p>
-  </div>
-</footer>
-
-<svg style="position: absolute; width: 0; height: 0; overflow: hidden;" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <filter id="liquid-effect">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur" />
-      <feColorMatrix in="blur" mode="matrix"
-        values="1 0 0 0 0  
-                0 1 0 0 0  
-                0 0 1 0 0  
-                0 0 0 19 -9" result="liquid" />
-    </filter>
-  </defs>
-</svg>
-
-<script src="../script.js"></script>
+  <script src="../script.js"></script>
 
 </body>
+
 </html>

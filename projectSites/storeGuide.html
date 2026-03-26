@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../style.css">
 </head>
-<body data-current-project="Store Guide">
+<body data-current-project="Store Guide" data-current-filters="mobile-app|public-transport">>
 
 <header class="navbar">
   <div class="nav-wrapper">
@@ -48,7 +48,10 @@
 <section class="intro-block">
   <div class="intro-container">
     <h2>Store Guide</h2>
-    <p>mobile-app | public-transport</p>
+    <p class="project-tags">
+  <a href="../projects.html?filter=mobile-app#filters">mobile-app</a> |
+  <a href="../projects.html?filter=public-transport#filters">public-transport</a>
+</p>
     <p>Group Project from 2023/24 for 6 Months</p>
   </div>
 </section>
@@ -112,78 +115,11 @@
 <section class="other-projects-section">
   <div class="other-projects-container">
     <h2>More Projects</h2>
-
-    <div class="other-projects-grid">
-
-      <div class="project-item">
-        <a href="../projectSites/storeGuide.html" class="project-link">
-          <div class="project-card" style="background-image:url('../images/storeguide.jpg')">
-            <div class="card-content">
-              <h3>Store Guide</h3>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <div class="project-item">
-        <a href="../projectSites/printerInterface.html" class="project-link">
-          <div class="project-card" style="background-image:url('../images/printer.jpg')">
-            <div class="card-content">
-              <h3>Printer Interface Redesign</h3>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <div class="project-item">
-        <a href="../projectSites/invg.html" class="project-link">
-          <div class="project-card" style="background-image:url('../images/invg.jpg')">
-            <div class="card-content">
-              <h3>INVG App Redesign</h3>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <div class="project-item">
-        <a href="../projectSites/memowe.html" class="project-link">
-          <div class="project-card" style="background-image:url('../images/memowe.jpg')">
-            <div class="card-content">
-              <h3>MemoWe</h3>
-            </div>
-          </div>
-        </a>
-      </div>
-
-    </div>
+    <div class="other-projects-grid" id="otherProjectsGrid"></div>
   </div>
 </section>
 
 <button id="toTop">↑</button>
-
-<footer class="footer-section">
-  <div class="gooey-animations" id="particle-container"></div>
-  <div class="footer-content">
-    <p class="footer-text">
-      2026 Copyright Julia Holzwert<br>
-      Content is not to be used<br>
-      for training generative AI technologies without explicit permission.
-    </p>
-  </div>
-</footer>
-
-<svg style="position: absolute; width: 0; height: 0; overflow: hidden;" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <filter id="liquid-effect">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur" />
-      <feColorMatrix in="blur" mode="matrix"
-        values="1 0 0 0 0  
-                0 1 0 0 0  
-                0 0 1 0 0  
-                0 0 0 19 -9" result="liquid" />
-    </filter>
-  </defs>
-</svg>
 
 <script src="../script.js"></script>
 
