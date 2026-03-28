@@ -1,76 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Julia Holzwert - Projects</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Julia Holzwert - Projects</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<section class="intro-block">
-  <div class="intro-container">
-    <h2>Projects that combine UX, UI, and Product Design</h2>
-    <p>Here is a small selection of my work across mobile apps, web, product, and immersive experiences. Filter by category to explore specific projects.</p>
-  </div>
-</section>
-
-<!-- COLOR BLOCK -->
-<section class="color-block"></section>
-
-<section class="filter-section" id="filters">
-  <div class="filter-stats-box">
-    <h3>Search Statistics</h3>
-    <div class="search-stats">
-      <div class="stat-block">
-        <p>Total Projects</p>
-        <span id="totalCount">0</span>
-      </div>
-      <div class="stat-block">
-        <p>Visible</p>
-        <span id="visibleCount">0</span>
-      </div>
-      <div class="stat-block">
-        <p>Hidden</p>
-        <span id="hiddenCount">0</span>
-      </div>
+  <section class="intro-block">
+    <div class="intro-container">
+      <h2>Projects that combine UX, UI, and Product Design</h2>
+      <p>Here is a small selection of my work across mobile apps, web, product, and immersive experiences. Filter by
+        category to explore specific projects.</p>
     </div>
+  </section>
 
-    <div class="filter-bar">
-      <!-- Special buttons on top -->
-      <button class="filter-btn special-btn" id="showAllBtn">SHOW ALL</button>
-      <button class="filter-btn special-btn" id="clearAllBtn">CLEAR ALL</button>
+  <!-- COLOR BLOCK -->
+  <section class="color-block"></section>
+
+  <section class="filter-section" id="filters">
+    <div class="filter-stats-box">
+      <h3>Search Statistics</h3>
+      <div class="search-stats">
+        <div class="stat-block">
+          <p>Total Projects</p>
+          <span id="totalCount">0</span>
+        </div>
+        <div class="stat-block">
+          <p>Visible</p>
+          <span id="visibleCount">0</span>
+        </div>
+        <div class="stat-block">
+          <p>Hidden</p>
+          <span id="hiddenCount">0</span>
+        </div>
+      </div>
+
+      <div class="filter-bar">
+        <!-- Special buttons on top -->
+        <button class="filter-btn special-btn" id="showAllBtn">SHOW ALL</button>
+        <button class="filter-btn special-btn" id="clearAllBtn">CLEAR ALL</button>
+      </div>
+
+      <div class="filter-bar">
+        <!-- Regular filters -->
+        <button class="filter-btn" data-filter="UX">UX</button>
+        <button class="filter-btn" data-filter="UI">UI</button>
+        <button class="filter-btn" data-filter="Mobile-App">MOBILE APP</button>
+        <button class="filter-btn" data-filter="Product-Design">PRODUCT DESIGN</button>
+        <button class="filter-btn" data-filter="Accessibility">ACCESSIBILITY</button>
+        <button class="filter-btn" data-filter="Health-Tech">HEALTH CARE</button>
+        <button class="filter-btn" data-filter="Data-Privacy">DATA PRIVACY</button>
+        <button class="filter-btn" data-filter="Immersive-Experience">IMMERSIVE EXPERIENCE</button>
+        <button class="filter-btn" data-filter="Ethical-Design">ETHICAL DESIGN</button>
+        <button class="filter-btn" data-filter="Public-Transport">PUBLIC TRANSPORT</button>
+        <button class="filter-btn" data-filter="Group-Project">GROUP PROJECT</button>
+      </div>
+
     </div>
-
-    <div class="filter-bar">
-      <!-- Regular filters -->
-      <button class="filter-btn" data-filter="mobile-app">MOBILE APP</button>
-      <button class="filter-btn" data-filter="public-transport">PUBLIC TRANSPORT</button>
-      <button class="filter-btn" data-filter="product-design">PRODUCT DESIGN</button>
-      <button class="filter-btn" data-filter="health-tech">HEALTH CARE</button>
-      <button class="filter-btn" data-filter="accessibility">ACCESSIBILITY</button>
-      <button class="filter-btn" data-filter="entertainment">ENTERTAINMENT</button>
-      <button class="filter-btn" data-filter="visual-styles">VISUAL STYLES</button>
-      <button class="filter-btn" data-filter="e-commerce">E-COMMERCE</button>
-      <button class="filter-btn" data-filter="post-purchase-experience">POST-PURCHASE EXPERIENCE</button>
-      <button class="filter-btn" data-filter="immersive-experience">IMMERSIVE EXPERIENCE</button>
-      <button class="filter-btn" data-filter="data-privacy">DATA PRIVACY</button>
-      <button class="filter-btn" data-filter="ethical-design">ETHICAL DESIGN</button>
     </div>
+  </section>
 
-    </div>  
-  </div>
-</section>
+  <section class="projects-section">
+    <div class="projects-grid" id="projectsGrid"></div>
+  </section>
 
-<section class="projects-section">
-  <div class="projects-grid" id="projectsGrid"></div>
-</section>
+  <button id="toTop">↑</button>
 
-<button id="toTop">↑</button>
-
-<script src="projects-data.js"></script>
-<script src="script.js"></script>
+  <script src="projects-data.js"></script>
+  <script src="script.js"></script>
 
 </body>
+
 </html>

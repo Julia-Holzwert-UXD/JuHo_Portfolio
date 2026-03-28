@@ -86,7 +86,6 @@ function loadGooeyParticles() {
   console.log("particles inserted:", container.children.length);
 }
 
-
 function getBasePath() {
   return window.location.pathname.includes("/projectSites/") ? "../" : "";
 }
