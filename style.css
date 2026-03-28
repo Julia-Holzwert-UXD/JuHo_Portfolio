@@ -176,6 +176,51 @@ p{font-size:clamp(16px,1.2vw,22px);line-height:1.8;color:#77639A;margin-bottom:2
 .image-row img {display: block;width: 100%;height: auto;min-height: 320px;max-height: 680px;object-fit: cover;object-position: center;border-radius: 20px;box-shadow: 0 14px 36px rgba(0,0,0,.09);background: #E9EAF1;}
 .image-row.one img {width: 100%;}
 .image-row.two img {width: calc(50% - 10px);min-height: 260px;}
+.image-row video,
+.image-row.one video,
+.image-row.two video {display: block;width: 100%;height: auto;min-height: 320px;max-height: 680px;object-fit: cover;object-position: center;border-radius: 20px;box-shadow: 0 14px 36px rgba(0,0,0,.09);background: #E9EAF1;}
+.image-row.two video {width: calc(50% - 10px);min-height: 260px;}
+
+@media (max-width: 640px) {
+  .image-row video,
+  .image-row.one video,
+  .image-row.two video {width: 100%;min-height: 220px;height: auto;aspect-ratio: 4/3;object-fit: cover;}
+}
+
+/* BEFORE AFTER TABS */
+.compare-tabs {width: 100%;}
+.compare-tabs-controls {display: flex;gap: 10px;margin-bottom: 14px;flex-wrap: wrap;}
+.compare-tab-btn {border: none;background: #E9EAF1;color: #77639A;padding: 10px 16px;border-radius: 999px;font-size: 14px;font-weight: 600;cursor: pointer;transition: background .25s, color .25s, transform .25s;}
+.compare-tab-btn.active {background: #C4A6F7;color: #F5F7FA;}
+.compare-tab-btn:hover {transform: translateY(-1px);}
+.compare-tab-btn:focus-visible {outline: none;box-shadow: 0 0 0 4px rgba(196,166,247,.28);}
+.compare-tabs-panels {width: 100%;}
+.compare-tab-panel {margin: 0;}
+.compare-tab-panel .image-row.one {display: flex;justify-content: center;align-items: center;width: 100%;min-height: 320px;max-height: 680px;overflow: hidden;border-radius: 20px;box-shadow: 0 14px 36px rgba(0,0,0,.09);background: #E9EAF1;}
+.compare-tab-panel .image-row.one img {display: block;width: 100%;height: 100%;min-height: 320px;max-height: 680px;object-fit: contain;object-position: center center;background: #E9EAF1;border-radius: 20px;box-shadow: none;}
+
+@media (max-width: 1000px) {
+.compare-tab-panel .image-row.one {min-height: 280px;max-height: none;}
+.compare-tab-panel .image-row.one img {min-height: 280px;max-height: none;}
+}
+
+@media (max-width: 640px) {
+.compare-tabs-controls {gap: 8px;margin-bottom: 12px;}
+.compare-tab-btn {padding: 8px 14px;font-size: 13px;}
+.compare-tab-panel .image-row.one {min-height: 220px;height: auto;aspect-ratio: 4/3;}
+.compare-tab-panel .image-row.one img {width: 100%;min-height: 220px;height: 100%;object-fit: contain;object-position: center center;}
+}
+
+/* sichtbarer Fokus für Tastatur */
+.compare-range:focus-visible + .compare-handle::before,
+.before-after-slider:focus-within .compare-handle::before{box-shadow:0 0 0 4px rgba(196,166,247,.35),0 10px 28px rgba(0,0,0,.16)}
+
+/* Mobile */
+@media (max-width:640px){
+  .compare-handle::before{width:40px;height:40px;font-size:16px}
+  .before-after-slider::before,.before-after-slider::after{top:10px;padding:6px 10px;font-size:12px}
+  .before-img{min-height:220px}
+}
 
 /* DESKTOP STICKY IMAGE COLUMN */
 @media (min-width: 1001px) {

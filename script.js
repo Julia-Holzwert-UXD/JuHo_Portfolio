@@ -234,14 +234,47 @@ function renderProjectDetail() {
       <p>${s.takeaway || ""}</p>
     `;
   }
-
   if (imagesEl) {
     imagesEl.innerHTML = (project.detail.images || []).map(row => {
-      const imgs = row.items.map(img => {
-        return `<img src="${img.src}" alt="${img.alt}" loading="lazy">`;
+      const media = row.items.map(item => {
+        if (item.type === "video") {
+          return `<video src="${item.src}" controls muted playsinline preload="metadata" style="width:100%;height:auto;"></video>`;
+        }
+
+        if (item.type === "compare") {
+  const compareId = `compare-${Math.random().toString(36).slice(2, 9)}`;
+
+  return `
+    <div class="compare-tabs" data-compare-tabs id="${compareId}">
+      
+      <div class="compare-tabs-controls" role="tablist">
+        <button class="compare-tab-btn active" data-target="after">After</button>
+        <button class="compare-tab-btn" data-target="before">Before</button>
+      </div>
+
+      <div class="compare-tabs-panels">
+
+        <div class="compare-tab-panel active" data-panel="after">
+          <div class="image-row one">
+            <img src="${item.after}" alt="${item.altAfter || ''}">
+          </div>
+        </div>
+
+        <div class="compare-tab-panel" data-panel="before" hidden>
+          <div class="image-row one">
+            <img src="${item.before}" alt="${item.altBefore || ''}">
+          </div>
+        </div>
+
+      </div>
+    </div>
+  `;
+}
+
+        return `<img src="${item.src}" alt="${item.alt || ''}" loading="lazy">`;
       }).join("");
 
-      return `<div class="image-row ${row.layout}">${imgs}</div>`;
+      return `<div class="image-row ${row.layout}">${media}</div>`;
     }).join("");
   }
 }
@@ -442,6 +475,51 @@ function applyFilterFromURL() {
   }
 }
 
+function initCompareTabs() {
+  const tabGroups = document.querySelectorAll("[data-compare-tabs]");
+
+  tabGroups.forEach(group => {
+    const buttons = group.querySelectorAll(".compare-tab-btn");
+    const panels = group.querySelectorAll(".compare-tab-panel");
+
+    function activateTab(target) {
+      buttons.forEach(button => {
+        const isActive = button.dataset.target === target;
+        button.classList.toggle("active", isActive);
+        button.setAttribute("aria-selected", String(isActive));
+      });
+
+      panels.forEach(panel => {
+        const isActive = panel.dataset.panel === target;
+        panel.classList.toggle("active", isActive);
+        panel.hidden = !isActive;
+      });
+    }
+
+    buttons.forEach(button => {
+      button.addEventListener("click", () => {
+        activateTab(button.dataset.target);
+      });
+
+      button.addEventListener("keydown", e => {
+        const buttonsArray = Array.from(buttons);
+        const currentIndex = buttonsArray.indexOf(button);
+
+        if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+          e.preventDefault();
+
+          const direction = e.key === "ArrowRight" ? 1 : -1;
+          const nextIndex = (currentIndex + direction + buttonsArray.length) % buttonsArray.length;
+          const nextButton = buttonsArray[nextIndex];
+
+          nextButton.focus();
+          activateTab(nextButton.dataset.target);
+        }
+      });
+    });
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   loadNavbar();
   setActiveNav();
@@ -458,6 +536,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   renderProjectDetail();
   renderOtherProjects();
+  initCompareTabs();
 
   const burger = document.getElementById("burger");
   const mobileMenuFull = document.getElementById("mobileMenuFull");

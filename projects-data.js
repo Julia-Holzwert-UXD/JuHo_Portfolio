@@ -173,6 +173,7 @@ const projectsData = {
         },
 
         images: [
+
           {
             layout: "two",
             items: [
@@ -211,7 +212,8 @@ const projectsData = {
             layout: "one",
             items: [
               {
-                src: "../pngs/Projects/Bodique/WhatsApp Image 2026-03-28 at 01.20.54.jpeg",
+                type: "video",
+                src: "../pngs/Projects/Bodique/video.mp4",
                 alt: "Bodique interface mockup"
               }
             ]
@@ -306,6 +308,20 @@ const projectsData = {
           takeaway: "This project proves that even constrained, unglamorous interfaces benefit from rigorous design thinking. Institutional tools shape daily life for hundreds of users — and treating them with the same care as consumer products makes a measurable difference."
         },
         images: [
+
+          {
+            layout: "one",
+            items: [
+              {
+                type: "compare",
+                before: "../pngs/Projects/Printer Display Redesign/Senden-Standardeinstellungen.jpg",
+                after: "../pngs/Projects/Printer Display Redesign/Senden-Standardeinstellungen.jpg",
+                altBefore: "INVG before redesign",
+                altAfter: "INVG after redesign"
+              }
+            ]
+          },
+
           {
             layout: "one",
             items: [
@@ -316,15 +332,6 @@ const projectsData = {
             ]
           },
 
-          {
-            layout: "one",
-            items: [
-              {
-                src: "../pngs/Projects/Printer Display Redesign/Senden-Standardeinstellungen.jpg",
-                alt: "Printer Interface overview"
-              }
-            ]
-          },
           {
             layout: "one",
             items: [
@@ -362,15 +369,20 @@ const projectsData = {
           takeaway: "This project is a study in design systems and adaptive thinking. Understanding how visual language shapes user perception — not just appearance — is what separates surface-level styling from considered interface design."
         },
         images: [
+
           {
             layout: "one",
             items: [
               {
-                src: "../pngs/Projects/INVG App Redesign/Frame 2.jpg",
-                alt: "invg1"
+                type: "compare",
+                before: "../pngs/Projects/INVG App Redesign/before.png",
+                after: "../pngs/Projects/INVG App Redesign/Frame 2.jpg",
+                altBefore: "INVG before redesign",
+                altAfter: "INVG after redesign"
               }
             ]
           },
+          
           {
             layout: "two",
             items: [
@@ -422,6 +434,7 @@ const projectsData = {
           takeaway: "MemoWe demonstrates my ability to design for high-stakes, emotionally sensitive contexts where clarity and empathy are not optional. Building a product that genuinely supports vulnerable users — and the people caring for them — is one of the most meaningful challenges a designer can take on"
         },
         images: [
+
           {
             layout: "two",
             items: [
@@ -452,7 +465,18 @@ const projectsData = {
                 alt: "Printer Interface overview"
               }
             ]
+          },
+
+          {
+            layout: "one",
+            items: [
+              {
+                type: "video",
+                src: "../pngs/Projects/MemoWe/MemoWe_Ad_JuHo.mp4",
+              }
+            ]
           }
+
         ]
       }
     },
