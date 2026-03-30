@@ -314,7 +314,7 @@ const projectsData = {
             items: [
               {
                 type: "compare",
-                before: "../pngs/Projects/Printer Display Redesign/Senden-Standardeinstellungen.jpg",
+                before: "../pngs/Projects/Printer Display Redesign/before.jpeg",
                 after: "../pngs/Projects/Printer Display Redesign/Senden-Standardeinstellungen.jpg",
                 altBefore: "INVG before redesign",
                 altAfter: "INVG after redesign"
