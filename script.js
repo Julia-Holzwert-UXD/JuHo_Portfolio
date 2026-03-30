@@ -64,17 +64,39 @@ function loadGooeyParticles() {
   const fragment = document.createDocumentFragment();
 
   const isTablet = window.innerWidth >= 641 && window.innerWidth <= 1100;
-  const particleCount = isTablet ? 0 : 100;
+  const isPhone = window.innerWidth <= 640;
+
+  const particleCount = isTablet ? 18 : 100;
 
   for (let i = 0; i < particleCount; i++) {
     const span = document.createElement("span");
     span.classList.add("particle");
 
-    const size = 3 + Math.random() * 6;
-    const distance = 10 + Math.random() * 15;
-    const position = Math.random() * 100;
-    const time = 3 + Math.random() * 3;
-    const delay = -1 * Math.random() * 10;
+    let size;
+    let distance;
+    let position;
+    let time;
+    let delay;
+
+    if (isTablet) {
+      size = 4.5 + Math.random() * 3.5;
+      distance = 6 + Math.random() * 6;
+      position = Math.random() * 100;
+      time = 8 + Math.random() * 4;
+      delay = -1 * Math.random() * 12;
+    } else if (isPhone) {
+      size = 3 + Math.random() * 4;
+      distance = 8 + Math.random() * 10;
+      position = Math.random() * 100;
+      time = 4 + Math.random() * 3;
+      delay = -1 * Math.random() * 10;
+    } else {
+      size = 3 + Math.random() * 6;
+      distance = 10 + Math.random() * 15;
+      position = Math.random() * 100;
+      time = 3 + Math.random() * 3;
+      delay = -1 * Math.random() * 10;
+    }
 
     span.style.setProperty("--dim", `${size}rem`);
     span.style.setProperty("--uplift", `${distance}rem`);
