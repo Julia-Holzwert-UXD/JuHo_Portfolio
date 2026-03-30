@@ -99,7 +99,7 @@ function loadNavbar() {
       <div class="nav-wrapper">
         <nav class="nav-left">
           <a href="${base}projects.html">Projects</a>
-          <a href="${base}about.html">About</a>
+          <a href="${base}index.html">About</a>
           <a href="${base}CV.html">CV</a>
         </nav>
         <div class="nav-center"></div>
@@ -120,7 +120,7 @@ function loadNavbar() {
       <div class="menu-close" id="menuClose">&times;</div>
       <div class="menu-block menu-top">
         <a href="${base}projects.html">Projects</a>
-        <a href="${base}about.html">About</a>
+        <a href="${base}index.html">About</a>
         <a href="${base}CV.html">CV</a>
       </div>
       <div class="menu-separator"></div>
