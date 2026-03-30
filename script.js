@@ -66,7 +66,7 @@ function loadGooeyParticles() {
   const isTablet = window.innerWidth >= 641 && window.innerWidth <= 1100;
   const isPhone = window.innerWidth <= 640;
 
-  const particleCount = isTablet ? 18 : 100;
+  const particleCount = isTablet ? 12 : 100;
 
   for (let i = 0; i < particleCount; i++) {
     const span = document.createElement("span");
@@ -82,11 +82,11 @@ function loadGooeyParticles() {
       size = 4.5 + Math.random() * 3.5;
       distance = 6 + Math.random() * 6;
       position = Math.random() * 100;
-      time = 8 + Math.random() * 4;
+      time = 10 + Math.random() * 4;
       delay = -1 * Math.random() * 12;
     } else if (isPhone) {
       size = 3 + Math.random() * 4;
-      distance = 8 + Math.random() * 10;
+      distance = 10 + Math.random() * 10;
       position = Math.random() * 100;
       time = 4 + Math.random() * 3;
       delay = -1 * Math.random() * 10;
@@ -123,8 +123,8 @@ function loadNavbar() {
     <header class="navbar">
       <div class="nav-wrapper">
         <nav class="nav-left">
-          <a href="${base}projects.html">Projects</a>
           <a href="${base}index.html">About</a>
+          <a href="${base}projects.html">Projects</a>
           <a href="${base}CV.html">CV</a>
         </nav>
         <div class="nav-center"></div>
@@ -144,8 +144,8 @@ function loadNavbar() {
     <div class="mobile-menu-full" id="mobileMenuFull">
       <div class="menu-close" id="menuClose">&times;</div>
       <div class="menu-block menu-top">
-        <a href="${base}projects.html">Projects</a>
         <a href="${base}index.html">About</a>
+        <a href="${base}projects.html">Projects</a>
         <a href="${base}CV.html">CV</a>
       </div>
       <div class="menu-separator"></div>
