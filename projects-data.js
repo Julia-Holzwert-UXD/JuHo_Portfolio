@@ -244,7 +244,8 @@ const projectsData = {
             "Positive Feedback: Users highlighted ease of use and practical value in daily shopping"
           ],
           takeawayTitle: "Takeaway",
-          takeaway: "In store navigation often creates unnoticed friction until it disrupts the shopping experience. This project shows my ability to design structured, user focused solutions in a team, turning complex requirements into clear, usable experiences that support real behavior."
+          takeaway: "In store navigation often creates unnoticed friction until it disrupts the shopping experience. This project shows my ability to design structured, user focused solutions in a team, turning complex requirements into clear, usable experiences that support real behavior.",
+          link: "../Booklets/Booklet Final Holzwert Julia.pdf"
         },
         images: [
           {
@@ -305,7 +306,8 @@ const projectsData = {
             "Institutional Coherence: The redesign aligned with THI's visual identity while elevating the standard of the interface beyond generic printer UI conventions."
           ],
           takeawayTitle: "Takeaway",
-          takeaway: "This project proves that even constrained, unglamorous interfaces benefit from rigorous design thinking. Institutional tools shape daily life for hundreds of users — and treating them with the same care as consumer products makes a measurable difference."
+          takeaway: "This project proves that even constrained, unglamorous interfaces benefit from rigorous design thinking. Institutional tools shape daily life for hundreds of users — and treating them with the same care as consumer products makes a measurable difference.",
+          link: "../Booklets/Booklet II Final Julia Holzwert.pdf"
         },
         images: [
 
@@ -366,7 +368,8 @@ const projectsData = {
             "Deeper Design Thinking: Redesigning the same product three times revealed how much visual language influences user confidence and perceived reliability — even when the underlying information is identical."
           ],
           takeawayTitle: "Takeaway",
-          takeaway: "This project is a study in design systems and adaptive thinking. Understanding how visual language shapes user perception — not just appearance — is what separates surface-level styling from considered interface design."
+          takeaway: "This project is a study in design systems and adaptive thinking. Understanding how visual language shapes user perception — not just appearance — is what separates surface-level styling from considered interface design.",
+          link: "../Booklets/Booklet Final Holzwert Julia.pdf"
         },
         images: [
 

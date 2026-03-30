@@ -232,6 +232,11 @@ function renderProjectDetail() {
 
       <h3>${s.takeawayTitle || "Takeaway"}</h3>
       <p>${s.takeaway || ""}</p>
+          ${s.link ? `
+      <div class="more-insights">
+        <a href="${s.link}" target="_blank" class="more-insights-btn">More insights</a>
+      </div>
+    ` : ""}
     `;
   }
   if (imagesEl) {
