@@ -74,8 +74,9 @@ p{font-size:clamp(16px,1.2vw,22px);line-height:1.8;color:var(--text-muted);margi
 /* RESPONSIVE */
 @media(max-width:900px){
   .nav-left,.nav-right{display:none}
-  .burger{display:flex}
-  .nav-wrapper{justify-content:flex-end}
+  .burger{display:flex;position:relative;z-index:1600;margin-left:auto}
+  .nav-wrapper{justify-content:space-between;min-height:72px}
+  .navbar{min-height:72px}
   .intro-container,.welcome-container,.services-container{width:90%}
 }
 
@@ -384,8 +385,8 @@ html{scroll-behavior:smooth;}
   .stat-block span{font-size:1.2rem}
 }
 
-/* TABLET / TOUCH, LIGHT FOOTER MOTION */
-@media (max-width:1000px), (hover:none), (pointer:coarse){
+/* IPAD / TABLET FOOTER FIX */
+@media (min-width:641px) and (max-width:1100px){
   .footer-section{
     overflow:hidden;
   }
@@ -402,13 +403,6 @@ html{scroll-behavior:smooth;}
   }
 
   .particle{
-    width:1.6rem !important;
-    height:1.6rem !important;
-    animation:float-up 6s ease-in infinite;
-    opacity:.35;
-  }
-
-  .particle:nth-child(n+16){
     display:none;
   }
 }
