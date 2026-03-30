@@ -63,7 +63,10 @@ function loadGooeyParticles() {
   container.innerHTML = "";
   const fragment = document.createDocumentFragment();
 
-  for (let i = 0; i < 100; i++) {
+  const isTabletOrTouch = window.innerWidth <= 1000 || window.matchMedia("(hover:none), (pointer:coarse)").matches;
+const particleCount = isTabletOrTouch ? 0 : 100;
+
+for (let i = 0; i < particleCount; i++) {
     const span = document.createElement("span");
     span.classList.add("particle");
 

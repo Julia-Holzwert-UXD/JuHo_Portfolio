@@ -384,44 +384,31 @@ html{scroll-behavior:smooth;}
   .stat-block span{font-size:1.2rem}
 }
 
-/* TABLET / TOUCH FIX FOR PROJECT CARDS */
-@media (hover:none), (pointer:coarse){
-  .project-card::before{display:none;}
-  .card-content{opacity:1;background:linear-gradient(to top, rgba(0,0,0,.38), rgba(0,0,0,.08));}
-  .project-item:hover .card-content{opacity:1;}
-  .project-card:hover .card-content{transform:none;}
-  .project-card h3{color:var(--text-light);}
-  .project-link{position:relative;z-index:5;}
-}
+/* TABLET / TOUCH, LIGHT FOOTER MOTION */
+@media (max-width:1000px), (hover:none), (pointer:coarse){
+  .footer-section{
+    overflow:hidden;
+  }
 
-/* TABLET FOOTER FIX */
-@media (max-width:1000px){
-  .footer-section{overflow:hidden;}
   .gooey-animations{
+    top:0;
     left:0;
     width:100%;
-    height:4.5rem;
-    transform:translateY(-96%);
-    filter:url('#liquid-effect');
-  }
-  .particle{
-    width:var(--dim,3.5rem);
-    height:var(--dim,3.5rem);
-  }
-}
-
-/* TOUCH DEVICES, SIMPLER FOOTER EFFECT */
-@media (hover:none), (pointer:coarse){
-  .footer-section{overflow:hidden;}
-  .gooey-animations{
-    left:0;
-    width:100%;
-    height:3.5rem;
+    height:2.5rem;
     transform:translateY(-100%);
     filter:none;
-    opacity:.9;
+    opacity:1;
+    background:var(--accent-strong);
   }
+
   .particle{
-    animation:float-up 4.5s ease-in infinite;
+    width:1.6rem !important;
+    height:1.6rem !important;
+    animation:float-up 6s ease-in infinite;
+    opacity:.35;
+  }
+
+  .particle:nth-child(n+16){
+    display:none;
   }
 }
