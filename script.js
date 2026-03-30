@@ -53,35 +53,40 @@ function loadLiquidEffectSVG() {
   console.log("svg inserted");
 }
 function loadGooeyParticles() {
-  const container = document.getElementById("particle-container");
-  if (!container) return;
+const container = document.getElementById("particle-container");
+if (!container) return;
 
-  container.innerHTML = "";
-  const fragment = document.createDocumentFragment();
+container.innerHTML = "";
+const fragment = document.createDocumentFragment();
 
-  const isTablet = window.innerWidth >= 641 && window.innerWidth <= 1100;
-  const particleCount = isTablet ? 0 : 100;
+let particleCount = 100;
+if (window.innerWidth <= 640) {
+particleCount = 25;
+} else if (window.innerWidth <= 1100) {
+particleCount = 40;
+}
 
-  for (let i = 0; i < particleCount; i++) {
-    const span = document.createElement("span");
-    span.classList.add("particle");
+for (let i = 0; i < particleCount; i++) {
+const span = document.createElement("span");
+span.classList.add("particle");
 
-    const size = 3 + Math.random() * 6;
-    const distance = 10 + Math.random() * 15;
-    const position = Math.random() * 100;
-    const time = 3 + Math.random() * 3;
-    const delay = -1 * Math.random() * 10;
+const size = 3 + Math.random() * 6;
+const distance = 10 + Math.random() * 15;
+const position = Math.random() * 100;
+const time = 3 + Math.random() * 3;
+const delay = -1 * Math.random() * 10;
 
-    span.style.setProperty("--dim", `${size}rem`);
-    span.style.setProperty("--uplift", `${distance}rem`);
-    span.style.setProperty("--pos-x", `${position}%`);
-    span.style.setProperty("--dur", `${time}s`);
-    span.style.setProperty("--delay", `${delay}s`);
+span.style.setProperty("--dim", `${size}rem`);
+span.style.setProperty("--uplift", `${distance}rem`);
+span.style.setProperty("--pos-x", `${position}%`);
+span.style.setProperty("--dur", `${time}s`);
+span.style.setProperty("--delay", `${delay}s`);
 
-    fragment.appendChild(span);
-  }
+fragment.appendChild(span);
 
-  container.appendChild(fragment);
+}
+
+container.appendChild(fragment);
 }
 
 function getBasePath() {
@@ -133,7 +138,12 @@ function loadNavbar() {
   document.body.insertAdjacentHTML("afterbegin", navbarHTML);
 }
 function setActiveNav() {
-  const current = window.location.pathname.split("/").pop() || "projects.html";
+  let current = window.location.pathname.split("/").pop();
+
+  if (!current || current === "/") {
+    current = "index.html";
+  }
+
   const links = document.querySelectorAll(".nav-left a, .menu-top a");
 
   links.forEach(link => {
@@ -287,8 +297,10 @@ function initFilters() {
   if (!projectsGrid) return;
 
   const projectItems = Array.from(projectsGrid.querySelectorAll(".project-item"));
+  const originalOrder = [...projectItems];
+
   const filterBtns = Array.from(document.querySelectorAll(".filter-btn"))
-    .filter(btn => !btn.classList.contains("special-btn"));
+    .filter(btn => btn.dataset.filter);
 
   const clearAllBtn = document.getElementById("clearAllBtn");
   const showAllBtn = document.getElementById("showAllBtn");
@@ -297,8 +309,18 @@ function initFilters() {
   const visibleCountEl = document.getElementById("visibleCount");
   const hiddenCountEl = document.getElementById("hiddenCount");
 
-  let activeFilters = filterBtns.map(btn => btn.dataset.filter);
-  filterBtns.forEach(btn => btn.classList.add("active"));
+  const params = new URLSearchParams(window.location.search);
+  const urlFilter = params.get("filter");
+
+  let activeFilters = urlFilter
+    ? [urlFilter]
+    : filterBtns.map(btn => btn.dataset.filter);
+
+  function updateButtonStates() {
+    filterBtns.forEach(btn => {
+      btn.classList.toggle("active", activeFilters.includes(btn.dataset.filter));
+    });
+  }
 
   function updateStats() {
     const total = projectItems.length;
@@ -310,27 +332,34 @@ function initFilters() {
     if (hiddenCountEl) hiddenCountEl.textContent = hidden;
   }
 
+  function restoreOriginalOrder() {
+    originalOrder.forEach(item => projectsGrid.appendChild(item));
+  }
+
   function applyFilters() {
     projectItems.forEach(item => {
       const categories = item.dataset.category.split("|");
 
-      const matchesActiveFilter =
+      const match =
         activeFilters.length > 0 &&
         activeFilters.some(filter => categories.includes(filter));
 
-      item.classList.toggle("hide", !matchesActiveFilter);
+      item.classList.toggle("hide", !match);
     });
 
+    updateButtonStates();
     updateStats();
   }
 
   filterBtns.forEach(btn => {
     btn.addEventListener("click", () => {
-      btn.classList.toggle("active");
+      const value = btn.dataset.filter;
 
-      activeFilters = filterBtns
-        .filter(b => b.classList.contains("active"))
-        .map(b => b.dataset.filter);
+      if (activeFilters.includes(value)) {
+        activeFilters = activeFilters.filter(filter => filter !== value);
+      } else {
+        activeFilters.push(value);
+      }
 
       applyFilters();
     });
@@ -339,7 +368,7 @@ function initFilters() {
   if (showAllBtn) {
     showAllBtn.addEventListener("click", () => {
       activeFilters = filterBtns.map(btn => btn.dataset.filter);
-      filterBtns.forEach(btn => btn.classList.add("active"));
+      restoreOriginalOrder();
       applyFilters();
     });
   }
@@ -347,12 +376,21 @@ function initFilters() {
   if (clearAllBtn) {
     clearAllBtn.addEventListener("click", () => {
       activeFilters = [];
-      filterBtns.forEach(btn => btn.classList.remove("active"));
       applyFilters();
     });
   }
 
+  restoreOriginalOrder();
   applyFilters();
+
+  if (urlFilter) {
+    const section = document.getElementById("filters");
+    if (section) {
+      setTimeout(() => {
+        section.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+    }
+  }
 }
 
 function shuffleArray(array) {
@@ -431,52 +469,7 @@ function renderOtherProjects() {
   });
 }
 
-function applyFilterFromURL() {
-  const params = new URLSearchParams(window.location.search);
-  const filter = params.get("filter");
 
-  if (!filter) return;
-
-  const buttons = document.querySelectorAll(".filter-btn");
-  const items = document.querySelectorAll(".project-item");
-
-  buttons.forEach(btn => {
-    if (btn.dataset.filter === filter) {
-      btn.classList.add("active");
-    } else {
-      btn.classList.remove("active");
-    }
-  });
-
-  items.forEach(item => {
-    const categories = item.dataset.category || "";
-
-    if (categories.includes(filter)) {
-      item.classList.remove("hide");
-    } else {
-      item.classList.add("hide");
-    }
-  });
-
-  const totalCountEl = document.getElementById("totalCount");
-  const visibleCountEl = document.getElementById("visibleCount");
-  const hiddenCountEl = document.getElementById("hiddenCount");
-
-  const total = items.length;
-  const visible = Array.from(items).filter(item => !item.classList.contains("hide")).length;
-  const hidden = total - visible;
-
-  if (totalCountEl) totalCountEl.textContent = total;
-  if (visibleCountEl) visibleCountEl.textContent = visible;
-  if (hiddenCountEl) hiddenCountEl.textContent = hidden;
-
-  const section = document.getElementById("filters");
-  if (section) {
-    setTimeout(() => {
-      section.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 100);
-  }
-}
 
 function initCompareTabs() {
   const tabGroups = document.querySelectorAll("[data-compare-tabs]");
@@ -534,7 +527,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (projectsLoaded) {
     initFilters();
-    applyFilterFromURL();
+
   }
 
   renderProjectDetail();
