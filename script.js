@@ -103,13 +103,11 @@ function loadNavbar() {
         <nav class="nav-left">
           <a href="${base}index.html">About</a>
           <a href="${base}projects.html">Projects</a>
-          <a href="${base}CV.html">CV</a>
         </nav>
         <div class="nav-center"></div>
         <nav class="nav-right">
           <a href="https://www.linkedin.com/in/julia-holzwert/" target="_blank">LinkedIn</a>
           <a href="https://www.instagram.com" target="_blank">Instagram</a>
-          <a href="https://www.behance.net" target="_blank">Behance</a>
         </nav>
         <div class="burger" id="burger">
           <span></span>
@@ -124,13 +122,11 @@ function loadNavbar() {
       <div class="menu-block menu-top">
         <a href="${base}index.html">About</a>
         <a href="${base}projects.html">Projects</a>
-        <a href="${base}CV.html">CV</a>
       </div>
       <div class="menu-separator"></div>
       <div class="menu-block menu-bottom">
         <a href="https://www.linkedin.com/in/julia-holzwert/" target="_blank">LinkedIn</a>
         <a href="https://www.instagram.com" target="_blank">Instagram</a>
-        <a href="https://www.behance.net" target="_blank">Behance</a>
       </div>
     </div>
   `;
@@ -157,7 +153,6 @@ function setActiveNav() {
     }
   });
 }
-
 function renderProjects() {
   const grid = document.getElementById("projectsGrid");
   if (!grid) return false;
@@ -193,7 +188,6 @@ function renderProjects() {
 
   return true;
 }
-
 function renderProjectDetail() {
   const slug = document.body.dataset.projectSlug;
   if (!slug) return;
@@ -291,7 +285,6 @@ function renderProjectDetail() {
     }).join("");
   }
 }
-
 function initFilters() {
   const projectsGrid = document.getElementById("projectsGrid");
   if (!projectsGrid) return;
@@ -392,7 +385,6 @@ function initFilters() {
     }
   }
 }
-
 function shuffleArray(array) {
   const copy = [...array];
 
@@ -403,7 +395,6 @@ function shuffleArray(array) {
 
   return copy;
 }
-
 function renderOtherProjects() {
   const grid = document.getElementById("otherProjectsGrid");
   if (!grid) return;
@@ -468,9 +459,6 @@ function renderOtherProjects() {
     grid.appendChild(item);
   });
 }
-
-
-
 function initCompareTabs() {
   const tabGroups = document.querySelectorAll("[data-compare-tabs]");
 
@@ -515,7 +503,6 @@ function initCompareTabs() {
     });
   });
 }
-
 document.addEventListener("DOMContentLoaded", () => {
   loadNavbar();
   setActiveNav();
@@ -577,4 +564,3 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 });
-
