@@ -558,7 +558,7 @@ const projectsData = {
       title: "DB Navigator Redesign",
       href: "./projectSites/DBNavigatorRedesign.html",
       categories: ["UI", "Accessibility", "Mobile-App", "Public-Transport"],
-      coverImage: "",
+      coverImage: "./pngs/Projects/DB Navigator Redesign/Cover.png",
 
       detail: {
         meta: "Private Project from 2026",
@@ -576,28 +576,46 @@ const projectsData = {
           takeaway: "Accessibility isn’t “extra”- it’s a legal requirement for most big companies. This project demonstrates my ability to design experiences that meet modern technical and legal standards while keeping users’ needs at the center. "
         },
         images: [
+
           {
             layout: "one",
             items: [
               {
-                src: "../pngs/Projects/Printer Display Redesign/Xerox-Used-Office-Copier-Printer.jpg",
-                alt: "Printer Interface overview"
+                type: "compare",
+                before: "../pngs/Projects/DB Navigator Redesign/Darkmode.png",
+                after: "../pngs/Projects/DB Navigator Redesign/Lightmode.png",
+                altBefore: "INVG before redesign",
+                altAfter: "INVG after redesign"
               }
             ]
           },
+
           {
-            layout: "two",
+            layout: "one",
             items: [
               {
-                src: "../pngs/your-image-2.jpg",
-                alt: "Printer detail 1"
-              },
-              {
-                src: "../pngs/your-image-3.jpg",
-                alt: "Printer detail 2"
+                type: "compare",
+                before: "../pngs/Projects/DB Navigator Redesign/Tickets D.png",
+                after: "../pngs/Projects/DB Navigator Redesign/Tickets L.png",
+                altBefore: "INVG before redesign",
+                altAfter: "INVG after redesign"
               }
             ]
-          }
+          },
+         
+          {
+            layout: "one",
+            items: [
+              {
+                type: "compare",
+                before: "../pngs/Projects/DB Navigator Redesign/Acc Infos(2).png",
+                after: "../pngs/Projects/DB Navigator Redesign/Acc Infos(1).png",
+                altBefore: "INVG before redesign",
+                altAfter: "INVG after redesign"
+              }
+            ]
+          },
+
         ]
       }
     },
