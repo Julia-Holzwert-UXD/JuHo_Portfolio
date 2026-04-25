@@ -248,19 +248,25 @@ function renderProjectDetail() {
           return `<video src="${item.src}" controls muted playsinline preload="metadata" style="width:100%;height:auto;"></video>`;
         }
 
-        if (item.type === "compare") {
-  const compareId = `compare-${Math.random().toString(36).slice(2, 9)}`;
+if (item.type === "compare") {
+  const projectSlug = document.body.dataset.projectSlug || "";
+  const isDBProject = projectSlug.toLowerCase() === "dbnavigatorredesign";
+
+  const beforeLabel = isDBProject ? "Darkmode" : "Before";
+  const afterLabel = isDBProject ? "Lightmode" : "After";
 
   return `
-    <div class="compare-tabs" data-compare-tabs id="${compareId}">
-      
+    <div class="compare-tabs" data-compare-tabs>
       <div class="compare-tabs-controls" role="tablist">
-        <button class="compare-tab-btn active" data-target="after">After</button>
-        <button class="compare-tab-btn" data-target="before">Before</button>
+        <button class="compare-tab-btn active" data-target="after" aria-selected="true">
+          ${afterLabel}
+        </button>
+        <button class="compare-tab-btn" data-target="before" aria-selected="false">
+          ${beforeLabel}
+        </button>
       </div>
 
       <div class="compare-tabs-panels">
-
         <div class="compare-tab-panel active" data-panel="after">
           <div class="image-row one">
             <img src="${item.after}" alt="${item.altAfter || ''}">
@@ -272,7 +278,6 @@ function renderProjectDetail() {
             <img src="${item.before}" alt="${item.altBefore || ''}">
           </div>
         </div>
-
       </div>
     </div>
   `;
