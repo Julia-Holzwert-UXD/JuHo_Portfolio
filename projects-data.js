@@ -6,7 +6,7 @@ const projectsData = {
       title: "HeadsUp",
       href: "./projectSites/headsUp.html",
       categories: ["UX", "Immersive-Experience", "Group-Project", "Accessibility", "Ethical-Design"],
-      coverImage: "./pngs/Projects/HeadsUp/Greeting.jpg",
+      coverImage: "./pngs/Projects/HeadsUp/Logo.png",
 
       detail: {
         meta: "Group Project from 2024 for 4 ",
@@ -84,7 +84,7 @@ const projectsData = {
       title: "CampusTalk",
       href: "./projectSites/campusTalk.html",
       categories: ["UX", "Group-Project", "Ethical-Design"],
-      coverImage: "./pngs/Projects/CampusTalk/cover.jpeg",
+      coverImage: "./pngs/Projects/CampusTalk/Logo.png",
 
       detail: {
         meta: "Group Project from 2025 for 4 Months",
@@ -149,7 +149,7 @@ const projectsData = {
       title: "Bodique",
       href: "./projectSites/bodique.html",
       categories: ["UX", "Product-Design", "Data-Privacy", "Group-Project"],
-      coverImage: "./pngs/Projects/Bodique/WhatsApp Image 2026-03-27 at 23.19.42.jpeg",
+      coverImage: "./pngs/Projects/Bodique/Logo.png",
 
       detail: {
         meta: "Group Project from Winter Semester 2025/2026 for 4 months",
@@ -228,8 +228,8 @@ const projectsData = {
       slug: "storeGuide",
       title: "Store Guide",
       href: "./projectSites/storeGuide.html",
-      categories: ["UX", "Mobile-App", "Product-Design", "Group-Project"],
-      coverImage: "./pngs/Projects/Store Guide/Ladescreen-portrait.png",
+      categories: ["UX", "Mobile-App", "Group-Project"],
+      coverImage: "./pngs/Projects/Store Guide/cover.png",
 
       detail: {
         meta: "Group Project from 2023/24 for 4 Months",
@@ -292,7 +292,7 @@ const projectsData = {
       title: "Printer Interface Redesign",
       href: "./projectSites/printerInterface.html",
       categories: ["UI"],
-      coverImage: "./pngs/Projects/Printer Display Redesign/office-printers-and-mfps-data.jpg",
+      coverImage: "./pngs/Projects/Printer Display Redesign/logo.png",
 
       detail: {
         meta: "Private Project from 2024",
@@ -353,7 +353,7 @@ const projectsData = {
       title: "INVG App Redesign",
       href: "./projectSites/invg.html",
       categories: ["UI", "Mobile-App", "Public-Transport"],
-      coverImage: "./pngs/Projects/INVG App Redesign/Frame 1 (1)-portrait.png",
+      coverImage: "./pngs/Projects/INVG App Redesign/Logo.png",
 
       detail: {
         meta: "Private Project from 2026 for 2 Weeks",
@@ -419,7 +419,7 @@ const projectsData = {
       title: "MemoWe",
       href: "./projectSites/memowe.html",
       categories: ["UX", "Health-Tech", "Accessibility"],
-      coverImage: "./pngs/Projects/MemoWe/Memowe_laptop-removebg-preview.png",
+      coverImage: "./pngs/Projects/MemoWe/Logo.png",
 
       detail: {
         meta: "Private Project from 2024 for 6 Months",
@@ -490,7 +490,7 @@ const projectsData = {
       title: "PikBre 3D - Remote Control",
       href: "./projectSites/pikBre3D-RemoteControl.html",
       categories: ["UX", "Product-Design", "Group-Project"],
-      coverImage: "./pngs/Projects/PikBre 3D - Remote Control/cover.png",
+      coverImage: "./pngs/Projects/PikBre 3D - Remote Control/logo.png",
 
       detail: {
         meta: "Group Project from 2026 for 5 Weeks",
@@ -558,7 +558,7 @@ const projectsData = {
       title: "DB Navigator Redesign",
       href: "./projectSites/DBNavigatorRedesign.html",
       categories: ["UI", "Accessibility", "Mobile-App", "Public-Transport"],
-      coverImage: "./pngs/Projects/DB Navigator Redesign/Cover.png",
+      coverImage: "./pngs/Projects/DB Navigator Redesign/Logo.png",
 
       detail: {
         meta: "Private Project from 2026",
@@ -626,7 +626,7 @@ const projectsData = {
       title: "Après",
       href: "./projectSites/Après.html",
       categories: ["UX", "Immersive-Experience"],
-      coverImage: "",
+      coverImage: "./pngs/Projects/Aprés/Frame 59.png",
 
       detail: {
         meta: "Private Project from 2026",
@@ -648,7 +648,7 @@ const projectsData = {
             layout: "one",
             items: [
               {
-                src: "../pngs/Projects/Printer Display Redesign/Xerox-Used-Office-Copier-Printer.jpg",
+                src: "../pngs/Projects/Aprés/Post-Purchase Landing.png",
                 alt: "Printer Interface overview"
               }
             ]
@@ -657,11 +657,33 @@ const projectsData = {
             layout: "two",
             items: [
               {
-                src: "../pngs/your-image-2.jpg",
+                src: "../pngs/Projects/Aprés/3D Shipment Tracker.png",
                 alt: "Printer detail 1"
               },
               {
-                src: "../pngs/your-image-3.jpg",
+                src: "../pngs/Projects/Aprés/My Package Missing_ Flow.png",
+                alt: "Printer detail 2"
+              }
+            ]
+          },
+          {
+            layout: "one",
+            items: [
+              {
+                src: "../pngs/Projects/Aprés/Proaktiver Alert (Zollverzögerung).png",
+                alt: "Printer Interface overview"
+              }
+            ]
+          },
+          {
+            layout: "two",
+            items: [
+              {
+                src: "../pngs/Projects/Aprés/Return Concierge.png",
+                alt: "Printer detail 1"
+              },
+              {
+                src: "../pngs/Projects/Aprés/After-Care & Loyalität.png",
                 alt: "Printer detail 2"
               }
             ]
@@ -726,7 +748,7 @@ const projectsData = {
       title: "HealthyStart",
       href: "./projectSites/healthyStart.html",
       categories: ["UX", "Health-Tech", "Data-Privacy", "Mobile-App"],
-      coverImage: "",
+      coverImage: "./pngs/Projects/HealthyStart/Logo.png",
 
       detail: {
         meta: "Private Project from 2024",
@@ -744,11 +766,15 @@ const projectsData = {
         },
         images: [
           {
-            layout: "one",
+            layout: "two",
             items: [
               {
-                src: "../pngs/Projects/Printer Display Redesign/Xerox-Used-Office-Copier-Printer.jpg",
-                alt: "Printer Interface overview"
+                src: "../pngs/Projects/HealthyStart/Welcome & First Impression.png",
+                alt: "HeadsUp flow chart"
+              },
+              {
+                src: "../pngs/Projects/HealthyStart/Permission Grouping.png",
+                alt: "HeadsUp personas"
               }
             ]
           },
@@ -756,12 +782,25 @@ const projectsData = {
             layout: "two",
             items: [
               {
-                src: "../pngs/your-image-2.jpg",
-                alt: "Printer detail 1"
+                src: "../pngs/Projects/HealthyStart/Security Explanation.png",
+                alt: "HeadsUp flow chart"
               },
               {
-                src: "../pngs/your-image-3.jpg",
-                alt: "Printer detail 2"
+                src: "../pngs/Projects/HealthyStart/Interactive Privacy Preview.png",
+                alt: "HeadsUp personas"
+              }
+            ]
+          },
+          {
+            layout: "two",
+            items: [
+              {
+                src: "../pngs/Projects/HealthyStart/Microcopy & Lokalisierung.png",
+                alt: "HeadsUp flow chart"
+              },
+              {
+                src: "../pngs/Projects/HealthyStart/Onboarding Completion.png",
+                alt: "HeadsUp personas"
               }
             ]
           }
