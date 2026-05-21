@@ -1,3 +1,4 @@
+card.style.transition = "transform 0.05s linear";
 const MOTION = {
   wordStagger: 0.04,
   listStagger: 0.06,
@@ -79,19 +80,6 @@ function initMotionSystem() {
 
   document.querySelectorAll("li").forEach(animateListItem);
 }
-
-function initHoverEffects() {
-  document.querySelectorAll(".project-card").forEach(card => {
-    card.addEventListener("mouseenter", () => {
-      card.style.transform = "translateY(-4px) scale(1.02)";
-    });
-
-    card.addEventListener("mouseleave", () => {
-      card.style.transform = "translateY(0) scale(1)";
-    });
-  });
-}
-
 function initProjectPopIn() {
   document.querySelectorAll(".project-item").forEach((el, i) => {
     el.style.opacity = 0;
@@ -104,9 +92,56 @@ function initProjectPopIn() {
     }, i * 80);
   });
 }
+function initTiltCards() {
+  const cards = document.querySelectorAll(".project-card");
 
+  cards.forEach(card => {
+    const maxRotate = 12;
+    const scaleOnHover = 1.06;
+
+    let rect = null;
+
+    function onEnter() {
+      rect = card.getBoundingClientRect();
+      card.style.willChange = "transform";
+    }
+
+    function onMove(e) {
+      if (!rect) return;
+
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      const rotateY = ((x - centerX) / centerX) * maxRotate;
+      const rotateX = ((y - centerY) / centerY) * -maxRotate;
+
+      card.style.setProperty("--x", `${(x / rect.width) * 100}%`);
+      card.style.setProperty("--y", `${(y / rect.height) * 100}%`);
+
+      card.style.transform = `
+        perspective(900px)
+        rotateX(${rotateX}deg)
+        rotateY(${rotateY}deg)
+        scale(${scaleOnHover})
+      `;
+    }
+
+    function onLeave() {
+      rect = null;
+      card.style.transition = "transform 0.35s ease";
+      card.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)";
+    }
+
+    card.addEventListener("mouseenter", onEnter);
+    card.addEventListener("mousemove", onMove);
+    card.addEventListener("mouseleave", onLeave);
+  });
+}
 document.addEventListener("DOMContentLoaded", () => {
   initMotionSystem();
-  initHoverEffects();
   initProjectPopIn();
+  initTiltCards();
 });
