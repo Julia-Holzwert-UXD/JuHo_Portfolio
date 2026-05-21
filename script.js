@@ -88,7 +88,6 @@ fragment.appendChild(span);
 
 container.appendChild(fragment);
 }
-
 function getBasePath() {
   return window.location.pathname.includes("/projectSites/") ? "../" : "";
 }
@@ -103,6 +102,7 @@ function loadNavbar() {
         <nav class="nav-left">
           <a href="${base}index.html">About</a>
           <a href="${base}projects.html">Projects</a>
+          <a href="${base}index.html" class="nav-center-name">Julia Holzwert</a>
         </nav>
         <div class="nav-center"></div>
         <nav class="nav-right">
@@ -300,7 +300,6 @@ function initFilters() {
   const filterBtns = Array.from(document.querySelectorAll(".filter-btn"))
     .filter(btn => btn.dataset.filter);
 
-  const clearAllBtn = document.getElementById("clearAllBtn");
   const showAllBtn = document.getElementById("showAllBtn");
 
   const totalCountEl = document.getElementById("totalCount");
@@ -310,14 +309,16 @@ function initFilters() {
   const params = new URLSearchParams(window.location.search);
   const urlFilter = params.get("filter");
 
-  let activeFilters = urlFilter
-    ? [urlFilter]
-    : filterBtns.map(btn => btn.dataset.filter);
+  let activeFilter = urlFilter || null;
 
   function updateButtonStates() {
     filterBtns.forEach(btn => {
-      btn.classList.toggle("active", activeFilters.includes(btn.dataset.filter));
+      btn.classList.toggle("active", btn.dataset.filter === activeFilter);
     });
+
+    if (showAllBtn) {
+      showAllBtn.classList.toggle("active", activeFilter === null);
+    }
   }
 
   function updateStats() {
@@ -339,8 +340,8 @@ function initFilters() {
       const categories = item.dataset.category.split("|");
 
       const match =
-        activeFilters.length > 0 &&
-        activeFilters.some(filter => categories.includes(filter));
+        activeFilter === null ||
+        categories.includes(activeFilter);
 
       item.classList.toggle("hide", !match);
     });
@@ -351,29 +352,15 @@ function initFilters() {
 
   filterBtns.forEach(btn => {
     btn.addEventListener("click", () => {
-      const value = btn.dataset.filter;
-
-      if (activeFilters.includes(value)) {
-        activeFilters = activeFilters.filter(filter => filter !== value);
-      } else {
-        activeFilters.push(value);
-      }
-
+      activeFilter = btn.dataset.filter;
       applyFilters();
     });
   });
 
   if (showAllBtn) {
     showAllBtn.addEventListener("click", () => {
-      activeFilters = filterBtns.map(btn => btn.dataset.filter);
+      activeFilter = null;
       restoreOriginalOrder();
-      applyFilters();
-    });
-  }
-
-  if (clearAllBtn) {
-    clearAllBtn.addEventListener("click", () => {
-      activeFilters = [];
       applyFilters();
     });
   }
@@ -508,13 +495,90 @@ function initCompareTabs() {
     });
   });
 }
+function splitToWords(el) {
+  const text = el.textContent.trim();
+  const lines = text.split("\n").filter(Boolean);
+
+  el.innerHTML = lines.map(line => {
+    const words = line.trim().split(" ");
+    return `<span class="scroll-line">
+      ${words.map(w => `<span class="scroll-word">${w}</span>`).join(" ")}
+    </span>`;
+  }).join("");
+}
+function initScrollReveal() {
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const elements = document.querySelectorAll(".scroll-reveal-text");
+
+  elements.forEach(el => {
+
+    // LIST HANDLING
+    if (el.classList.contains("scroll-reveal-list-item")) {
+      gsap.fromTo(el,
+        {
+          opacity: 0,
+          filter: "blur(10px)",
+          y: 30
+        },
+        {
+          opacity: 1,
+          filter: "blur(0px)",
+          y: 0,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 90%",
+            end: "bottom 70%",
+            scrub: 1
+          }
+        }
+      );
+      return;
+    }
+
+    const text = el.textContent.trim();
+    const words = text.split(" ");
+
+    el.innerHTML = words
+      .map(word => `<span class="word">${word}</span>`)
+      .join(" ");
+
+    const wordElements = el.querySelectorAll(".word");
+
+    gsap.to(wordElements, {
+      opacity: 1,
+      filter: "blur(0px)",
+      y: 0,
+      rotate: 0,
+      scale: 1,
+
+      stagger: 0.04,
+
+      ease: "power2.out",
+
+      scrollTrigger: {
+        trigger: el,
+        start: "top 85%",
+        end: "bottom 60%",
+        scrub: 1
+      }
+    });
+
+  });
+
+}
 document.addEventListener("DOMContentLoaded", () => {
   loadNavbar();
   setActiveNav();
   loadFooter();
   loadLiquidEffectSVG();
   loadGooeyParticles();
-
+  window.addEventListener("load", () => {
+initScrollReveal();
+ScrollTrigger.refresh();
+});
   const projectsLoaded = renderProjects();
 
   if (projectsLoaded) {
@@ -569,3 +633,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 });
+

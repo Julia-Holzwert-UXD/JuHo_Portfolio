@@ -5,7 +5,7 @@ const projectsData = {
       slug: "headsUp",
       title: "HeadsUp",
       href: "./projectSites/headsUp.html",
-      categories: ["UX", "Immersive-Experience", "Group-Project", "Accessibility", "Ethical-Design"],
+      categories: ["Immersive-Experience", "Group-Project", "Accessibility", "Ethical-Design"],
       coverImage: "./pngs/Projects/HeadsUp/Logo.png",
 
       detail: {
@@ -83,7 +83,7 @@ const projectsData = {
       slug: "campusTalk",
       title: "CampusTalk",
       href: "./projectSites/campusTalk.html",
-      categories: ["UX", "Group-Project", "Ethical-Design"],
+      categories: ["Group-Project", "Ethical-Design"],
       coverImage: "./pngs/Projects/CampusTalk/Logo.png",
 
       detail: {
@@ -148,7 +148,7 @@ const projectsData = {
       slug: "bodique",
       title: "Bodique",
       href: "./projectSites/bodique.html",
-      categories: ["UX", "Product-Design", "Data-Privacy", "Group-Project"],
+      categories: ["Product-Design", "Data-Privacy", "Group-Project"],
       coverImage: "./pngs/Projects/Bodique/Logo.png",
 
       detail: {
@@ -228,7 +228,7 @@ const projectsData = {
       slug: "storeGuide",
       title: "Store Guide",
       href: "./projectSites/storeGuide.html",
-      categories: ["UX", "Mobile-App", "Group-Project"],
+      categories: ["Mobile-App", "Group-Project"],
       coverImage: "./pngs/Projects/Store Guide/cover.png",
 
       detail: {
@@ -291,7 +291,7 @@ const projectsData = {
       slug: "printerInterface",
       title: "Printer Interface Redesign",
       href: "./projectSites/printerInterface.html",
-      categories: ["UI"],
+      categories: ["Redesign"],
       coverImage: "./pngs/Projects/Printer Display Redesign/logo.png",
 
       detail: {
@@ -352,7 +352,7 @@ const projectsData = {
       slug: "invg",
       title: "INVG App Redesign",
       href: "./projectSites/invg.html",
-      categories: ["UI", "Mobile-App", "Public-Transport"],
+      categories: ["Mobile-App", "Public-Transport", "Redesign"],
       coverImage: "./pngs/Projects/INVG App Redesign/Logo.png",
 
       detail: {
@@ -418,7 +418,7 @@ const projectsData = {
       slug: "memowe",
       title: "MemoWe",
       href: "./projectSites/memowe.html",
-      categories: ["UX", "Health-Tech", "Accessibility"],
+      categories: ["Health-Tech", "Accessibility"],
       coverImage: "./pngs/Projects/MemoWe/Logo.png",
 
       detail: {
@@ -489,7 +489,7 @@ const projectsData = {
       slug: "pikBre3D-RemoteControl",
       title: "PikBre 3D - Remote Control",
       href: "./projectSites/pikBre3D-RemoteControl.html",
-      categories: ["UX", "Product-Design", "Group-Project"],
+      categories: ["Product-Design", "Group-Project"],
       coverImage: "./pngs/Projects/PikBre 3D - Remote Control/logo.png",
 
       detail: {
@@ -557,7 +557,7 @@ const projectsData = {
       slug: "DBNavigatorRedesign",
       title: "DB Navigator Redesign",
       href: "./projectSites/DBNavigatorRedesign.html",
-      categories: ["UI", "Accessibility", "Mobile-App", "Public-Transport"],
+      categories: ["Accessibility", "Mobile-App", "Public-Transport", "Redesign"],
       coverImage: "./pngs/Projects/DB Navigator Redesign/Logo.png",
 
       detail: {
@@ -625,7 +625,7 @@ const projectsData = {
       slug: "Après",
       title: "Après",
       href: "./projectSites/Après.html",
-      categories: ["UX", "Immersive-Experience"],
+      categories: ["Immersive-Experience"],
       coverImage: "./pngs/Projects/Aprés/Frame 59.png",
 
       detail: {
@@ -697,7 +697,7 @@ const projectsData = {
       slug: "spatialTo-Do",
       title: "Spatial To-Do",
       href: "./projectSites/spatialTo-Do.html",
-      categories: ["UI", "Immersive-Experience"],
+      categories: ["Immersive-Experience"],
       coverImage: "",
 
       detail: {
@@ -747,7 +747,7 @@ const projectsData = {
       slug: "healthyStart",
       title: "HealthyStart",
       href: "./projectSites/healthyStart.html",
-      categories: ["UX", "Health-Tech", "Data-Privacy", "Mobile-App"],
+      categories: ["Health-Tech", "Data-Privacy", "Mobile-App"],
       coverImage: "./pngs/Projects/HealthyStart/Logo.png",
 
       detail: {
@@ -813,7 +813,7 @@ const projectsData = {
       slug: "fairFlow",
       title: "FairFlow",
       href: "./projectSites/fairFlow.html",
-      categories: ["UI", "Ethical-Design", "Data-Privacy", "Mobile-App"],
+      categories: ["Ethical-Design", "Data-Privacy", "Mobile-App"],
       coverImage: "",
 
       detail: {
