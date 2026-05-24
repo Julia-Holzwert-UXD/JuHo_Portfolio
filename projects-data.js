@@ -9,7 +9,7 @@ const projectsData = {
       coverImage: "./pngs/Projects/HeadsUp/Logo.png",
 
       detail: {
-        meta: "Group Project from 2024 for 4 ",
+        meta: "Group Project from 2024 for 4 Months",
 
         sections: {
           summary: "HeadsUp is an adaptive automotive heads up display concept that combines navigation, communication, and safety relevant information in one interface. The project focused on reducing distraction while driving by presenting context sensitive information directly in the driver’s field of view. The concept was designed to support common and critical driving situations without overwhelming the user.",

@@ -53,40 +53,40 @@ function loadLiquidEffectSVG() {
   console.log("svg inserted");
 }
 function loadGooeyParticles() {
-const container = document.getElementById("particle-container");
-if (!container) return;
+  const container = document.getElementById("particle-container");
+  if (!container) return;
 
-container.innerHTML = "";
-const fragment = document.createDocumentFragment();
+  container.innerHTML = "";
+  const fragment = document.createDocumentFragment();
 
-let particleCount = 100;
-if (window.innerWidth <= 640) {
-particleCount = 25;
-} else if (window.innerWidth <= 1100) {
-particleCount = 40;
-}
+  let particleCount = 100;
+  if (window.innerWidth <= 640) {
+    particleCount = 25;
+  } else if (window.innerWidth <= 1100) {
+    particleCount = 40;
+  }
 
-for (let i = 0; i < particleCount; i++) {
-const span = document.createElement("span");
-span.classList.add("particle");
+  for (let i = 0; i < particleCount; i++) {
+    const span = document.createElement("span");
+    span.classList.add("particle");
 
-const size = 3 + Math.random() * 6;
-const distance = 10 + Math.random() * 15;
-const position = Math.random() * 100;
-const time = 3 + Math.random() * 3;
-const delay = -1 * Math.random() * 10;
+    const size = 3 + Math.random() * 6;
+    const distance = 10 + Math.random() * 15;
+    const position = Math.random() * 100;
+    const time = 3 + Math.random() * 3;
+    const delay = -1 * Math.random() * 10;
 
-span.style.setProperty("--dim", `${size}rem`);
-span.style.setProperty("--uplift", `${distance}rem`);
-span.style.setProperty("--pos-x", `${position}%`);
-span.style.setProperty("--dur", `${time}s`);
-span.style.setProperty("--delay", `${delay}s`);
+    span.style.setProperty("--dim", `${size}rem`);
+    span.style.setProperty("--uplift", `${distance}rem`);
+    span.style.setProperty("--pos-x", `${position}%`);
+    span.style.setProperty("--dur", `${time}s`);
+    span.style.setProperty("--delay", `${delay}s`);
 
-fragment.appendChild(span);
+    fragment.appendChild(span);
 
-}
+  }
 
-container.appendChild(fragment);
+  container.appendChild(fragment);
 }
 function getBasePath() {
   return window.location.pathname.includes("/projectSites/") ? "../" : "";
@@ -97,39 +97,53 @@ function loadNavbar() {
   const base = getBasePath();
 
   const navbarHTML = `
-    <header class="navbar">
-      <div class="nav-wrapper">
-        <nav class="nav-left">
-          <a href="${base}index.html">About</a>
-          <a href="${base}projects.html">Projects</a>
-          <a href="${base}index.html" class="nav-center-name">Julia Holzwert</a>
-        </nav>
-        <div class="nav-center"></div>
-        <nav class="nav-right">
-          <a href="https://www.linkedin.com/in/julia-holzwert/" target="_blank">LinkedIn</a>
-          <a href="https://www.instagram.com" target="_blank">Instagram</a>
-        </nav>
-        <div class="burger" id="burger">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </div>
-    </header>
+  <header class="navbar">
+    <div class="nav-wrapper">
 
-    <div class="mobile-menu-full" id="mobileMenuFull">
-      <div class="menu-close" id="menuClose">&times;</div>
-      <div class="menu-block menu-top">
-        <a href="${base}index.html">About</a>
+      <nav class="nav-left">
+        <a href="${base}index.html">About Me</a>
         <a href="${base}projects.html">Projects</a>
-      </div>
-      <div class="menu-separator"></div>
-      <div class="menu-block menu-bottom">
+      </nav>
+
+      <div class="nav-center"></div>
+
+      <nav class="nav-right">
         <a href="https://www.linkedin.com/in/julia-holzwert/" target="_blank">LinkedIn</a>
         <a href="https://www.instagram.com" target="_blank">Instagram</a>
+
+        <div class="theme-toggle"> <input type="checkbox" id="darkmode-toggle"/> <label for="darkmode-toggle" class="toggle-label">
+        <!-- SUN (new SVG) -->
+          <svg class="sun" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <g>
+              <circle cx="32.003" cy="32.005" r="16.001"/>
+              <path d="M12.001 31.997c0-2.211-1.789-4-4-4H4c-2.211 0-4 1.789-4 4s1.789 4 4 4h4c2.212 0 4-1.789 4-4z"/>
+              <path d="M12.204 46.139l-2.832 2.833c-1.563 1.562-1.563 4.094 0 5.656 1.562 1.562 4.094 1.562 5.657 0l2.833-2.832c1.562-1.562 1.562-4.095 0-5.657-1.563-1.563-4.094-1.563-5.657 0z"/>
+              <path d="M32.003 51.999c-2.211 0-4 1.789-4 4V60c0 2.211 1.789 4 4 4s4-1.789 4-4v-4.001c0-2.211-1.793-4-4-4z"/>
+              <path d="M51.798 46.143c-1.559-1.566-4.091-1.566-5.653-.004s-1.562 4.095 0 5.657l2.829 2.828c1.562 1.57 4.094 1.562 5.656 0s1.566-4.09 0-5.656l-2.832-2.825z"/>
+              <path d="M60.006 27.997l-4.009.008c-2.203-.008-3.992 1.781-3.992 3.992-.008 2.211 1.789 4 3.992 4h4.001c2.219.008 4-1.789 4-4 0-2.208-1.785-4.001-3.992-4z"/>
+              <path d="M51.798 17.859l2.828-2.829c1.574-1.566 1.562-4.094 0-5.657-1.559-1.567-4.09-1.567-5.652-.004l-2.829 2.836c-1.562 1.555-1.562 4.086 0 5.649 1.554 1.572 4.094 1.564 5.653.005z"/>
+              <path d="M32.003 11.995c2.207.016 4-1.789 4-3.992v-4c0-2.219-1.789-4-4-4-2.211-.008-4 1.781-4 3.993l.008 4.008c-.008 2.204 1.781 3.993 3.992 3.993z"/>
+              <path d="M12.212 17.855c1.555 1.562 4.079 1.562 5.646-.004 1.574-1.551 1.566-4.09.008-5.649l-2.829-2.828c-1.57-1.571-4.094-1.559-5.657 0-1.575 1.559-1.575 4.09-.012 5.653l2.844 2.828z"/>
+            </g>
+          </svg>
+
+        <!-- MOON (your existing) -->
+          <svg class="moon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 11.5373 21.3065 11.4608 21.0672 11.8568C19.9289 13.7406 17.8615 15 15.5 15C11.9101 15 9 12.0899 9 8.5C9 6.13845 10.2594 4.07105 12.1432 2.93276C12.5392 2.69347 12.4627 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"/>
+          </svg>
+        </label> 
+        </div>
+      </nav>
+
+      <div class="burger" id="burger">
+        <span></span>
+        <span></span>
+        <span></span>
       </div>
+
     </div>
-  `;
+  </header>
+`;
 
   document.body.insertAdjacentHTML("afterbegin", navbarHTML);
 }
@@ -248,14 +262,14 @@ function renderProjectDetail() {
           return `<video src="${item.src}" controls muted playsinline preload="metadata" style="width:100%;height:auto;"></video>`;
         }
 
-if (item.type === "compare") {
-  const projectSlug = document.body.dataset.projectSlug || "";
-  const isDBProject = projectSlug.toLowerCase() === "dbnavigatorredesign";
+        if (item.type === "compare") {
+          const projectSlug = document.body.dataset.projectSlug || "";
+          const isDBProject = projectSlug.toLowerCase() === "dbnavigatorredesign";
 
-  const beforeLabel = isDBProject ? "Darkmode" : "Before";
-  const afterLabel = isDBProject ? "Lightmode" : "After";
+          const beforeLabel = isDBProject ? "Darkmode" : "Before";
+          const afterLabel = isDBProject ? "Lightmode" : "After";
 
-  return `
+          return `
     <div class="compare-tabs" data-compare-tabs>
       <div class="compare-tabs-controls" role="tablist">
         <button class="compare-tab-btn active" data-target="after" aria-selected="true">
@@ -281,7 +295,7 @@ if (item.type === "compare") {
       </div>
     </div>
   `;
-}
+        }
 
         return `<img src="${item.src}" alt="${item.alt || ''}" loading="lazy">`;
       }).join("");
@@ -576,9 +590,9 @@ document.addEventListener("DOMContentLoaded", () => {
   loadLiquidEffectSVG();
   loadGooeyParticles();
   window.addEventListener("load", () => {
-initScrollReveal();
-ScrollTrigger.refresh();
-});
+    initScrollReveal();
+    ScrollTrigger.refresh();
+  });
   const projectsLoaded = renderProjects();
 
   if (projectsLoaded) {
@@ -600,7 +614,31 @@ ScrollTrigger.refresh();
   const colorBlock = document.querySelector(".color-block");
   const introH2 = introBlock ? introBlock.querySelector("h2") : null;
   const introP = introBlock ? introBlock.querySelector("p") : null;
+  const darkmodeToggle = document.getElementById("darkmode-toggle");
 
+  if (darkmodeToggle) {
+
+    const savedTheme = localStorage.getItem("theme");
+
+    if (savedTheme === "dark") {
+      document.body.classList.add("darkmode");
+      darkmodeToggle.checked = true;
+    }
+
+    darkmodeToggle.addEventListener("change", () => {
+
+      document.body.classList.toggle("darkmode");
+
+      const isDark = document.body.classList.contains("darkmode");
+
+      localStorage.setItem(
+        "theme",
+        isDark ? "dark" : "light"
+      );
+
+    });
+
+  }
   if (burger && mobileMenuFull && menuClose) {
     burger.addEventListener("click", () => mobileMenuFull.classList.add("open"));
     menuClose.addEventListener("click", () => mobileMenuFull.classList.remove("open"));
