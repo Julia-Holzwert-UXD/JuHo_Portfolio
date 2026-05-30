@@ -1,4 +1,3 @@
-
 function loadFooter() {
   console.log("loadFooter started");
 
