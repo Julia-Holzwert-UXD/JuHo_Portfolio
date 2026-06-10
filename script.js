@@ -171,7 +171,12 @@ function renderProjects() {
   if (!grid) return false;
 
   const base = getBasePath();
-  const data = projectsData;
+  if (typeof projectsData === "undefined" || !projectsData.projects) {
+  console.warn("projectsData is not loaded");
+  return false;
+}
+
+const data = projectsData;
 
   grid.innerHTML = "";
 
@@ -202,10 +207,15 @@ function renderProjects() {
   return true;
 }
 function renderProjectDetail() {
-  const slug = document.body.dataset.projectSlug;
-  if (!slug) return;
+const slug = document.body.dataset.projectSlug;
+if (!slug) return;
 
-  const project = projectsData.projects.find(p => p.slug === slug);
+if (typeof projectsData === "undefined" || !projectsData.projects) {
+  console.warn("projectsData is not loaded");
+  return;
+}
+
+const project = projectsData.projects.find(p => p.slug === slug);
   if (!project || !project.detail) return;
 
   document.body.dataset.currentProject = project.title;
@@ -406,6 +416,11 @@ function renderOtherProjects() {
 
   const currentSlug = document.body.dataset.projectSlug;
   if (!currentSlug) return;
+
+  if (typeof projectsData === "undefined" || !projectsData.projects) {
+  console.warn("projectsData is not loaded");
+  return;
+}
 
   const currentProject = projectsData.projects.find(project => project.slug === currentSlug);
   if (!currentProject) return;
@@ -866,30 +881,181 @@ function initScrollToTop() {
   });
 }
 
+function initStampImages() {
+  gsap.registerPlugin(ScrollTrigger)
+
+  const section = document.querySelector("#transformativeCreativity")
+  if (!section) return
+
+  const frame = section.querySelector(".dc-content-frame")
+  const layers = gsap.utils.toArray(section.querySelectorAll(".dc-image-layer"))
+  const images = layers.map(layer => layer.querySelector("img"))
+
+  if (!frame || layers.length < 2) return
+
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+
+  ScrollTrigger.getAll().forEach(trigger => {
+    if (
+      trigger.vars.id === "stampImages" ||
+      trigger.vars.id === "shutterImages"
+    ) {
+      trigger.kill()
+    }
+  })
+
+  gsap.killTweensOf(layers)
+  gsap.killTweensOf(images)
+
+  const CONFIG = {
+    holdDuration: 1.35,
+    stampDuration: 1.15,
+    scrollPerUnit: 420,
+
+    enterX: -90,
+    enterY: 90,
+    enterScale: 1.18,
+
+    overshootX: -10,
+    overshootY: 10,
+    overshootScale: 1.32,
+
+    finalScale: 1,
+    imageScale: 1.04
+  }
+
+  gsap.set(layers, {
+    autoAlpha: 0,
+    xPercent: CONFIG.enterX,
+    yPercent: CONFIG.enterY,
+    scale: CONFIG.enterScale,
+    transformOrigin: "0% 100%",
+    force3D: true,
+    zIndex: index => index + 1
+  })
+
+  gsap.set(layers[0], {
+    autoAlpha: 1,
+    xPercent: 0,
+    yPercent: 0,
+    scale: CONFIG.finalScale
+  })
+
+  gsap.set(images, {
+    scale: CONFIG.imageScale,
+    transformOrigin: "center center",
+    force3D: true
+  })
+
+  if (prefersReducedMotion) return
+
+  const tl = gsap.timeline({
+    defaults: {
+      ease: "none"
+    },
+    scrollTrigger: {
+      id: "stampImages",
+      trigger: section,
+      start: "top top",
+      end: () => "+=" + tl.duration() * CONFIG.scrollPerUnit,
+      scrub: 1.15,
+      pin: frame,
+      anticipatePin: 1,
+      invalidateOnRefresh: true
+    }
+  })
+
+  tl.addLabel("image-0")
+
+  for (let index = 1; index < layers.length; index++) {
+    const layer = layers[index]
+    const image = images[index]
+
+    tl.to({}, {
+      duration: CONFIG.holdDuration
+    })
+
+    tl.set(layer, {
+      autoAlpha: 1,
+      xPercent: CONFIG.enterX,
+      yPercent: CONFIG.enterY,
+      scale: CONFIG.enterScale,
+      zIndex: index + 1,
+      transformOrigin: "0% 100%"
+    })
+
+    tl.fromTo(
+      layer,
+      {
+        xPercent: CONFIG.enterX,
+        yPercent: CONFIG.enterY,
+        scale: CONFIG.enterScale
+      },
+      {
+        xPercent: CONFIG.overshootX,
+        yPercent: CONFIG.overshootY,
+        scale: CONFIG.overshootScale,
+        duration: CONFIG.stampDuration * 0.45,
+        ease: "power2.out"
+      }
+    )
+
+    tl.to(
+      layer,
+      {
+        xPercent: 0,
+        yPercent: 0,
+        scale: CONFIG.finalScale,
+        duration: CONFIG.stampDuration * 0.55,
+        ease: "power3.out"
+      }
+    )
+
+    tl.fromTo(
+      image,
+      {
+        scale: 1.1
+      },
+      {
+        scale: CONFIG.imageScale,
+        duration: CONFIG.stampDuration,
+        ease: "power2.out"
+      },
+      "<-" + CONFIG.stampDuration
+    )
+
+    tl.addLabel(`image-${index}`)
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   loadNavbar();
   setActiveNav();
   loadFooter();
   loadLiquidEffectSVG();
   loadGooeyParticles();
-  window.addEventListener("load", () => {
-    initScrollReveal();
-    ScrollTrigger.refresh();
-  });
+
   const projectsLoaded = renderProjects();
 
   if (projectsLoaded) {
     initFilters();
-
   }
+
+  renderProjectDetail();
+  renderOtherProjects();
+  initCompareTabs();
+
   initSmoothScroll();
+
+  initStampImages();
   initMotionSystem();
   initHoverEffects();
   initProjectPopIn();
   initScrollToTop();
-  renderProjectDetail();
-  renderOtherProjects();
-  initCompareTabs();
+
+  requestAnimationFrame(() => {
+    ScrollTrigger.refresh();
+  });
 
   const burger = document.getElementById("burger");
   const mobileMenuFull = document.getElementById("mobileMenuFull");
@@ -904,7 +1070,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const darkmodeToggle = document.getElementById("darkmode-toggle");
 
   if (darkmodeToggle) {
-
     const savedTheme = localStorage.getItem("theme");
 
     if (savedTheme === "dark") {
@@ -913,7 +1078,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     darkmodeToggle.addEventListener("change", () => {
-
       document.body.classList.toggle("darkmode");
 
       const isDark = document.body.classList.contains("darkmode");
@@ -922,10 +1086,9 @@ document.addEventListener("DOMContentLoaded", () => {
         "theme",
         isDark ? "dark" : "light"
       );
-
     });
-
   }
+
   if (burger && mobileMenuFull && menuClose) {
     burger.addEventListener("click", () => mobileMenuFull.classList.add("open"));
     menuClose.addEventListener("click", () => mobileMenuFull.classList.remove("open"));
@@ -941,8 +1104,15 @@ document.addEventListener("DOMContentLoaded", () => {
       if (introH2 && introP && colorBlock) {
         const colorTop = colorBlock.getBoundingClientRect().top;
         const viewportHeight = window.innerHeight;
-        let opacity = scrollY <= 0 ? 1 : colorTop <= 0 ? 0 : colorTop / viewportHeight;
+
+        let opacity = scrollY <= 0
+          ? 1
+          : colorTop <= 0
+            ? 0
+            : colorTop / viewportHeight;
+
         opacity = Math.min(Math.max(opacity, 0), 1);
+
         introH2.style.opacity = opacity;
         introP.style.opacity = opacity;
       }
@@ -954,7 +1124,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     if (toTop) {
-      toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+      toTop.addEventListener("click", () => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      });
     }
   }
 });
