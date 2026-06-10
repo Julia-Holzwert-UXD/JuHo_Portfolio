@@ -173,6 +173,16 @@ const projectsData = {
         },
 
         images: [
+          {
+            layout: "one",
+            items: [
+              {
+                type: "video",
+                src: "../pngs/Projects/Bodique/video.mp4",
+                alt: "Bodique interface mockup"
+              }
+            ]
+          },
 
           {
             layout: "two",
@@ -206,19 +216,7 @@ const projectsData = {
                 alt: "Bodique interface mockup"
               }
             ]
-          },
-
-          {
-            layout: "one",
-            items: [
-              {
-                type: "video",
-                src: "../pngs/Projects/Bodique/video.mp4",
-                alt: "Bodique interface mockup"
-              }
-            ]
           }
-
         ]
       }
     },
@@ -438,6 +436,15 @@ const projectsData = {
         },
         images: [
 
+           {
+            layout: "one",
+            items: [
+              {
+                type: "video",
+                src: "../pngs/Projects/MemoWe/MemoWe_Ad_JuHo.mp4",
+              }
+            ]
+          },
           {
             layout: "two",
             items: [
@@ -468,18 +475,7 @@ const projectsData = {
                 alt: "Printer Interface overview"
               }
             ]
-          },
-
-          {
-            layout: "one",
-            items: [
-              {
-                type: "video",
-                src: "../pngs/Projects/MemoWe/MemoWe_Ad_JuHo.mp4",
-              }
-            ]
           }
-
         ]
       }
     },

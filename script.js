@@ -172,11 +172,11 @@ function renderProjects() {
 
   const base = getBasePath();
   if (typeof projectsData === "undefined" || !projectsData.projects) {
-  console.warn("projectsData is not loaded");
-  return false;
-}
+    console.warn("projectsData is not loaded");
+    return false;
+  }
 
-const data = projectsData;
+  const data = projectsData;
 
   grid.innerHTML = "";
 
@@ -207,15 +207,15 @@ const data = projectsData;
   return true;
 }
 function renderProjectDetail() {
-const slug = document.body.dataset.projectSlug;
-if (!slug) return;
+  const slug = document.body.dataset.projectSlug;
+  if (!slug) return;
 
-if (typeof projectsData === "undefined" || !projectsData.projects) {
-  console.warn("projectsData is not loaded");
-  return;
-}
+  if (typeof projectsData === "undefined" || !projectsData.projects) {
+    console.warn("projectsData is not loaded");
+    return;
+  }
 
-const project = projectsData.projects.find(p => p.slug === slug);
+  const project = projectsData.projects.find(p => p.slug === slug);
   if (!project || !project.detail) return;
 
   document.body.dataset.currentProject = project.title;
@@ -267,9 +267,70 @@ const project = projectsData.projects.find(p => p.slug === slug);
   if (imagesEl) {
     imagesEl.innerHTML = (project.detail.images || []).map(row => {
       const media = row.items.map(item => {
-        if (item.type === "video") {
-          return `<video src="${item.src}" controls muted playsinline preload="metadata" style="width:100%;height:auto;"></video>`;
-        }
+if (item.type === "video") {
+  return `
+    <div class="custom-video" data-custom-video>
+      <video
+        class="custom-video-media"
+        src="${item.src}"
+        playsinline
+        preload="metadata"
+        disablepictureinpicture
+        disableremoteplayback
+        controlslist="nodownload noplaybackrate noremoteplayback"
+        aria-label="${item.alt || 'Project video'}"
+      ></video>
+
+      <button class="custom-video-play" type="button" aria-label="Play video">
+        <span class="play-blob">
+          <span class="play-icon"></span>
+        </span>
+      </button>
+
+      <div class="custom-video-controls" hidden>
+  <input
+    class="video-progress"
+    type="range"
+    min="0"
+    max="100"
+    value="0"
+    step="0.1"
+    aria-label="Video progress"
+  >
+
+  <div class="video-volume" data-volume-control>
+    <button
+      class="video-volume-btn"
+      type="button"
+      aria-label="Mute video"
+      aria-pressed="false"
+    >
+      <svg class="volume-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path class="volume-speaker" d="M4 9.5H8L13 5V19L8 14.5H4V9.5Z" />
+        <path class="volume-wave volume-wave-one" d="M16 9C17 10 17 14 16 15" />
+        <path class="volume-wave volume-wave-two" d="M18.5 6.5C21 9 21 15 18.5 17.5" />
+        <path class="volume-muted-line" d="M5 5L19 19" />
+      </svg>
+    </button>
+
+    <div class="volume-popover">
+      <input
+        class="volume-slider"
+        type="range"
+        min="0"
+        max="1"
+        step="0.01"
+        value="1"
+        aria-label="Volume"
+      >
+    </div>
+  </div>
+
+        <span class="video-time">0:00</span>
+      </div>
+    </div>
+  `;
+}
 
         if (item.type === "compare") {
           const projectSlug = document.body.dataset.projectSlug || "";
@@ -418,9 +479,9 @@ function renderOtherProjects() {
   if (!currentSlug) return;
 
   if (typeof projectsData === "undefined" || !projectsData.projects) {
-  console.warn("projectsData is not loaded");
-  return;
-}
+    console.warn("projectsData is not loaded");
+    return;
+  }
 
   const currentProject = projectsData.projects.find(project => project.slug === currentSlug);
   if (!currentProject) return;
@@ -1028,6 +1089,485 @@ function initStampImages() {
   }
 }
 
+function initCustomVideos() {
+  const videoBlocks = document.querySelectorAll("[data-custom-video]");
+
+  console.log("Custom videos found:", videoBlocks.length);
+
+  videoBlocks.forEach(block => {
+    const video = block.querySelector(".custom-video-media");
+    const playButton = block.querySelector(".custom-video-play");
+    const blob = block.querySelector(".play-blob");
+    const progress = block.querySelector(".video-progress");
+    const controls = block.querySelector(".custom-video-controls");
+    const time = block.querySelector(".video-time");
+
+    const volumeButton = block.querySelector(".video-volume-btn");
+    const volumeSlider = block.querySelector(".volume-slider");
+
+    if (
+      !video ||
+      !playButton ||
+      !blob ||
+      !progress ||
+      !controls ||
+      !time ||
+      !volumeButton ||
+      !volumeSlider
+    ) {
+      console.warn("Custom video markup incomplete", block);
+      return;
+    }
+
+    video.removeAttribute("controls");
+    video.disablePictureInPicture = true;
+    video.disableRemotePlayback = true;
+    video.setAttribute(
+      "controlsList",
+      "nodownload noplaybackrate noremoteplayback"
+    );
+
+    video.addEventListener("contextmenu", event => {
+      event.preventDefault();
+    });
+
+    let controlsTimeout = null;
+
+    let blobReturnTween = null;
+    let blobFollowTween = null;
+
+    const FILL_EXIT_DURATION = 780;
+    const FILL_RESET_DELAY = 180;
+    const FILL_AFTER_BLOB_DELAY = 260;
+
+    let fillExitTimeout = null;
+    let fillResetTimeout = null;
+
+    let previousVolume = 1;
+
+    video.volume = 1;
+    video.muted = false;
+    volumeSlider.value = "1";
+
+    function formatTime(seconds) {
+      if (!Number.isFinite(seconds)) return "0:00";
+
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = Math.floor(seconds % 60)
+        .toString()
+        .padStart(2, "0");
+
+      return `${minutes}:${remainingSeconds}`;
+    }
+
+    function showControls() {
+      if (video.paused) return;
+
+      controls.hidden = false;
+      block.classList.add("is-controls-visible");
+
+      clearTimeout(controlsTimeout);
+
+      controlsTimeout = setTimeout(() => {
+        block.classList.remove("is-controls-visible");
+      }, 1600);
+    }
+
+    function hideControls() {
+      block.classList.remove("is-controls-visible");
+
+      window.setTimeout(() => {
+        if (!block.classList.contains("is-controls-visible")) {
+          controls.hidden = true;
+        }
+      }, 280);
+    }
+
+    function clamp(value, min, max) {
+      return Math.min(Math.max(value, min), max);
+    }
+
+    function killBlobTweens() {
+      if (blobReturnTween) {
+        blobReturnTween.kill();
+        blobReturnTween = null;
+      }
+
+      if (blobFollowTween) {
+        blobFollowTween.kill();
+        blobFollowTween = null;
+      }
+    }
+
+    function startFillHover() {
+      clearTimeout(fillExitTimeout);
+      clearTimeout(fillResetTimeout);
+
+      block.classList.remove("is-fill-exiting");
+      block.classList.remove("is-fill-resetting");
+
+      block.classList.add("is-video-hovered");
+    }
+
+    function playFillExit() {
+      clearTimeout(fillExitTimeout);
+      clearTimeout(fillResetTimeout);
+
+      block.classList.remove("is-fill-exiting");
+      block.classList.remove("is-fill-resetting");
+
+      block.classList.add("is-video-hovered");
+
+      void block.offsetWidth;
+
+      block.classList.remove("is-video-hovered");
+      block.classList.add("is-fill-exiting");
+
+      fillExitTimeout = setTimeout(() => {
+        block.classList.remove("is-fill-exiting");
+        block.classList.add("is-fill-resetting");
+
+        fillResetTimeout = setTimeout(() => {
+          block.classList.remove("is-fill-resetting");
+        }, FILL_RESET_DELAY);
+      }, FILL_EXIT_DURATION);
+    }
+
+    function resetBlob(animate = true) {
+      if (!block.classList.contains("is-fill-exiting")) {
+        block.classList.remove("is-near");
+      }
+
+      killBlobTweens();
+
+      blobFollowTween = gsap.to(blob, {
+        duration: animate ? 0.2 : 0,
+        "--pull-x": "0px",
+        "--pull-y": "0px",
+        "--blob-scale-x": 1,
+        "--blob-scale-y": 1,
+        "--blob-angle": "0rad",
+        ease: "power3.out",
+        overwrite: "auto"
+      });
+    }
+
+    function releaseBlobFromVideoEdge(event, onSettled = null) {
+      const rect = block.getBoundingClientRect();
+
+      const videoCenterX = rect.left + rect.width / 2;
+      const videoCenterY = rect.top + rect.height / 2;
+
+      const edgeX = clamp(event.clientX, rect.left, rect.right);
+      const edgeY = clamp(event.clientY, rect.top, rect.bottom);
+
+      const dx = edgeX - videoCenterX;
+      const dy = edgeY - videoCenterY;
+
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance < 1) {
+        resetBlob(true);
+
+        if (typeof onSettled === "function") {
+          onSettled();
+        }
+
+        return;
+      }
+
+      const dirX = dx / distance;
+      const dirY = dy / distance;
+
+      const maxDistance = Math.sqrt(
+        Math.pow(rect.width / 2, 2) +
+        Math.pow(rect.height / 2, 2)
+      );
+
+      const edgeStrength = Math.min(distance / maxDistance, 1);
+
+      const startPull = 46 + edgeStrength * 20;
+      const overshootPull = 6 + edgeStrength * 4;
+
+      killBlobTweens();
+
+      block.classList.add("is-near");
+
+      gsap.set(blob, {
+        "--pull-x": `${dirX * startPull}px`,
+        "--pull-y": `${dirY * startPull}px`,
+        "--blob-scale-x": 1.06,
+        "--blob-scale-y": 1.06,
+        "--blob-angle": "0rad"
+      });
+
+      blobReturnTween = gsap.timeline({
+        defaults: {
+          overwrite: true
+        },
+        onComplete: () => {
+          block.classList.remove("is-near");
+
+          if (typeof onSettled === "function") {
+            onSettled();
+          }
+        }
+      });
+
+      blobReturnTween
+        .to(blob, {
+          duration: 0.48,
+          "--pull-x": `${dirX * -overshootPull}px`,
+          "--pull-y": `${dirY * -overshootPull}px`,
+          "--blob-scale-x": 0.98,
+          "--blob-scale-y": 0.98,
+          "--blob-angle": "0rad",
+          ease: "power3.out"
+        })
+        .to(blob, {
+          duration: 0.82,
+          "--pull-x": "0px",
+          "--pull-y": "0px",
+          "--blob-scale-x": 1,
+          "--blob-scale-y": 1,
+          "--blob-angle": "0rad",
+          ease: "power4.out"
+        });
+    }
+
+    function updateVolumeUI(animateSlider = true) {
+      const isMuted = video.muted || video.volume === 0;
+      const visibleVolume = isMuted ? 0 : video.volume;
+
+      block.classList.toggle("is-muted", isMuted);
+
+      volumeButton.setAttribute("aria-pressed", String(isMuted));
+      volumeButton.setAttribute(
+        "aria-label",
+        isMuted ? "Unmute video" : "Mute video"
+      );
+
+      if (animateSlider && window.gsap) {
+        gsap.to(volumeSlider, {
+          duration: 0.28,
+          value: visibleVolume,
+          ease: "power2.out"
+        });
+      } else {
+        volumeSlider.value = String(visibleVolume);
+      }
+    }
+
+    async function playVideo() {
+      try {
+        await video.play();
+      } catch (error) {
+        console.warn("Video could not play:", error);
+      }
+    }
+
+    function pauseVideo() {
+      video.pause();
+    }
+
+    function toggleVideo() {
+      if (video.paused) {
+        playVideo();
+      } else {
+        pauseVideo();
+      }
+    }
+
+    playButton.addEventListener("click", event => {
+      event.preventDefault();
+      toggleVideo();
+    });
+
+    block.addEventListener("click", event => {
+      if (
+        event.target.closest(".custom-video-play") ||
+        event.target.closest(".custom-video-controls")
+      ) {
+        return;
+      }
+
+      toggleVideo();
+    });
+
+    volumeButton.addEventListener("click", event => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (video.muted || video.volume === 0) {
+        video.muted = false;
+        video.volume = previousVolume || 0.8;
+      } else {
+        previousVolume = video.volume > 0 ? video.volume : previousVolume;
+        video.muted = true;
+      }
+
+      updateVolumeUI(true);
+      showControls();
+    });
+
+    volumeSlider.addEventListener("input", event => {
+      event.stopPropagation();
+
+      const nextVolume = Number(volumeSlider.value);
+
+      video.volume = nextVolume;
+      video.muted = nextVolume === 0;
+
+      if (nextVolume > 0) {
+        previousVolume = nextVolume;
+      }
+
+      updateVolumeUI(false);
+      showControls();
+    });
+
+    volumeSlider.addEventListener("click", event => {
+      event.stopPropagation();
+    });
+
+    volumeSlider.addEventListener("pointerdown", event => {
+      event.stopPropagation();
+    });
+
+    video.addEventListener("play", () => {
+      clearTimeout(fillExitTimeout);
+      clearTimeout(fillResetTimeout);
+
+      block.classList.add("is-playing");
+
+      block.classList.remove("is-near");
+      block.classList.remove("is-video-hovered");
+      block.classList.remove("is-fill-exiting");
+      block.classList.remove("is-fill-resetting");
+
+      controls.hidden = false;
+      showControls();
+    });
+
+    video.addEventListener("pause", () => {
+      block.classList.remove("is-playing");
+      hideControls();
+      resetBlob();
+    });
+
+    video.addEventListener("ended", () => {
+      block.classList.remove("is-playing");
+      progress.value = 0;
+      video.currentTime = 0;
+      hideControls();
+      resetBlob();
+    });
+
+    video.addEventListener("loadedmetadata", () => {
+      time.textContent = "0:00";
+    });
+
+    video.addEventListener("timeupdate", () => {
+      if (!video.duration) return;
+
+      progress.value = (video.currentTime / video.duration) * 100;
+      time.textContent = formatTime(video.currentTime);
+    });
+
+    progress.addEventListener("input", () => {
+      if (!video.duration) return;
+
+      video.currentTime = (progress.value / 100) * video.duration;
+      showControls();
+    });
+
+    block.addEventListener("mouseenter", () => {
+      if (!block.classList.contains("is-playing")) {
+        startFillHover();
+      }
+
+      if (!video.paused) {
+        showControls();
+      }
+    });
+
+    block.addEventListener("mousemove", event => {
+      showControls();
+
+      if (block.classList.contains("is-playing")) {
+        return;
+      }
+
+      const buttonRect = playButton.getBoundingClientRect();
+
+      const centerX = buttonRect.left + buttonRect.width / 2;
+      const centerY = buttonRect.top + buttonRect.height / 2;
+
+      const dx = event.clientX - centerX;
+      const dy = event.clientY - centerY;
+
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      const deadZone = 46;
+      const influenceRadius = 260;
+
+      if (distance < deadZone || distance > influenceRadius) {
+        resetBlob(true);
+        return;
+      }
+
+      if (blobReturnTween) {
+        blobReturnTween.kill();
+        blobReturnTween = null;
+      }
+
+      const rawStrength = (distance - deadZone) / (influenceRadius - deadZone);
+      const strength = Math.pow(rawStrength, 0.85);
+
+      const angle = Math.atan2(dy, dx);
+
+      const pullX = dx * strength * 0.3;
+      const pullY = dy * strength * 0.3;
+
+      const scaleX = 1 + strength * 0.28;
+      const scaleY = 1 - strength * 0.14;
+
+      block.classList.add("is-near");
+
+      blobFollowTween = gsap.to(blob, {
+        duration: 0.24,
+        "--pull-x": `${pullX}px`,
+        "--pull-y": `${pullY}px`,
+        "--blob-scale-x": scaleX,
+        "--blob-scale-y": scaleY,
+        "--blob-angle": `${angle}rad`,
+        ease: "power3.out",
+        overwrite: "auto"
+      });
+    });
+
+    block.addEventListener("mouseleave", event => {
+      if (!block.classList.contains("is-playing")) {
+        releaseBlobFromVideoEdge(event, () => {
+          window.setTimeout(() => {
+            if (
+              !block.matches(":hover") &&
+              !block.classList.contains("is-playing")
+            ) {
+              playFillExit();
+            }
+          }, FILL_AFTER_BLOB_DELAY);
+        });
+      }
+
+      if (!video.paused) {
+        hideControls();
+      }
+    });
+
+    updateVolumeUI(false);
+  });
+}
 document.addEventListener("DOMContentLoaded", () => {
   loadNavbar();
   setActiveNav();
@@ -1044,9 +1584,9 @@ document.addEventListener("DOMContentLoaded", () => {
   renderProjectDetail();
   renderOtherProjects();
   initCompareTabs();
+  initCustomVideos();
 
   initSmoothScroll();
-
   initStampImages();
   initMotionSystem();
   initHoverEffects();
