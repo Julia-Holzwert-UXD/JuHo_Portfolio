@@ -1,226 +1,151 @@
-/* ===================================================== */
-/* SMOOTH SCROLL */
-/* Lenis + GSAP ScrollTrigger */
-/* ===================================================== */
+function initStampImages() {
+  gsap.registerPlugin(ScrollTrigger)
 
-let lenis = null;
+  const section = document.querySelector("#transformativeCreativity")
+  if (!section) return
 
-function initSmoothScroll() {
-  lenis = new Lenis({
-    duration: 1.2,
-    easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    smoothWheel: true,
-    wheelMultiplier: 1,
-    touchMultiplier: 1.5,
-    infinite: false
-  });
+  const frame = section.querySelector(".dc-content-frame")
+  const layers = gsap.utils.toArray(section.querySelectorAll(".dc-image-layer"))
+  const images = layers.map(layer => layer.querySelector("img"))
 
-  lenis.on("scroll", ScrollTrigger.update);
+  if (!frame || layers.length < 2) return
 
-  gsap.ticker.add(time => {
-    lenis.raf(time * 1000);
-  });
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
 
-  gsap.ticker.lagSmoothing(0);
-}
+  ScrollTrigger.getAll().forEach(trigger => {
+    if (
+      trigger.vars.id === "stampImages" ||
+      trigger.vars.id === "shutterImages"
+    ) {
+      trigger.kill()
+    }
+  })
 
-/* ===================================================== */
-/* SCROLL WORD REVEAL SYSTEM */
-/* Dentsu-style word reveal */
-/* ===================================================== */
+  gsap.killTweensOf(layers)
+  gsap.killTweensOf(images)
 
-gsap.registerPlugin(ScrollTrigger);
+  const CONFIG = {
+    holdDuration: 1.35,
+    stampDuration: 1.15,
+    scrollPerUnit: 420,
 
-const SCROLL_REVEAL_DEFAULTS = {
-  enableBlur: true,
-  baseOpacity: 0.08,
-  baseRotation: 3,
-  blurStrength: 8,
-  wordStagger: 0.035,
+    enterX: -90,
+    enterY: 90,
+    enterScale: 1.18,
 
-  rotationStart: "top bottom",
-  rotationEnd: "bottom bottom",
+    overshootX: -10,
+    overshootY: 10,
+    overshootScale: 1.32,
 
-  wordStart: "top bottom-=15%",
-  wordEnd: "bottom bottom",
-
-  scroller: window
-};
-
-/* ===================================================== */
-/* SPLIT TEXT INTO WORDS */
-/* ===================================================== */
-
-function splitScrollRevealText(el) {
-  if (el.dataset.scrollRevealReady) return;
-
-  const originalText = el.textContent;
-  const parts = originalText.split(/(\s+)/);
-
-  el.innerHTML = parts
-    .map(part => {
-      if (/^\s+$/.test(part)) return part;
-      return `<span class="word">${part}</span>`;
-    })
-    .join("");
-
-  el.dataset.scrollRevealReady = "true";
-}
-
-/* ===================================================== */
-/* CREATE WORD REVEAL */
-/* ===================================================== */
-
-function createScrollReveal(el, options = {}) {
-  if (!el) return;
-
-  const settings = {
-    ...SCROLL_REVEAL_DEFAULTS,
-    ...options
-  };
-
-  splitScrollRevealText(el);
-
-  const words = el.querySelectorAll(".word");
-
-  if (!words.length) return;
-
-  const shouldRotate = !el.classList.contains("reveal-list-item");
-
-  if (shouldRotate) {
-    gsap.fromTo(
-      el,
-      {
-        transformOrigin: "0% 50%",
-        rotate: settings.baseRotation
-      },
-      {
-        rotate: 0,
-        ease: "none",
-        scrollTrigger: {
-          trigger: el,
-          scroller: settings.scroller,
-          start: settings.rotationStart,
-          end: settings.rotationEnd,
-          scrub: true
-        }
-      }
-    );
+    finalScale: 1,
+    imageScale: 1.04
   }
 
-  gsap.fromTo(
-    words,
-    {
-      opacity: settings.baseOpacity,
-      filter: settings.enableBlur
-        ? `blur(${settings.blurStrength}px)`
-        : "blur(0px)"
+  gsap.set(layers, {
+    autoAlpha: 0,
+    xPercent: CONFIG.enterX,
+    yPercent: CONFIG.enterY,
+    scale: CONFIG.enterScale,
+    transformOrigin: "0% 100%",
+    force3D: true,
+    zIndex: index => index + 1
+  })
+
+  gsap.set(layers[0], {
+    autoAlpha: 1,
+    xPercent: 0,
+    yPercent: 0,
+    scale: CONFIG.finalScale
+  })
+
+  gsap.set(images, {
+    scale: CONFIG.imageScale,
+    transformOrigin: "center center",
+    force3D: true
+  })
+
+  if (prefersReducedMotion) return
+
+  const tl = gsap.timeline({
+    defaults: {
+      ease: "none"
     },
-    {
-      opacity: 1,
-      filter: "blur(0px)",
-      stagger: settings.wordStagger,
-      ease: "none",
-      scrollTrigger: {
-        trigger: el,
-        scroller: settings.scroller,
-        start: settings.wordStart,
-        end: settings.wordEnd,
-        scrub: true
+    scrollTrigger: {
+      id: "stampImages",
+      trigger: section,
+      start: "top top",
+      end: () => "+=" + tl.duration() * CONFIG.scrollPerUnit,
+      scrub: 1.15,
+      pin: frame,
+      anticipatePin: 1,
+      invalidateOnRefresh: true
+    }
+  })
+
+  tl.addLabel("image-0")
+
+  for (let index = 1; index < layers.length; index++) {
+    const layer = layers[index]
+    const image = images[index]
+
+    tl.to({}, {
+      duration: CONFIG.holdDuration
+    })
+
+    tl.set(layer, {
+      autoAlpha: 1,
+      xPercent: CONFIG.enterX,
+      yPercent: CONFIG.enterY,
+      scale: CONFIG.enterScale,
+      zIndex: index + 1,
+      transformOrigin: "0% 100%"
+    })
+
+    tl.fromTo(
+      layer,
+      {
+        xPercent: CONFIG.enterX,
+        yPercent: CONFIG.enterY,
+        scale: CONFIG.enterScale
+      },
+      {
+        xPercent: CONFIG.overshootX,
+        yPercent: CONFIG.overshootY,
+        scale: CONFIG.overshootScale,
+        duration: CONFIG.stampDuration * 0.45,
+        ease: "power2.out"
       }
-    }
-  );
+    )
+
+    tl.to(
+      layer,
+      {
+        xPercent: 0,
+        yPercent: 0,
+        scale: CONFIG.finalScale,
+        duration: CONFIG.stampDuration * 0.55,
+        ease: "power3.out"
+      }
+    )
+
+    tl.fromTo(
+      image,
+      {
+        scale: 1.1
+      },
+      {
+        scale: CONFIG.imageScale,
+        duration: CONFIG.stampDuration,
+        ease: "power2.out"
+      },
+      "<-" + CONFIG.stampDuration
+    )
+
+    tl.addLabel(`image-${index}`)
+  }
 }
 
-/* ===================================================== */
-/* INIT MOTION */
-/* ===================================================== */
-
-function initMotionSystem() {
-  const revealElements = document.querySelectorAll(
-    ".reveal-title, .reveal-text, .reveal-list-item"
-  );
-
-  revealElements.forEach(el => {
-    createScrollReveal(el, {
-      baseOpacity: 0.08,
-      enableBlur: true,
-      baseRotation: 3,
-      blurStrength: 8,
-      wordStagger: 0.035,
-      wordStart: "top bottom-=15%",
-      wordEnd: "bottom bottom"
-    });
-  });
-
-  ScrollTrigger.refresh();
-}
-
-/* ===================================================== */
-/* HOVER EFFECTS */
-/* ===================================================== */
-
-function initHoverEffects() {
-  document.querySelectorAll(".project-card").forEach(card => {
-    card.addEventListener("mouseenter", () => {
-      card.style.transform = "translateY(-4px) scale(1.02)";
-    });
-
-    card.addEventListener("mouseleave", () => {
-      card.style.transform = "translateY(0) scale(1)";
-    });
-  });
-}
-
-/* ===================================================== */
-/* PROJECT POP IN */
-/* ===================================================== */
-
-function initProjectPopIn() {
-  document.querySelectorAll(".project-item").forEach((el, i) => {
-    el.style.opacity = 0;
-    el.style.transform = "translateY(30px)";
-
-    setTimeout(() => {
-      el.style.transition = "opacity 0.5s ease, transform 0.5s ease";
-      el.style.opacity = 1;
-      el.style.transform = "translateY(0)";
-    }, i * 80);
-  });
-}
-
-/* ===================================================== */
-/* SCROLL TO TOP */
-/* ===================================================== */
-
-function initScrollToTop() {
-  const button = document.querySelector("#toTop");
-
-  if (!button) return;
-
-  button.addEventListener("click", () => {
-    if (lenis) {
-      lenis.scrollTo(0, {
-        duration: 1.2
-      });
-      return;
-    }
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  });
-}
-
-/* ===================================================== */
-/* INIT */
-/* ===================================================== */
-
-document.addEventListener("DOMContentLoaded", () => {
-  initSmoothScroll();
-  initMotionSystem();
-  initHoverEffects();
-  initProjectPopIn();
-  initScrollToTop();
-});
+window.addEventListener("load", () => {
+  initStampImages()
+  ScrollTrigger.refresh()
+})

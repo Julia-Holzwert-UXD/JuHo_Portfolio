@@ -582,6 +582,290 @@ function initScrollReveal() {
   });
 
 }
+
+/* ===================================================== */
+/* ACCESSIBILITY */
+/* ===================================================== */
+
+const prefersReducedMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)"
+).matches;
+
+/* ===================================================== */
+/* SMOOTH SCROLL */
+/* Lenis + GSAP ScrollTrigger */
+/* ===================================================== */
+
+let lenis = null;
+
+function initSmoothScroll() {
+  if (prefersReducedMotion) return;
+
+  lenis = new Lenis({
+    duration: 1.2,
+    easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smoothWheel: true,
+    wheelMultiplier: 1,
+    touchMultiplier: 1.5,
+    infinite: false
+  });
+
+  lenis.on("scroll", ScrollTrigger.update);
+
+  gsap.ticker.add(time => {
+    lenis.raf(time * 1000);
+  });
+
+  gsap.ticker.lagSmoothing(0);
+}
+
+/* ===================================================== */
+/* SCROLL WORD REVEAL SYSTEM */
+/* ===================================================== */
+
+gsap.registerPlugin(ScrollTrigger);
+
+const SCROLL_REVEAL_DEFAULTS = {
+  enableBlur: true,
+
+  baseOpacity: 0.12,
+  baseRotation: 2,
+  blurStrength: 4,
+  wordStagger: 0.018,
+
+  rotationStart: "top bottom",
+  rotationEnd: "center 70%",
+
+  wordStart: "top 85%",
+  wordEnd: "center 62%",
+
+  scroller: window
+};
+
+/* ===================================================== */
+/* REDUCED MOTION STATE */
+/* ===================================================== */
+
+function applyReducedMotionState() {
+  document
+    .querySelectorAll(".reveal-title, .reveal-text, .reveal-list-item")
+    .forEach(el => {
+      el.style.opacity = "1";
+      el.style.transform = "none";
+      el.style.filter = "none";
+    });
+
+  document.querySelectorAll(".project-item").forEach(el => {
+    el.style.opacity = "1";
+    el.style.transform = "none";
+    el.style.transition = "none";
+  });
+}
+
+/* ===================================================== */
+/* SPLIT TEXT INTO WORDS */
+/* ===================================================== */
+
+function splitScrollRevealText(el) {
+  if (el.dataset.scrollRevealReady) return;
+
+  const originalText = el.textContent;
+  const parts = originalText.split(/(\s+)/);
+
+  el.innerHTML = parts
+    .map(part => {
+      if (/^\s+$/.test(part)) return part;
+      return `<span class="word">${part}</span>`;
+    })
+    .join("");
+
+  el.dataset.scrollRevealReady = "true";
+}
+
+/* ===================================================== */
+/* CREATE WORD REVEAL */
+/* ===================================================== */
+
+function createScrollReveal(el, options = {}) {
+  if (!el || prefersReducedMotion) return;
+
+  const settings = {
+    ...SCROLL_REVEAL_DEFAULTS,
+    ...options
+  };
+
+  splitScrollRevealText(el);
+
+  const words = el.querySelectorAll(".word");
+
+  if (!words.length) return;
+
+  const shouldRotate = !el.classList.contains("reveal-list-item");
+
+  if (shouldRotate && settings.baseRotation !== 0) {
+    gsap.fromTo(
+      el,
+      {
+        transformOrigin: "0% 50%",
+        rotate: settings.baseRotation
+      },
+      {
+        rotate: 0,
+        ease: "none",
+        scrollTrigger: {
+          trigger: el,
+          scroller: settings.scroller,
+          start: settings.rotationStart,
+          end: settings.rotationEnd,
+          scrub: true
+        }
+      }
+    );
+  }
+
+  gsap.fromTo(
+    words,
+    {
+      opacity: settings.baseOpacity,
+      filter: settings.enableBlur
+        ? `blur(${settings.blurStrength}px)`
+        : "blur(0px)"
+    },
+    {
+      opacity: 1,
+      filter: "blur(0px)",
+      stagger: settings.wordStagger,
+      ease: "none",
+      scrollTrigger: {
+        trigger: el,
+        scroller: settings.scroller,
+        start: settings.wordStart,
+        end: settings.wordEnd,
+        scrub: true
+      }
+    }
+  );
+}
+
+/* ===================================================== */
+/* INIT MOTION */
+/* ===================================================== */
+
+function initMotionSystem() {
+  if (prefersReducedMotion) {
+    applyReducedMotionState();
+    return;
+  }
+
+  document.querySelectorAll(".reveal-title").forEach(el => {
+    createScrollReveal(el, {
+      baseOpacity: 0.06,
+      baseRotation: 3,
+      blurStrength: 8,
+      wordStagger: 0.025,
+      wordStart: "top 88%",
+      wordEnd: "center 68%",
+      rotationEnd: "center 70%"
+    });
+  });
+
+  document.querySelectorAll(".reveal-text").forEach(el => {
+    createScrollReveal(el, {
+      baseOpacity: 0.14,
+      baseRotation: 1.5,
+      blurStrength: 4,
+      wordStagger: 0.014,
+      wordStart: "top 86%",
+      wordEnd: "center 64%",
+      rotationEnd: "center 72%"
+    });
+  });
+
+  document.querySelectorAll(".reveal-list-item").forEach(el => {
+    createScrollReveal(el, {
+      baseOpacity: 0.12,
+      baseRotation: 0,
+      blurStrength: 3,
+      wordStagger: 0.018,
+      wordStart: "top 88%",
+      wordEnd: "center 70%"
+    });
+  });
+
+  ScrollTrigger.refresh();
+}
+
+/* ===================================================== */
+/* HOVER EFFECTS */
+/* ===================================================== */
+
+function initHoverEffects() {
+  if (prefersReducedMotion) return;
+
+  document.querySelectorAll(".project-card").forEach(card => {
+    card.addEventListener("mouseenter", () => {
+      card.style.transform = "translateY(-4px) scale(1.02)";
+    });
+
+    card.addEventListener("mouseleave", () => {
+      card.style.transform = "translateY(0) scale(1)";
+    });
+  });
+}
+
+/* ===================================================== */
+/* PROJECT POP IN */
+/* ===================================================== */
+
+function initProjectPopIn() {
+  const projectItems = document.querySelectorAll(".project-item");
+
+  if (prefersReducedMotion) {
+    projectItems.forEach(el => {
+      el.style.opacity = "1";
+      el.style.transform = "none";
+      el.style.transition = "none";
+    });
+
+    return;
+  }
+
+  projectItems.forEach((el, i) => {
+    el.style.opacity = 0;
+    el.style.transform = "translateY(30px)";
+
+    setTimeout(() => {
+      el.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+      el.style.opacity = 1;
+      el.style.transform = "translateY(0)";
+    }, i * 80);
+  });
+}
+
+/* ===================================================== */
+/* SCROLL TO TOP */
+/* ===================================================== */
+
+function initScrollToTop() {
+  const button = document.querySelector("#toTop");
+
+  if (!button) return;
+
+  button.addEventListener("click", () => {
+    if (lenis && !prefersReducedMotion) {
+      lenis.scrollTo(0, {
+        duration: 1.2
+      });
+      return;
+    }
+
+    window.scrollTo({
+      top: 0,
+      behavior: prefersReducedMotion ? "auto" : "smooth"
+    });
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   loadNavbar();
   setActiveNav();
@@ -598,7 +882,11 @@ document.addEventListener("DOMContentLoaded", () => {
     initFilters();
 
   }
-
+  initSmoothScroll();
+  initMotionSystem();
+  initHoverEffects();
+  initProjectPopIn();
+  initScrollToTop();
   renderProjectDetail();
   renderOtherProjects();
   initCompareTabs();
