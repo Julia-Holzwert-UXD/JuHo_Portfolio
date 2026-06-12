@@ -17,7 +17,7 @@ const projectsData = {
           challenge: "The main challenge was balancing information density with safety. The system had to support different driving situations such as navigation, incoming calls, lane departure, speeding, close following distance, and emergency scenarios while staying understandable at a glance. Another challenge was the team process itself. We had to establish a working structure, clarify communication, document decisions clearly, and avoid relying too much on one person to hold the project together. In addition, the project touched on ethical and technical constraints such as privacy, adaptive behavior, performance requirements, and the reliability of context aware systems in safety critical environments.",
 
           approach: "We structured the work through recurring meetings, lightweight task summaries, and shared documentation across Figma and WhatsApp. Conceptually, we started with brainstorming, user stories, task flows, and flow charts to map complete journeys from setup to real driving situations. From there, we defined personas, use cases, functional requirements, and critical tasks for a cognitive walkthrough. The interface was designed around the principle that the system should first clarify the current situation and only second suggest the next action. This led to a UI that prioritizes visibility, low distraction, and direct feedback. The concept includes adaptive modules for navigation, communication, driving assistance, and emergency handling, all designed to appear only when relevant. I contributed to structuring the concept, translating complex requirements into flows and screens, refining the interaction logic, and helping unify the interface direction across the project.",
-
+          creativeDirection:"The creative direction frames HeadsUp as a calm safety interface rather than a futuristic automotive display. In a driving context where vehicles already compete for attention through screens, alerts, and assistance systems, the visual language had to reduce friction instead of creating spectacle. The interface direction focuses on clear hierarchy, strong contrast, controlled warning states, and situational modules that only appear when they support a decision. Decorative motion, dense dashboard aesthetics, and unnecessary visual noise were deliberately avoided. This positions HeadsUp as technology that protects attention: a HUD concept that translates complex vehicle data into fast, trustworthy signals and shows that safety-driven design sometimes requires restraint over visual impact.",
           result: [
             "Context Aware Support: Navigation, calling, and driving assistance are coordinated within one HUD concept, helping users understand situations faster without switching attention between systems.",
             "Safety Through Clarity: Warnings for speed, lane departure, wrong direction, and following distance are communicated in a more direct and legible way, reducing ambiguity in high pressure moments.",
@@ -35,7 +35,7 @@ const projectsData = {
             items: [
               {
                 src: "../pngs/Projects/HeadsUp/Navigation 2 - High Volume Cars.jpg",
-                alt: "HeadsUp overview"
+                alt: "HeadsUp in action"
               }
             ]
           },
@@ -44,11 +44,11 @@ const projectsData = {
             items: [
               {
                 src: "../pngs/Projects/HeadsUp/iPhone 16 - Connect.jpg",
-                alt: "HeadsUp flow chart"
+                alt: "HeadsUp amount to display "
               },
               {
                 src: "../pngs/Projects/HeadsUp/iPhone 16 - Übertragen.jpg",
-                alt: "HeadsUp personas"
+                alt: "HeadsUp transfer data app screen"
               }
             ]
           },
@@ -57,11 +57,11 @@ const projectsData = {
             items: [
               {
                 src: "../pngs/Projects/HeadsUp/iPhone 16 - Amount.jpg",
-                alt: "HeadsUp flow chart"
+                alt: "HeadsUp amount to display on hud"
               },
               {
                 src: "../pngs/Projects/HeadsUp/iPhone 16 - Speichern 2.jpg",
-                alt: "HeadsUp personas"
+                alt: "HeadsUp app overview"
               }
             ]
           },
@@ -70,7 +70,7 @@ const projectsData = {
             items: [
               {
                 src: "../pngs/Projects/HeadsUp/Unfall - Frontal Kolision.jpg",
-                alt: "HeadsUp interface mockup"
+                alt: "HeadsUp in action"
               }
             ]
           }
@@ -95,7 +95,9 @@ const projectsData = {
           challenge: "The challenge was designing for two very different audiences at once. Students wanted recognition, exchange, and a way to share real experiences, while outsiders needed approachable and low pressure ways to reflect on their assumptions. Another challenge was handling a sensitive topic without overwhelming users or losing trust through too much information.",
 
           approach: "We started with interviews, personas, and clustered findings to understand how prejudice is formed and reinforced. Based on these insights, we developed a platform concept with quizzes, reflective prompts, themed articles, anonymous sharing, and moderated discussion spaces. The experience focuses on lowering barriers, building trust, and encouraging reflection through small interactions instead of confrontation. My contribution focused on structuring insights, shaping the concept direction, and translating research into a clear and usable platform.",
-
+          
+          creativeDirection:"The creative direction positions CampusTalk as a calm credibility space rather than an activist campaign or social network. It needed to guide students and non-students through a sensitive subject without making either side feel judged. The visual system therefore relies on clear hierarchy, restrained color, soft interaction, and structured content cards to make reflection feel safe and approachable. We avoided loud advocacy aesthetics and overloaded educational layouts because both would weaken trust and reduce participation. The key judgement was to treat awareness as a guided experience: credible enough to challenge assumptions, human enough to invite honest exchange.",
+          
           result: [
             "Dual Audience Concept: The platform addresses both affected students and outsiders, creating value through empathy, reflection, and exchange.",
             "Trust Through Structure: Clear navigation, moderated spaces, and educational content make a sensitive topic feel accessible and credible.",
@@ -113,7 +115,7 @@ const projectsData = {
             items: [
               {
                 src: "../pngs/Projects/CampusTalk/Games.jpg",
-                alt: "CampusTalk overview"
+                alt: "CampusTalk desktop quiz overview"
               }
             ]
           },
@@ -122,11 +124,11 @@ const projectsData = {
             items: [
               {
                 src: "../pngs/Projects/CampusTalk/Create Topic.jpg",
-                alt: "CampusTalk personas"
+                alt: "CampusTalk add a post on mobile"
               },
               {
                 src: "../pngs/Projects/CampusTalk/Game(2).jpg",
-                alt: "CampusTalk feature structure"
+                alt: "CampusTalk mobile quiz frontpage"
               }
             ]
           },
@@ -136,7 +138,7 @@ const projectsData = {
             items: [
               {
                 src: "../pngs/Projects/CampusTalk/Forum, übersicht über alle topics, (allgemeiner Feed).jpg",
-                alt: "CampusTalk interface mockup"
+                alt: "CampusTalk desktop quiz search"
               }
             ]
           }
@@ -144,6 +146,135 @@ const projectsData = {
       }
     },
 
+    //Après
+    {
+      slug: "Après",
+      title: "Après",
+      href: "./projectSites/Après.html",
+      categories: ["Immersive-Experience"],
+      coverImage: "./pngs/Projects/Aprés/Frame 59.png",
+
+      detail: {
+        meta: "Private Project from 2026",
+        sections: {
+          summary: "“Buying a luxury watch is just the start — the real experience happens after the purchase.” Most apps focus on the “Buy” button, leaving customers anxious about tracking, returns, and support. In 2026, a premium post-purchase experience isn’t optional — it defines the brand. ",
+          challenge: "Making post-purchase simple, transparent, and reassuring. Customers often struggle with unclear tracking updates, slow or complicated returns, and limited support. Critical flows like “My package missing” create frustration and stress. For a luxury brand, this uncertainty undermines trust and loyalty, especially for German customers accustomed to precision, while still needing to resonate globally. ",
+          approach: "I started by putting post-purchase care at the center. Tracking shows the watch in 3D from the Bavarian workshop to the doorstep, with grouped info on delivery time, customs, and delays. Alerts combine color, icons, and text, while optional voice notifications make updates accessible. Buttons are larger, consistently spaced, and core actions are always visible. The flow is simplified to three steps: Track, Report an Issue, Manage Return. Navigation is predictable across screens, errors are easy to recover from, and offline mode ensures critical info is available anywhere. Every design choice focuses on clarity, confidence, and a human experience. ",
+          
+          creativeDirection:"The creative direction positions Après as a premium post-purchase concierge rather than a standard tracking app. The experience had to reassure luxury watch customers after checkout, when uncertainty can weaken trust faster than the purchase journey can build it. The visual system uses a refined 3D shipment narrative, clear status grouping, calm alerts, generous spacing, and always-visible core actions to make every step feel controlled and precise. I avoided transactional delivery patterns and overloaded support flows because luxury service depends on confidence, not information density. The key judgement was to treat aftercare as part of the brand promise, turning tracking, issues, and returns into moments of reassurance.",
+          
+          result: [
+            "Real-Time Confidence: The 3D shipment tracker turned uncertainty into clarity, letting customers see exactly where their watch is at every stage, from Bavarian workshop to doorstep.",
+            "Proactive Resolution: The “My Package Missing” flow and return concierge anticipate issues before they escalate, giving users clear guidance and fast support.",
+            "Global Luxury, Local Precision: The experience balances Bavarian attention to detail with international usability, ensuring customers worldwide feel informed, cared for, and confident.",
+            "Post-Purchase as Brand: Every interaction after checkout reinforces trust and loyalty, making post-purchase care a defining part of the luxury experience rather than an afterthought. "
+          ],
+          takeawayTitle: "Takeaway",
+          takeaway: "Most designers focus on the “Buy” button, but few address the “My package missing” flow. This project demonstrates a complete understanding of the full Customer Experience, from purchase to resolution. "
+        },
+        images: [
+          {
+            layout: "one",
+            items: [
+              {
+                src: "../pngs/Projects/Aprés/Post-Purchase Landing.png",
+                alt: "Aprés desktop Post-Purchase Landing"
+              }
+            ]
+          },
+          {
+            layout: "two",
+            items: [
+              {
+                src: "../pngs/Projects/Aprés/3D Shipment Tracker.png",
+                alt: "Aprés mobile 3D Shipment Tracker"
+              },
+              {
+                src: "../pngs/Projects/Aprés/My Package Missing_ Flow.png",
+                alt: "Aprés mobile My Package Missing Flow"
+              }
+            ]
+          },
+          {
+            layout: "one",
+            items: [
+              {
+                src: "../pngs/Projects/Aprés/Proaktiver Alert (Zollverzögerung).png",
+                alt: "Aprés desktop proactive alert"
+              }
+            ]
+          },
+          {
+            layout: "two",
+            items: [
+              {
+                src: "../pngs/Projects/Aprés/Return Concierge.png",
+                alt: "Aprés mobile Return Concierge"
+              },
+              {
+                src: "../pngs/Projects/Aprés/After-Care & Loyalität.png",
+                alt: "Aprés mobile after care & loyalty"
+              }
+            ]
+          }
+        ]
+      }
+    },
+
+    //FairFlow
+    {
+      slug: "fairFlow",
+      title: "FairFlow",
+      href: "./projectSites/fairFlow.html",
+      categories: ["Ethical-Design", "Data-Privacy", "Mobile-App"],
+      coverImage: "",
+
+      detail: {
+        meta: "Private Project from 2024",
+        sections: {
+          summary: "“Users should never feel trapped by design.” FairFlow focuses on auditing a popular German subscription app with hidden unsubscribe options, misleading defaults, and manipulative upsells. The project rethinks these interactions to make them ethical, transparent, and trustworthy while maintaining business goals and revenue. ",
+          challenge: "Balancing user trust with profitability. Many German users are highly sensitive to deceptive practices and expect transparency, but the app also operates internationally, where subscription models rely on clear upsells. The challenge was to remove dark patterns that frustrate users while designing flows that still encourage conversion and retention. ",
+          approach: "I conducted a full dark UX audit, mapping every point where the user could be misled or trapped. Subscription flows, consent dialogs, and hidden options were redesigned with clear labeling, visible opt-out buttons, and plain-language explanations. Incentives were reframed ethically: discounts, benefits, and reminders were transparent but compelling. Microcopy reassured users of control and privacy. Testing with German participants validated trust and comprehension, while international testing ensured flows were culturally neutral and effective globally. ",
+          
+          creativeDirection:"The creative direction positions FairFlow as a transparent subscription experience rather than a conversion trap. The project had to prove that business goals can be met without hiding choices, pressuring users, or weakening trust. The visual and communicative system relies on clear hierarchy, visible exits, plain-language consent, honest incentives, and reassuring microcopy that gives users control at every decision point. I avoided manipulative urgency, misleading defaults, and buried unsubscribe paths because they create short-term retention at the cost of long-term brand credibility. The key judgement was to design monetization as a trust signal, making transparency part of the product’s value instead of a legal obligation.",
+          
+          result: [
+            "Ethical Monetization: Subscription and upsell flows remain profitable but are fully transparent, reducing complaints and cancellations caused by frustration.",
+            "Trust as Differentiator: Clear unsubscribe options, consent dialogs, and transparent incentives increase user confidence, particularly in Bavaria and Germany, where privacy and honesty are highly valued.",
+            "Global Consistency: Ethical design choices scale across international markets, proving that transparency and business goals can coexist.",
+            "Business-Aligned UX: The project demonstrates the ability to argue for users’ rights while understanding revenue, retention, and conversion metrics."
+          ],
+          takeawayTitle: "Takeaway",
+          takeaway: "Hier steht, was das Projekt über deine Fähigkeiten zeigt."
+        },
+        images: [
+          {
+            layout: "one",
+            items: [
+              {
+                src: "../pngs/Projects/Printer Display Redesign/Xerox-Used-Office-Copier-Printer.jpg",
+                alt: "Printer Interface overview"
+              }
+            ]
+          },
+          {
+            layout: "two",
+            items: [
+              {
+                src: "../pngs/your-image-2.jpg",
+                alt: "Printer detail 1"
+              },
+              {
+                src: "../pngs/your-image-3.jpg",
+                alt: "Printer detail 2"
+              }
+            ]
+          }
+        ]
+      }
+    },
+
+    //Bodique
     {
       slug: "bodique",
       title: "Bodique",
@@ -160,6 +291,8 @@ const projectsData = {
           challenge: "The challenge was addressing a real business problem with high complexity. Fashion has one of the highest return rates, mainly due to fit uncertainty, while users still expect speed, convenience, and trust. At the same time, the team had to align different understandings of the product, manage time pressure, and keep the process structured despite fast project shifts.",
 
           approach: "We used a Lean UX process with hypotheses, collaborative ideation, personas, and repeated testing. The concept focused on reducing decision stress through a digital twin, intuitive guidance, and a low entry barrier for first time use. Several testing rounds helped us validate user trust, navigation clarity, and the perceived usefulness of the recommendations. Based on feedback, we simplified the interface, reduced visual overload, and replaced a rigid sidebar with a more flexible modular system.",
+
+          creativeDirection:"The creative direction positions Bodique is positioned as a precise fitting assistant rather than a fashion gimmick or data-heavy tech product. The experience had to reduce return behavior by making size decisions feel informed, private, and low effort. The visual system therefore focuses on clean product logic, modular interface areas, realistic body representation, and restrained guidance instead of expressive fashion styling. We avoided overloaded dashboards and playful try-on effects because the main barrier was trust, not entertainment. The key judgement was to make the digital twin feel useful before it feels impressive, turning sensitive body data into clear recommendations that support confident purchase decisions.",
 
           result: [
             "Validated Core Value: Users understood the digital twin concept and saw strong potential for reducing size related returns.",
@@ -179,7 +312,7 @@ const projectsData = {
               {
                 type: "video",
                 src: "../pngs/Projects/Bodique/video.mp4",
-                alt: "Bodique interface mockup"
+                alt: "Bodique trailer"
               }
             ]
           },
@@ -189,7 +322,7 @@ const projectsData = {
             items: [
               {
                 src: "../pngs/Projects/Bodique/WhatsApp Image 2026-03-27 at 23.13.44.jpeg",
-                alt: "Bodique personas"
+                alt: "Bodique homescreen"
               },
               {
                 src: "../pngs/Projects/Bodique/WhatsApp Image 2026-03-28 at 01.17.01.jpeg",
@@ -203,7 +336,7 @@ const projectsData = {
             items: [
               {
                 src: "../pngs/Projects/Bodique/WhatsApp Image 2026-03-28 at 01.19.51.jpeg",
-                alt: "Bodique interface mockup"
+                alt: "Bodique interaction screens"
               }
             ]
           },
@@ -213,7 +346,7 @@ const projectsData = {
             items: [
               {
                 src: "../pngs/Projects/Bodique/WhatsApp Image 2026-03-28 at 01.19.34.jpeg",
-                alt: "Bodique interface mockup"
+                alt: "Bodique brands and clothe preferences"
               }
             ]
           }
@@ -235,6 +368,9 @@ const projectsData = {
           summary: "Finding products in a store takes time, especially in unfamiliar layouts. This project focuses on guiding users through stores efficiently while supporting product comparison and decision making.",
           challenge: "The main challenge was building a flexible routing system while staying within a fixed project scope. Weekly team meetings produced many ideas, which made it difficult to stay focused on the core requirements. At the same time, the team had limited experience with UX design, so the process needed to stay simple and structured. The solution had to balance guidance, usability, and clarity without becoming overly complex.",
           approach: "Working in a small team, we focused on making in store navigation fast and predictable. We built the concept around guided routing, where users are led step by step through store layouts instead of searching manually. My role was to define the core interaction and structure of the app. I shaped how routes are generated and how information is presented along the journey. Product details and comparison are integrated directly into the route, so users can make decisions without breaking their flow. We kept the interface simple and consistent, ensuring users always know where they are and what to do next. Every decision supports speed, clarity, and reliable use in real shopping situations.",
+          
+          creativeDirection:"The creative direction positions Store Guide as a practical orientation tool rather than a feature-heavy shopping companion. The experience had to support people in a moment where patience is low and decisions need to happen quickly. The visual system therefore relies on clear route hierarchy, simple step logic, consistent product cards, and direct comparison cues. I avoided exploratory navigation patterns and decorative retail aesthetics because they would slow users down and distract from the core promise: finding the right product with less effort. The key judgement was to make guidance feel predictable, so users can trust the route, stay oriented, and make decisions without interrupting their shopping flow.",
+
           result: [
             "Fast Route Generation: Users reach products quickly with minimal effort",
             "Clear Navigation: Simple structure improves orientation inside the store",
@@ -247,11 +383,15 @@ const projectsData = {
         },
         images: [
           {
-            layout: "one",
+            layout: "two",
             items: [
               {
-                src: "../pngs/Projects/Store Guide/app.jpg",
-                alt: "Store Guide1"
+                src: "../pngs/Projects/Store Guide/Home.png",
+                alt: "Store Guide Homescreen"
+              },
+              {
+                src: "../pngs/Projects/Store Guide/Home + Tastatur.png",
+                alt: "Store Guide Homescreen + Keyboard"
               }
             ]
           },
@@ -260,25 +400,29 @@ const projectsData = {
             layout: "two",
             items: [
               {
-                src: "../pngs/Projects/Store Guide/Home.jpg",
-                alt: "Store Guide2"
+                src: "../pngs/Projects/Store Guide/Sonderfall.png",
+                alt: "Store special case"
               },
               {
-                src: "../pngs/Projects/Store Guide/Home + Tastatur.jpg",
-                alt: "Store Guide3"
+                src: "../pngs/Projects/Store Guide/Lokalisation.jpg",
+                alt: "Store Guide localization"
               }
             ]
           },
 
           {
-            layout: "one",
+            layout: "two",
             items: [
               {
-                src: "../pngs/Projects/Store Guide/image-from-rawpixel-id-15235295-png.png",
-                alt: "Store Guide visual 2"
+                src: "../pngs/Projects/Store Guide/Produkt.png",
+                alt: "Store Guide Start route"
+              },
+              {      
+                src: "../pngs/Projects/Store Guide/Produktinformationen.png",
+                alt: "Store Guide productinformation"
               }
             ]
-          }
+          },
 
         ]
       }
@@ -298,6 +442,9 @@ const projectsData = {
           summary: "Across the THI campus, office printers serve students and professors daily — yet the existing interface added friction to what should be a seamless, two-step task. This project reimagined the display experience from the ground up, turning a cluttered institutional tool into something intuitive, fast, and consistent with the university's visual identity.",
           challenge: "Campus printers serve a wide range of users under time pressure. The existing interface presented too many options at once, lacked clear visual hierarchy, and offered no coherent connection between the web-based preparation tool and the physical printer display. The result was confusion, slower print jobs, and underuse of available features. The challenge was consolidating a fragmented system into a single, cohesive experience without sacrificing the flexibility users needed.",
           approach: "I built the redesign around THI's existing blue-centric colour scheme, using it as a structural tool rather than just a branding choice. Active elements draw attention only when relevant, while passive states recede — reducing cognitive load and letting users focus on the task at hand. Visual hierarchy was established through depth, contrast, and deliberate simplification, surfacing only the most essential actions at each step. The web-to-printer flow was unified so that orders prepared online translated directly and clearly to the physical display, eliminating the disconnect between the two touchpoints.",
+          
+          creativeDirection:"The creative direction positions the Printer Interface Redesign as a dependable campus utility rather than a generic machine interface. The design had to support students and professors in a task that should feel quick, clear, and almost invisible. The visual system uses THI’s blue identity, strong hierarchy, reduced action states, and consistent web-to-display logic to make the process feel coherent across touchpoints. I avoided feature-heavy menus and technical printer conventions because they created unnecessary hesitation in a time-sensitive context. The key judgement was to treat institutional software with the same clarity as a consumer product, turning a fragmented workflow into a focused service experience.",
+
           result: [
             "Faster Interactions: Removing conflicting visual principles and unnecessary steps shortened the time from arrival to print, benefiting users with tight schedules.",
             "Reduced Friction: A consistent interface language across web and display made the system predictable, lowering the learning curve for first-time users.",
@@ -308,7 +455,33 @@ const projectsData = {
           link: "../Booklets/Booklet II Final Julia Holzwert.pdf"
         },
         images: [
-
+          {
+            layout: "one",
+            items: [
+              {
+                src: "../pngs/Projects/Printer Display Redesign/Login.png",
+                alt: "Printer Interface Login"
+              }
+            ]
+          },
+          {
+            layout: "one",
+            items: [
+              {
+                src: "../pngs/Projects/Printer Display Redesign/Home.png",
+                alt: "Printer Interface Homescreen"
+              }
+            ]
+          },
+          {
+            layout: "one",
+            items: [
+              {
+                src: "../pngs/Projects/Printer Display Redesign/Senden-Sendeziel.png",
+                alt: "Printer Interface Overview"
+              }
+            ]
+          },
           {
             layout: "one",
             items: [
@@ -316,28 +489,8 @@ const projectsData = {
                 type: "compare",
                 before: "../pngs/Projects/Printer Display Redesign/before.jpeg",
                 after: "../pngs/Projects/Printer Display Redesign/Senden-Standardeinstellungen.jpg",
-                altBefore: "INVG before redesign",
-                altAfter: "INVG after redesign"
-              }
-            ]
-          },
-
-          {
-            layout: "one",
-            items: [
-              {
-                src: "../pngs/Projects/Printer Display Redesign/MicrosoftTeams-image20521.jpg",
-                alt: "Printer Interface overview"
-              }
-            ]
-          },
-
-          {
-            layout: "one",
-            items: [
-              {
-                src: "../pngs/Projects/Printer Display Redesign/Frame 1-min.jpg",
-                alt: "Printer Interface overview"
+                altBefore: "INVG before Redesign",
+                altAfter: "INVG after Redesign"
               }
             ]
           }
@@ -359,6 +512,9 @@ const projectsData = {
           summary: "The same interface, three entirely different experiences. - The INVG app gives users quick access to local transport information — but its existing design left room for both visual and structural improvement. Rather than producing a single redesign, this project used the INVG app as a foundation to explore how visual design language shapes usability, perception, and trust across three distinct design systems.",
           challenge: "Applying strong visual styles to a functional transit app without breaking its usability is harder than it sounds. Each design system — Glassmorphism, Bauhaus, and Material Design — carries its own rules around hierarchy, contrast, spacing, and interaction. The challenge was not simply aesthetic translation, but ensuring that each version remained legible, navigable, and fit for real transit conditions: quick glances, moving environments, and users under time pressure.",
           approach: "I began by deconstructing the original INVG interface, mapping its information architecture, user flows, and hierarchy before touching any visuals. That foundation stayed constant across all three versions. From there, each redesign was built on the core principles of its respective system — Glassmorphism's layered depth and soft transparency, Bauhaus's bold geometry and typographic discipline, and Material Design's structured clarity and component logic. In each case, contrast and visual weight were calibrated to surface critical information — next departure, platform, delay — within seconds of opening the app.",
+          
+          creativeDirection:"The creative direction positions the INVG App Redesign as a study in visual trust under real transport pressure. The project had to show how the same transit information can feel different depending on the design system, without weakening speed, legibility, or orientation. Each version uses its own visual logic: layered transparency for Glassmorphism, geometric discipline for Bauhaus, and structured component clarity for Material Design. I avoided treating the styles as surface decoration because public transport interfaces depend on fast recognition and confidence. The key judgement was to keep the functional core stable while letting visual language change perception, proving that style affects usability when applied with restraint.",
+
           result: [
             "Three Distinct Experiences, One Functional Core: Each version delivered a different visual tone and emotional register while preserving identical usability and navigation logic.",
             "Design System Fluency: The project demonstrated the ability to work fluidly across visual languages — adapting layout, typography, and interaction patterns without defaulting to personal style.",
@@ -425,6 +581,8 @@ const projectsData = {
           summary: "Memory loss shouldn't mean losing connection - For individuals living with dementia and their families, staying in touch and maintaining a daily routine is both essential and increasingly difficult. MemoWe was designed to bridge that gap — offering a product that supports both patients and their loved ones without adding complexity to already demanding lives.",
           challenge: "Designing for users with dementia requires an entirely different standard of clarity. Cognitive load, visual noise, and inconsistent patterns are not just inconveniences — they are genuine barriers. At the same time, the product needed to serve family members who may be less tech-savvy or emotionally overwhelmed. The challenge was creating a single, unified experience that felt intuitive, warm, and reliable for both audiences simultaneously.",
           approach: "I led the full product design from architecture to interface, grounding every decision in human-centered principles. Warm colour palettes and high-contrast layouts were chosen to reduce visual stress and aid recognition. Navigation was stripped to its essentials — predictable, repeatable, and forgiving of mistakes. The daily routine feature was structured around familiar rhythms, giving patients a sense of stability and control. Family-facing flows were designed for quick, low-friction check-ins, ensuring connection remained easy to maintain even at a distance.",
+          
+          creativeDirection:"The creative direction positions MemoWe as a calm support system rather than a medical tool or productivity app. The experience had to help people with dementia and their families feel guided, connected, and safe without adding emotional or cognitive pressure. The visual system therefore relies on warm colours, high contrast, familiar patterns, large readable elements, and predictable flows. I avoided complex dashboards, clinical aesthetics, and feature-heavy navigation because they would increase stress for users who need reassurance and repetition. The key judgement was to design around trust before functionality, making every interaction feel simple enough to return to and meaningful enough to support daily connection.",
           result: [
             "Meaningful Connection: Users and families reported that the app made staying in touch feel simple and natural, reducing the emotional distance that memory loss can create.",
             "Routine as Reassurance: The daily structure feature provided consistency for patients, supporting both cognitive retention and emotional wellbeing.",
@@ -442,19 +600,17 @@ const projectsData = {
               {
                 type: "video",
                 src: "../pngs/Projects/MemoWe/MemoWe_Ad_JuHo.mp4",
+                alt: "MemoWe Trailer"
               }
             ]
           },
+
           {
-            layout: "two",
+            layout: "one",
             items: [
               {
-                src: "../pngs/Projects/MemoWe/crop-ethnic-man-suit-with-tablet.jpg",
-                alt: "invg2"
-              },
-              {
-                src: "../pngs/Projects/MemoWe/close-up-hand-wearing-smartwatch-Wiederhergestellt.jpg",
-                alt: "invg3"
+                src: "../pngs/Projects/MemoWe/profile home.png",
+                alt: "MemoWe Profile"
               }
             ]
           },
@@ -462,8 +618,8 @@ const projectsData = {
             layout: "one",
             items: [
               {
-                src: "../pngs/Projects/MemoWe/Memowe_laptop.png",
-                alt: "Printer Interface overview"
+                src: "../pngs/Projects/MemoWe/upload.png",
+                alt: "MemoWe Upload"
               }
             ]
           },
@@ -471,8 +627,8 @@ const projectsData = {
             layout: "one",
             items: [
               {
-                src: "../pngs/Projects/MemoWe/Frame_151.jpg",
-                alt: "Printer Interface overview"
+                src: "../pngs/Projects/MemoWe/activity tracker.jpg",
+                alt: "MemoWe Resident Profile Information"
               }
             ]
           }
@@ -494,6 +650,9 @@ const projectsData = {
           summary: "A remote control is one of the most handled objects in any home — yet rarely designed to merge within surroundings. PikBre was a collaborative product design project focused on conceiving, developing, and presenting a remote control with a defined functional brief. Working as a small team, the project spanned the full design process — from initial concept to physical prototype and formal presentation.",
           challenge: "Delivering a complete product design process within a tight five-week window, alongside other academic commitments, required both disciplined time management and clear team coordination. Beyond logistics, the real design challenge was developing a coherent visual and functional language for an everyday object — one where every formal decision needed to be grounded in design theory, from aesthetic principles to sign and symbol function.",
           approach: "The team divided work according to individual strengths while maintaining a unified creative direction. The process moved through moodboarding, ideation sketches, AI-assisted visual exploration, and 3D modelling before culminating in a physical prototype. Weekly check-ins kept the project on track and allowed the team to identify and address weak areas early. Every design decision — form, material language, interaction logic — was developed with a theoretical foundation drawn from formal aesthetics and semiotics, ensuring the final presentation could defend each choice with a clear design argument.",
+          
+          creativeDirection:"The creative direction positions PikBre as an expressive ambient controller rather than a neutral household remote. The product had to communicate function through object language before interaction: a flower-like silhouette, honeycomb control head, leaf-shaped buttons, and a glowing power signal. The visual system uses dark surfaces, green illumination, modular geometry, and a plant-inspired form to make the remote feel visible, playful, and readable in a gaming or desk environment. We avoided minimal domestic styling because it would ignore the object’s character and presentation value. The key judgement was to turn everyday control into a small interactive presence, balancing functional symbols with a memorable sculptural identity.",
+          
           result: [
             "Cohesive Concept to Prototype: The project moved from abstract brief to physical object with a consistent visual and functional identity maintained throughout.",
             "Theory-Driven Decision Making: Every formal choice was grounded in design theory, producing a presentation that argued for the design rather than simply showcasing it.",
@@ -505,15 +664,24 @@ const projectsData = {
         },
         images: [
           {
+            layout: "one",
+            items: [
+              {
+                src: "../pngs/Projects/PikBre 3D - Remote Control/early stage.jpeg",
+                alt: "PikBre early Stage"
+              }
+            ]
+          },
+          {
             layout: "two",
             items: [
               {
-                src: "../pngs/Projects/PikBre 3D - Remote Control/WhatsApp Image 2026-03-27 at 22.26.49.jpeg",
-                alt: "Printer detail 1"
+                src: "../pngs/Projects/PikBre 3D - Remote Control/first impression.jpeg",
+                alt: "PikBre first Impression"
               },
               {
-                src: "../pngs/Projects/PikBre 3D - Remote Control/produkt.jpg",
-                alt: "Printer detail 2"
+                src: "../pngs/Projects/PikBre 3D - Remote Control/product.jpeg",
+                alt: "PikBre Product"
               }
             ]
           },
@@ -523,27 +691,14 @@ const projectsData = {
             items: [
               {
                 src: "../pngs/Projects/PikBre 3D - Remote Control/WhatsApp Image 2026-03-27 at 22.28.53.jpeg",
-                alt: "Printer detail 1"
+                alt: "PikBre Quality & Complexity"
               },
               {
                 src: "../pngs/Projects/PikBre 3D - Remote Control/WhatsApp Image 2026-03-27 at 22.29.35.jpeg",
-                alt: "Printer detail 2"
-              }
-            ]
-          },
-
-          {
-            layout: "one",
-            items: [
-              {
-                src: "../pngs/Projects/PikBre 3D - Remote Control/anzeichen.jpeg",
-                alt: "Printer Interface overview"
+                alt: "PikBre Quality & Complexity"
               }
             ]
           }
-
-
-
         ]
       }
     },
@@ -562,6 +717,9 @@ const projectsData = {
           summary: "“Millions rely on this app daily — including elderly passengers and people with disabilities.” In 2026, Accessibility isn’t “extra”-it’s a legal requirement for most big companies. ",
           challenge: "Making a complex everyday app usable for everyone. DB Navigator is widely used, but key interactions often break down under real conditions. Small touch targets make quick actions difficult. Screen reader support lacks clarity and structure. Low contrast reduces readability in fast moving environments. Simple tasks take too many steps, adding friction. Real time updates, like delays or platform changes, are easy to miss when they are only shown visually. ",
           approach: "I started by putting Accessibility at the heart of every interaction. In DB Navigator, that meant rethinking how information is structured, labeled, and presented. Content follows a clear hierarchy so screen readers can navigate journeys and connections effortlessly, while high contrast and icon-supported alerts make status updates instantly readable. Touch targets are larger and spaced consistently, and the booking flow is simplified to three steps, keeping the focus on what users really want. Audio feedback announces delays and platform changes in real time, while a consistent navigation pattern builds familiarity across the app. Error handling is clear and forgiving, and offline mode ensures tickets and timetables are always available. Every change is about making the app predictable, reliable, and human to use. ",
+          
+          creativeDirection:"The creative direction positions the DB Navigator Redesign as a reliable access point for public mobility rather than a feature-dense transport app. The experience had to support users in stressful travel moments, where delays, platform changes, and booking decisions need to be understood immediately. The visual system therefore relies on strong contrast, larger touch areas, clear status hierarchy, icon-supported alerts, and predictable navigation patterns. I avoided subtle visual cues and compact layouts because they exclude users who depend on clarity, repetition, or assistive technologies. The key judgement was to treat accessibility as the main design structure, making reliability, speed, and inclusion visible in every interaction.",
+          
           result: [
             "Faster, Safer Navigation: Restructuring the app around Accessibility made moving through screens quicker and more intuitive, reducing frustration and missteps.",
             "Error Reduction: Clear labeling, larger touch targets, and simplified flows lowered the chance of mistakes, helping users complete tasks with confidence.",
@@ -580,8 +738,8 @@ const projectsData = {
                 type: "compare",
                 before: "../pngs/Projects/DB Navigator Redesign/Darkmode.png",
                 after: "../pngs/Projects/DB Navigator Redesign/Lightmode.png",
-                altBefore: "INVG before redesign",
-                altAfter: "INVG after redesign"
+                altBefore: "DB Navigator before WCAG AAA in Lightmode",
+                altAfter: "DB Navigator before WCAG AAA in Darkmode"
               }
             ]
           },
@@ -593,8 +751,8 @@ const projectsData = {
                 type: "compare",
                 before: "../pngs/Projects/DB Navigator Redesign/Tickets D.png",
                 after: "../pngs/Projects/DB Navigator Redesign/Tickets L.png",
-                altBefore: "INVG before redesign",
-                altAfter: "INVG after redesign"
+                altBefore: "DB Navigator with Inclusion add on in Lightmode",
+                altAfter: "DB Navigator with Inclusion add on in Darkmode"
               }
             ]
           },
@@ -606,8 +764,8 @@ const projectsData = {
                 type: "compare",
                 before: "../pngs/Projects/DB Navigator Redesign/Acc Infos(2).png",
                 after: "../pngs/Projects/DB Navigator Redesign/Acc Infos(1).png",
-                altBefore: "INVG before redesign",
-                altAfter: "INVG after redesign"
+                altBefore: "DB Navigator Accessibility-Information in Lightmode",
+                altAfter: "DB Navigator Accessibility-Information in Darkmode"
               }
             ]
           },
@@ -616,77 +774,7 @@ const projectsData = {
       }
     },
 
-    //Après
-    {
-      slug: "Après",
-      title: "Après",
-      href: "./projectSites/Après.html",
-      categories: ["Immersive-Experience"],
-      coverImage: "./pngs/Projects/Aprés/Frame 59.png",
-
-      detail: {
-        meta: "Private Project from 2026",
-        sections: {
-          summary: "“Buying a luxury watch is just the start — the real experience happens after the purchase.” Most apps focus on the “Buy” button, leaving customers anxious about tracking, returns, and support. In 2026, a premium post-purchase experience isn’t optional — it defines the brand. ",
-          challenge: "Making post-purchase simple, transparent, and reassuring. Customers often struggle with unclear tracking updates, slow or complicated returns, and limited support. Critical flows like “My package missing” create frustration and stress. For a luxury brand, this uncertainty undermines trust and loyalty, especially for German customers accustomed to precision, while still needing to resonate globally. ",
-          approach: "I started by putting post-purchase care at the center. Tracking shows the watch in 3D from the Bavarian workshop to the doorstep, with grouped info on delivery time, customs, and delays. Alerts combine color, icons, and text, while optional voice notifications make updates accessible. Buttons are larger, consistently spaced, and core actions are always visible. The flow is simplified to three steps: Track, Report an Issue, Manage Return. Navigation is predictable across screens, errors are easy to recover from, and offline mode ensures critical info is available anywhere. Every design choice focuses on clarity, confidence, and a human experience. ",
-          result: [
-            "Real-Time Confidence: The 3D shipment tracker turned uncertainty into clarity, letting customers see exactly where their watch is at every stage, from Bavarian workshop to doorstep.",
-            "Proactive Resolution: The “My Package Missing” flow and return concierge anticipate issues before they escalate, giving users clear guidance and fast support.",
-            "Global Luxury, Local Precision: The experience balances Bavarian attention to detail with international usability, ensuring customers worldwide feel informed, cared for, and confident.",
-            "Post-Purchase as Brand: Every interaction after checkout reinforces trust and loyalty, making post-purchase care a defining part of the luxury experience rather than an afterthought. "
-          ],
-          takeawayTitle: "Takeaway",
-          takeaway: "Most designers focus on the “Buy” button, but few address the “My package missing” flow. This project demonstrates a complete understanding of the full Customer Experience, from purchase to resolution. "
-        },
-        images: [
-          {
-            layout: "one",
-            items: [
-              {
-                src: "../pngs/Projects/Aprés/Post-Purchase Landing.png",
-                alt: "Printer Interface overview"
-              }
-            ]
-          },
-          {
-            layout: "two",
-            items: [
-              {
-                src: "../pngs/Projects/Aprés/3D Shipment Tracker.png",
-                alt: "Printer detail 1"
-              },
-              {
-                src: "../pngs/Projects/Aprés/My Package Missing_ Flow.png",
-                alt: "Printer detail 2"
-              }
-            ]
-          },
-          {
-            layout: "one",
-            items: [
-              {
-                src: "../pngs/Projects/Aprés/Proaktiver Alert (Zollverzögerung).png",
-                alt: "Printer Interface overview"
-              }
-            ]
-          },
-          {
-            layout: "two",
-            items: [
-              {
-                src: "../pngs/Projects/Aprés/Return Concierge.png",
-                alt: "Printer detail 1"
-              },
-              {
-                src: "../pngs/Projects/Aprés/After-Care & Loyalität.png",
-                alt: "Printer detail 2"
-              }
-            ]
-          }
-        ]
-      }
-    },
+    
 
     //Spatial To-Do
     {
@@ -702,6 +790,9 @@ const projectsData = {
           summary: "“Productivity tools shouldn’t be limited to a screen.” In 2026, AR and VR offer the chance to rethink how people organize tasks and time. By extending a simple to-do list into a spatial interface, users can interact with their tasks in three dimensions, creating context, awareness, and presence while staying immersed in their environment. ",
           challenge: "Transforming a basic to-do list into a spatial experience without overwhelming the user. Traditional lists work linearly, but in AR/VR, poorly structured overlays can feel cluttered, distracting, or confusing. Tasks need to feel tangible, easy to prioritize, and always accessible without breaking immersion. The challenge was balancing functionality, comfort, and spatial cognition. ",
           approach: "I reimagined tasks as floating, manipulable objects anchored in the user’s environment. Key items appear in the primary field of view, while lower-priority tasks float around peripheral zones, fading dynamically. Gestures and eye-tracking let users move, expand, or mark tasks complete intuitively. Contextual reminders attach to objects in the physical space, linking digital tasks to real-world triggers. Color, light, and subtle haptic cues communicate urgency and deadlines without creating visual noise. The system adapts dynamically to the user’s focus and spatial movement, creating a seamless, human-centered workflow in 3D. ",
+          
+          creativeDirection:"The creative direction positions Spatial To-Do as a spatial productivity layer rather than a list placed inside AR or VR. The experience had to make tasks feel present, prioritized, and connected to the user’s environment without creating visual clutter. The visual system relies on floating task objects, depth-based hierarchy, peripheral fading, subtle urgency cues, and gesture-led interaction to support focus in three dimensions. I avoided dense overlays and screen-like layouts because they would fight against immersion and increase cognitive load. The key judgement was to use space as a functional structure, turning task management into something users can see, arrange, and act on naturally.",
+          
           result: [
             "Immersive Task Awareness: Users see tasks in context, spatially organized to reduce cognitive load and increase retention.",
             "Intuitive Interaction: Gestures, gaze, and voice commands replace clicks, making task management faster and more natural.",
@@ -752,6 +843,9 @@ const projectsData = {
           summary: "“Privacy is the first product.” For apps handling sensitive data, users hesitate at the first step: onboarding. HealthyStart focuses on explaining permissions, security, and data use in a way that feels transparent, reassuring, and easy to understand, even for non-technical users. ",
           challenge: "Designing an onboarding experience that communicates privacy clearly to non-technical users while respecting regional expectations. German users expect precision, control, and compliance with strict privacy standards like GDPR, but the interface also needed to feel approachable and intuitive for international audiences. Users often hesitate at first because health data is sensitive, and poor explanations can reduce adoption. ",
           approach: "I layered information to balance simplicity and depth. Permissions are grouped by type and impact, highlighting the required versus optional data. Security practices like encryption, secure storage, and two-factor authentication are explained through visual cues and plain-language animations rather than technical jargon. Microcopy reassures users at each step, using culturally familiar language and references for the German audience while maintaining clarity for international users. Interactive walkthroughs let users preview and adjust settings before completing onboarding, and default settings prioritize privacy. ",
+          
+          creativeDirection:"The creative direction positions HealthyStart as a trust-building onboarding experience rather than a permission checklist. The product had to make sensitive health data feel understandable, controlled, and protected from the first interaction. The visual system uses layered explanations, clear permission groups, calm microcopy, plain-language security cues, and privacy-first defaults to reduce hesitation without hiding important details. I avoided legalistic copy, technical security dashboards, and fear-based messaging because they would create distance instead of confidence. The key judgement was to make privacy feel actionable, showing users what happens to their data before asking for commitment.",
+          
           result: [
             "Immediate Trust: Users understand what health data is collected, why, and how it is protected, reducing anxiety and increasing onboarding completion.",
             "Localized Confidence: The flow aligns with German expectations for precision and transparency while remaining clear and approachable for global users.",
@@ -766,11 +860,11 @@ const projectsData = {
             items: [
               {
                 src: "../pngs/Projects/HealthyStart/Welcome & First Impression.png",
-                alt: "HeadsUp flow chart"
+                alt: "HealthyStart Welcome & First Impression"
               },
               {
                 src: "../pngs/Projects/HealthyStart/Permission Grouping.png",
-                alt: "HeadsUp personas"
+                alt: "HealthyStart Permission Grouping"
               }
             ]
           },
@@ -779,11 +873,11 @@ const projectsData = {
             items: [
               {
                 src: "../pngs/Projects/HealthyStart/Security Explanation.png",
-                alt: "HeadsUp flow chart"
+                alt: "HealthyStart Security Explanation"
               },
               {
                 src: "../pngs/Projects/HealthyStart/Interactive Privacy Preview.png",
-                alt: "HeadsUp personas"
+                alt: "HealthyStart Interactive Privacy Preview"
               }
             ]
           },
@@ -792,67 +886,16 @@ const projectsData = {
             items: [
               {
                 src: "../pngs/Projects/HealthyStart/Microcopy & Lokalisierung.png",
-                alt: "HeadsUp flow chart"
+                alt: "HealthyStart/Microcopy & Location"
               },
               {
                 src: "../pngs/Projects/HealthyStart/Onboarding Completion.png",
-                alt: "HeadsUp personas"
+                alt: "HealthyStart Onboarding Completion"
               }
             ]
           }
         ]
       }
     },
-
-    //FairFlow
-    {
-      slug: "fairFlow",
-      title: "FairFlow",
-      href: "./projectSites/fairFlow.html",
-      categories: ["Ethical-Design", "Data-Privacy", "Mobile-App"],
-      coverImage: "",
-
-      detail: {
-        meta: "Private Project from 2024",
-        sections: {
-          summary: "“Users should never feel trapped by design.” FairFlow focuses on auditing a popular German subscription app with hidden unsubscribe options, misleading defaults, and manipulative upsells. The project rethinks these interactions to make them ethical, transparent, and trustworthy while maintaining business goals and revenue. ",
-          challenge: "Balancing user trust with profitability. Many German users are highly sensitive to deceptive practices and expect transparency, but the app also operates internationally, where subscription models rely on clear upsells. The challenge was to remove dark patterns that frustrate users while designing flows that still encourage conversion and retention. ",
-          approach: "I conducted a full dark UX audit, mapping every point where the user could be misled or trapped. Subscription flows, consent dialogs, and hidden options were redesigned with clear labeling, visible opt-out buttons, and plain-language explanations. Incentives were reframed ethically: discounts, benefits, and reminders were transparent but compelling. Microcopy reassured users of control and privacy. Testing with German participants validated trust and comprehension, while international testing ensured flows were culturally neutral and effective globally. ",
-          result: [
-            "Ethical Monetization: Subscription and upsell flows remain profitable but are fully transparent, reducing complaints and cancellations caused by frustration.",
-            "Trust as Differentiator: Clear unsubscribe options, consent dialogs, and transparent incentives increase user confidence, particularly in Bavaria and Germany, where privacy and honesty are highly valued.",
-            "Global Consistency: Ethical design choices scale across international markets, proving that transparency and business goals can coexist.",
-            "Business-Aligned UX: The project demonstrates the ability to argue for users’ rights while understanding revenue, retention, and conversion metrics."
-          ],
-          takeawayTitle: "Takeaway",
-          takeaway: "Hier steht, was das Projekt über deine Fähigkeiten zeigt."
-        },
-        images: [
-          {
-            layout: "one",
-            items: [
-              {
-                src: "../pngs/Projects/Printer Display Redesign/Xerox-Used-Office-Copier-Printer.jpg",
-                alt: "Printer Interface overview"
-              }
-            ]
-          },
-          {
-            layout: "two",
-            items: [
-              {
-                src: "../pngs/your-image-2.jpg",
-                alt: "Printer detail 1"
-              },
-              {
-                src: "../pngs/your-image-3.jpg",
-                alt: "Printer detail 2"
-              }
-            ]
-          }
-        ]
-      }
-    },
-
   ]
 };

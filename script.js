@@ -250,6 +250,9 @@ function renderProjectDetail() {
       <h3>Approach</h3>
       <p>${s.approach || ""}</p>
 
+      <h3>Creative Direction</h3>
+      <p>${s.creativeDirection || ""}</p>
+
       <h3>Result</h3>
       <ul>
         ${(s.result || []).map(item => `<li>${item}</li>`).join("")}
