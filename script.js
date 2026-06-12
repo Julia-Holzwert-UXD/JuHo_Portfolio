@@ -241,23 +241,49 @@ function renderProjectDetail() {
     const s = project.detail.sections;
 
     textEl.innerHTML = `
+      <!-- 1 Satz Problem + 1 Satz Lösung -->
       <h3>Summary</h3>
       <p>${s.summary || ""}</p>
 
+
+      <!-- Das echte Problem, nicht die oberflächliche Aussage -->
       <h3>Challenge</h3>
       <p>${s.challenge || ""}</p>
 
+
+      <!-- Meine spezifische Methodik -->
       <h3>Approach</h3>
       <p>${s.approach || ""}</p>
 
+
+      <!-- Meine spezifische Rolle
+        - Led: [Was hast du geleitet?]
+        - Designed: [Welche Artefakte?]
+        - Tested: [Validation oder Testing?]
+        - Learned: [1 überraschende Insight]
+      -->
       <h3>Creative Direction</h3>
       <p>${s.creativeDirection || ""}</p>
 
+
+      <!-- Color, Typography, Spacing-Entscheidungen mit Begründung -->
+      <h3>Key Visual System</h3>
+      <p>${s.keyVisualSystem || ""}</p>
+
+
+      <!-- 
+        - [Artifact 1: Description + Impact]
+        - [Artifact 2: Description + Impact]
+        - [Validation: X participants tested, Y% task completion]
+      -->
       <h3>Result</h3>
       <ul>
         ${(s.result || []).map(item => `<li>${item}</li>`).join("")}
       </ul>
 
+      <!-- Ein echtes Learning das nicht offensichtlich ist:
+        Not "what the project teaches about healthcare" but "what I learned about design"
+      -->
       <h3>${s.takeawayTitle || "Takeaway"}</h3>
       <p>${s.takeaway || ""}</p>
           ${s.link ? `
