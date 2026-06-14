@@ -1651,3 +1651,26 @@ body.darkmode .custom-video {
     border-radius: 20px;
   }
 }
+
+#projectExtraRect {
+  margin: 96px 0 96px;
+  padding: 0 20px;
+  background: var(--bg-main);
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#projectExtraRect .project-extra-rect {
+  width: 100%;
+  max-width: 1400px;
+  height: 650px;
+  background: transparent;
+  border-radius: 32px;
+  box-sizing: border-box;
+}
+
+#projectExtraRect .project-extra-track::-webkit-scrollbar {
+  display: none;
+}

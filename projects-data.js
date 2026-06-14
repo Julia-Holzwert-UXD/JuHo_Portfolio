@@ -44,8 +44,8 @@ const projectsData = {
             layout: "one",
             items: [
               {
-                src: "../pngs/Projects/HeadsUp/Navigation 2 - High Volume Cars.jpg",
-                alt: "HeadsUp in action"
+                src: "../pngs/Projects/HeadsUp/Greeting.jpg",
+                alt: "HeadsUp Greeting"
               }
             ]
           },
@@ -79,11 +79,33 @@ const projectsData = {
             layout: "one",
             items: [
               {
-                src: "../pngs/Projects/HeadsUp/Unfall - Frontal Kolision.jpg",
-                alt: "HeadsUp in action"
+                src: "../pngs/Projects/HeadsUp/Home.png",
+                alt: "HeadsUp Homescreen"
               }
             ]
           }
+        ],
+        extraImages: [
+          {
+            src: "./pngs/Projects/HeadsUp/Navigation 2 - High Volume Cars.jpg",
+            alt: "HeadsUp in action"
+          },
+          {
+            src: "./pngs/Projects/HeadsUp/Telefonieren 1 - Anruf.jpg",
+            alt: "HeadsUp Telefonat"
+          },
+          {
+            src: "./pngs/Projects/HeadsUp/Unfall - Frontal Kolision.jpg",
+            alt: "HeadsUp in action"
+          },
+          {
+            src: "./pngs/Projects/HeadsUp/Telefonieren 2 - im anruf.png",
+            alt: "HeadsUp in action"
+          },
+          {
+            src: "./pngs/Projects/HeadsUp/Unfall - Auffahr.png",
+            alt: "HeadsUp in action"
+          },
         ]
       }
     },
@@ -172,6 +194,20 @@ const projectsData = {
               }
             ]
           }
+        ],
+        extraImages: [
+          {
+            src: "./pngs/Projects/Store Guide/logo.jpg",
+            alt: "Store Guide Logo"
+          },
+          {
+            src: "./pngs/Projects/Store Guide/app.jpg",
+            alt: "Store Guide Add"
+          },
+          {
+            src: "./pngs/Projects/Store Guide/add.jpg",
+            alt: "Store Guide Another Add"
+          }
         ]
       }
     },
@@ -250,6 +286,20 @@ const projectsData = {
               }
             ]
           }
+        ],
+        extraImages: [
+          {
+            src: "./pngs/Projects/Store Guide/logo.jpg",
+            alt: "Store Guide Logo"
+          },
+          {
+            src: "./pngs/Projects/Store Guide/app.jpg",
+            alt: "Store Guide Add"
+          },
+          {
+            src: "./pngs/Projects/Store Guide/add.jpg",
+            alt: "Store Guide Another Add"
+          }
         ]
       }
     },
@@ -303,6 +353,20 @@ const projectsData = {
                 alt: "Printer detail 2"
               }
             ]
+          }
+        ],
+        extraImages: [
+          {
+            src: "./pngs/Projects/Store Guide/logo.jpg",
+            alt: "Store Guide Logo"
+          },
+          {
+            src: "./pngs/Projects/Store Guide/app.jpg",
+            alt: "Store Guide Add"
+          },
+          {
+            src: "./pngs/Projects/Store Guide/add.jpg",
+            alt: "Store Guide Another Add"
           }
         ]
       }
@@ -387,6 +451,20 @@ const projectsData = {
               }
             ]
           }
+        ],
+        extraImages: [
+          {
+            src: "./pngs/Projects/Store Guide/logo.jpg",
+            alt: "Store Guide Logo"
+          },
+          {
+            src: "./pngs/Projects/Store Guide/app.jpg",
+            alt: "Store Guide Add"
+          },
+          {
+            src: "./pngs/Projects/Store Guide/add.jpg",
+            alt: "Store Guide Another Add"
+          }
         ]
       }
     },
@@ -462,8 +540,24 @@ const projectsData = {
             ]
           }
 
+        ],
+        extraImages: [
+          {
+            src: "./pngs/Projects/Store Guide/logo.jpg",
+            alt: "Store Guide Logo"
+          },
+          {
+            src: "./pngs/Projects/Store Guide/app.jpg",
+            alt: "Store Guide Add"
+          },
+          {
+            src: "./pngs/Projects/Store Guide/add.jpg",
+            alt: "Store Guide Another Add"
+          }
         ]
+
       }
+
     },
 
     //Printer Interface Redesign
@@ -534,6 +628,24 @@ const projectsData = {
                 altAfter: "INVG after Redesign"
               }
             ]
+          }
+        ],
+        extraImages: [
+          {
+            src: "./pngs/Projects/Printer Display Redesign/Frame 1-min.jpg",
+            alt: "Printer Interfaces"
+          },
+          {
+            src: "./pngs/Projects/Printer Display Redesign/MicrosoftTeams-image20521.jpg",
+            alt: "Printer in Use"
+          },
+          {
+            src: "./pngs/Projects/Printer Display Redesign/Xerox-Used-Office-Copier-Printer.jpg",
+            alt: "Printer in Foreground"
+          },
+          {
+            src: "./pngs/Projects/Printer Display Redesign/office-printers-and-mfps-data.jpg",
+            alt: "Printer in Foreground"
           }
         ]
       }
@@ -679,6 +791,24 @@ const projectsData = {
               }
             ]
           }
+        ],
+        extraImages: [
+          {
+            src: "./pngs/Projects/MemoWe/Frame_151.jpg",
+            alt: "MemoWe Screens"
+          },         
+          {
+            src: "./pngs/Projects/MemoWe/Memowe_laptop.png",
+            alt: "MemoWe Social Media"
+          },
+          {
+            src: "./pngs/Projects/MemoWe/picture gallery.jpg",
+            alt: "MemoWe Photo Gallery"
+          },
+          {
+            src: "./pngs/Projects/MemoWe/activity.jpg",
+            alt: "MemoWe Activity"
+          }
         ]
       }
     },
@@ -748,6 +878,20 @@ const projectsData = {
                 alt: "PikBre Quality & Complexity"
               }
             ]
+          }
+        ],
+        extraImages: [
+          {
+            src: "./pngs/Projects/PikBre 3D - Remote Control/in use.jpeg",
+            alt: "Store Guide Logo"
+          },
+          {
+            src: "./pngs/Projects/PikBre 3D - Remote Control/anzeichen.jpeg",
+            alt: "Store Guide Add"
+          },
+          {
+            src: "./pngs/Projects/PikBre 3D - Remote Control/produkt.jpg",
+            alt: "Store Guide Another Add"
           }
         ]
       }
@@ -843,6 +987,20 @@ const projectsData = {
             ]
           }
 
+        ],
+        extraImages: [
+          {
+            src: "./pngs/Projects/Store Guide/logo.jpg",
+            alt: "Store Guide Logo"
+          },
+          {
+            src: "./pngs/Projects/Store Guide/app.jpg",
+            alt: "Store Guide Add"
+          },
+          {
+            src: "./pngs/Projects/Store Guide/add.jpg",
+            alt: "Store Guide Another Add"
+          }
         ]
       }
     },
@@ -898,6 +1056,20 @@ const projectsData = {
                 alt: "Printer detail 2"
               }
             ]
+          }
+        ],
+        extraImages: [
+          {
+            src: "./pngs/Projects/Store Guide/logo.jpg",
+            alt: "Store Guide Logo"
+          },
+          {
+            src: "./pngs/Projects/Store Guide/app.jpg",
+            alt: "Store Guide Add"
+          },
+          {
+            src: "./pngs/Projects/Store Guide/add.jpg",
+            alt: "Store Guide Another Add"
           }
         ]
       }
@@ -970,6 +1142,20 @@ const projectsData = {
                 alt: "HealthyStart Onboarding Completion"
               }
             ]
+          }
+        ],
+        extraImages: [
+          {
+            src: "./pngs/Projects/Store Guide/logo.jpg",
+            alt: "Store Guide Logo"
+          },
+          {
+            src: "./pngs/Projects/Store Guide/app.jpg",
+            alt: "Store Guide Add"
+          },
+          {
+            src: "./pngs/Projects/Store Guide/add.jpg",
+            alt: "Store Guide Another Add"
           }
         ]
       }

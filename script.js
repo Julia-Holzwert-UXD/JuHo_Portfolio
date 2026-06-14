@@ -238,32 +238,32 @@ function renderProjectDetail() {
   }
   const introBlock = document.querySelector(".intro-block");
 
-let coverBannerEl = document.getElementById("projectCoverBanner");
+  let coverBannerEl = document.getElementById("projectCoverBanner");
 
-if (!coverBannerEl && introBlock) {
-  coverBannerEl = document.createElement("section");
-  coverBannerEl.id = "projectCoverBanner";
-  introBlock.insertAdjacentElement("afterend", coverBannerEl);
-}
+  if (!coverBannerEl && introBlock) {
+    coverBannerEl = document.createElement("section");
+    coverBannerEl.id = "projectCoverBanner";
+    introBlock.insertAdjacentElement("afterend", coverBannerEl);
+  }
 
-if (coverBannerEl) {
-  const base = getBasePath();
+  if (coverBannerEl) {
+    const base = getBasePath();
 
-  const coverColor = project.coverBackgroundColor || "#9d00ff";
+    const coverColor = project.coverBackgroundColor || "#9d00ff";
 
-  const coverSrc = project.coverBannerImage
-  ? project.coverBannerImage.replace("./", base)
-  : project.coverImage
-    ? project.coverImage.replace("./", base)
-    : "";
+    const coverSrc = project.coverBannerImage
+      ? project.coverBannerImage.replace("./", base)
+      : project.coverImage
+        ? project.coverImage.replace("./", base)
+        : "";
 
-  console.log("Cover banner project:", project.title);
-  console.log("Cover banner color:", coverColor);
-  console.log("Cover banner image:", coverSrc);
+    console.log("Cover banner project:", project.title);
+    console.log("Cover banner color:", coverColor);
+    console.log("Cover banner image:", coverSrc);
 
-  coverBannerEl.hidden = false;
+    coverBannerEl.hidden = false;
 
-  coverBannerEl.style.cssText = `
+    coverBannerEl.style.cssText = `
     margin: 0 0 72px;
     padding: 0 20px;
     background: var(--bg-main);
@@ -273,20 +273,19 @@ if (coverBannerEl) {
     box-sizing: border-box;
   `;
 
-  coverBannerEl.innerHTML = `
+    coverBannerEl.innerHTML = `
     <div class="project-cover-wrapper">
-      ${
-        coverSrc
-          ? `<img class="project-cover-img" src="${coverSrc}" alt="${project.title} cover image">`
-          : ""
+      ${coverSrc
+        ? `<img class="project-cover-img" src="${coverSrc}" alt="${project.title} cover image">`
+        : ""
       }
     </div>
   `;
 
-  const coverWrapper = coverBannerEl.querySelector(".project-cover-wrapper");
-  const coverImg = coverBannerEl.querySelector(".project-cover-img");
+    const coverWrapper = coverBannerEl.querySelector(".project-cover-wrapper");
+    const coverImg = coverBannerEl.querySelector(".project-cover-img");
 
-coverWrapper.style.cssText = `
+    coverWrapper.style.cssText = `
   width: 100%;
   max-width: 1400px;
   height: clamp(280px, 42vh, 520px);
@@ -299,11 +298,11 @@ coverWrapper.style.cssText = `
   overflow: hidden;
 `;
 
-if (coverImg) {
-  const coverZoom = project.coverZoom ?? 0;
-  const coverScale = 1 + coverZoom / 100;
+    if (coverImg) {
+      const coverZoom = project.coverZoom ?? 0;
+      const coverScale = 1 + coverZoom / 100;
 
-  coverImg.style.cssText = `
+      coverImg.style.cssText = `
     display: block;
 
     position: absolute;
@@ -324,8 +323,8 @@ if (coverImg) {
 
     pointer-events: none;
   `;
-}
-}
+    }
+  }
   if (textEl) {
     const s = project.detail.sections;
 
@@ -385,8 +384,8 @@ if (coverImg) {
   if (imagesEl) {
     imagesEl.innerHTML = (project.detail.images || []).map(row => {
       const media = row.items.map(item => {
-if (item.type === "video") {
-  return `
+        if (item.type === "video") {
+          return `
     <div class="custom-video" data-custom-video>
       <video
         class="custom-video-media"
@@ -448,7 +447,7 @@ if (item.type === "video") {
       </div>
     </div>
   `;
-}
+        }
 
         if (item.type === "compare") {
           const projectSlug = document.body.dataset.projectSlug || "";
@@ -491,6 +490,248 @@ if (item.type === "video") {
       return `<div class="image-row ${row.layout}">${media}</div>`;
     }).join("");
   }
+  const projectDetailSection = document.querySelector(".project-detail-section");
+
+let extraRectEl = document.getElementById("projectExtraRect");
+
+if (!extraRectEl && projectDetailSection) {
+  extraRectEl = document.createElement("section");
+  extraRectEl.id = "projectExtraRect";
+  projectDetailSection.insertAdjacentElement("afterend", extraRectEl);
+}
+
+if (extraRectEl) {
+  const extraImages = project.detail.extraImages || [];
+  const base = getBasePath();
+
+  if (extraImages.length) {
+    extraRectEl.hidden = false;
+
+    extraRectEl.style.cssText = `
+      margin: 96px 0 96px;
+      padding: 0 20px;
+      background: var(--bg-main);
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      box-sizing: border-box;
+    `;
+
+    extraRectEl.innerHTML = `
+      <div class="project-extra-slider-wrap">
+        <button class="project-extra-arrow project-extra-arrow-left" type="button" aria-label="Previous image">
+          ‹
+        </button>
+
+        <div class="project-extra-rect">
+          <div class="project-extra-track">
+            ${extraImages.map(image => {
+              const src = image.src.startsWith("./")
+                ? image.src.replace("./", base)
+                : image.src;
+
+              return `
+                <figure class="project-extra-item">
+                  <img
+                    class="project-extra-img"
+                    src="${src}"
+                    alt="${image.alt || ""}"
+                    draggable="false"
+                  >
+                </figure>
+              `;
+            }).join("")}
+          </div>
+        </div>
+
+        <button class="project-extra-arrow project-extra-arrow-right" type="button" aria-label="Next image">
+          ›
+        </button>
+      </div>
+    `;
+
+    const sliderWrap = extraRectEl.querySelector(".project-extra-slider-wrap");
+    const extraRect = extraRectEl.querySelector(".project-extra-rect");
+    const extraTrack = extraRectEl.querySelector(".project-extra-track");
+    const leftArrow = extraRectEl.querySelector(".project-extra-arrow-left");
+    const rightArrow = extraRectEl.querySelector(".project-extra-arrow-right");
+
+    sliderWrap.style.cssText = `
+      width: 100%;
+      max-width: 1400px;
+      position: relative;
+      box-sizing: border-box;
+    `;
+
+    extraRect.style.cssText = `
+      width: 100%;
+      height: 680px;
+
+      background: transparent;
+      border-radius: 32px;
+
+      overflow: hidden;
+      box-sizing: border-box;
+      position: relative;
+    `;
+
+    extraTrack.style.cssText = `
+      width: 100%;
+      height: 100%;
+
+      display: flex;
+      gap: 16px;
+
+      overflow-x: hidden;
+      overflow-y: hidden;
+
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+
+      scroll-behavior: smooth;
+      user-select: none;
+    `;
+
+    extraTrack.querySelectorAll(".project-extra-item").forEach(item => {
+      item.style.cssText = `
+        flex: 0 0 auto;
+        height: 100%;
+
+        margin: 0;
+        padding: 0;
+
+        overflow: visible;
+        display: block;
+
+        box-sizing: border-box;
+      `;
+    });
+
+    extraTrack.querySelectorAll(".project-extra-img").forEach(img => {
+      img.style.cssText = `
+        display: block;
+
+        height: 100%;
+        width: auto;
+
+        max-width: none;
+        max-height: none;
+
+        object-fit: contain;
+        object-position: center;
+
+        pointer-events: none;
+        user-select: none;
+      `;
+    });
+
+    const arrowBaseStyle = `
+      position: absolute;
+      top: 50%;
+      z-index: 5;
+
+      width: 52px;
+      height: 52px;
+
+      border: 0;
+      border-radius: 999px;
+
+      display: grid;
+      place-items: center;
+
+      background: var(--bg-main);
+      color: var(--text-dark);
+
+      font-size: 40px;
+      line-height: 1;
+
+      cursor: pointer;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, .16);
+
+      transform: translateY(-50%);
+      transition: transform .2s ease, opacity .2s ease;
+    `;
+
+    leftArrow.style.cssText = `
+      ${arrowBaseStyle}
+      left: -26px;
+    `;
+
+    rightArrow.style.cssText = `
+      ${arrowBaseStyle}
+      right: -26px;
+    `;
+
+   
+
+    initExtraImageSlider(sliderWrap);
+  } else {
+    extraRectEl.hidden = true;
+  }
+
+}
+}
+function initExtraImageSlider(sliderWrap) {
+  if (!sliderWrap || sliderWrap.dataset.sliderReady) return;
+
+  sliderWrap.dataset.sliderReady = "true";
+
+  const track = sliderWrap.querySelector(".project-extra-track");
+  const items = Array.from(sliderWrap.querySelectorAll(".project-extra-item"));
+  const leftArrow = sliderWrap.querySelector(".project-extra-arrow-left");
+  const rightArrow = sliderWrap.querySelector(".project-extra-arrow-right");
+
+  if (!track || !items.length || !leftArrow || !rightArrow) return;
+
+  let currentIndex = 0;
+
+  function updateArrows() {
+    leftArrow.style.display = currentIndex === 0 ? "none" : "grid";
+    rightArrow.style.display = currentIndex >= items.length - 1 ? "none" : "grid";
+  }
+
+  function scrollToImage(index) {
+    currentIndex = Math.max(0, Math.min(index, items.length - 1));
+
+    const item = items[currentIndex];
+
+    const targetScroll =
+      currentIndex === 0
+        ? 0
+        : item.offsetLeft + item.offsetWidth / 2 - track.clientWidth / 2;
+
+    track.scrollTo({
+      left: targetScroll,
+      behavior: "smooth"
+    });
+
+    updateArrows();
+  }
+
+  leftArrow.addEventListener("click", () => {
+    scrollToImage(currentIndex - 1);
+  });
+
+  rightArrow.addEventListener("click", () => {
+    scrollToImage(currentIndex + 1);
+  });
+
+  window.addEventListener("resize", () => {
+    scrollToImage(currentIndex);
+  });
+
+  items.forEach(item => {
+    const img = item.querySelector("img");
+
+    if (img && !img.complete) {
+      img.addEventListener("load", () => {
+        scrollToImage(currentIndex);
+      }, { once: true });
+    }
+  });
+
+  scrollToImage(0);
 }
 function initFilters() {
   const projectsGrid = document.getElementById("projectsGrid");
