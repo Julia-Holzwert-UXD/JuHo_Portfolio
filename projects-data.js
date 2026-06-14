@@ -7,6 +7,9 @@ const projectsData = {
       href: "./projectSites/headsUp.html",
       categories: ["Immersive-Experience", "Group-Project", "Accessibility", "Ethical-Design"],
       coverImage: "./pngs/Projects/HeadsUp/Logo.png",
+      coverBannerImage: "./pngs/Projects/HeadsUp/Logo.png",
+      coverBackgroundColor: "#FEFEFE",
+      coverZoom: 130,
 
       detail: {
         meta: "Group Project from 2024 for 4 Months",
@@ -92,6 +95,9 @@ const projectsData = {
       href: "./projectSites/campusTalk.html",
       categories: ["Group-Project", "Ethical-Design"],
       coverImage: "./pngs/Projects/CampusTalk/Logo.png",
+      coverBannerImage: "./pngs/Projects/CampusTalk/Logo.png",
+      coverBackgroundColor: "linear-gradient(90deg, #2D2077 50%, #35278F 68%)",
+      coverZoom: 120,
 
       detail: {
         meta: "Group Project from 2025 for 4 Months",
@@ -177,6 +183,9 @@ const projectsData = {
       href: "./projectSites/Après.html",
       categories: ["Immersive-Experience"],
       coverImage: "./pngs/Projects/Aprés/Frame 59.png",
+      coverBannerImage: "./pngs/Projects/Aprés/Frame 59.png",
+      coverBackgroundColor: "#F4EFE5",
+      coverZoom: 80,
 
       detail: {
         meta: "Private Project from 2026",
@@ -252,6 +261,7 @@ const projectsData = {
       href: "./projectSites/fairFlow.html",
       categories: ["Ethical-Design", "Data-Privacy", "Mobile-App"],
       coverImage: "",
+      coverBannerImage: "",
 
       detail: {
         meta: "Private Project from 2024",
@@ -305,6 +315,9 @@ const projectsData = {
       href: "./projectSites/bodique.html",
       categories: ["Product-Design", "Data-Privacy", "Group-Project"],
       coverImage: "./pngs/Projects/Bodique/Logo.png",
+      coverBannerImage: "./pngs/Projects/Bodique/Logo.png",
+      coverBackgroundColor: "#FEFEFE",
+      coverZoom: 40,
 
       detail: {
         meta: "Group Project from Winter Semester 2025/2026 for 4 months",
@@ -385,6 +398,9 @@ const projectsData = {
       href: "./projectSites/storeGuide.html",
       categories: ["Mobile-App", "Group-Project"],
       coverImage: "./pngs/Projects/Store Guide/cover.png",
+      coverBannerImage: "./pngs/Projects/Store Guide/cover.png",
+      coverBackgroundColor: "#30782F",
+      coverZoom: 90,
 
       detail: {
         meta: "Group Project from 2023/24 for 4 Months",
@@ -419,21 +435,6 @@ const projectsData = {
               }
             ]
           },
-
-          {
-            layout: "two",
-            items: [
-              {
-                src: "../pngs/Projects/Store Guide/Sonderfall.png",
-                alt: "Store special case"
-              },
-              {
-                src: "../pngs/Projects/Store Guide/Lokalisation.jpg",
-                alt: "Store Guide localization"
-              }
-            ]
-          },
-
           {
             layout: "two",
             items: [
@@ -447,6 +448,19 @@ const projectsData = {
               }
             ]
           },
+          {
+            layout: "two",
+            items: [
+              {
+                src: "../pngs/Projects/Store Guide/Sonderfall.png",
+                alt: "Store special case"
+              },
+              {
+                src: "../pngs/Projects/Store Guide/Lokalisation.jpg",
+                alt: "Store Guide localization"
+              }
+            ]
+          }
 
         ]
       }
@@ -459,6 +473,9 @@ const projectsData = {
       href: "./projectSites/printerInterface.html",
       categories: ["Redesign"],
       coverImage: "./pngs/Projects/Printer Display Redesign/logo.png",
+      coverBannerImage: "./pngs/Projects/Printer Display Redesign/logo.png",
+      coverBackgroundColor: "#ffffff",
+      coverZoom: 20,
 
       detail: {
         meta: "Private Project from 2024",
@@ -529,6 +546,9 @@ const projectsData = {
       href: "./projectSites/invg.html",
       categories: ["Mobile-App", "Public-Transport", "Redesign"],
       coverImage: "./pngs/Projects/INVG App Redesign/Logo.png",
+      coverBannerImage: "./pngs/Projects/INVG App Redesign/Logo.png",
+      coverBackgroundColor: "#ffffff",
+      coverZoom: 20,
 
       detail: {
         meta: "Private Project from 2026 for 2 Weeks",
@@ -598,6 +618,9 @@ const projectsData = {
       href: "./projectSites/memowe.html",
       categories: ["Health-Tech", "Accessibility"],
       coverImage: "./pngs/Projects/MemoWe/Logo.png",
+      coverBannerImage: "./pngs/Projects/MemoWe/Logo.png",
+      coverBackgroundColor: "#30BAC7",
+      coverZoom: 110,
 
       detail: {
         meta: "Private Project from 2024 for 6 Months",
@@ -667,6 +690,9 @@ const projectsData = {
       href: "./projectSites/pikBre3D-RemoteControl.html",
       categories: ["Product-Design", "Group-Project"],
       coverImage: "./pngs/Projects/PikBre 3D - Remote Control/logo.png",
+      coverBannerImage: "./pngs/Projects/PikBre 3D - Remote Control/logo.png",
+      coverBackgroundColor: "#FEFEFE",
+      coverZoom: 30,
 
       detail: {
         meta: "Group Project from 2026 for 5 Weeks",
@@ -734,6 +760,9 @@ const projectsData = {
       href: "./projectSites/DBNavigatorRedesign.html",
       categories: ["Accessibility", "Mobile-App", "Public-Transport", "Redesign"],
       coverImage: "./pngs/Projects/DB Navigator Redesign/Logo.png",
+      coverBannerImage: "./pngs/Projects/DB Navigator Redesign/Logo.png",
+      coverBackgroundColor: "#ffffff",
+      coverZoom: 50,
 
       detail: {
         meta: "Private Project from 2026",
@@ -827,6 +856,7 @@ const projectsData = {
       href: "./projectSites/spatialTo-Do.html",
       categories: ["Immersive-Experience"],
       coverImage: "",
+      coverBannerImage: "",
 
       detail: {
         meta: "Private Project from 2026",
@@ -880,6 +910,9 @@ const projectsData = {
       href: "./projectSites/healthyStart.html",
       categories: ["Health-Tech", "Data-Privacy", "Mobile-App"],
       coverImage: "./pngs/Projects/HealthyStart/Logo.png",
+      coverBannerImage: "./pngs/Projects/HealthyStart/Logo.png",
+      coverBackgroundColor: "#FAFAF8",
+      coverZoom: 0,
 
       detail: {
         meta: "Private Project from 2024",

@@ -236,7 +236,96 @@ function renderProjectDetail() {
       return `<a href="${base}projects.html?filter=${category}#filters">${category}</a>`;
     }).join(" | ");
   }
+  const introBlock = document.querySelector(".intro-block");
 
+let coverBannerEl = document.getElementById("projectCoverBanner");
+
+if (!coverBannerEl && introBlock) {
+  coverBannerEl = document.createElement("section");
+  coverBannerEl.id = "projectCoverBanner";
+  introBlock.insertAdjacentElement("afterend", coverBannerEl);
+}
+
+if (coverBannerEl) {
+  const base = getBasePath();
+
+  const coverColor = project.coverBackgroundColor || "#9d00ff";
+
+  const coverSrc = project.coverBannerImage
+  ? project.coverBannerImage.replace("./", base)
+  : project.coverImage
+    ? project.coverImage.replace("./", base)
+    : "";
+
+  console.log("Cover banner project:", project.title);
+  console.log("Cover banner color:", coverColor);
+  console.log("Cover banner image:", coverSrc);
+
+  coverBannerEl.hidden = false;
+
+  coverBannerEl.style.cssText = `
+    margin: 0 0 72px;
+    padding: 0 20px;
+    background: var(--bg-main);
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+  `;
+
+  coverBannerEl.innerHTML = `
+    <div class="project-cover-wrapper">
+      ${
+        coverSrc
+          ? `<img class="project-cover-img" src="${coverSrc}" alt="${project.title} cover image">`
+          : ""
+      }
+    </div>
+  `;
+
+  const coverWrapper = coverBannerEl.querySelector(".project-cover-wrapper");
+  const coverImg = coverBannerEl.querySelector(".project-cover-img");
+
+coverWrapper.style.cssText = `
+  width: 100%;
+  max-width: 1400px;
+  height: clamp(280px, 42vh, 520px);
+  border-radius: 32px;
+  background: ${coverColor};
+  box-shadow: 0 18px 44px rgba(0, 0, 0, .1);
+  box-sizing: border-box;
+
+  position: relative;
+  overflow: hidden;
+`;
+
+if (coverImg) {
+  const coverZoom = project.coverZoom ?? 0;
+  const coverScale = 1 + coverZoom / 100;
+
+  coverImg.style.cssText = `
+    display: block;
+
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
+    height: 100%;
+    width: auto;
+
+    max-width: none;
+    max-height: none;
+
+    object-fit: contain;
+    object-position: center;
+
+    transform: translate(-50%, -50%) scale(${coverScale});
+    transform-origin: center center;
+
+    pointer-events: none;
+  `;
+}
+}
   if (textEl) {
     const s = project.detail.sections;
 
