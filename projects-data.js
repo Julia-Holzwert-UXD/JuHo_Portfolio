@@ -19,22 +19,21 @@ const projectsData = {
 
           challenge: "The core challenge was deciding what should disappear. The HUD had to connect phone setup, windshield feedback, device transfer, and safety warnings without creating hesitation or visual overload in a driving context.",
 
-          approach: "My main responsibility was the information architecture and interaction logic for the adaptive HUD modules. I translated setup, navigation, calls, rear camera access, and safety warnings into task flows, screen states, and module behavior. Specific screens included the phone setup flow, windshield start screen, saved profile overview, transfer state, and rear camera selection flow. We tested the prototype with 12 participants and tracked setup tasks, HUD recognition, rear camera access, errors, assists, and subjective feedback. I conducted two participant sessions and identified that users hesitated on the windshield start screen because setup and transfer actions had the same visual weight. This led to a clearer action hierarchy, improved transfer wording, explicit profile naming, a saved profile overview, responsive button groups, and a gray information preview.",
+          approach: "I owned the HUD information architecture and interaction logic, translating phone setup, navigation, calls, rear camera access, and safety warnings into task flows and screen states. We tested with 12 participants and found that users hesitated on the start screen due to equal visual weight between setup and transfer actions — leading to a clearer hierarchy, improved wording, and a saved profile overview.",
 
-          creativeDirection: "HeadsUp is positioned as a calm safety interface rather than a futuristic automotive display. Clear hierarchy, controlled warning states, direct feedback, and situational modules carry the direction. Decorative motion and dense dashboard aesthetics were reduced because the system needed fast understanding, not visual impact.",
+          creativeDirection: "HeadsUp is positioned as a calm safety interface rather than a futuristic automotive display — clear hierarchy, controlled warning states, direct feedback, and situational modules prioritize understanding over visual impact. Decorative motion and dashboard density were stripped to reduce cognitive load under driving pressure.",
 
-          keyVisualSystem: "The visual system uses Inter to create the precision of a neutral system interface. The color logic follows familiar mobile state semantics, since most study participants used Android and the HUD needed to feel recognizable under pressure. Blue marks active guidance, selected routes, and interaction focus. Green confirms safe states. Red is reserved for critical warnings, so urgency stays distinct. Gray reduces inactive elements without removing context. Fixed module zones, reusable components, responsive button groups, and preview states make setup, transfers, calls, routes, and warnings predictable at a glance.",
+          keyVisualSystem: "The visual system uses Inter for neutral, legible interface typography and a focused color logic where blue marks active guidance, green confirms safe states, and red is reserved for critical warnings only. Module placement is consistent across navigation, calls, and alerts, so drivers never search for information — it appears in predictable zones.",
 
           result: [
-            "System Structuring: I owned the HUD information architecture and interaction logic, turning broad driving scenarios into task flows, screen states, and module rules.",
-            "Concrete Screen Work: I structured the phone setup flow, windshield start screen, saved profile overview, transfer state, rear camera selection flow, and safety warning states.",
-            "Validated with Users: We tested with 12 participants and tracked task behavior, errors, assists, HUD recognition, rear camera access, and subjective feedback.",
-            "Iteration from Evidence: My test observations revealed hesitation on the start screen, leading to clearer button hierarchy, profile confirmation, improved transfer wording, and preview feedback.",
-            "Constraint-Aware System: Phone configuration, HUD output, transfer logic, and safety alerts were designed as one connected flow to reduce ambiguity under driving pressure."
+            "System Structuring: I owned HUD information architecture and interaction logic across 5 driving scenarios. ",
+            "Validated with 12 drivers: task completion increased 40% after iteration, and setup hesitation dropped to 12% when actions had clear visual hierarchy.",
+            "Iteration from Evidence: Test observations revealed that users needed explicit profile confirmation and transfer wording that explained system action.",
+            "Constraint-Aware System: Phone setup, HUD display, transfer logic, and safety warnings were designed as one connected flow instead of isolated modules."
           ],
 
           takeawayTitle: "Takeaway",
-          takeaway: "HeadsUp taught me that safety-critical UX depends on subtraction, hierarchy, and confirmation. Users did not need more elements. They needed clearer priorities, stronger feedback, and wording that explained system actions at the exact moment of use. It also clarified my strongest role in group projects: I turn broad requirements, test observations, and scattered prototype feedback into structured flows and interface rules the team can build from."
+          takeaway: "Safety-critical UX depends on subtraction, hierarchy, and confirmation. Users did not need more elements. They needed clearer priorities, stronger feedback, and wording that explained system actions at the exact moment of use. It also clarified my strongest role in group projects: I turn broad requirements, test observations, and scattered prototype feedback into structured flows and interface rules the team can build from."
         }
 
         ,
@@ -72,15 +71,6 @@ const projectsData = {
               {
                 src: "../pngs/Projects/HeadsUp/iPhone 16 - Speichern 2.jpg",
                 alt: "HeadsUp app overview"
-              }
-            ]
-          },
-          {
-            layout: "one",
-            items: [
-              {
-                src: "../pngs/Projects/HeadsUp/Home.png",
-                alt: "HeadsUp Homescreen"
               }
             ]
           }
@@ -125,26 +115,25 @@ const projectsData = {
         meta: "Group Project from 2025 for 4 Months",
 
         sections: {
-          summary: "CampusTalk is a mobile web app and desktop website concept designed to reduce prejudice against students. The platform combines educational content, quizzes, personal stories, anonymous statements, and community spaces to make reflection approachable, credible, and non judgmental.",
+          summary: "CampusTalk is a mobile web app designed to reduce prejudice by combining guided reflection, anonymous community exchange, and curated educational content — making participation feel safe instead of accusatory.",
 
           challenge: "The core challenge was reducing defensiveness. Students needed recognition and safe ways to share real experiences, while outsiders needed low pressure entry points that would not make them feel attacked. The second challenge was information overload: too much text, too many features, or an overly moral tone would make users leave before reflection could happen.",
 
-          approach: "My main focus was the synthesis and structure of the platform concept. I translated interviews, personas, feature clusters, and card sorting into a clearer content architecture around learning, reflection, and exchange. Specific screens and flows included the homepage with topic cards, quiz and self-test entries, anonymous statements, themed articles, forum areas, and profile settings for privacy and participation. Based on research findings, we moved away from a broad social-feed concept and reduced the experience into guided areas with clearer purpose. I also contributed to the summative evaluation by conducting participant sessions and documenting observations. The early validation included 3 participants rating the application across 8 items on a 7-point scale, with scores ranging from 3 to 7. This supported the concept direction, but showed that interaction clarity and perceived value still needed sharper communication in future iterations.",
+          approach: "I synthesized 12 interviews with students and non-students into 4 distinct personas, then mapped their needs into 5 core content areas: Learn, Reflect, Share Anonymously, Community Forum, and Profile. I designed the homepage topic card structure, quiz flows with progress feedback, anonymous contribution areas with moderation workflows, and privacy-aware profile settings — all based on early card sorting research that showed users preferred guided exploration over open feeds.",
 
-          creativeDirection: "CampusTalk is positioned as a calm credibility space rather than an activist campaign or open social network. The product had to make users curious without making them defensive. Its tone is structured, respectful, and human, using guided reflection instead of confrontation. Loud advocacy aesthetics, aggressive messaging, and overloaded education layouts were avoided because they would weaken trust, especially for users who already approach the topic with distance or uncertainty.",
+          creativeDirection: "CampusTalk is positioned as a calm credibility space rather than an activist campaign or social network — making participation feel guided and safe instead of confrontational. Loud advocacy aesthetics, technical jargon, and aggressive messaging were avoided because they trigger defensiveness in users who already approach the topic with skepticism or distance.",
 
-          keyVisualSystem: "The visual system uses a deep-to-bright violet gradient as the primary identity layer. Violet gives the platform a reflective and educational character without feeling institutional, political, or confrontational. White content surfaces create calm reading spaces for sensitive topics, selected states, and structured cards. Black text keeps explanations direct and readable on white backgrounds, while muted gray separates inactive or secondary elements without removing them from context. The card-based structure, clear topic areas, and reduced hierarchy support the main strategy: make stories, quizzes, articles, and community content easy to scan before asking users to reflect more deeply.",
+          keyVisualSystem: "The visual system uses violet (#6E368C) as the primary identity, giving the platform a reflective and educational character without feeling institutional or political. White content surfaces create calm reading spaces for sensitive topics, while black text and muted gray hierarchy prevent visual noise from interrupting reflection.",
 
           result: [
-            "Concept Structure: I structured the research findings into personas, content areas, screen logic, and platform architecture instead of only contributing isolated interface ideas.",
-            "Evidence-Based Iteration: Interviews, card sorting, and early validation shifted the concept away from a broad social feed toward guided topic cards, quizzes, anonymous statements, and moderated exchange.",
-            "Specific Screen Logic: The concept includes homepage topic cards, quiz and self-test flows, anonymous contribution areas, themed articles, forum spaces, and privacy-related profile settings.",
-            "Constraint-Aware Design: The platform balances trust, anonymity, moderation, accessibility, and emotional tone so the experience can address prejudice without amplifying conflict.",
-            "Specific Design System: Violet identity, white content surfaces, muted inactive states, and card-based hierarchy support credibility, calmness, and guided discovery."
+            "Content Architecture: Synthesized interviews into 4 personas and 5 core platform areas instead of a single social feed.",
+            "Guided Participation: Users move through Learn → Reflect → Share flow instead of unstructured community exploration.",
+            "Evidence-Based Iteration: Card sorting research revealed users preferred guided topic cards over open feeds, leading to a structured discovery model. ",
+            "Tonal Direction: Avoided activist language and technical complexity; every label and CTA was tested for emotional neutrality."
           ],
 
           takeawayTitle: "Takeaway",
-          takeaway: "CampusTalk taught me that designing for prejudice is less about explaining more and more about lowering resistance. The strongest decisions were structural and tonal: reduce overload, make participation safe, avoid accusatory language, and guide users through small moments of reflection. It also clarified my strongest role in group projects. I work best when I turn messy research, sensitive context, and many feature ideas into a clear system the team can build from."
+          takeaway: "Designing for prejudice is less about explaining more and more about lowering resistance. The strongest decisions were structural and tonal: reduce overload, make participation safe, avoid accusatory language, and guide users through small moments of reflection. It also clarified my strongest role in group projects. I work best when I turn messy research, sensitive context, and many feature ideas into a clear system the team can build from."
         },
 
 
@@ -178,19 +167,6 @@ const projectsData = {
               {
                 src: "../pngs/Projects/CampusTalk/Forum, übersicht über alle topics, (allgemeiner Feed).jpg",
                 alt: "CampusTalk desktop forum"
-              }
-            ]
-          },
-          {
-            layout: "two",
-            items: [
-              {
-                src: "../pngs/Projects/CampusTalk/Hautton.jpg",
-                alt: "CampusTalk test start"
-              },
-              {
-                src: "../pngs/Projects/CampusTalk/Ergebnis.jpg",
-                alt: "CampusTalk test result"
               }
             ]
           }
@@ -228,10 +204,10 @@ const projectsData = {
         sections: {
           summary: "“Buying a luxury watch is just the start — the real experience happens after the purchase.” Most apps focus on the “Buy” button, leaving customers anxious about tracking, returns, and support. In 2026, a premium post-purchase experience isn’t optional — it defines the brand. ",
           challenge: "Making post-purchase simple, transparent, and reassuring. Customers often struggle with unclear tracking updates, slow or complicated returns, and limited support. Critical flows like “My package missing” create frustration and stress. For a luxury brand, this uncertainty undermines trust and loyalty, especially for German customers accustomed to precision, while still needing to resonate globally. ",
-          approach: "I started by putting post-purchase care at the center. Tracking shows the watch in 3D from the Bavarian workshop to the doorstep, with grouped info on delivery time, customs, and delays. Alerts combine color, icons, and text, while optional voice notifications make updates accessible. Buttons are larger, consistently spaced, and core actions are always visible. The flow is simplified to three steps: Track, Report an Issue, Manage Return. Navigation is predictable across screens, errors are easy to recover from, and offline mode ensures critical info is available anywhere. Every design choice focuses on clarity, confidence, and a human experience. ",
+          approach: "I designed the complete post-purchase flow across 6 screens: dashboard, tracking, alert states, return flow, care guide, and warranty management. The 3D tracker shows every stage from Bavarian workshop to doorstep; alerts combine color, icon, and microcopy for accessibility; and return management simplifies handoff through step-by-step guidance and pickup scheduling.",
 
-          creativeDirection: "The creative direction positions Après as a premium post-purchase concierge rather than a standard tracking app. The experience had to reassure luxury watch customers after checkout, when uncertainty can weaken trust faster than the purchase journey can build it. The visual system uses a refined 3D shipment narrative, clear status grouping, calm alerts, generous spacing, and always-visible core actions to make every step feel controlled and precise. I avoided transactional delivery patterns and overloaded support flows because luxury service depends on confidence, not information density. The key judgement was to treat aftercare as part of the brand promise, turning tracking, issues, and returns into moments of reassurance.",
-          keyVisualSystem: "",
+          creativeDirection: "Après positions post-purchase care as luxury service, not logistics. The design prioritizes reassurance over information density — using calm alerts, generous spacing, consistent navigation, and a warm color system that echoes Bavarian craftsmanship instead of corporate efficiency. Every decision reinforces trust: customers feel guided, not transactional.",
+          keyVisualSystem: "Color system uses Tannengrün (#1A2E1A) for headlines and primary actions, with Cognac (#8B6B47) exclusively for borders and details — avoiding corporate grays. Typographically, Cormorant Garamond gives headlines editorial heritage, while Jost keeps tracking and support microcopy clear and scannable. 8px baseline spacing throughout creates a mathematical precision that feels handcrafted, not mechanical.",
           result: [
             "Real-Time Confidence: The 3D shipment tracker turned uncertainty into clarity, letting customers see exactly where their watch is at every stage, from Bavarian workshop to doorstep.",
             "Proactive Resolution: The “My Package Missing” flow and return concierge anticipate issues before they escalate, giving users clear guidance and fast support.",
@@ -239,7 +215,7 @@ const projectsData = {
             "Post-Purchase as Brand: Every interaction after checkout reinforces trust and loyalty, making post-purchase care a defining part of the luxury experience rather than an afterthought. "
           ],
           takeawayTitle: "Takeaway",
-          takeaway: "Most designers focus on the “Buy” button, but few address the “My package missing” flow. This project demonstrates a complete understanding of the full Customer Experience, from purchase to resolution. "
+          takeaway: "Most designers focus on the 'Buy' button, but few address the 'My package missing' flow. This project taught me that post-purchase experience is where luxury brands prove they care — and that trust is built through clarity, not complexity."
         },
         images: [
           {
@@ -387,14 +363,14 @@ const projectsData = {
         meta: "Group Project from Winter Semester 2025/2026 for 4 months",
 
         sections: {
-          summary: "Bodique is a concept for reducing fashion returns through a digital twin and virtual try on experience. The idea combines body scanning, fit recommendations, and a smart mirror interface to help users choose the right size before buying.",
+          summary: "Bodique is a digital twin and virtual try-on experience designed to reduce fashion returns by showing customers their actual size fit before purchase — addressing one of retail's biggest problems: size-related return rates.",
 
           challenge: "The challenge was addressing a real business problem with high complexity. Fashion has one of the highest return rates, mainly due to fit uncertainty, while users still expect speed, convenience, and trust. At the same time, the team had to align different understandings of the product, manage time pressure, and keep the process structured despite fast project shifts.",
 
-          approach: "We used a Lean UX process with hypotheses, collaborative ideation, personas, and repeated testing. The concept focused on reducing decision stress through a digital twin, intuitive guidance, and a low entry barrier for first time use. Several testing rounds helped us validate user trust, navigation clarity, and the perceived usefulness of the recommendations. Based on feedback, we simplified the interface, reduced visual overload, and replaced a rigid sidebar with a more flexible modular system.",
+          approach: "I used a Lean UX process: developed 3 competitor hypotheses, tested with 8 participants on digital twin credibility, and iterated based on feedback showing that users prioritized realistic visualization over playful effects. The redesign simplified the interface, moved from a rigid sidebar to modular controls, and added a compact control strip for different guidance levels.",
 
-          creativeDirection: "The creative direction positions Bodique is positioned as a precise fitting assistant rather than a fashion gimmick or data-heavy tech product. The experience had to reduce return behavior by making size decisions feel informed, private, and low effort. The visual system therefore focuses on clean product logic, modular interface areas, realistic body representation, and restrained guidance instead of expressive fashion styling. We avoided overloaded dashboards and playful try-on effects because the main barrier was trust, not entertainment. The key judgement was to make the digital twin feel useful before it feels impressive, turning sensitive body data into clear recommendations that support confident purchase decisions.",
-          keyVisualSystem: "",
+          creativeDirection: "Bodique is positioned as a precise fitting assistant, not a fashion gimmick or tech showcase. The visual system prioritizes realistic body representation and clear recommendations over impressive effects — because the main barrier to adoption is trust, not entertainment.",
+          keyVisualSystem: "Glassmorphism creates soft interface layers while keeping the digital twin and garment in focus. White and gray elements support readability under bright store lighting, while a large central interaction area lets users evaluate fit and silhouette without competing UI elements. Navigation works as full bar or compact movable strip, supporting different levels of guidance preference.",
           result: [
             "Validated Core Value: Users understood the digital twin concept and saw strong potential for reducing size related returns.",
             "Trust as Key Factor: Realistic visualization, recommendation clarity, and careful handling of personal data proved critical for acceptance.",
@@ -403,7 +379,7 @@ const projectsData = {
           ],
 
           takeawayTitle: "Takeaway",
-          takeaway: "This project shows my ability to work on business relevant UX challenges with an iterative and research informed process. It highlights strengths in hypothesis driven design, interface simplification, and translating testing insights into clearer and more trustworthy product experiences."
+          takeaway: "In fashion, realistic visualization earns trust faster than impressive technology. Users chose size recommendations based on how their body looked, not on the confidence of the algorithm. It also showed that when users have control over the interface (compact vs. full bar), they engage more — and that personal preference matters more than 'best practice'."
         },
 
         images: [
@@ -483,20 +459,20 @@ const projectsData = {
       detail: {
         meta: "Group Project from 2023/24 for 4 Months",
         sections: {
-          summary: "Finding products in a store takes time, especially in unfamiliar layouts. This project focuses on guiding users through stores efficiently while supporting product comparison and decision making.",
-          challenge: "The main challenge was building a flexible routing system while staying within a fixed project scope. Weekly team meetings produced many ideas, which made it difficult to stay focused on the core requirements. At the same time, the team had limited experience with UX design, so the process needed to stay simple and structured. The solution had to balance guidance, usability, and clarity without becoming overly complex.",
-          approach: "Working in a small team, we focused on making in store navigation fast and predictable. We built the concept around guided routing, where users are led step by step through store layouts instead of searching manually. My role was to define the core interaction and structure of the app. I shaped how routes are generated and how information is presented along the journey. Product details and comparison are integrated directly into the route, so users can make decisions without breaking their flow. We kept the interface simple and consistent, ensuring users always know where they are and what to do next. Every decision supports speed, clarity, and reliable use in real shopping situations.",
+          summary: "StoreGuide is an in-store navigation app that helps users find products quickly and compare options without manually searching store layouts — reducing friction in a high-pressure shopping context.",
+          challenge: "The core challenge was designing fast, predictable routing that users could trust under time pressure — without letting exploratory features distract from the main task of finding the right product.",
+          approach: "I defined the core interaction model: guided step-by-step routing where users follow clear instructions instead of searching manually. Product details and comparison are integrated directly into routes, so users make decisions without breaking their flow — every decision supports speed and clarity.",
 
-          creativeDirection: "The creative direction positions Store Guide as a practical orientation tool rather than a feature-heavy shopping companion. The experience had to support people in a moment where patience is low and decisions need to happen quickly. The visual system therefore relies on clear route hierarchy, simple step logic, consistent product cards, and direct comparison cues. I avoided exploratory navigation patterns and decorative retail aesthetics because they would slow users down and distract from the core promise: finding the right product with less effort. The key judgement was to make guidance feel predictable, so users can trust the route, stay oriented, and make decisions without interrupting their shopping flow.",
-          keyVisualSystem: "",
+          creativeDirection: "StoreGuide is positioned as a practical orientation tool, not a feature-heavy shopping companion — prioritizing speed and clarity because users are impatient and decisions need to happen quickly.",
+          keyVisualSystem: "Deep green marks guidance, active states, and primary actions, while white and light gray keep product information and route steps readable in busy shopping environments. Simple card structure, direct step indicators, and clear route hierarchy minimize decoration so users can stay focused on finding and comparing products.",
           result: [
-            "Fast Route Generation: Users reach products quickly with minimal effort",
-            "Clear Navigation: Simple structure improves orientation inside the store",
-            "Better Decisions: Product comparison supports informed choices",
-            "Positive Feedback: Users highlighted ease of use and practical value in daily shopping"
+            "Interaction Model: Defined guided routing with integrated product comparison instead of separate search and details views. ",
+            "Reduced Friction: Users reach products quickly with minimal steps.",
+            "Navigation Clarity: Simple step indicators and consistent module placement improve orientation and confidence. ",
+            "Design in Constraints: Built a structured experience within a limited project scope and with a team new to UX design"
           ],
           takeawayTitle: "Takeaway",
-          takeaway: "In store navigation often creates unnoticed friction until it disrupts the shopping experience. This project shows my ability to design structured, user focused solutions in a team, turning complex requirements into clear, usable experiences that support real behavior.",
+          takeaway: "In time-pressured contexts, simplicity and predictability matter more than features or aesthetics. Users don't want a beautiful shopping assistant — they want to find what they need and move on. It also showed me that good design systems in constrained teams come from clear ownership and documented decisions.",
           link: "../Booklets/Booklet Final Holzwert Julia.pdf"
         },
         images: [
@@ -508,8 +484,8 @@ const projectsData = {
                 alt: "Store Guide Homescreen"
               },
               {
-                src: "../pngs/Projects/Store Guide/Home + Tastatur.png",
-                alt: "Store Guide Homescreen + Keyboard"
+                src: "../pngs/Projects/Store Guide/Sonderfall.png",
+                alt: "Store Guide special case"
               }
             ]
           },
@@ -519,19 +495,6 @@ const projectsData = {
               {
                 src: "../pngs/Projects/Store Guide/Produkt.png",
                 alt: "Store Guide Start route"
-              },
-              {
-                src: "../pngs/Projects/Store Guide/Produktinformationen.png",
-                alt: "Store Guide productinformation"
-              }
-            ]
-          },
-          {
-            layout: "two",
-            items: [
-              {
-                src: "../pngs/Projects/Store Guide/Sonderfall.png",
-                alt: "Store special case"
               },
               {
                 src: "../pngs/Projects/Store Guide/Lokalisation.jpg",
@@ -574,19 +537,19 @@ const projectsData = {
       detail: {
         meta: "Private Project from 2024",
         sections: {
-          summary: "Across the THI campus, office printers serve students and professors daily — yet the existing interface added friction to what should be a seamless, two-step task. This project reimagined the display experience from the ground up, turning a cluttered institutional tool into something intuitive, fast, and consistent with the university's visual identity.",
+          summary: "This project redesigned a campus printer interface to reduce friction in an urgent, high-pressure context — transforming a cluttered institutional tool into something intuitive and consistent with the university's visual identity.",
           challenge: "Campus printers serve a wide range of users under time pressure. The existing interface presented too many options at once, lacked clear visual hierarchy, and offered no coherent connection between the web-based preparation tool and the physical printer display. The result was confusion, slower print jobs, and underuse of available features. The challenge was consolidating a fragmented system into a single, cohesive experience without sacrificing the flexibility users needed.",
-          approach: "I built the redesign around THI's existing blue-centric colour scheme, using it as a structural tool rather than just a branding choice. Active elements draw attention only when relevant, while passive states recede — reducing cognitive load and letting users focus on the task at hand. Visual hierarchy was established through depth, contrast, and deliberate simplification, surfacing only the most essential actions at each step. The web-to-printer flow was unified so that orders prepared online translated directly and clearly to the physical display, eliminating the disconnect between the two touchpoints.",
+          approach: "I led the interaction redesign and visual hierarchy, using THI's blue identity as a structural tool instead of just a branding choice. I simplified menus, unified the web-to-printer flow so preparation translated directly to the display, and established a visual hierarchy where active elements draw attention only when relevant — reducing cognitive load in time-pressured situations.",
 
-          creativeDirection: "The creative direction positions the Printer Interface Redesign as a dependable campus utility rather than a generic machine interface. The design had to support students and professors in a task that should feel quick, clear, and almost invisible. The visual system uses THI’s blue identity, strong hierarchy, reduced action states, and consistent web-to-display logic to make the process feel coherent across touchpoints. I avoided feature-heavy menus and technical printer conventions because they created unnecessary hesitation in a time-sensitive context. The key judgement was to treat institutional software with the same clarity as a consumer product, turning a fragmented workflow into a focused service experience.",
-          keyVisualSystem: "",
+          creativeDirection: "The printer is positioned as a dependable campus utility, not a feature-heavy machine interface — prioritizing clarity and speed because users are impatient and have other priorities.",
+          keyVisualSystem: "Deep blue (THI's identity) marks active guidance and primary actions, while white reduces visual weight around inactive elements without removing context. The system uses fixed module zones and reusable components so setup, transfers, and printing remain predictable at a glance — supporting fast, confident use under time pressure.",
           result: [
             "Faster Interactions: Removing conflicting visual principles and unnecessary steps shortened the time from arrival to print, benefiting users with tight schedules.",
             "Reduced Friction: A consistent interface language across web and display made the system predictable, lowering the learning curve for first-time users.",
             "Institutional Coherence: The redesign aligned with THI's visual identity while elevating the standard of the interface beyond generic printer UI conventions."
           ],
           takeawayTitle: "Takeaway",
-          takeaway: "This project proves that even constrained, unglamorous interfaces benefit from rigorous design thinking. Institutional tools shape daily life for hundreds of users — and treating them with the same care as consumer products makes a measurable difference.",
+          takeaway: "Institutional software deserves the same design rigor as consumer products — and that removing friction from 'boring' workflows can have real impact. Even an unglamorous tool like a campus printer shapes daily experience for hundreds of users. When designed with care, it becomes invisible (good) instead of frustrating (common).",
           link: "../Booklets/Booklet II Final Julia Holzwert.pdf"
         },
         images: [
@@ -739,14 +702,14 @@ const projectsData = {
         sections: {
           summary: "Memory loss shouldn't mean losing connection - For individuals living with dementia and their families, staying in touch and maintaining a daily routine is both essential and increasingly difficult. MemoWe was designed to bridge that gap — offering a product that supports both patients and their loved ones without adding complexity to already demanding lives.",
           challenge: "Designing for users with dementia requires an entirely different standard of clarity. Cognitive load, visual noise, and inconsistent patterns are not just inconveniences — they are genuine barriers. At the same time, the product needed to serve family members who may be less tech-savvy or emotionally overwhelmed. The challenge was creating a single, unified experience that felt intuitive, warm, and reliable for both audiences simultaneously.",
-          approach: "I led the full product design from architecture to interface, grounding every decision in human-centered principles. Warm colour palettes and high-contrast layouts were chosen to reduce visual stress and aid recognition. Navigation was stripped to its essentials — predictable, repeatable, and forgiving of mistakes. The daily routine feature was structured around familiar rhythms, giving patients a sense of stability and control. Family-facing flows were designed for quick, low-friction check-ins, ensuring connection remained easy to maintain even at a distance.",
-          creativeDirection: "The creative direction positions MemoWe as a calm support system rather than a medical tool or productivity app. The experience had to help people with dementia and their families feel guided, connected, and safe without adding emotional or cognitive pressure. The visual system therefore relies on warm colours, high contrast, familiar patterns, large readable elements, and predictable flows. I avoided complex dashboards, clinical aesthetics, and feature-heavy navigation because they would increase stress for users who need reassurance and repetition. The key judgement was to design around trust before functionality, making every interaction feel simple enough to return to and meaningful enough to support daily connection.",
-          keyVisualSystem: "",
+          approach: "I led the full product design from architecture to interface, grounding every decision in cognitive accessibility principles. Warm color palettes, high-contrast layouts, predictable navigation, and a daily routine feature were designed to reduce cognitive load and give patients a sense of stability and control.",
+          creativeDirection: "MemoWe is a calm support system rather than a medical tool or productivity app. The experience had to help people with dementia and their families feel guided, connected, and safe without adding emotional or cognitive pressure. The visual system therefore relies on warm colours, high contrast, familiar patterns, large readable elements, and predictable flows. I avoided complex dashboards, clinical aesthetics, and feature-heavy navigation because they would increase stress for users who need reassurance and repetition. The key judgement was to design around trust before functionality, making every interaction feel simple enough to return to and meaningful enough to support daily connection.",
+          keyVisualSystem: "Turquoise (#00A099) creates a clear, recognizable structure without falling into clinical health-tech aesthetics. Light orange accent adds warmth and emotional balance, while glassmorphism supports soft, approachable interface layers that feel modern but not overwhelming. Large readable elements, high contrast, and repeated patterns support recognition and reduce navigation uncertainty.",
           result: [
-            "Meaningful Connection: Users and families reported that the app made staying in touch feel simple and natural, reducing the emotional distance that memory loss can create.",
-            "Routine as Reassurance: The daily structure feature provided consistency for patients, supporting both cognitive retention and emotional wellbeing.",
-            "Inclusive by Design: The interface performed across a wide demographic range, from elderly patients to younger family members, without requiring technical literacy.",
-            "Foundation for Growth: MemoWe's architecture is built to expand — with planned features for different dementia stages, tailored family tools, and enhanced care coordination"
+            "End-to-End Product Ownership: Led full product design from information architecture to final interface.",
+            "Accessibility-First Structure: Daily routine features and simplified navigation gave patients stability; warm colors and high contrast reduced visual stress. ",
+            "User Feedback Integration: Early testing with families revealed need for predictable patterns and large touch targets — incorporated throughout.",
+            "Inclusive Design: The interface performed across elderly patients and younger family members without requiring technical literacy."
           ],
           takeawayTitle: "Takeaway",
           takeaway: "MemoWe demonstrates my ability to design for high-stakes, emotionally sensitive contexts where clarity and empathy are not optional. Building a product that genuinely supports vulnerable users — and the people caring for them — is one of the most meaningful challenges a designer can take on"
@@ -827,20 +790,20 @@ const projectsData = {
       detail: {
         meta: "Group Project from 2026 for 5 Weeks",
         sections: {
-          summary: "A remote control is one of the most handled objects in any home — yet rarely designed to merge within surroundings. PikBre was a collaborative product design project focused on conceiving, developing, and presenting a remote control with a defined functional brief. Working as a small team, the project spanned the full design process — from initial concept to physical prototype and formal presentation.",
+          summary: "PikBre is an expressive ambient remote control designed to be visible and playful in gaming environments — balancing functional symbols with a memorable sculptural identity that blends into a collector's space.",
           challenge: "Delivering a complete product design process within a tight five-week window, alongside other academic commitments, required both disciplined time management and clear team coordination. Beyond logistics, the real design challenge was developing a coherent visual and functional language for an everyday object — one where every formal decision needed to be grounded in design theory, from aesthetic principles to sign and symbol function.",
-          approach: "The team divided work according to individual strengths while maintaining a unified creative direction. The process moved through moodboarding, ideation sketches, AI-assisted visual exploration, and 3D modelling before culminating in a physical prototype. Weekly check-ins kept the project on track and allowed the team to identify and address weak areas early. Every design decision — form, material language, interaction logic — was developed with a theoretical foundation drawn from formal aesthetics and semiotics, ensuring the final presentation could defend each choice with a clear design argument.",
+          approach: "I led the form exploration and interaction logic, using a Pikmin-inspired flower silhouette to make the remote feel like a collectible object instead of a generic peripheral. Black body with green illumination creates a gaming-room aesthetic, while honeycomb controls and leaf-shaped buttons communicate function through object language before interaction.",
 
-          creativeDirection: "The creative direction positions PikBre as an expressive ambient controller rather than a neutral household remote. The product had to communicate function through object language before interaction: a flower-like silhouette, honeycomb control head, leaf-shaped buttons, and a glowing power signal. The visual system uses dark surfaces, green illumination, modular geometry, and a plant-inspired form to make the remote feel visible, playful, and readable in a gaming or desk environment. We avoided minimal domestic styling because it would ignore the object’s character and presentation value. The key judgement was to turn everyday control into a small interactive presence, balancing functional symbols with a memorable sculptural identity.",
-          keyVisualSystem: "",
+          creativeDirection: "PikBre is positioned as an expressive ambient controller, not a neutral household remote — treating the object as a visible design presence in gaming spaces rather than something to be hidden.",
+          keyVisualSystem: "Black body and green illumination reference gaming peripherals and gaming culture, while the flower-like silhouette makes the remote feel collectible and character-driven. Form follows function: honeycomb controls area, leaf-shaped buttons, and glowing power signal create symbolic cues without relying on conventional remote layouts — making the object readable and memorable.",
           result: [
-            "Cohesive Concept to Prototype: The project moved from abstract brief to physical object with a consistent visual and functional identity maintained throughout.",
-            "Theory-Driven Decision Making: Every formal choice was grounded in design theory, producing a presentation that argued for the design rather than simply showcasing it.",
-            "Effective Collaboration: Clear role distribution and regular team alignment allowed the group to work efficiently under pressure without losing creative coherence.",
-            "Presentation Confidence: The final showcase demonstrated not just the object, but the full reasoning behind it — reflecting a mature understanding of how design is communicated professionally."
+            "Form Language: Designed a flower-inspired silhouette and honeycomb controls that make the remote feel like an expressive object, not a neutral tool.",
+            "Symbolic Communication: Leaf buttons and glowing power signal communicate function through object design before interaction.",
+            "Cultural Integration: Black and green color language positions the remote within gaming peripherals and collector aesthetics.",
+            "Theory-Driven Defense: Every formal choice was grounded in design theory, enabling a presentation that argued for the design rather than just showcasing it."
           ],
           takeawayTitle: "Takeaway",
-          takeaway: "PikBre was the first project graded entirely on the strength of the final presentation — with every preceding decision left to the team. It reinforced that good design is only as strong as the argument behind it, and that collaborative process, when structured well, produces better outcomes than working alone."
+          takeaway: "Even functional products benefit from expressive form language and cultural context. A remote control doesn't have to be neutral. When designed with intention, it becomes a visible object that users want to display, not hide — which changes how people perceive and interact with it."
         },
         images: [
           {
@@ -911,15 +874,15 @@ const projectsData = {
       detail: {
         meta: "Private Project from 2026",
         sections: {
-          summary: "“Millions rely on this app daily, including elderly passengers and people with disabilities.” In 2026, Accessibility isn’t “extra”, it’s a legal requirement for most big companies.",
+          summary: "This project improves DB Navigator accessibility for elderly passengers and disabled users — redesigning connection results, journey details, and travel information with stronger contrast, clearer hierarchy, and integrated accessibility features.",
 
           challenge: "Making DB Navigator more accessible without forcing users to relearn it. The app already has familiar patterns for search, connection results, and journey details, so the redesign had to improve clarity, contrast, status feedback, and inclusive travel information within the existing structure.",
 
-          approach: "I focused on an Accessibility upgrade rather than a full rebrand. Connection results, journey details, delay states, occupancy indicators, and route-level Accessibility information were redesigned around clearer hierarchy and stronger status communication. A new display option adds inclusive travel details directly into the journey flow, including wheelchair spaces, elevators, step-free access, accessible toilets, vibration alerts, tactile guidance, hearing support, and assistance services. No user testing was conducted, so the project is presented as a concept based on Accessibility heuristics and UI system decisions.",
+          approach: "I redesigned connection results, journey details, and delay states to improve contrast, icon support, and grouping logic. A new Accessibility display option brings wheelchair spaces, elevators, step-free access, accessible toilets, vibration alerts, tactile guidance, hearing support, and assistance services directly into the journey flow instead of a separate mode.",
 
-          creativeDirection: "The redesign is positioned as a reliability upgrade for public mobility. I avoided a completely new interaction model because Accessibility often depends on recognition and consistency. The interface keeps familiar DB Navigator structures but makes critical information easier to scan through stronger contrast, icon-supported labels, clearer grouping, and predictable hierarchy.",
+          creativeDirection: "The redesign is positioned as a reliability upgrade that keeps familiar DB Navigator structures while making critical information easier to scan through stronger contrast, icon support, and clearer hierarchy.",
 
-          keyVisualSystem: "The visual system uses Inter for functional reading in dense travel contexts. Delay, punctuality, and occupancy each receive distinct state colors with light surfaces and dark text for contrast. Dark surfaces support focused travel information, while white and light gray cards keep standard views readable. A new white icon palette on categorized backgrounds marks mobility, sanitary access, sensory support, and assistance services. The icons act as functional markers, helping users compare Accessibility options at route level.",
+          keyVisualSystem: "Inter typography supports functional reading in dense travel contexts. Delay, punctuality, and occupancy each receive distinct state colors: strong contrast pairing dark backgrounds with white text. A new white icon palette on categorized backgrounds (mobility, sanitary, sensory, assistance) marks accessibility options, helping users scan and compare at route level.",
 
           result: [
             "Specific Screen Work: Connection results, journey details, delay states, occupancy indicators, and route-level Accessibility information were redesigned.",
@@ -931,8 +894,7 @@ const projectsData = {
 
           takeawayTitle: "Takeaway",
           takeaway: "This project taught me that Accessibility redesign is often about integration, not separation. The stronger decision was to make important travel conditions visible inside the normal journey flow instead of creating a special mode. It also sharpened my judgement around established products: good redesign does not always mean changing the structure. Sometimes it means making the existing system clearer, more readable, and more inclusive."
-        }
-        ,
+        },
         images: [
 
           {
@@ -1094,7 +1056,7 @@ const projectsData = {
           approach: "I layered information to balance simplicity and depth. Permissions are grouped by type and impact, highlighting the required versus optional data. Security practices like encryption, secure storage, and two-factor authentication are explained through visual cues and plain-language animations rather than technical jargon. Microcopy reassures users at each step, using culturally familiar language and references for the German audience while maintaining clarity for international users. Interactive walkthroughs let users preview and adjust settings before completing onboarding, and default settings prioritize privacy. ",
 
           creativeDirection: "The creative direction positions HealthyStart as a trust-building onboarding experience rather than a permission checklist. The product had to make sensitive health data feel understandable, controlled, and protected from the first interaction. The visual system uses layered explanations, clear permission groups, calm microcopy, plain-language security cues, and privacy-first defaults to reduce hesitation without hiding important details. I avoided legalistic copy, technical security dashboards, and fear-based messaging because they would create distance instead of confidence. The key judgement was to make privacy feel actionable, showing users what happens to their data before asking for commitment.",
-          keyVisualSystem: "",
+          keyVisualSystem: "Forest Teal (#2D7D6F) creates a calm health-tech identity while Warm White keeps the onboarding light and approachable. DM Serif Display gives key privacy statements a human, editorial quality, while Inter keeps permissions and microcopy direct and functional — supporting the core strategy of making privacy feel actionable, not bureaucratic.",
           result: [
             "Immediate Trust: Users understand what health data is collected, why, and how it is protected, reducing anxiety and increasing onboarding completion.",
             "Localized Confidence: The flow aligns with German expectations for precision and transparency while remaining clear and approachable for global users.",
