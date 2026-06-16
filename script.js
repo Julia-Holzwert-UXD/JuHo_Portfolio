@@ -1310,6 +1310,7 @@ function initStampImages() {
   const frame = section.querySelector(".dc-content-frame")
   const layers = gsap.utils.toArray(section.querySelectorAll(".dc-image-layer"))
   const images = layers.map(layer => layer.querySelector("img"))
+  const typeStage = section.querySelector(".dc-type-stage")
 
   if (!frame || layers.length < 2) return
 
@@ -1341,18 +1342,20 @@ function initStampImages() {
     overshootScale: 1.32,
 
     finalScale: 1,
-    imageScale: 1.04
+    imageScale: 1.04,
+    topTextMove: 260,
+    bottomTextMove: -260
   }
 
   gsap.set(layers, {
-    autoAlpha: 0,
-    xPercent: CONFIG.enterX,
-    yPercent: CONFIG.enterY,
-    scale: CONFIG.enterScale,
-    transformOrigin: "0% 100%",
-    force3D: true,
-    zIndex: index => index + 1
-  })
+  autoAlpha: 0,
+  xPercent: CONFIG.enterX,
+  yPercent: CONFIG.enterY,
+  scale: CONFIG.enterScale,
+  transformOrigin: "0% 100%",
+  force3D: true,
+  zIndex: index => index + 1
+})
 
   gsap.set(layers[0], {
     autoAlpha: 1,
@@ -1384,68 +1387,81 @@ function initStampImages() {
       invalidateOnRefresh: true
     }
   })
+  
+  tl.addLabel("image-0", 0)
 
-  tl.addLabel("image-0")
+for (let index = 1; index < layers.length; index++) {
+  const layer = layers[index]
+  const image = images[index]
 
-  for (let index = 1; index < layers.length; index++) {
-    const layer = layers[index]
-    const image = images[index]
+  tl.to({}, {
+    duration: CONFIG.holdDuration
+  })
 
-    tl.to({}, {
-      duration: CONFIG.holdDuration
-    })
+  tl.set(layer, {
+    autoAlpha: 1,
+    xPercent: CONFIG.enterX,
+    yPercent: CONFIG.enterY,
+    scale: CONFIG.enterScale,
+    zIndex: index + 1,
+    transformOrigin: "0% 100%"
+  })
 
-    tl.set(layer, {
-      autoAlpha: 1,
+  tl.fromTo(
+    layer,
+    {
       xPercent: CONFIG.enterX,
       yPercent: CONFIG.enterY,
-      scale: CONFIG.enterScale,
-      zIndex: index + 1,
-      transformOrigin: "0% 100%"
-    })
+      scale: CONFIG.enterScale
+    },
+    {
+      xPercent: CONFIG.overshootX,
+      yPercent: CONFIG.overshootY,
+      scale: CONFIG.overshootScale,
+      duration: CONFIG.stampDuration * 0.45,
+      ease: "power2.out"
+    }
+  )
 
-    tl.fromTo(
-      layer,
-      {
-        xPercent: CONFIG.enterX,
-        yPercent: CONFIG.enterY,
-        scale: CONFIG.enterScale
-      },
-      {
-        xPercent: CONFIG.overshootX,
-        yPercent: CONFIG.overshootY,
-        scale: CONFIG.overshootScale,
-        duration: CONFIG.stampDuration * 0.45,
-        ease: "power2.out"
-      }
-    )
+  tl.to(
+    layer,
+    {
+      xPercent: 0,
+      yPercent: 0,
+      scale: CONFIG.finalScale,
+      duration: CONFIG.stampDuration * 0.55,
+      ease: "power3.out"
+    }
+  )
 
-    tl.to(
-      layer,
-      {
-        xPercent: 0,
-        yPercent: 0,
-        scale: CONFIG.finalScale,
-        duration: CONFIG.stampDuration * 0.55,
-        ease: "power3.out"
-      }
-    )
+  tl.fromTo(
+    image,
+    {
+      scale: 1.1
+    },
+    {
+      scale: CONFIG.imageScale,
+      duration: CONFIG.stampDuration,
+      ease: "power2.out"
+    },
+    "<-" + CONFIG.stampDuration
+  )
 
-    tl.fromTo(
-      image,
-      {
-        scale: 1.1
-      },
-      {
-        scale: CONFIG.imageScale,
-        duration: CONFIG.stampDuration,
-        ease: "power2.out"
-      },
-      "<-" + CONFIG.stampDuration
-    )
+  tl.addLabel(`image-${index}`)
+}
 
-    tl.addLabel(`image-${index}`)
-  }
+if (typeStage) {
+  tl.to(
+    typeStage,
+    {
+      "--word-top-scroll": `${CONFIG.topTextMove}px`,
+      "--word-bottom-scroll": `${CONFIG.bottomTextMove}px`,
+      duration: tl.duration(),
+      ease: "none"
+    },
+    0
+  )
+}
 }
 
 function initCustomVideos() {
