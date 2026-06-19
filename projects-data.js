@@ -280,56 +280,95 @@ const projectsData = {
       }
     },
 
-    //FairFlow
+    //DAZN
     {
-      slug: "fairFlow",
-      title: "FairFlow",
-      href: "./projectSites/fairFlow.html",
-      categories: ["Ethical-Design", "Data-Privacy", "Mobile-App"],
-      coverImage: "",
-      coverBannerImage: "",
+      slug: "dazn",
+      title: "DAZN",
+      href: "./projectSites/dazn.html",
+      categories: ["Ethical-Design", "Subscription-UX", "Streaming-App"],
+      coverImage: "./pngs/Projects/DAZN/DAZN_logo.png",
+      coverBannerImage: "./pngs/Projects/DAZN/DAZN_logo.png",
+      coverBackgroundColor: "#000000",
 
       detail: {
-        meta: "Private Project from 2024",
-        sections: {
-          summary: "“Users should never feel trapped by design.” FairFlow focuses on auditing a popular German subscription app with hidden unsubscribe options, misleading defaults, and manipulative upsells. The project rethinks these interactions to make them ethical, transparent, and trustworthy while maintaining business goals and revenue. ",
-          challenge: "Balancing user trust with profitability. Many German users are highly sensitive to deceptive practices and expect transparency, but the app also operates internationally, where subscription models rely on clear upsells. The challenge was to remove dark patterns that frustrate users while designing flows that still encourage conversion and retention. ",
-          approach: "I conducted a full dark UX audit, mapping every point where the user could be misled or trapped. Subscription flows, consent dialogs, and hidden options were redesigned with clear labeling, visible opt-out buttons, and plain-language explanations. Incentives were reframed ethically: discounts, benefits, and reminders were transparent but compelling. Microcopy reassured users of control and privacy. Testing with German participants validated trust and comprehension, while international testing ensured flows were culturally neutral and effective globally. ",
+        meta: "Independent Concept Project from 2024 · Unofficial DAZN Redesign",
 
-          creativeDirection: "The creative direction positions FairFlow as a transparent subscription experience rather than a conversion trap. The project had to prove that business goals can be met without hiding choices, pressuring users, or weakening trust. The visual and communicative system relies on clear hierarchy, visible exits, plain-language consent, honest incentives, and reassuring microcopy that gives users control at every decision point. I avoided manipulative urgency, misleading defaults, and buried unsubscribe paths because they create short-term retention at the cost of long-term brand credibility. The key judgement was to design monetization as a trust signal, making transparency part of the product’s value instead of a legal obligation.",
-          keyVisualSystem: "",
+        sections: {
+          summary:
+            "“Users should be able to understand, manage, and end a subscription without friction.” This independent concept redesign examines the DAZN subscription experience through the lens of transparency and user control. It focuses on plan selection, billing clarity, account management, cancellation, and retention offers. The goal was to create a subscription journey that supports conversion while making costs, terms, and exit options easy to understand.",
+
+          challenge:
+            "DAZN offers different subscription plans, payment models, and commitment periods. This creates a high-stakes decision for users, especially when price, contract duration, renewal dates, and included sports content need to be compared quickly. The challenge was to simplify the full subscription lifecycle without reducing DAZN’s ability to retain customers, promote relevant plans, and communicate the value of its sports offering.",
+
+          approach:
+            "I mapped the journey from plan discovery to cancellation and identified moments where users could lose context or feel pressured. The redesign introduced a central subscription hub that shows the active plan, monthly price, billing cycle, next payment date, commitment period, and available account actions in one place. Plan comparisons use consistent language and a clear overview of included content. Cancellation becomes a direct account action with a visible end date, a clear confirmation state, and optional retention offers that can be skipped without friction. The concept uses plain-language microcopy to explain every financial and contractual decision before users confirm it.",
+
+          creativeDirection:
+            "The creative direction reframes DAZN subscription management as a confident and transparent part of the streaming experience. The interface keeps the energy of live sport, but applies it with disciplined hierarchy, direct language, and clear decision points. Subscription information becomes readable at a glance. Prices, contract terms, renewal dates, and cancellation options remain visible instead of being treated as secondary account details. Retention offers appear as optional alternatives, such as pausing, changing plans, or receiving a limited promotion. They never block the user from continuing. The redesign treats clarity as a brand asset. It shows that a premium sports platform can protect revenue while giving users control over their membership.",
+
+          keyVisualSystem:
+            "The visual system builds on DAZN’s bold sports identity while introducing a calmer structure for account decisions. Strong black and white contrast creates a direct, high-confidence interface. Bright accent colour is reserved for primary actions, live status, and key subscription information. Large plan cards make price, duration, and included content scannable. Clear spacing separates commercial choices from account controls. Progress indicators, confirmation states, and calm microcopy reduce uncertainty during plan changes and cancellation.",
+
           result: [
-            "Ethical Monetization: Subscription and upsell flows remain profitable but are fully transparent, reducing complaints and cancellations caused by frustration.",
-            "Trust as Differentiator: Clear unsubscribe options, consent dialogs, and transparent incentives increase user confidence, particularly in Bavaria and Germany, where privacy and honesty are highly valued.",
-            "Global Consistency: Ethical design choices scale across international markets, proving that transparency and business goals can coexist.",
-            "Business-Aligned UX: The project demonstrates the ability to argue for users’ rights while understanding revenue, retention, and conversion metrics."
+            "Clear Subscription Overview: Users can view their active plan, billing date, payment amount, contract duration, and included content from one account screen.",
+            "Transparent Plan Decisions: Monthly and annual options are easier to compare because price, commitment period, renewal behaviour, and included sports content follow one consistent structure.",
+            "Respectful Retention Flow: Cancellation remains accessible while downgrade, pause, and offer options are presented as optional alternatives instead of barriers.",
+            "Stronger Trust Signal: Direct language and visible account controls position transparency as part of the DAZN product experience.",
+            "Business-Aligned UX: The redesign supports conversion and retention through relevant value communication rather than unclear contract details or pressured decision-making."
           ],
+
           takeawayTitle: "Takeaway",
-          takeaway: "Hier steht, was das Projekt über deine Fähigkeiten zeigt."
+
+          takeaway:
+            "Subscription UX affects trust long after the checkout flow. Clear pricing, visible contract details, and an accessible cancellation path do not weaken a business model. They create a product experience users can understand, recommend, and return to."
         },
         images: [
           {
             layout: "one",
             items: [
               {
-                src: "../pngs/Projects/Printer Display Redesign/Xerox-Used-Office-Copier-Printer.jpg",
-                alt: "Printer Interface overview"
+                src: "../pngs/Projects/DAZN/Cancellation Intelligence.png",
+                alt: "DAZN Cancellation Intelligence"
               }
             ]
           },
           {
-            layout: "two",
+            layout: "one",
             items: [
               {
-                src: "../pngs/your-image-2.jpg",
-                alt: "Printer detail 1"
-              },
-              {
-                src: "../pngs/your-image-3.jpg",
-                alt: "Printer detail 2"
+                src: "../pngs/Projects/DAZN/Intelligent Alternative - Price.png",
+                alt: "DAZN Intelligent Alternative - Price"
               }
             ]
-          }
+          },
+          {
+            layout: "one",
+            items: [
+              {
+                src: "../pngs/Projects/DAZN/Intelligent Alternative - Usage.png",
+                alt: "DAZN Intelligent Alternative - Usage"
+              }
+            ]
+          },
+          {
+            layout: "one",
+            items: [
+              {
+                src: "../pngs/Projects/DAZN/Transparency Confirmation.png",
+                alt: "DAZN Transparency Confirmation"
+              }
+            ]
+          },
+          {
+            layout: "one",
+            items: [
+              {
+                src: "../pngs/Projects/DAZN/Informed Decision Summary.png",
+                alt: "DAZN Informed Decision Summary"
+              }
+            ]
+          },
+  
         ],
         extraImages: [
           {
@@ -759,7 +798,7 @@ const projectsData = {
           {
             src: "./pngs/Projects/MemoWe/Frame_151.jpg",
             alt: "MemoWe Screens"
-          },         
+          },
           {
             src: "./pngs/Projects/MemoWe/Memowe_laptop.png",
             alt: "MemoWe Social Media"
