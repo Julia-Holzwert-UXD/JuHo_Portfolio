@@ -266,7 +266,6 @@ function renderProjectDetail() {
     coverBannerEl.style.cssText = `
     margin: 0 0 72px;
     padding: 0 20px;
-    background: var(--bg-main);
     display: flex;
     justify-content: center;
     width: 100%;
@@ -324,6 +323,12 @@ function renderProjectDetail() {
     pointer-events: none;
   `;
     }
+
+    initProjectCoverExpansion({
+  coverBannerEl,
+  coverWrapper,
+  coverColor
+})
   }
   if (textEl) {
     const s = project.detail.sections;
@@ -1017,7 +1022,152 @@ function initScrollReveal() {
   });
 
 }
+function initProjectCoverExpansion({ coverBannerEl, coverWrapper, coverColor }) {
+  if (!coverBannerEl || !coverWrapper || !window.gsap) return
 
+  gsap.killTweensOf([coverBannerEl, coverWrapper])
+
+  const root = document.documentElement
+  const TOP_THRESHOLD = 4
+
+  let isExpanded = false
+  let resizeTimeout = null
+
+  function getBannerPadding() {
+    if (window.innerWidth <= 640) return 16
+    if (window.innerWidth <= 1000) return 18
+    return 20
+  }
+
+  function getBannerRadius() {
+    if (window.innerWidth <= 640) return 20
+    if (window.innerWidth <= 1000) return 24
+    return 32
+  }
+
+  function setProjectBackground(background) {
+    root.style.setProperty("--project-page-bg", background)
+  }
+
+  function expandCover(animate = true, force = false) {
+    if (isExpanded && !force) return
+
+    isExpanded = true
+    document.body.classList.add("is-project-cover-expanded")
+    setProjectBackground(coverColor)
+
+    gsap.to(coverBannerEl, {
+      paddingLeft: 0,
+      paddingRight: 0,
+      background: "transparent",
+      duration: animate ? 0.7 : 0,
+      ease: "power3.out",
+      overwrite: "auto"
+    })
+
+    gsap.to(coverWrapper, {
+      width: "100%",
+      maxWidth: "100vw",
+      borderRadius: 0,
+      boxShadow: "0 0 0 rgba(0, 0, 0, 0)",
+      duration: animate ? 0.7 : 0,
+      ease: "power3.out",
+      overwrite: "auto"
+    })
+  }
+
+  function shrinkCover(animate = true, force = false) {
+    if (!isExpanded && !force) return
+
+    const padding = getBannerPadding()
+    const radius = getBannerRadius()
+
+    isExpanded = false
+    document.body.classList.remove("is-project-cover-expanded")
+    setProjectBackground("var(--bg-main)")
+
+    gsap.to(coverBannerEl, {
+      paddingLeft: `${padding}px`,
+      paddingRight: `${padding}px`,
+      background: "transparent",
+      duration: animate ? 0.7 : 0,
+      ease: "power3.out",
+      overwrite: "auto"
+    })
+
+    gsap.to(coverWrapper, {
+      width: "100%",
+      maxWidth: "1400px",
+      borderRadius: `${radius}px`,
+      boxShadow: "0 18px 44px rgba(0, 0, 0, .1)",
+      duration: animate ? 0.7 : 0,
+      ease: "power3.out",
+      overwrite: "auto"
+    })
+  }
+
+  function syncInitialState() {
+    if (window.scrollY > TOP_THRESHOLD) {
+      expandCover(false, true)
+    } else {
+      shrinkCover(false, true)
+    }
+  }
+
+  if (window.ScrollTrigger) {
+    gsap.registerPlugin(ScrollTrigger)
+
+    ScrollTrigger.getAll().forEach(trigger => {
+      if (trigger.vars.id === "projectCoverExpansion") {
+        trigger.kill()
+      }
+    })
+
+    ScrollTrigger.create({
+      id: "projectCoverExpansion",
+      start: TOP_THRESHOLD,
+      end: "max",
+
+      onEnter: () => {
+        expandCover(true)
+      },
+
+      onLeaveBack: () => {
+        shrinkCover(true)
+      },
+
+      onRefresh: () => {
+        syncInitialState()
+      }
+    })
+  } else {
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > TOP_THRESHOLD) {
+        expandCover(true)
+      } else {
+        shrinkCover(true)
+      }
+    }, { passive: true })
+  }
+
+  syncInitialState()
+
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimeout)
+
+    resizeTimeout = window.setTimeout(() => {
+      if (isExpanded) {
+        expandCover(false, true)
+      } else {
+        shrinkCover(false, true)
+      }
+
+      if (window.ScrollTrigger) {
+        ScrollTrigger.refresh()
+      }
+    }, 120)
+  })
+}
 /* ===================================================== */
 /* ACCESSIBILITY */
 /* ===================================================== */

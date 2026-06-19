@@ -1,60 +1,23 @@
-/* ===================================================== */
-/* PROJECT SCROLL INDICATOR */
-/* ===================================================== */
-
-.project-scroll-indicator {
-  --project-scroll-progress: 0;
-  --project-scroll-top: 72px;
-
-  position: fixed;
-  left: 0;
-  top: var(--project-scroll-top);
-
-  width: 100%;
-  height: 4px;
-
-  z-index: 2000;
-  pointer-events: none;
-
-  background: color-mix(in srgb, var(--accent) 22%, transparent);
+:root {
+  --project-page-bg: var(--bg-main);
 }
 
-.project-scroll-fill {
-  width: 100%;
-  height: 100%;
-
-  background: var(--accent-strong);
-
-  transform: scaleX(var(--project-scroll-progress));
-  transform-origin: left center;
+body {
+  background: var(--project-page-bg);
+  transition: background 0.45s ease;
 }
 
-.project-scroll-percent {
-  position: absolute;
-  right: 20px;
-  top: 10px;
-
-  padding: 6px 10px;
-  border-radius: 999px;
-
-  background: var(--bg-main);
-  color: var(--accent-strong);
-
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 1;
-
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+.project-detail-section,
+.other-projects-section,
+#projectExtraRect {
+  background: var(--project-page-bg);
+  transition: background 0.45s ease;
 }
 
-@media (max-width: 640px) {
-  .project-scroll-indicator {
-    height: 3px;
-  }
+#projectCoverBanner {
+  will-change: padding;
+}
 
-  .project-scroll-percent {
-    right: 12px;
-    top: 8px;
-    font-size: 11px;
-  }
+#projectCoverBanner .project-cover-wrapper {
+  will-change: max-width, border-radius, box-shadow;
 }
