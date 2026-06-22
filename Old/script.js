@@ -2094,8 +2094,72 @@ function initCustomVideos() {
   });
 }
 /* =========================================================
-   HERO TABLE v2 — no JS needed, pure HTML/CSS.
+   HERO SECTION ENHANCEMENT (NEW)
 ========================================================= */
+function initHero() {
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // 1) Kinetic multilingual role line (DE / EN / RU)
+  const kineticEl = document.querySelector(".hero-kinetic-text");
+  if (kineticEl) {
+    const phrases = [
+      "Product & UX/UI Designer",
+      "Продукт- и UX/UI-Designer",
+      "Produkt- & UX/UI-Designerin"
+    ];
+    let index = 0;
+
+    if (!prefersReducedMotion) {
+      setInterval(() => {
+        kineticEl.classList.add("is-swapping");
+
+        setTimeout(() => {
+          index = (index + 1) % phrases.length;
+          kineticEl.textContent = phrases[index];
+          kineticEl.classList.remove("is-swapping");
+        }, 350);
+      }, 2600);
+    }
+  }
+
+  // 2) Proof bar count-up
+  document.querySelectorAll(".hero-stat-number").forEach(el => {
+    const target = parseInt(el.dataset.count, 10) || 0;
+
+    if (prefersReducedMotion) {
+      el.textContent = target;
+      return;
+    }
+
+    const duration = 900;
+    const start = performance.now();
+
+    function tick(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      el.textContent = Math.round(target * progress);
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick);
+  });
+
+  // 3) Before/After micro demo — hover is handled in CSS,
+  // click + keyboard here for touch and a11y support.
+  const demo = document.getElementById("heroMicrodemo");
+  if (demo) {
+    demo.addEventListener("click", () => {
+      const isAfter = demo.classList.toggle("is-after");
+      demo.setAttribute("aria-pressed", isAfter ? "true" : "false");
+    });
+
+    demo.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        demo.click();
+      }
+    });
+  }
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   loadNavbar();
@@ -2121,6 +2185,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initHoverEffects();
   initProjectPopIn();
   initScrollToTop();
+  initHero();
 
   requestAnimationFrame(() => {
     ScrollTrigger.refresh();
@@ -2134,8 +2199,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const introBlock = document.querySelector(".intro-block");
   const colorBlock = document.querySelector(".color-block");
-  const introH2 = document.querySelector(".hero-table-section");
-  const introP = null; // no separate paragraph in table hero
+  const introH2 = introBlock ? introBlock.querySelector(".hero-heading") : null;
+  const introP = introBlock ? introBlock.querySelector("p") : null;
   const darkmodeToggle = document.getElementById("darkmode-toggle");
 
   if (darkmodeToggle) {

@@ -2093,10 +2093,6 @@ function initCustomVideos() {
     updateVolumeUI(false);
   });
 }
-/* =========================================================
-   HERO TABLE v2 — no JS needed, pure HTML/CSS.
-========================================================= */
-
 document.addEventListener("DOMContentLoaded", () => {
   loadNavbar();
   setActiveNav();
@@ -2134,8 +2130,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const introBlock = document.querySelector(".intro-block");
   const colorBlock = document.querySelector(".color-block");
-  const introH2 = document.querySelector(".hero-table-section");
-  const introP = null; // no separate paragraph in table hero
+  const introH2 = introBlock ? introBlock.querySelector("h2") : null;
+  const introP = introBlock ? introBlock.querySelector("p") : null;
   const darkmodeToggle = document.getElementById("darkmode-toggle");
 
   if (darkmodeToggle) {
