@@ -2052,3 +2052,396 @@ body.darkmode .project-extra-arrow {
     font-size: 11px;
   }
 }
+
+/* =========================================================
+   HERO GRID SECTION
+========================================================= */
+
+.hero-grid-section {
+  --nav-height: 72px;
+
+  --hero-bg: var(--bg-main);
+  --hero-text: var(--text-dark);
+  --hero-muted: color-mix(in srgb, var(--hero-text) 72%, transparent);
+  --hero-line: color-mix(in srgb, var(--hero-text) 20%, transparent);
+
+  --hero-stroke: clamp(1px, 0.12vw, 1.7px);
+
+  --hero-bust-src: url("pngs/About/background removed.png");
+  --hero-bust-height: clamp(620px, 108svh, 1120px);
+
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  min-height: 100svh;
+
+  margin: 0;
+  padding-top: var(--nav-height);
+
+  overflow: hidden;
+  isolation: isolate;
+
+  background: var(--hero-bg);
+  color: var(--hero-text);
+
+  box-sizing: border-box;
+}
+
+body.darkmode .hero-grid-section {
+  --hero-bg: #0D0B14;
+  --hero-text: #ffffff;
+  --hero-muted: rgba(255, 255, 255, 0.72);
+  --hero-line: rgba(255, 255, 255, 0.22);
+}
+
+/* =========================================================
+   TEXT GRID LAYERS
+========================================================= */
+
+.hero-grid {
+  width: 100%;
+  height: calc(100svh - var(--nav-height));
+
+  display: grid;
+  grid-template-rows: repeat(4, minmax(0, 1fr));
+}
+
+.hero-grid-fill {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-grid-outline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--nav-height);
+  bottom: 0;
+
+  z-index: 4;
+  pointer-events: none;
+
+  -webkit-mask-image: var(--hero-bust-src);
+  mask-image: var(--hero-bust-src);
+
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+
+  -webkit-mask-position: center bottom;
+  mask-position: center bottom;
+
+  -webkit-mask-size: auto var(--hero-bust-height);
+  mask-size: auto var(--hero-bust-height);
+}
+
+.hero-grid-outline .hero-big,
+.hero-grid-outline .hero-medium,
+.hero-grid-outline .hero-small {
+  color: transparent !important;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: var(--hero-stroke) var(--hero-text);
+  paint-order: stroke;
+  text-shadow: none;
+}
+
+.hero-grid-outline .hero-small {
+  -webkit-text-stroke-width: 0.75px;
+  opacity: 0.72;
+}
+
+/* =========================================================
+   GRID STRUCTURE
+========================================================= */
+
+.hero-grid-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+
+  min-height: 0;
+
+  border-top: 1px solid var(--hero-line);
+}
+
+.hero-grid-row:first-child {
+  border-top: 0;
+}
+
+.hero-grid-cell {
+  min-width: 0;
+  min-height: 0;
+
+  padding: clamp(12px, 1.8svh, 24px) clamp(18px, 3vw, 52px);
+
+  display: flex;
+  align-items: center;
+
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+.hero-left {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.hero-right {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+/* =========================================================
+   TYPOGRAPHY
+========================================================= */
+
+.hero-big {
+  display: block;
+
+  font-family: "Clash Display", "Satoshi", Arial, sans-serif;
+  font-size: clamp(4.4rem, 11.2vw, 11.8rem);
+  font-weight: 600;
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+
+  color: var(--hero-text);
+  white-space: nowrap;
+
+  transform: translateZ(0);
+  will-change: contents;
+}
+
+.hero-medium {
+  display: block;
+
+  font-family: "Satoshi", Arial, sans-serif;
+  font-size: clamp(1rem, 2vw, 2.2rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+
+  color: var(--hero-text);
+  white-space: nowrap;
+}
+
+.hero-small {
+  display: block;
+
+  font-family: "Satoshi", Arial, sans-serif;
+  font-size: clamp(0.78rem, 0.95vw, 1.05rem);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+
+  color: var(--hero-muted);
+}
+
+.hero-intro {
+  width: 34ch;
+  max-width: 34ch;
+  overflow-wrap: normal;
+}
+
+/* =========================================================
+   BUST IMAGE
+========================================================= */
+
+.hero-bust-image {
+  position: absolute;
+  left: 50%;
+  bottom: -150px;
+
+  z-index: 3;
+
+  height: var(--hero-bust-height);
+
+  transform: translateX(-50%);
+
+  pointer-events: none;
+}
+
+.hero-bust-image img {
+  display: block;
+
+  width: auto;
+  height: 85%;
+
+  max-width: none;
+  max-height: none;
+
+  object-fit: contain;
+  object-position: center bottom;
+
+  filter: drop-shadow(0 28px 44px rgba(0, 0, 0, 0.18));
+}
+@media (max-width: 700px) {
+  .hero-bust-image {
+    bottom: -30px;
+  }
+}
+
+@media (max-width: 420px) {
+  .hero-bust-image {
+    bottom: -45px;
+  }
+}
+/* =========================================================
+   ROLLADEN WORD ANIMATION
+========================================================= */
+
+.hero-roll {
+  position: relative;
+
+  display: inline-block;
+
+  height: 1em;
+  line-height: 1;
+
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.hero-roll-track {
+  display: flex;
+  flex-direction: column;
+
+  will-change: transform;
+
+  animation: heroRoll 6.2s cubic-bezier(0.76, 0, 0.24, 1) 1.15s infinite;
+}
+
+.hero-roll-word {
+  display: block;
+
+  height: 1em;
+  line-height: 1;
+
+  white-space: nowrap;
+}
+
+@keyframes heroRoll {
+  0%,
+  36% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  46%,
+  82% {
+    transform: translate3d(0, -1em, 0);
+  }
+
+  92%,
+  100% {
+    transform: translate3d(0, -2em, 0);
+  }
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1100px) {
+  .hero-grid-section {
+    --hero-bust-height: clamp(560px, 96svh, 900px);
+  }
+
+  .hero-big {
+    font-size: clamp(3.4rem, 10.5vw, 9rem);
+  }
+
+  .hero-intro {
+    max-width: 32ch;
+  }
+}
+
+@media (max-width: 700px) {
+  .hero-grid-section {
+    --nav-height: 72px;
+    --hero-bust-height: clamp(430px, 76svh, 640px);
+  }
+
+  .hero-grid-cell {
+    padding: 10px 16px;
+  }
+
+  .hero-big {
+    font-size: clamp(2.45rem, 14vw, 5.2rem);
+    line-height: 0.94;
+    letter-spacing: -0.055em;
+  }
+
+  .hero-small {
+    font-size: 0.68rem;
+    line-height: 1.3;
+  }
+
+  .hero-intro {
+    max-width: 24ch;
+  }
+
+  .hero-bust-image {
+    left: 52%;
+  }
+}
+
+@media (max-width: 420px) {
+  .hero-grid-section {
+    --hero-bust-height: clamp(390px, 70svh, 560px);
+  }
+
+  .hero-big {
+    font-size: clamp(2.1rem, 13vw, 4.2rem);
+  }
+
+  .hero-grid-cell {
+    padding: 10px 12px;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-roll-track {
+    animation: none !important;
+    transform: translate3d(0, 0, 0) !important;
+  }
+
+  .hero-roll-word:nth-child(n + 2) {
+    display: none;
+  }
+}
+
+.hero-roll-big {
+  font-size: clamp(3.2rem, 8.2vw, 8.8rem);
+}
+@media (max-width: 700px) {
+  .hero-roll-big {
+    font-size: clamp(1.85rem, 10vw, 4rem);
+  }
+}
+
+@media (max-width: 420px) {
+  .hero-roll-big {
+    font-size: clamp(1.65rem, 9.2vw, 3.3rem);
+  }
+}
+
+.hero-grid-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  z-index: 0;
+
+  background-image: url("pngs/About/Dark Nft GIF by xponentialdesign.gif");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.hero-grid-outline .hero-grid-row {
+  border-top: 0;
+}

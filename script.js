@@ -2093,6 +2093,107 @@ function initCustomVideos() {
     updateVolumeUI(false);
   });
 }
+function cloneHeroOutlineLayer() {
+  const fillGrid = document.getElementById("heroGridFill");
+  const outlineGrid = document.getElementById("heroGridOutline");
+
+  if (!fillGrid || !outlineGrid || outlineGrid.dataset.ready) return;
+
+  outlineGrid.innerHTML = fillGrid.innerHTML;
+  outlineGrid.dataset.ready = "true";
+}
+
+function initHeroDecryptAnimation() {
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+  const nodes = Array.from(document.querySelectorAll("[data-hero-decrypt]"));
+
+  if (!nodes.length) return;
+
+  const groups = new Map();
+
+  nodes.forEach(node => {
+    const key = node.dataset.heroDecrypt;
+    const text = node.dataset.heroText || node.textContent.trim();
+
+    node.dataset.heroText = text;
+
+    if (!groups.has(key)) {
+      groups.set(key, {
+        text,
+        nodes: []
+      });
+    }
+
+    groups.get(key).nodes.push(node);
+  });
+
+  groups.forEach(group => {
+    group.nodes.forEach(node => {
+      node.textContent = group.text;
+    });
+  });
+
+  if (prefersReducedMotion) return;
+
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&()_+";
+
+  function randomChar() {
+    return characters[Math.floor(Math.random() * characters.length)];
+  }
+
+  function scrambleText(text, revealedCount) {
+    return text
+      .split("")
+      .map((char, index) => {
+        if (char === " ") return " ";
+        if (index < revealedCount) return char;
+        return randomChar();
+      })
+      .join("");
+  }
+
+  Array.from(groups.values()).forEach((group, groupIndex) => {
+    const { text, nodes } = group;
+
+    const stepSize = Math.max(1, Math.ceil(text.length / 12));
+    const startDelay = 120 + groupIndex * 85;
+
+    nodes.forEach(node => {
+      node.textContent = scrambleText(text, 0);
+    });
+
+    window.setTimeout(() => {
+      let revealedCount = 0;
+
+      const interval = window.setInterval(() => {
+        revealedCount = Math.min(text.length, revealedCount + stepSize);
+
+        const nextText =
+          revealedCount >= text.length
+            ? text
+            : scrambleText(text, revealedCount);
+
+        nodes.forEach(node => {
+          node.textContent = nextText;
+        });
+
+        if (revealedCount >= text.length) {
+          window.clearInterval(interval);
+
+          nodes.forEach(node => {
+            node.textContent = text;
+          });
+        }
+      }, 42);
+    }, startDelay);
+  });
+}
+
+
 /* =========================================================
    HERO TABLE v2 — no JS needed, pure HTML/CSS.
 ========================================================= */
@@ -2100,6 +2201,10 @@ function initCustomVideos() {
 document.addEventListener("DOMContentLoaded", () => {
   loadNavbar();
   setActiveNav();
+
+  cloneHeroOutlineLayer();
+  initHeroDecryptAnimation();
+
   loadFooter();
   loadLiquidEffectSVG();
   loadGooeyParticles();
@@ -2135,7 +2240,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const introBlock = document.querySelector(".intro-block");
   const colorBlock = document.querySelector(".color-block");
   const introH2 = document.querySelector(".hero-table-section");
-  const introP = null; // no separate paragraph in table hero
+  const introP = null;
   const darkmodeToggle = document.getElementById("darkmode-toggle");
 
   if (darkmodeToggle) {
