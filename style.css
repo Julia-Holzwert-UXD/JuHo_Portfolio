@@ -2445,3 +2445,11 @@ body.darkmode .hero-grid-section {
 .hero-grid-outline .hero-grid-row {
   border-top: 0;
 }
+.hero-grid-outline .hero-no-outline .hero-big,
+.hero-grid-outline .hero-no-outline .hero-roll,
+.hero-grid-outline .hero-no-outline .hero-roll-word {
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  -webkit-text-stroke: 0 !important;
+  text-shadow: none !important;
+}
