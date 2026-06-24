@@ -107,7 +107,7 @@ const projectsData = {
       href: "./projectSites/campusTalk.html",
       categories: ["Group-Project", "Ethical-Design"],
       coverImage: "./pngs/Projects/CampusTalk/Logo.png",
-      coverBannerImage: "./pngs/Projects/CampusTalk/Logo.png",
+      coverBannerImage: "./pngs/Projects/CampusTalk/Logo 1.png",
       coverBackgroundColor: "linear-gradient(90deg, #2D2077 50%, #35278F 68%)",
       coverZoom: 120,
 
