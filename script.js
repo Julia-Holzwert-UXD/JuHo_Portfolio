@@ -263,45 +263,86 @@ function renderProjectDetail() {
 
     coverBannerEl.hidden = false;
 
-    coverBannerEl.style.cssText = `
-    margin: 0 0 72px;
-    padding: 0 20px;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    box-sizing: border-box;
-  `;
+  coverBannerEl.style.cssText = `
+  margin: 0 0 72px;
+  padding: 0;
 
-    coverBannerEl.innerHTML = `
-    <div class="project-cover-wrapper">
-      ${coverSrc
-        ? `<img class="project-cover-img" src="${coverSrc}" alt="${project.title} cover image">`
-        : ""
-      }
-    </div>
-  `;
-
-    const coverWrapper = coverBannerEl.querySelector(".project-cover-wrapper");
-    const coverImg = coverBannerEl.querySelector(".project-cover-img");
-
-    coverWrapper.style.cssText = `
   width: 100%;
-  max-width: 1400px;
   height: clamp(280px, 42vh, 520px);
-  border-radius: 32px;
-  background: ${coverColor};
-  box-shadow: 0 18px 44px rgba(0, 0, 0, .1);
-  box-sizing: border-box;
 
   position: relative;
-  overflow: hidden;
+  overflow: visible;
+  isolation: isolate;
+
+  box-sizing: border-box;
+  background: transparent;
 `;
 
-    if (coverImg) {
-      const coverZoom = project.coverZoom ?? 0;
-      const coverScale = 1 + coverZoom / 100;
+coverBannerEl.innerHTML = `
+  <div class="project-cover-bg" aria-hidden="true"></div>
 
-      coverImg.style.cssText = `
+  <div class="project-cover-image-frame">
+    ${coverSrc
+      ? `<img class="project-cover-img" src="${coverSrc}" alt="${project.title} cover image">`
+      : ""
+    }
+  </div>
+`;
+
+const coverBg = coverBannerEl.querySelector(".project-cover-bg");
+const coverImageFrame = coverBannerEl.querySelector(".project-cover-image-frame");
+const coverImg = coverBannerEl.querySelector(".project-cover-img");
+
+coverBg.style.cssText = `
+  width: 100vw;
+  height: 100%;
+
+  position: absolute;
+  left: 50%;
+  top: 0;
+  z-index: 1;
+
+  background: ${coverColor};
+
+  transform: translate3d(-50%, 0, 0);
+  transform-origin: center center;
+
+  clip-path: inset(0 20px 0 20px round 32px);
+  -webkit-clip-path: inset(0 20px 0 20px round 32px);
+
+  filter: drop-shadow(0 18px 44px rgba(0, 0, 0, .1));
+
+  will-change: clip-path;
+  backface-visibility: hidden;
+  box-sizing: border-box;
+  pointer-events: none;
+`;
+
+coverImageFrame.style.cssText = `
+  width: min(calc(100vw - 40px), 1400px);
+  height: 100%;
+
+  position: absolute;
+  left: 50%;
+  top: 0;
+  z-index: 2;
+
+  overflow: hidden;
+  border-radius: 32px;
+
+  transform: translate3d(-50%, 0, 0);
+  transform-origin: center center;
+
+  backface-visibility: hidden;
+  box-sizing: border-box;
+  pointer-events: none;
+`;
+
+if (coverImg) {
+  const coverZoom = project.coverZoom ?? 0;
+  const coverScale = 1 + coverZoom / 100;
+
+  coverImg.style.cssText = `
     display: block;
 
     position: absolute;
@@ -317,16 +358,18 @@ function renderProjectDetail() {
     object-fit: contain;
     object-position: center;
 
-    transform: translate(-50%, -50%) scale(${coverScale});
+    transform: translate3d(-50%, -50%, 0) scale(${coverScale});
     transform-origin: center center;
 
+    backface-visibility: hidden;
     pointer-events: none;
   `;
-    }
+}
 
-    initProjectCoverExpansion({
+initProjectCoverExpansion({
   coverBannerEl,
-  coverWrapper,
+  coverBg,
+  coverImageFrame,
   coverColor
 })
   }
@@ -1022,16 +1065,24 @@ function initScrollReveal() {
   });
 
 }
-function initProjectCoverExpansion({ coverBannerEl, coverWrapper, coverColor }) {
-  if (!coverBannerEl || !coverWrapper || !window.gsap) return
+function initProjectCoverExpansion({
+  coverBannerEl,
+  coverBg,
+  coverImageFrame,
+  coverColor
+}) {
+  if (!coverBannerEl || !coverBg || !coverImageFrame || !window.gsap) return
 
-  gsap.killTweensOf([coverBannerEl, coverWrapper])
+  gsap.killTweensOf([coverBg, coverImageFrame])
 
   const root = document.documentElement
-  const TOP_THRESHOLD = 4
+
+  const EXPAND_AT = 24
+  const SHRINK_AT = 2
 
   let isExpanded = false
   let resizeTimeout = null
+  let scrollTicking = false
 
   function getBannerPadding() {
     if (window.innerWidth <= 640) return 16
@@ -1045,121 +1096,156 @@ function initProjectCoverExpansion({ coverBannerEl, coverWrapper, coverColor }) 
     return 32
   }
 
+  function getCollapsedWidth() {
+    const padding = getBannerPadding()
+    return Math.round(Math.min(window.innerWidth - padding * 2, 1400))
+  }
+
+  function getSideInset() {
+    return Math.max((window.innerWidth - getCollapsedWidth()) / 2, 0)
+  }
+
+  function getClipPath(sideInset, radius) {
+    return `inset(0px ${sideInset}px 0px ${sideInset}px round ${radius}px)`
+  }
+
   function setProjectBackground(background) {
     root.style.setProperty("--project-page-bg", background)
   }
 
-  function expandCover(animate = true, force = false) {
-    if (isExpanded && !force) return
+  function setImageFrameCollapsed(radius) {
+    gsap.set(coverImageFrame, {
+      width: `${getCollapsedWidth()}px`,
+      borderRadius: `${radius}px`
+    })
+  }
+
+  function setCollapsedInstant() {
+    const radius = getBannerRadius()
+    const clipPath = getClipPath(getSideInset(), radius)
+
+    gsap.set(coverBg, {
+      clipPath,
+      webkitClipPath: clipPath
+    })
+
+    setImageFrameCollapsed(radius)
+
+    isExpanded = false
+    document.body.classList.remove("is-project-cover-expanded")
+    setProjectBackground("var(--bg-main)")
+  }
+
+  function setExpandedInstant() {
+    const clipPath = getClipPath(0, 0)
+
+    gsap.set(coverBg, {
+      clipPath,
+      webkitClipPath: clipPath
+    })
+
+    setImageFrameCollapsed(0)
+
+    isExpanded = true
+    document.body.classList.add("is-project-cover-expanded")
+    setProjectBackground(coverColor)
+  }
+
+  function expandCover(animate = true) {
+    if (isExpanded) return
 
     isExpanded = true
     document.body.classList.add("is-project-cover-expanded")
     setProjectBackground(coverColor)
 
-    gsap.to(coverBannerEl, {
-      paddingLeft: 0,
-      paddingRight: 0,
-      background: "transparent",
+    const clipPath = getClipPath(0, 0)
+
+    gsap.to(coverBg, {
+      clipPath,
+      webkitClipPath: clipPath,
       duration: animate ? 0.7 : 0,
       ease: "power3.out",
-      overwrite: "auto"
+      overwrite: true
     })
 
-    gsap.to(coverWrapper, {
-      width: "100%",
-      maxWidth: "100vw",
+    gsap.to(coverImageFrame, {
+      width: `${getCollapsedWidth()}px`,
       borderRadius: 0,
-      boxShadow: "0 0 0 rgba(0, 0, 0, 0)",
       duration: animate ? 0.7 : 0,
       ease: "power3.out",
-      overwrite: "auto"
+      overwrite: true
     })
   }
 
-  function shrinkCover(animate = true, force = false) {
-    if (!isExpanded && !force) return
-
-    const padding = getBannerPadding()
-    const radius = getBannerRadius()
+  function shrinkCover(animate = true) {
+    if (!isExpanded) return
 
     isExpanded = false
     document.body.classList.remove("is-project-cover-expanded")
     setProjectBackground("var(--bg-main)")
 
-    gsap.to(coverBannerEl, {
-      paddingLeft: `${padding}px`,
-      paddingRight: `${padding}px`,
-      background: "transparent",
+    const radius = getBannerRadius()
+    const clipPath = getClipPath(getSideInset(), radius)
+
+    gsap.to(coverBg, {
+      clipPath,
+      webkitClipPath: clipPath,
       duration: animate ? 0.7 : 0,
       ease: "power3.out",
-      overwrite: "auto"
+      overwrite: true
     })
 
-    gsap.to(coverWrapper, {
-      width: "100%",
-      maxWidth: "1400px",
+    gsap.to(coverImageFrame, {
+      width: `${getCollapsedWidth()}px`,
       borderRadius: `${radius}px`,
-      boxShadow: "0 18px 44px rgba(0, 0, 0, .1)",
       duration: animate ? 0.7 : 0,
       ease: "power3.out",
-      overwrite: "auto"
+      overwrite: true
+    })
+  }
+
+  function checkState() {
+    if (window.scrollY >= EXPAND_AT) {
+      expandCover(true)
+      return
+    }
+
+    if (window.scrollY <= SHRINK_AT) {
+      shrinkCover(true)
+    }
+  }
+
+  function onScroll() {
+    if (scrollTicking) return
+
+    scrollTicking = true
+
+    requestAnimationFrame(() => {
+      checkState()
+      scrollTicking = false
     })
   }
 
   function syncInitialState() {
-    if (window.scrollY > TOP_THRESHOLD) {
-      expandCover(false, true)
+    if (window.scrollY >= EXPAND_AT) {
+      setExpandedInstant()
     } else {
-      shrinkCover(false, true)
+      setCollapsedInstant()
     }
   }
 
-  if (window.ScrollTrigger) {
-    gsap.registerPlugin(ScrollTrigger)
-
-    ScrollTrigger.getAll().forEach(trigger => {
-      if (trigger.vars.id === "projectCoverExpansion") {
-        trigger.kill()
-      }
-    })
-
-    ScrollTrigger.create({
-      id: "projectCoverExpansion",
-      start: TOP_THRESHOLD,
-      end: "max",
-
-      onEnter: () => {
-        expandCover(true)
-      },
-
-      onLeaveBack: () => {
-        shrinkCover(true)
-      },
-
-      onRefresh: () => {
-        syncInitialState()
-      }
-    })
-  } else {
-    window.addEventListener("scroll", () => {
-      if (window.scrollY > TOP_THRESHOLD) {
-        expandCover(true)
-      } else {
-        shrinkCover(true)
-      }
-    }, { passive: true })
-  }
-
   syncInitialState()
+
+  window.addEventListener("scroll", onScroll, { passive: true })
 
   window.addEventListener("resize", () => {
     clearTimeout(resizeTimeout)
 
     resizeTimeout = window.setTimeout(() => {
       if (isExpanded) {
-        expandCover(false, true)
+        setExpandedInstant()
       } else {
-        shrinkCover(false, true)
+        setCollapsedInstant()
       }
 
       if (window.ScrollTrigger) {
