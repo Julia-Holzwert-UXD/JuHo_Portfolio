@@ -2516,6 +2516,68 @@ body.darkmode .hero-grid-section {
   opacity: 0.15;
   pointer-events: none;
 }
+/* Texture Layer vor dem GIF */
+
+.hero-grid-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  z-index: 1;
+
+  background-image: url("pngs/About/textures.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  opacity: 0;
+  pointer-events: none;
+}
+/* =========================================================
+   HERO BACKGROUND ATMOSPHERE
+   Glow liegt direkt im Section Background
+========================================================= */
+
+.hero-grid-section {
+  background:
+    radial-gradient(
+      circle at 50% 48%,
+      rgba(167, 139, 250, 0.26),
+      rgba(167, 139, 250, 0.08) 22%,
+      transparent 46%
+    ),
+    radial-gradient(
+      circle at 50% 52%,
+      rgba(255, 255, 255, 0.12),
+      transparent 28%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.10),
+      transparent 18%,
+      transparent 82%,
+      rgba(0, 0, 0, 0.10)
+    ),
+    var(--hero-bg);
+}
+
+/* GIF Layer */
+
+.hero-grid-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  z-index: 0;
+
+  background-image: url("pngs/About/Dark Nft GIF by xponentialdesign.gif");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  opacity: 0.15;
+  pointer-events: none;
+}
 
 /* =========================================================
    HERO ATMOSPHERE
@@ -2637,4 +2699,122 @@ body.darkmode .hero-grid-section {
 .hero-grid-outline .hero-intro {
   font-family: var(--hero-font-accent) !important;
   font-style: italic;
+}
+
+/* =========================================================
+   HERO CONTACT BUTTON
+========================================================= */
+
+.hero-grid-section {
+  --hero-contact-bg: var(--hero-text);
+  --hero-contact-text: var(--hero-bg);
+  --hero-contact-hover-bg: color-mix(in srgb, var(--hero-text) 88%, var(--accent-strong));
+  --hero-contact-hover-text: var(--hero-bg);
+  --hero-contact-dot-bg: var(--hero-contact-bg);
+  --hero-contact-dot-border: var(--hero-contact-text);
+}
+
+body.darkmode .hero-grid-section {
+  --hero-contact-bg: #ffffff;
+  --hero-contact-text: #0D0B14;
+  --hero-contact-hover-bg: var(--accent-strong);
+  --hero-contact-hover-text: #ffffff;
+  --hero-contact-dot-bg: var(--hero-contact-bg);
+  --hero-contact-dot-border: var(--hero-contact-text);
+}
+
+.hero-contact-button {
+  position: relative;
+  z-index: 20;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  width: clamp(138px, 11vw, 178px);
+  height: clamp(48px, 4vw, 62px);
+
+  background: var(--hero-contact-bg);
+  color: var(--hero-contact-text);
+  text-decoration: none;
+
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(15px, 1.05vw, 18px);
+  font-weight: 600;
+  line-height: 1;
+
+  border: 1px solid color-mix(in srgb, var(--hero-contact-text) 18%, transparent);
+  border-radius: 4px;
+
+  pointer-events: auto;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.hero-contact-button:hover {
+  background: var(--hero-contact-hover-bg);
+  color: var(--hero-contact-hover-text);
+  transform: translateY(-1px);
+}
+
+.hero-contact-text,
+.hero-contact-arrow {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-contact-arrow {
+  font-size: 1.25em;
+  line-height: 1;
+  transform: translateY(-1px);
+}
+
+.hero-contact-corner {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+
+  border: 1.5px solid var(--hero-contact-dot-border);
+  border-radius: 50%;
+
+  background: var(--hero-contact-dot-bg);
+  z-index: 3;
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.hero-contact-button:hover .hero-contact-corner {
+  background: var(--hero-contact-hover-bg);
+  border-color: var(--hero-contact-hover-text);
+}
+
+.corner-tl {
+  top: 6px;
+  left: 6px;
+}
+
+.corner-tr {
+  top: 6px;
+  right: 6px;
+}
+
+.corner-bl {
+  bottom: 6px;
+  left: 6px;
+}
+
+.corner-br {
+  bottom: 6px;
+  right: 6px;
+}
+
+.hero-grid-outline .hero-contact-button {
+  visibility: hidden;
 }
