@@ -2102,7 +2102,71 @@ function cloneHeroOutlineLayer() {
   outlineGrid.innerHTML = fillGrid.innerHTML;
   outlineGrid.dataset.ready = "true";
 }
+function initHeroRollSync() {
+  const section = document.querySelector(".hero-grid-section");
 
+  if (!section || section.dataset.rollSyncReady) return;
+
+  section.dataset.rollSyncReady = "true";
+
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+  if (prefersReducedMotion) {
+    section.style.setProperty("--hero-roll-y", "0em");
+    return;
+  }
+
+  const duration = 6200;
+  const delay = 1150;
+  const startTime = performance.now();
+
+  function easeInOut(t) {
+    return 0.5 - Math.cos(Math.PI * t) / 2;
+  }
+
+  function getRollValue(progress) {
+    if (progress <= 0.36) {
+      return 0;
+    }
+
+    if (progress <= 0.46) {
+      const localProgress = (progress - 0.36) / 0.10;
+      return -easeInOut(localProgress);
+    }
+
+    if (progress <= 0.82) {
+      return -1;
+    }
+
+    if (progress <= 0.92) {
+      const localProgress = (progress - 0.82) / 0.10;
+      return -1 - easeInOut(localProgress);
+    }
+
+    return -2;
+  }
+
+  function update(now) {
+    const elapsed = now - startTime - delay;
+
+    if (elapsed < 0) {
+      section.style.setProperty("--hero-roll-y", "0em");
+      requestAnimationFrame(update);
+      return;
+    }
+
+    const progress = (elapsed % duration) / duration;
+    const y = getRollValue(progress);
+
+    section.style.setProperty("--hero-roll-y", `${y}em`);
+
+    requestAnimationFrame(update);
+  }
+
+  requestAnimationFrame(update);
+}
 function initHeroDecryptAnimation() {
   const prefersReducedMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)"
@@ -2193,17 +2257,13 @@ function initHeroDecryptAnimation() {
   });
 }
 
-
-/* =========================================================
-   HERO TABLE v2 — no JS needed, pure HTML/CSS.
-========================================================= */
-
 document.addEventListener("DOMContentLoaded", () => {
   loadNavbar();
   setActiveNav();
 
   cloneHeroOutlineLayer();
   initHeroDecryptAnimation();
+  initHeroRollSync();
 
   loadFooter();
   loadLiquidEffectSVG();

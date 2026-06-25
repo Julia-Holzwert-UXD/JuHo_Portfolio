@@ -2286,13 +2286,18 @@ body.darkmode .hero-grid-section {
   vertical-align: top;
 }
 
+.hero-grid-section {
+  --hero-roll-y: 0em;
+}
+
 .hero-roll-track {
   display: flex;
   flex-direction: column;
 
+  transform: translate3d(0, var(--hero-roll-y), 0);
   will-change: transform;
 
-  animation: heroRoll 6.2s cubic-bezier(0.76, 0, 0.24, 1) 1.15s infinite;
+  animation: none !important;
 }
 
 .hero-roll-word {
@@ -2453,4 +2458,61 @@ body.darkmode .hero-grid-section {
   .other-projects-grid .project-card.project-logo-card h3 {
     font-size: clamp(1.35rem, 7vw, 2.25rem) !important;
   }
+}
+/* =========================================================
+   HERO FONT SYSTEM
+   Fonts from the other project
+========================================================= */
+
+.hero-grid-section {
+  --hero-font-display: var(--font-display);
+  --hero-font-body: var(--font-body);
+  --hero-font-accent: var(--font-accent);
+}
+
+/* Große Wörter: Julia, Holzwert, Product-led, AI-assisted, Designer */
+.hero-big,
+.hero-roll-big,
+.hero-roll-word {
+  font-family: var(--hero-font-display) !important;
+  font-weight: 700;
+  letter-spacing: -0.085em;
+  text-transform: uppercase;
+}
+
+/* Kleine Hero Texte */
+.hero-small,
+.hero-medium {
+  font-family: var(--hero-font-body) !important;
+  font-weight: 500;
+}
+
+/* Intro Text rechts oben */
+.hero-intro {
+  font-family: var(--hero-font-accent) !important;
+  font-style: italic;
+  font-size: clamp(1.05rem, 1.6vw, 2rem);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+}
+
+/* Outline Grid übernimmt exakt dieselben Fonts */
+.hero-grid-outline .hero-big,
+.hero-grid-outline .hero-roll-big,
+.hero-grid-outline .hero-roll-word {
+  font-family: var(--hero-font-display) !important;
+  font-weight: 700;
+  letter-spacing: -0.085em;
+  text-transform: uppercase;
+}
+
+.hero-grid-outline .hero-small,
+.hero-grid-outline .hero-medium {
+  font-family: var(--hero-font-body) !important;
+  font-weight: 500;
+}
+
+.hero-grid-outline .hero-intro {
+  font-family: var(--hero-font-accent) !important;
+  font-style: italic;
 }
