@@ -2056,6 +2056,9 @@ body.darkmode .project-extra-arrow {
 
   --hero-bust-src: url("pngs/About/background removed.png");
   --hero-bust-height: clamp(620px, 108svh, 1120px);
+  --hero-bust-render-height: calc(var(--hero-bust-height) * 0.85);
+  --hero-bust-bottom: 20px;
+  --hero-mask-y: -20px;
 
   position: relative;
   width: 100%;
@@ -2063,7 +2066,7 @@ body.darkmode .project-extra-arrow {
   min-height: 100svh;
 
   margin: 0;
-  padding-top: var(--nav-height);
+  padding-top: 0;
 
   overflow: hidden;
   isolation: isolate;
@@ -2085,26 +2088,33 @@ body.darkmode .hero-grid-section {
    TEXT GRID LAYERS
 ========================================================= */
 
+.hero-text-stack {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--nav-height);
+  bottom: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
 .hero-grid {
+  position: absolute;
+  inset: 0;
+
   width: 100%;
-  height: calc(100svh - var(--nav-height));
+  height: 100%;
 
   display: grid;
   grid-template-rows: repeat(4, minmax(0, 1fr));
 }
 
 .hero-grid-fill {
-  position: relative;
   z-index: 1;
+  pointer-events: auto;
 }
 
 .hero-grid-outline {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: var(--nav-height);
-  bottom: 0;
-
   z-index: 4;
   pointer-events: none;
 
@@ -2114,11 +2124,11 @@ body.darkmode .hero-grid-section {
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
 
-  -webkit-mask-position: center bottom;
-  mask-position: center bottom;
+  -webkit-mask-position: center calc(100% + var(--hero-mask-y));
+  mask-position: center calc(100% + var(--hero-mask-y));
 
-  -webkit-mask-size: auto var(--hero-bust-height);
-  mask-size: auto var(--hero-bust-height);
+  -webkit-mask-size: auto var(--hero-bust-render-height);
+  mask-size: auto var(--hero-bust-render-height);
 }
 
 .hero-grid-outline .hero-big,
@@ -2234,22 +2244,76 @@ body.darkmode .hero-grid-section {
 .hero-bust-image {
   position: absolute;
   left: 50%;
-  bottom: -150px;
+  bottom: var(--hero-bust-bottom);
 
   z-index: 3;
 
-  height: var(--hero-bust-height);
+  height: var(--hero-bust-render-height);
 
   transform: translateX(-50%);
 
   pointer-events: none;
 }
+.hero-bust-image::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 48%;
 
+  width: 72%;
+  height: 58%;
+
+  transform: translate(-50%, -50%);
+
+  z-index: 0;
+
+  border-radius: 999px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(167, 139, 250, 0.44),
+      rgba(167, 139, 250, 0.18) 36%,
+      transparent 70%
+    );
+
+  filter: blur(42px);
+  opacity: 0.9;
+}
+
+.hero-bust-image::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 8%;
+
+  width: 64%;
+  height: 18%;
+
+  transform: translateX(-50%);
+
+  z-index: 0;
+
+  border-radius: 999px;
+
+  background:
+    radial-gradient(
+      ellipse,
+      rgba(0, 0, 0, 0.24),
+      transparent 68%
+    );
+
+  filter: blur(18px);
+  opacity: 0.55;
+}
 .hero-bust-image img {
+  position: relative;
+  z-index: 1;
+
   display: block;
 
   width: auto;
-  height: 85%;
+  height: 100%;
 
   max-width: none;
   max-height: none;
@@ -2257,18 +2321,33 @@ body.darkmode .hero-grid-section {
   object-fit: contain;
   object-position: center bottom;
 
-  filter: drop-shadow(0 28px 44px rgba(0, 0, 0, 0.18));
+  filter:
+    drop-shadow(0 34px 54px rgba(0, 0, 0, 0.24))
+    drop-shadow(0 0 34px rgba(167, 139, 250, 0.18));
 }
-@media (max-width: 700px) {
-  .hero-bust-image {
-    bottom: -30px;
-  }
-}
+.hero-text-stack::before {
+  content: "";
+  position: absolute;
+  inset: 0;
 
-@media (max-width: 420px) {
-  .hero-bust-image {
-    bottom: -45px;
-  }
+  z-index: 0;
+  pointer-events: none;
+
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+
+  background-size: 42px 42px;
+
+  opacity: 0.28;
+
+  mask-image:
+    radial-gradient(
+      circle at 50% 50%,
+      black 0%,
+      black 46%,
+      transparent 78%
+    );
 }
 /* =========================================================
    ROLLADEN WORD ANIMATION
@@ -2348,6 +2427,8 @@ body.darkmode .hero-grid-section {
   .hero-grid-section {
     --nav-height: 72px;
     --hero-bust-height: clamp(430px, 76svh, 640px);
+    --hero-bust-bottom: -30px;
+    --hero-mask-y: 30px;
   }
 
   .hero-grid-cell {
@@ -2377,6 +2458,8 @@ body.darkmode .hero-grid-section {
 @media (max-width: 420px) {
   .hero-grid-section {
     --hero-bust-height: clamp(390px, 70svh, 560px);
+    --hero-bust-bottom: -45px;
+    --hero-mask-y: 45px;
   }
 
   .hero-big {
@@ -2423,7 +2506,7 @@ body.darkmode .hero-grid-section {
   position: absolute;
   inset: 0;
 
-  z-index: 0;
+  z-index: 1;
 
   background-image: url("pngs/About/Dark Nft GIF by xponentialdesign.gif");
   background-size: cover;
@@ -2434,7 +2517,46 @@ body.darkmode .hero-grid-section {
   pointer-events: none;
 }
 
+/* =========================================================
+   HERO ATMOSPHERE
+   Texture, glow, focus
+========================================================= */
+
+.hero-grid-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 50% 48%,
+      rgba(167, 139, 250, 0.26),
+      rgba(167, 139, 250, 0.08) 22%,
+      transparent 46%
+    ),
+    radial-gradient(
+      circle at 50% 52%,
+      rgba(255, 255, 255, 0.12),
+      transparent 28%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.10),
+      transparent 18%,
+      transparent 82%,
+      rgba(0, 0, 0, 0.10)
+    );
+
+  opacity: 1;
+}
 .hero-grid-outline .hero-grid-row {
+  border-top: 1px solid transparent;
+}
+
+.hero-grid-outline .hero-grid-row:first-child {
   border-top: 0;
 }
 .projects-grid .project-item,
