@@ -2818,3 +2818,59 @@ body.darkmode .hero-grid-section {
 .hero-grid-outline .hero-contact-button {
   visibility: hidden;
 }
+
+/* =========================================================
+   NAVBAR GLASSMORPHISM ON SCROLL
+========================================================= */
+
+.navbar {
+  background: var(--accent-strong);
+  border-bottom: 1px solid transparent;
+
+  transition:
+    background 0.35s ease,
+    backdrop-filter 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+}
+
+/* Scrolled state */
+.navbar.scrolled {
+  background: color-mix(
+    in srgb,
+    transparent
+  );
+
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+
+  border-bottom: 1px solid color-mix(
+    in srgb,
+    transparent
+  );
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.26);
+}
+
+/* Link color after scroll */
+.navbar.scrolled a {
+  color: var(--text-dark);
+}
+
+/* Burger color after scroll */
+.navbar.scrolled .burger span {
+  background: var(--text-dark);
+}
+
+/* Darkmode glass tuning */
+body.darkmode .navbar.scrolled {
+  background: rgba(13, 11, 20, 0.62);
+
+  border-bottom: 1px solid rgba(167, 139, 250, 0.22);
+
+  box-shadow:
+    0 10px 34px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
