@@ -11,52 +11,13 @@
 </head>
 
 <body>
-  <!-- Filter Section -->
-  <section class="filter-section" id="filters">
-    <div class="filter-stats-box">
-      <h3>Search Statistics</h3>
-      <div class="search-stats">
-        <div class="stat-block">
-          <p>Total Projects</p>
-          <span id="totalCount">0</span>
-        </div>
-        <div class="stat-block">
-          <p>Visible</p>
-          <span id="visibleCount">0</span>
-        </div>
-        <div class="stat-block">
-          <p>Hidden</p>
-          <span id="hiddenCount">0</span>
-        </div>
-      </div>
+  <section class="filter-section" id="filters" aria-label="Project filters"></section>
 
-      <div class="filter-bar">
-        <!-- Special buttons on top -->
-        <button class="filter-btn special-btn" id="showAllBtn">SHOW ALL</button>
-      </div>
-
-      <div class="filter-bar">
-        <!-- Regular filters -->
-        <button class="filter-btn" data-filter="Redesign">Redesign</button>
-        <button class="filter-btn" data-filter="Mobile-App">Mobile App</button>
-        <button class="filter-btn" data-filter="Product-Design">Product Design</button>
-        <button class="filter-btn" data-filter="Accessibility">Accessibility</button>
-        <button class="filter-btn" data-filter="Health-Tech">Health Tech</button>
-        <button class="filter-btn" data-filter="Data-Privacy">Data Privacy</button>
-        <button class="filter-btn" data-filter="Immersive-Experience">Immersive Experience</button>
-        <button class="filter-btn" data-filter="Ethical-Design">Ethical Design</button>
-        <button class="filter-btn" data-filter="Group-Project">Group Projects</button>
-      </div>
-
-    </div>
-    </div>
-  </section>
-
-  <section class="projects-section">
+  <section class="projects-section" aria-label="Project archive">
     <div class="projects-grid" id="projectsGrid"></div>
   </section>
 
-  <button id="toTop">↑</button>
+  <button id="toTop" type="button" aria-label="Back to top">↑</button>
 
   <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
@@ -64,7 +25,6 @@
   <script src="projects-data.js"></script>
   <script src="motion.js"></script>
   <script src="script.js"></script>
-
 </body>
 
 </html>

@@ -11,9 +11,10 @@ const projectsData = {
       coverBackgroundColor: "#FEFEFE",
       coverZoom: 130,
       imageScale: 1.80,
+      cardCategory: "Automotive HUD concept",
 
       detail: {
-        meta: "Group Project from 2024 for 4 Months",
+        meta: "Group Project from 2025 for 4 Months",
 
         sections: {
           summary: "HeadsUp is an adaptive automotive HUD concept for navigation, calls, setup, rear camera access, and safety warnings. It reduces distraction by showing only situation-relevant information in the driver’s field of view.",
@@ -124,6 +125,7 @@ const projectsData = {
       coverBackgroundColor: "linear-gradient(90deg, #2D2077 50%, #35278F 68%)",
       coverZoom: 120,
       imageScale: 2.30,
+      cardCategory: "Social media for reflecting prejudice",
 
       detail: {
         meta: "Group Project from 2025 for 4 Months",
@@ -233,6 +235,7 @@ const projectsData = {
       coverBackgroundColor: "#F4EFE5",
       coverZoom: 80,
       imageScale: 1.80,
+      cardCategory: "Post-Purchase experience",
 
       detail: {
         meta: "Private Project from 2026",
@@ -344,9 +347,10 @@ const projectsData = {
       coverImage: "./pngs/Projects/DAZN/DAZN_logo.png",
       coverBannerImage: "./pngs/Projects/DAZN/DAZN_logo.png",
       coverBackgroundColor: "#000000",
+      cardCategory: "De-Darking-Subscription-UX",
 
       detail: {
-        meta: "Independent Concept Project from 2024 · Unofficial DAZN Redesign",
+        meta: "Independent Concept Project from 2026 · Unofficial DAZN Redesign",
 
         sections: {
           summary:
@@ -473,9 +477,10 @@ const projectsData = {
       coverBackgroundColor: "#FEFEFE",
       coverZoom: 40,
       imageScale: 1.30,
+      cardCategory: "Digital-Twin shopping experience",
 
       detail: {
-        meta: "Group Project from Winter Semester 2025/2026 for 4 months",
+        meta: "Group Project from Winter Semester 2026 for 4 months",
 
         sections: {
           summary: "Bodique is a digital twin and virtual try-on experience designed to reduce fashion returns by showing customers their actual size fit before purchase — addressing one of retail's biggest problems: size-related return rates.",
@@ -591,9 +596,10 @@ const projectsData = {
       coverBackgroundColor: "#30782F",
       coverZoom: 90,
       imageScale: 1.80,
+      cardCategory: "In-Store Navigation App",
 
       detail: {
-        meta: "Group Project from 2023/24 for 4 Months",
+        meta: "Group Project from 2023 for 4 Months",
         sections: {
           summary: "StoreGuide is an in-store navigation app that helps users find products quickly and compare options without manually searching store layouts — reducing friction in a high-pressure shopping context.",
           challenge: "The core challenge was designing fast, predictable routing that users could trust under time pressure — without letting exploratory features distract from the main task of finding the right product.",
@@ -690,13 +696,14 @@ const projectsData = {
       coverBackgroundColor: "#ffffff",
       coverZoom: 20,
       imageScale: 1.30,
+      cardCategory: "PaperCut X THI",
 
       detail: {
         meta: "Private Project from 2024",
         sections: {
           summary: "This project redesigned a campus printer interface to reduce friction in an urgent, high-pressure context — transforming a cluttered institutional tool into something intuitive and consistent with the university's visual identity.",
           challenge: "Campus printers serve a wide range of users under time pressure. The existing interface presented too many options at once, lacked clear visual hierarchy, and offered no coherent connection between the web-based preparation tool and the physical printer display. The result was confusion, slower print jobs, and underuse of available features. The challenge was consolidating a fragmented system into a single, cohesive experience without sacrificing the flexibility users needed.",
-          approach: "I led the interaction redesign and visual hierarchy, using THI's blue identity as a structural tool instead of just a branding choice. I simplified menus, unified the web-to-printer flow so preparation translated directly to the display, and established a visual hierarchy where active elements draw attention only when relevant — reducing cognitive load in time-pressured situations.",
+          approach: "I redesigned the interaction and visual hierarchy, using THI's blue identity as a structural tool instead of just a branding choice. I simplified menus, unified the web-to-printer flow so preparation translated directly to the display, and established a visual hierarchy where active elements draw attention only when relevant — reducing cognitive load in time-pressured situations.",
 
           creativeDirection: "The printer is positioned as a dependable campus utility, not a feature-heavy machine interface — prioritizing clarity and speed because users are impatient and have other priorities.",
           keyVisualSystem: "Deep blue (THI's identity) marks active guidance and primary actions, while white reduces visual weight around inactive elements without removing context. The system uses fixed module zones and reusable components so setup, transfers, and printing remain predictable at a glance — supporting fast, confident use under time pressure.",
@@ -798,6 +805,7 @@ const projectsData = {
       coverBackgroundColor: "#30BAC7",
       coverZoom: 110,
       imageScale: 2.10,
+      cardCategory: "Healthcare product for dementia patients",
 
       detail: {
         meta: "Private Project from 2024 for 6 Months",
@@ -905,6 +913,7 @@ const projectsData = {
       coverBackgroundColor: "#FEFEFE",
       coverZoom: 30,
       imageScale: 1.30,
+      cardCategory: "Gaming enviromental remote control",
 
       detail: {
         meta: "Group Project from 2026 for 5 Weeks",
@@ -1010,6 +1019,7 @@ const projectsData = {
       coverBackgroundColor: "#ffffff",
       coverZoom: 50,
       imageScale: 2.30,
+      cardCategory: "Digital Accessibility with WCAG AAA",
 
       detail: {
         meta: "Private Project from 2026",
@@ -1188,9 +1198,10 @@ const projectsData = {
       coverBackgroundColor: "#FAFAF8",
       coverZoom: 0,
       imageScale: 2.05,
+      cardCategory: "DSGVO Privacy with UI",
 
       detail: {
-        meta: "Private Project from 2024",
+        meta: "Private Project from 2026",
         sections: {
           summary: "“Privacy is the first product.” For apps handling sensitive data, users hesitate at the first step: onboarding. HealthyStart focuses on explaining permissions, security, and data use in a way that feels transparent, reassuring, and easy to understand, even for non-technical users. ",
           challenge: "Designing an onboarding experience that communicates privacy clearly to non-technical users while respecting regional expectations. German users expect precision, control, and compliance with strict privacy standards like GDPR, but the interface also needed to feel approachable and intuitive for international audiences. Users often hesitate at first because health data is sensitive, and poor explanations can reduce adoption. ",

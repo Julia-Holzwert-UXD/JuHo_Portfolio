@@ -8,7 +8,7 @@ function debugLog(...args) {
 }
 
 function warnLog(...args) {
-  console.warn(...args);
+  if (DEBUG) console.warn(...args);
 }
 
 function qs(selector, root = document) {
@@ -23,22 +23,303 @@ function getBasePath() {
   return window.location.pathname.includes("/projectSites/") ? "../" : "";
 }
 
+function isExternalPath(path) {
+  return /^(https?:|mailto:|tel:|data:|blob:|#)/i.test(String(path || ""));
+}
+
 function normalizePath(path, base = getBasePath()) {
   if (!path) return "";
-  return String(path).startsWith("./") ? String(path).replace("./", base) : String(path);
+
+  const value = String(path).trim();
+  if (!value || isExternalPath(value) || value.startsWith("../") || value.startsWith("/")) return value;
+
+  if (value.startsWith("./")) return `${base}${value.slice(2)}`;
+  return value;
+}
+
+function normalizeSlug(value) {
+  return safeText(value).trim().toLowerCase();
+}
+
+function isBlank(value) {
+  return value === undefined || value === null || String(value).trim() === "";
+}
+
+function safeText(value) {
+  return value === undefined || value === null ? "" : String(value);
 }
 
 function getProjectCategoryText(project) {
-  return project.category || project.cardCategory || (project.categories || []).join(" · ");
+  return (
+    project.cardCategory ||
+    project.archiveCategoryText ||
+    project.categoryLabel ||
+    project.category ||
+    (project.categories || []).join(" · ")
+  );
+}
+
+function getProjectYear(project) {
+  if (!project) return "";
+  if (!isBlank(project.year)) return safeText(project.year).trim();
+  if (!isBlank(project.archiveYear)) return safeText(project.archiveYear).trim();
+
+  const meta = safeText(project.detail && project.detail.meta);
+  const match = meta.match(/\b(20\d{2})\b/);
+  return match ? match[1] : "";
+}
+
+function normalizeProjectType(value) {
+  const cleanValue = safeText(value).trim().toLowerCase();
+
+  if (["group", "group project", "group-project", "team", "team project"].includes(cleanValue)) return "Group Project";
+  if (["private", "private project", "solo", "solo project", "independent", "independent project"].includes(cleanValue)) return "Private";
+
+  return "";
+}
+
+function getProjectLevel(project) {
+  if (!project) return "Private";
+
+  const explicitType = normalizeProjectType(project.level || project.archiveLevel || project.type || project.projectLevel || project.archiveType);
+  if (explicitType) return explicitType;
+
+  const categories = project.categories || [];
+  if (categories.includes("Group-Project") || categories.includes("Group Project")) return "Group Project";
+
+  const meta = safeText(project.detail && project.detail.meta).toLowerCase();
+  if (meta.includes("group project")) return "Group Project";
+
+  return "Private";
+}
+
+function getProjectPreviewSrc(project, base = getBasePath()) {
+  const detail = project.detail || {};
+  const editorial = Array.isArray(detail.editorialArtDirectedCaseStudyImages)
+    ? detail.editorialArtDirectedCaseStudyImages.find(image => image && !isBlank(image.src))
+    : null;
+
+  const preview = project.previewImage || project.archivePreview || project.coverBannerImage || project.coverImage || (editorial && editorial.src) || "";
+  return normalizePath(preview, base);
+}
+
+function getProjectTagList(project) {
+  const values = [
+    getProjectYear(project),
+    getProjectLevel(project),
+    ...(project.categories || []).filter(category => category !== "Group-Project").slice(0, 2)
+  ];
+
+  return Array.from(new Set(values.map(value => safeText(value).trim()).filter(Boolean)));
+}
+
+function getUniqueProjectValues(projects, getter) {
+  const values = [];
+
+  projects.forEach(project => {
+    const result = getter(project);
+    const list = Array.isArray(result) ? result : [result];
+
+    list.forEach(value => {
+      const cleanValue = safeText(value).trim();
+      if (cleanValue && !values.includes(cleanValue)) values.push(cleanValue);
+    });
+  });
+
+  return values;
+}
+
+function createFilterButton(label, group, value) {
+  const button = document.createElement("button");
+  button.className = "filter-btn";
+  button.type = "button";
+  button.dataset.filterGroup = group;
+  button.dataset.filterValue = value;
+  button.dataset.filter = value;
+  button.textContent = label;
+  return button;
+}
+
+function appendArchiveFilterGroup(root, label, group, values, allLabel = "All") {
+  if (!root || !values.length) return;
+
+  const block = document.createElement("div");
+  block.className = `archive-filter-group archive-filter-group-${group}`;
+
+  const heading = document.createElement("p");
+  heading.className = "archive-filter-label";
+  heading.textContent = label;
+
+  const list = document.createElement("div");
+  list.className = "archive-filter-options";
+  list.appendChild(createFilterButton(allLabel, group, "all"));
+
+  values.forEach(value => {
+    list.appendChild(createFilterButton(value, group, value));
+  });
+
+  block.appendChild(heading);
+  block.appendChild(list);
+  root.appendChild(block);
+}
+
+function appendArchiveYearToggle(root) {
+  if (!root) return;
+
+  const block = document.createElement("div");
+  block.className = "archive-filter-group archive-filter-group-year archive-year-group";
+
+  const heading = document.createElement("p");
+  heading.className = "archive-filter-label";
+  heading.textContent = "Year";
+
+  const toggle = document.createElement("div");
+  toggle.className = "archive-year-toggle";
+  toggle.dataset.yearState = "newest";
+
+  const newestButton = document.createElement("button");
+  newestButton.className = "archive-year-option archive-year-option-newest";
+  newestButton.type = "button";
+  newestButton.dataset.yearSortChoice = "newest";
+  newestButton.textContent = "Newest";
+
+  const switchButton = document.createElement("button");
+  switchButton.className = "archive-year-switch";
+  switchButton.type = "button";
+  switchButton.dataset.yearSortToggle = "";
+  switchButton.setAttribute("aria-label", "Switch between newest and oldest projects");
+  switchButton.setAttribute("aria-pressed", "false");
+  switchButton.innerHTML = '<span class="archive-year-knob" aria-hidden="true"></span>';
+
+  const oldestButton = document.createElement("button");
+  oldestButton.className = "archive-year-option archive-year-option-oldest";
+  oldestButton.type = "button";
+  oldestButton.dataset.yearSortChoice = "oldest";
+  oldestButton.textContent = "Oldest";
+
+  toggle.appendChild(newestButton);
+  toggle.appendChild(switchButton);
+  toggle.appendChild(oldestButton);
+
+  block.appendChild(heading);
+  block.appendChild(toggle);
+  root.appendChild(block);
+}
+
+function renderArchiveFilters(projects) {
+  let filterSection = document.getElementById("filters") || qs(".filter-section");
+  const projectsGrid = document.getElementById("projectsGrid");
+
+  if (!filterSection && projectsGrid) {
+    filterSection = document.createElement("section");
+    filterSection.className = "filter-section";
+    filterSection.id = "filters";
+    const projectsSection = projectsGrid.closest(".projects-section");
+    if (projectsSection) projectsSection.insertAdjacentElement("beforebegin", filterSection);
+  }
+
+  if (!filterSection) return;
+
+  filterSection.id = "filters";
+  filterSection.classList.add("archive-filter-panel");
+  removeChildren(filterSection);
+
+  const inner = document.createElement("div");
+  inner.className = "archive-filter-inner";
+
+  const reset = document.createElement("button");
+  reset.id = "showAllBtn";
+  reset.className = "filter-btn archive-reset-btn";
+  reset.type = "button";
+  reset.textContent = "All Projects";
+
+  const categories = getUniqueProjectValues(projects, project => project.categories || []).filter(category => category !== "Group-Project").sort((a, b) => a.localeCompare(b));
+  inner.appendChild(reset);
+  appendArchiveYearToggle(inner);
+  appendArchiveFilterGroup(inner, "Category", "category", categories, "All Categories");
+  appendArchiveTypeToggle(inner);
+
+  filterSection.appendChild(inner);
+}
+
+function appendArchiveTypeToggle(root) {
+  if (!root) return;
+
+  const block = document.createElement("div");
+  block.className = "archive-filter-group archive-filter-group-level archive-type-group";
+
+  const heading = document.createElement("p");
+  heading.className = "archive-filter-label";
+  heading.textContent = "Type";
+
+  const toggle = document.createElement("div");
+  toggle.className = "archive-type-toggle";
+  toggle.dataset.typeState = "all";
+
+  const privateButton = createFilterButton("Private", "level", "Private");
+  privateButton.classList.add("archive-type-option", "archive-type-option-private");
+
+  const switchButton = document.createElement("button");
+  switchButton.className = "archive-type-switch";
+  switchButton.type = "button";
+  switchButton.dataset.typeToggle = "";
+  switchButton.setAttribute("aria-label", "Switch between Private and Group Project");
+  switchButton.setAttribute("aria-pressed", "false");
+  switchButton.innerHTML = '<span class="archive-type-knob" aria-hidden="true"></span>';
+
+  const groupButton = createFilterButton("Group Project", "level", "Group Project");
+  groupButton.classList.add("archive-type-option", "archive-type-option-group");
+
+  toggle.appendChild(privateButton);
+  toggle.appendChild(switchButton);
+  toggle.appendChild(groupButton);
+
+  block.appendChild(heading);
+  block.appendChild(toggle);
+  root.appendChild(block);
+}
+
+function setupArchivePageLayout() {
+  const projectsGrid = document.getElementById("projectsGrid");
+  if (!projectsGrid) return;
+
+  const projectsSection = projectsGrid.closest(".projects-section") || qs(".projects-section");
+  if (!projectsSection) return;
+
+  let filterSection = document.getElementById("filters") || qs(".filter-section");
+
+  if (!filterSection) {
+    filterSection = document.createElement("section");
+    filterSection.className = "filter-section";
+    filterSection.id = "filters";
+    projectsSection.insertAdjacentElement("beforebegin", filterSection);
+  }
+
+  if (filterSection.closest(".archive-layout") || projectsSection.closest(".archive-layout")) return;
+
+  const shell = document.createElement("div");
+  shell.className = "archive-shell";
+
+  const layout = document.createElement("div");
+  layout.className = "archive-layout";
+
+  filterSection.parentNode.insertBefore(shell, filterSection);
+  shell.appendChild(layout);
+  layout.appendChild(filterSection);
+  layout.appendChild(projectsSection);
 }
 
 function getProjectImageSrc(project, base = getBasePath()) {
-  const image = project.image || project.coverImage || "";
+  const image = project.archiveImage || project.thumbnail || project.cardImage || project.coverImage || project.coverBannerImage || "";
   return normalizePath(image, base);
 }
 
 function getProjectCardBg(project) {
   return project.backgroundColor || project.cardBackgroundColor || project.coverBackgroundColor || "#F5F3FF";
+}
+
+function getProjectCoverBg(project) {
+  return project.coverBackgroundColor || project.backgroundColor || project.cardBackgroundColor || "var(--bg-soft)";
 }
 
 function removeChildren(el) {
@@ -52,8 +333,19 @@ function setCssVar(el, name, value) {
   }
 }
 
-function safeText(value) {
-  return value === undefined || value === null ? "" : String(value);
+function setGlobalProjectBackground(background) {
+  const value = background || "var(--bg-main)";
+  document.documentElement.style.setProperty("--projects-page-bg", value);
+  document.documentElement.style.setProperty("--project-page-bg", value);
+}
+
+function debounce(fn, delay = 160) {
+  let timeout = null;
+
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = window.setTimeout(() => fn(...args), delay);
+  };
 }
 
 /* FOOTER */
@@ -105,17 +397,20 @@ function loadLiquidEffectSVG() {
   document.body.appendChild(template.content);
 }
 
+function getParticleCount() {
+  if (window.innerWidth <= 640) return 25;
+  if (window.innerWidth <= 1100) return 40;
+  return 100;
+}
+
 function loadGooeyParticles() {
   const container = document.getElementById("particle-container");
   if (!container) return;
 
   removeChildren(container);
 
-  let particleCount = 100;
-  if (window.innerWidth <= 640) particleCount = 25;
-  else if (window.innerWidth <= 1100) particleCount = 40;
-
   const fragment = document.createDocumentFragment();
+  const particleCount = getParticleCount();
 
   for (let i = 0; i < particleCount; i++) {
     const span = document.createElement("span");
@@ -133,6 +428,18 @@ function loadGooeyParticles() {
   container.appendChild(fragment);
 }
 
+function initGooeyParticlesResize() {
+  let lastCount = getParticleCount();
+
+  window.addEventListener("resize", debounce(() => {
+    const nextCount = getParticleCount();
+    if (nextCount === lastCount) return;
+
+    lastCount = nextCount;
+    loadGooeyParticles();
+  }, 220), { passive: true });
+}
+
 /* NAVBAR */
 function loadNavbar() {
   if (qs(".navbar")) return;
@@ -143,7 +450,7 @@ function loadNavbar() {
   template.innerHTML = `
     <header class="navbar">
       <div class="nav-wrapper">
-        <nav class="nav-left">
+        <nav class="nav-left" aria-label="Primary navigation">
           <a href="${base}index.html">Home</a>
           <a href="${base}projects.html">Works</a>
           <a href="${base}about.html">About</a>
@@ -151,24 +458,15 @@ function loadNavbar() {
 
         <div class="nav-center"></div>
 
-        <nav class="nav-right">
+        <nav class="nav-right" aria-label="External links and theme">
           <a href="https://www.linkedin.com/in/julia-holzwert/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
 
           <div class="theme-toggle">
             <input type="checkbox" id="darkmode-toggle" />
             <label for="darkmode-toggle" class="toggle-label" aria-label="Toggle dark mode">
               <svg class="sun" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <g>
-                  <circle cx="32.003" cy="32.005" r="16.001" />
-                  <path d="M12.001 31.997c0-2.211-1.789-4-4-4H4c-2.211 0-4 1.789-4 4s1.789 4 4 4h4c2.212 0 4-1.789 4-4z" />
-                  <path d="M12.204 46.139l-2.832 2.833c-1.563 1.562-1.563 4.094 0 5.656 1.562 1.562 4.094 1.562 5.657 0l2.833-2.832c1.562-1.562 1.562-4.095 0-5.657-1.563-1.563-4.094-1.563-5.657 0z" />
-                  <path d="M32.003 51.999c-2.211 0-4 1.789-4 4V60c0 2.211 1.789 4 4 4s4-1.789 4-4v-4.001c0-2.211-1.793-4-4-4z" />
-                  <path d="M51.798 46.143c-1.559-1.566-4.091-1.566-5.653-.004s-1.562 4.095 0 5.657l2.829 2.828c1.562 1.57 4.094 1.562 5.656 0s1.566-4.09 0-5.656l-2.832-2.825z" />
-                  <path d="M60.006 27.997l-4.009.008c-2.203-.008-3.992 1.781-3.992 3.992-.008 2.211 1.789 4 3.992 4h4.001c2.219.008 4-1.789 4-4 0-2.208-1.785-4.001-3.992-4z" />
-                  <path d="M51.798 17.859l2.828-2.829c1.574-1.566 1.562-4.094 0-5.657-1.559-1.567-4.09-1.567-5.652-.004l-2.829 2.836c-1.562 1.555-1.562 4.086 0 5.649 1.554 1.572 4.094 1.564 5.653.005z" />
-                  <path d="M32.003 11.995c2.207.016 4-1.789 4-3.992v-4c0-2.219-1.789-4-4-4-2.211-.008-4 1.781-4 3.993l.008 4.008c-.008 2.204 1.781 3.993 3.992 3.993z" />
-                  <path d="M12.212 17.855c1.555 1.562 4.079 1.562 5.646-.004 1.574-1.551 1.566-4.09.008-5.649l-2.829-2.828c-1.57-1.571-4.094-1.559-5.657 0-1.575 1.559-1.575 4.09-.012 5.653l2.844 2.828z" />
-                </g>
+                <circle cx="32" cy="32" r="15" />
+                <path d="M32 0v10M32 54v10M0 32h10M54 32h10M9.4 9.4l7.1 7.1M47.5 47.5l7.1 7.1M54.6 9.4l-7.1 7.1M16.5 47.5l-7.1 7.1" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
               </svg>
 
               <svg class="moon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -178,13 +476,26 @@ function loadNavbar() {
           </div>
         </nav>
 
-        <div class="burger" id="burger" aria-label="Open navigation" role="button" tabindex="0">
+        <button class="burger" id="burger" type="button" aria-label="Open navigation" aria-controls="mobileMenuFull" aria-expanded="false">
           <span></span>
           <span></span>
           <span></span>
-        </div>
+        </button>
       </div>
     </header>
+
+    <div class="mobile-menu-full" id="mobileMenuFull" aria-hidden="true">
+      <button class="menu-close" id="menuClose" type="button" aria-label="Close navigation">×</button>
+      <nav class="menu-block menu-top" aria-label="Mobile navigation">
+        <a href="${base}index.html">Home</a>
+        <a href="${base}projects.html">Works</a>
+        <a href="${base}about.html">About</a>
+      </nav>
+      <div class="menu-separator" aria-hidden="true"></div>
+      <nav class="menu-block" aria-label="Mobile external links">
+        <a href="https://www.linkedin.com/in/julia-holzwert/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </nav>
+    </div>
   `;
 
   document.body.insertBefore(template.content, document.body.firstChild);
@@ -244,37 +555,60 @@ function initMobileMenu() {
 
   function openMenu() {
     mobileMenuFull.classList.add("open");
+    mobileMenuFull.setAttribute("aria-hidden", "false");
+    burger.setAttribute("aria-expanded", "true");
+    document.body.classList.add("is-mobile-menu-open");
+    menuClose.focus();
   }
 
   function closeMenu() {
     mobileMenuFull.classList.remove("open");
+    mobileMenuFull.setAttribute("aria-hidden", "true");
+    burger.setAttribute("aria-expanded", "false");
+    document.body.classList.remove("is-mobile-menu-open");
+    burger.focus();
   }
 
   burger.addEventListener("click", openMenu);
-  burger.addEventListener("keydown", event => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      openMenu();
-    }
+  menuClose.addEventListener("click", closeMenu);
+
+  qsa("a", mobileMenuFull).forEach(link => {
+    link.addEventListener("click", closeMenu);
   });
 
-  menuClose.addEventListener("click", closeMenu);
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && mobileMenuFull.classList.contains("open")) closeMenu();
+  });
 }
 
 /* PROJECT CARDS */
 function createProjectCard(project, base = getBasePath()) {
+  const titleText = safeText(project.title).trim();
+  const categories = project.categories || [];
+  const year = getProjectYear(project);
+  const level = getProjectLevel(project);
+  const imageSrc = getProjectImageSrc(project, base);
+  const previewSrc = getProjectPreviewSrc(project, base);
+
   const item = document.createElement("div");
   item.className = "project-item";
-  item.dataset.category = (project.categories || []).join("|");
+  item.dataset.category = categories.join("|");
+  item.dataset.year = year;
+  item.dataset.level = level;
+  item.dataset.slug = safeText(project.slug);
+  item.dataset.preview = previewSrc;
+  item.dataset.title = titleText;
 
   const link = document.createElement("a");
   link.className = "project-link";
   link.href = normalizePath(project.href || "#", base);
+  link.setAttribute("aria-label", `View ${titleText} case study`);
 
   const card = document.createElement("article");
-  card.className = "project-card";
+  card.className = "project-card archive-card";
 
   setCssVar(card, "--project-card-bg", getProjectCardBg(project));
+  setCssVar(card, "--project-card-bg-dark", project.cardDarkBackgroundColor || project.darkBackgroundColor || getProjectCardBg(project));
   setCssVar(card, "--project-image-scale", project.imageScale || project.logoScale || 1);
   setCssVar(card, "--project-image-x", project.imageX || "0px");
   setCssVar(card, "--project-image-y", project.imageY || "0px");
@@ -282,29 +616,58 @@ function createProjectCard(project, base = getBasePath()) {
   const media = document.createElement("div");
   media.className = "project-card-media";
 
-  const imageSrc = getProjectImageSrc(project, base);
   if (imageSrc) {
     const img = document.createElement("img");
     img.className = "project-card-img";
     img.src = imageSrc;
-    img.alt = `${safeText(project.title)} project preview`;
+    img.alt = `${titleText} project preview`;
     img.loading = "lazy";
+    img.decoding = "async";
+    img.draggable = false;
     media.appendChild(img);
+  } else {
+    card.classList.add("project-card--no-image");
+    const placeholder = document.createElement("span");
+    placeholder.className = "project-card-placeholder";
+    placeholder.textContent = titleText.slice(0, 2).toUpperCase();
+    media.appendChild(placeholder);
   }
 
   const info = document.createElement("div");
   info.className = "project-card-info";
 
+  const titleRow = document.createElement("div");
+  titleRow.className = "project-card-title-row";
+
+  const title = document.createElement("h3");
+  title.className = "project-card-title";
+  title.textContent = titleText;
+
+  const action = document.createElement("span");
+  action.className = "project-card-action";
+  action.setAttribute("aria-hidden", "true");
+  action.textContent = "View case →";
+
+  titleRow.appendChild(title);
+  titleRow.appendChild(action);
+
+  const tags = document.createElement("div");
+  tags.className = "project-card-tags";
+
+  getProjectTagList(project).forEach(value => {
+    const tag = document.createElement("span");
+    tag.className = "project-card-tag";
+    tag.textContent = value;
+    tags.appendChild(tag);
+  });
+
   const category = document.createElement("p");
   category.className = "project-card-category";
   category.textContent = getProjectCategoryText(project);
 
-  const title = document.createElement("h3");
-  title.className = "project-card-title";
-  title.textContent = safeText(project.title);
-
+  info.appendChild(titleRow);
+  info.appendChild(tags);
   info.appendChild(category);
-  info.appendChild(title);
   card.appendChild(media);
   card.appendChild(info);
   link.appendChild(card);
@@ -313,20 +676,27 @@ function createProjectCard(project, base = getBasePath()) {
   return item;
 }
 
+function getRenderableProjects() {
+  if (typeof projectsData === "undefined" || !projectsData.projects) return [];
+  return projectsData.projects.filter(project => !project.hidden && !project.isDraft);
+}
+
 function renderProjects() {
   const grid = document.getElementById("projectsGrid");
   if (!grid) return false;
 
-  if (typeof projectsData === "undefined" || !projectsData.projects) {
-    warnLog("projectsData is not loaded");
+  const projects = getRenderableProjects();
+  if (!projects.length) {
+    warnLog("projectsData is not loaded or has no renderable projects");
     return false;
   }
 
+  renderArchiveFilters(projects);
   removeChildren(grid);
   const base = getBasePath();
   const fragment = document.createDocumentFragment();
 
-  projectsData.projects.forEach(project => {
+  projects.forEach(project => {
     fragment.appendChild(createProjectCard(project, base));
   });
 
@@ -341,29 +711,30 @@ function renderOtherProjects() {
   const currentSlug = document.body.dataset.projectSlug;
   if (!currentSlug) return;
 
-  if (typeof projectsData === "undefined" || !projectsData.projects) {
-    warnLog("projectsData is not loaded");
+  const projects = getRenderableProjects();
+  if (!projects.length) {
+    warnLog("projectsData is not loaded or has no renderable projects");
     return;
   }
 
-  const currentProject = projectsData.projects.find(project => project.slug === currentSlug);
+  const currentProject = projects.find(project => normalizeSlug(project.slug) === normalizeSlug(currentSlug));
   if (!currentProject) return;
 
   const currentCategories = currentProject.categories || [];
   const base = getBasePath();
 
-  const unrelatedProjects = projectsData.projects.filter(project => {
-    const isCurrentProject = project.slug === currentSlug;
+  const relatedProjects = projects.filter(project => {
+    const isCurrentProject = normalizeSlug(project.slug) === normalizeSlug(currentSlug);
     const sharesCategory = (project.categories || []).some(category => currentCategories.includes(category));
-    return !isCurrentProject && !sharesCategory;
+    return !isCurrentProject && sharesCategory;
   });
 
-  const fallbackProjects = projectsData.projects.filter(project => project.slug !== currentSlug);
-  let selectedProjects = shuffleArray(unrelatedProjects).slice(0, 4);
+  const fallbackProjects = projects.filter(project => normalizeSlug(project.slug) !== normalizeSlug(currentSlug));
+  let selectedProjects = shuffleArray(relatedProjects).slice(0, 4);
 
   if (selectedProjects.length < 4) {
-    const selectedSlugs = selectedProjects.map(project => project.slug);
-    const extraProjects = shuffleArray(fallbackProjects).filter(project => !selectedSlugs.includes(project.slug));
+    const selectedSlugs = selectedProjects.map(project => normalizeSlug(project.slug));
+    const extraProjects = shuffleArray(fallbackProjects).filter(project => !selectedSlugs.includes(normalizeSlug(project.slug)));
     selectedProjects = [...selectedProjects, ...extraProjects].slice(0, 4);
   }
 
@@ -393,12 +764,13 @@ function renderProjectDetail() {
   const slug = document.body.dataset.projectSlug;
   if (!slug) return;
 
-  if (typeof projectsData === "undefined" || !projectsData.projects) {
-    warnLog("projectsData is not loaded");
+  const projects = getRenderableProjects();
+  if (!projects.length) {
+    warnLog("projectsData is not loaded or has no renderable projects");
     return;
   }
 
-  const project = projectsData.projects.find(p => p.slug === slug);
+  const project = projects.find(p => normalizeSlug(p.slug) === normalizeSlug(slug));
   if (!project || !project.detail) return;
 
   document.body.dataset.currentProject = safeText(project.title);
@@ -446,19 +818,35 @@ function renderProjectCover(project) {
 
   if (!coverBannerEl) return;
 
+  if (coverBannerEl._coverExpansionCleanup) {
+    coverBannerEl._coverExpansionCleanup();
+    coverBannerEl._coverExpansionCleanup = null;
+  }
+
   const base = getBasePath();
-  const coverColor = project.coverBackgroundColor || "#9d00ff";
+  const coverColor = getProjectCoverBg(project);
   const coverSrc = normalizePath(project.coverBannerImage || project.coverImage || "", base);
-  const coverZoom = project.coverZoom ?? 0;
+  const coverZoom = Number.isFinite(Number(project.coverZoom)) ? Number(project.coverZoom) : 0;
   const coverScale = 1 + coverZoom / 100;
+
+  removeChildren(coverBannerEl);
+  coverBannerEl.style.background = "var(--projects-page-bg)";
+
+  if (!coverSrc) {
+    coverBannerEl.hidden = true;
+    coverBannerEl.style.background = "var(--bg-main)";
+    document.body.classList.remove("is-project-cover-expanded", "has-project-cover");
+    setGlobalProjectBackground("var(--bg-main)");
+    warnLog(`Project cover missing for ${safeText(project.title)}`);
+    return;
+  }
 
   coverBannerEl.hidden = false;
   coverBannerEl.classList.add("project-cover-banner");
+  document.body.classList.add("has-project-cover");
   setCssVar(coverBannerEl, "--project-cover-bg", coverColor);
   setCssVar(coverBannerEl, "--project-cover-color", coverColor);
   setCssVar(coverBannerEl, "--project-cover-image-scale", coverScale);
-
-  removeChildren(coverBannerEl);
 
   const wrapper = document.createElement("div");
   wrapper.className = "project-cover-wrapper";
@@ -471,14 +859,13 @@ function renderProjectCover(project) {
   const coverImageFrame = document.createElement("div");
   coverImageFrame.className = "project-cover-image-frame";
 
-  if (coverSrc) {
-    const img = document.createElement("img");
-    img.className = "project-cover-img";
-    img.src = coverSrc;
-    img.alt = `${safeText(project.title)} cover image`;
-    img.style.setProperty("--project-cover-image-scale", String(coverScale));
-    coverImageFrame.appendChild(img);
-  }
+  const img = document.createElement("img");
+  img.className = "project-cover-img";
+  img.src = coverSrc;
+  img.alt = `${safeText(project.title)} cover image`;
+  img.decoding = "async";
+  img.style.setProperty("--project-cover-image-scale", String(coverScale));
+  coverImageFrame.appendChild(img);
 
   wrapper.appendChild(coverBg);
   wrapper.appendChild(coverImageFrame);
@@ -511,27 +898,30 @@ function renderProjectText(project) {
     appendHeadingAndParagraph(textEl, heading, body);
   });
 
-  const resultHeading = document.createElement("h3");
-  resultHeading.textContent = "Result";
-  textEl.appendChild(resultHeading);
+  const resultItems = Array.isArray(s.result) ? s.result.filter(item => !isBlank(item)) : [];
+  if (resultItems.length) {
+    const resultHeading = document.createElement("h3");
+    resultHeading.textContent = "Result";
+    textEl.appendChild(resultHeading);
 
-  const resultList = document.createElement("ul");
-  (s.result || []).forEach(item => {
-    const li = document.createElement("li");
-    li.textContent = safeText(item);
-    resultList.appendChild(li);
-  });
-  textEl.appendChild(resultList);
+    const resultList = document.createElement("ul");
+    resultItems.forEach(item => {
+      const li = document.createElement("li");
+      li.textContent = safeText(item).trim();
+      resultList.appendChild(li);
+    });
+    textEl.appendChild(resultList);
+  }
 
   appendHeadingAndParagraph(textEl, s.takeawayTitle || "Takeaway", s.takeaway);
 
-  if (s.link) {
+  if (!isBlank(s.link)) {
     const wrap = document.createElement("div");
     wrap.className = "more-insights";
 
     const link = document.createElement("a");
     link.className = "more-insights-btn";
-    link.href = safeText(s.link);
+    link.href = normalizePath(s.link, getBasePath());
     link.target = "_blank";
     link.rel = "noopener noreferrer";
     link.textContent = "More insights";
@@ -542,11 +932,13 @@ function renderProjectText(project) {
 }
 
 function appendHeadingAndParagraph(root, headingText, paragraphText) {
+  if (!root || isBlank(paragraphText)) return;
+
   const h3 = document.createElement("h3");
-  h3.textContent = safeText(headingText);
+  h3.textContent = safeText(headingText).trim();
 
   const p = document.createElement("p");
-  p.textContent = safeText(paragraphText);
+  p.textContent = safeText(paragraphText).trim();
 
   root.appendChild(h3);
   root.appendChild(p);
@@ -558,33 +950,40 @@ function renderProjectImages(project) {
 
   removeChildren(imagesEl);
   const fragment = document.createDocumentFragment();
+  const base = getBasePath();
 
   (project.detail.images || []).forEach(row => {
     const rowEl = document.createElement("div");
     rowEl.className = `image-row ${safeText(row.layout)}`.trim();
 
     (row.items || []).forEach(item => {
-      rowEl.appendChild(createProjectMediaItem(item));
+      const mediaItem = createProjectMediaItem(item, base);
+      if (mediaItem) rowEl.appendChild(mediaItem);
     });
 
-    fragment.appendChild(rowEl);
+    if (rowEl.children.length) fragment.appendChild(rowEl);
   });
 
   imagesEl.appendChild(fragment);
 }
 
-function createProjectMediaItem(item) {
-  if (item.type === "video") return createCustomVideoBlock(item);
-  if (item.type === "compare") return createCompareBlock(item);
+function createProjectMediaItem(item, base = getBasePath()) {
+  if (!item) return null;
+  if (item.type === "video") return createCustomVideoBlock(item, base);
+  if (item.type === "compare") return createCompareBlock(item, base);
+  if (isBlank(item.src)) return null;
 
   const img = document.createElement("img");
-  img.src = safeText(item.src);
+  img.src = normalizePath(item.src, base);
   img.alt = safeText(item.alt);
   img.loading = "lazy";
+  img.decoding = "async";
   return img;
 }
 
-function createCustomVideoBlock(item) {
+function createCustomVideoBlock(item, base = getBasePath()) {
+  if (!item || isBlank(item.src)) return null;
+
   const template = document.createElement("template");
 
   template.innerHTML = `
@@ -630,17 +1029,19 @@ function createCustomVideoBlock(item) {
   const block = template.content.firstElementChild;
   const video = qs("video", block);
 
-  video.src = safeText(item.src);
+  video.src = normalizePath(item.src, base);
   video.setAttribute("aria-label", safeText(item.alt || "Project video"));
 
   return block;
 }
 
-function createCompareBlock(item) {
+function createCompareBlock(item, base = getBasePath()) {
+  if (!item || isBlank(item.before) || isBlank(item.after)) return null;
+
   const projectSlug = document.body.dataset.projectSlug || "";
-  const isDBProject = projectSlug.toLowerCase() === "dbnavigatorredesign";
-  const beforeLabel = isDBProject ? "Darkmode" : "Before";
-  const afterLabel = isDBProject ? "Lightmode" : "After";
+  const isDBProject = normalizeSlug(projectSlug) === "dbnavigatorredesign";
+  const beforeLabel = item.beforeLabel || (isDBProject ? "Darkmode" : "Before");
+  const afterLabel = item.afterLabel || (isDBProject ? "Lightmode" : "After");
 
   const group = document.createElement("div");
   group.className = "compare-tabs";
@@ -657,8 +1058,8 @@ function createCompareBlock(item) {
 
   const panels = document.createElement("div");
   panels.className = "compare-tabs-panels";
-  panels.appendChild(createComparePanel("after", item.after, item.altAfter, true));
-  panels.appendChild(createComparePanel("before", item.before, item.altBefore, false));
+  panels.appendChild(createComparePanel("after", item.after, item.altAfter, true, base));
+  panels.appendChild(createComparePanel("before", item.before, item.altBefore, false, base));
 
   group.appendChild(controls);
   group.appendChild(panels);
@@ -676,7 +1077,7 @@ function createCompareButton(target, label, isActive) {
   return button;
 }
 
-function createComparePanel(name, src, alt, isActive) {
+function createComparePanel(name, src, alt, isActive, base = getBasePath()) {
   const panel = document.createElement("div");
   panel.className = `compare-tab-panel${isActive ? " active" : ""}`;
   panel.dataset.panel = name;
@@ -686,12 +1087,39 @@ function createComparePanel(name, src, alt, isActive) {
   row.className = "image-row one";
 
   const img = document.createElement("img");
-  img.src = safeText(src);
+  img.src = normalizePath(src, base);
   img.alt = safeText(alt);
+  img.loading = "lazy";
+  img.decoding = "async";
 
   row.appendChild(img);
   panel.appendChild(row);
   return panel;
+}
+
+function isPlaceholderExtraImage(project, image) {
+  const slug = normalizeSlug(project.slug);
+  const src = safeText(image && image.src).toLowerCase();
+  const alt = safeText(image && image.alt).toLowerCase();
+  const pointsToStoreGuide = src.includes("/store guide/") || src.includes("projects/store guide");
+  const saysStoreGuide = alt.includes("store guide");
+
+  return slug !== "storeguide" && pointsToStoreGuide && saysStoreGuide;
+}
+
+function getProjectSliderImages(project) {
+  const detail = project.detail || {};
+  const editorialImages = Array.isArray(detail.editorialArtDirectedCaseStudyImages)
+    ? detail.editorialArtDirectedCaseStudyImages.filter(image => image && !isBlank(image.src))
+    : [];
+
+  if (editorialImages.length) return editorialImages;
+
+  const extraImages = Array.isArray(detail.extraImages)
+    ? detail.extraImages.filter(image => image && !isBlank(image.src) && !isPlaceholderExtraImage(project, image))
+    : [];
+
+  return extraImages;
 }
 
 function renderProjectExtraSlider(project) {
@@ -706,10 +1134,11 @@ function renderProjectExtraSlider(project) {
 
   if (!extraRectEl) return;
 
-  const editorialArtDirectedCaseStudyImages = project.detail.editorialArtDirectedCaseStudyImages || [];
+  const sliderImages = getProjectSliderImages(project);
 
-  if (!editorialArtDirectedCaseStudyImages.length) {
+  if (!sliderImages.length) {
     extraRectEl.hidden = true;
+    removeChildren(extraRectEl);
     return;
   }
 
@@ -730,7 +1159,7 @@ function renderProjectExtraSlider(project) {
 
   const base = getBasePath();
 
-  editorialArtDirectedCaseStudyImages.forEach(image => {
+  sliderImages.forEach(image => {
     const item = document.createElement("figure");
     item.className = "project-extra-item";
 
@@ -738,6 +1167,8 @@ function renderProjectExtraSlider(project) {
     img.className = "project-extra-img";
     img.src = normalizePath(image.src, base);
     img.alt = safeText(image.alt);
+    img.loading = "lazy";
+    img.decoding = "async";
     img.draggable = false;
 
     item.appendChild(img);
@@ -750,7 +1181,7 @@ function renderProjectExtraSlider(project) {
   sliderWrap.appendChild(rightArrow);
   extraRectEl.appendChild(sliderWrap);
 
-  initeditorialArtDirectedCaseStudyImageslider(sliderWrap);
+  initExtraImageSlider(sliderWrap);
 }
 
 function createExtraArrow(className, label, text) {
@@ -763,7 +1194,7 @@ function createExtraArrow(className, label, text) {
 }
 
 /* EXTRA IMAGE SLIDER */
-function initeditorialArtDirectedCaseStudyImageslider(sliderWrap) {
+function initExtraImageSlider(sliderWrap) {
   if (!sliderWrap) return;
 
   if (sliderWrap._sliderCleanup) sliderWrap._sliderCleanup();
@@ -798,7 +1229,7 @@ function initeditorialArtDirectedCaseStudyImageslider(sliderWrap) {
   leftArrow.addEventListener("click", () => scrollToImage(currentIndex - 1), { signal: controller.signal });
   rightArrow.addEventListener("click", () => scrollToImage(currentIndex + 1), { signal: controller.signal });
 
-  window.addEventListener("resize", () => scrollToImage(currentIndex, "auto"), { signal: controller.signal });
+  window.addEventListener("resize", debounce(() => scrollToImage(currentIndex, "auto"), 120), { signal: controller.signal });
 
   items.forEach(item => {
     const img = qs("img", item);
@@ -821,23 +1252,105 @@ function initFilters() {
 
   const projectItems = qsa(".project-item", projectsGrid);
   const originalOrder = [...projectItems];
-  const filterBtns = qsa(".filter-btn").filter(btn => btn.dataset.filter);
+  const filterBtns = qsa(".filter-btn").filter(btn => btn.dataset.filterValue || btn.dataset.filter);
   const showAllBtn = document.getElementById("showAllBtn");
+  const typeToggle = qs("[data-type-toggle]");
+  const typeToggleWrap = qs(".archive-type-toggle");
+  const yearToggle = qs("[data-year-sort-toggle]");
+  const yearToggleWrap = qs(".archive-year-toggle");
+  const yearChoiceButtons = qsa("[data-year-sort-choice]");
 
   const totalCountEl = document.getElementById("totalCount");
   const visibleCountEl = document.getElementById("visibleCount");
   const hiddenCountEl = document.getElementById("hiddenCount");
 
+  originalOrder.forEach((item, index) => {
+    item.dataset.originalIndex = String(index);
+  });
+
   const params = new URLSearchParams(window.location.search);
-  const urlFilter = params.get("filter");
-  let activeFilter = urlFilter || null;
+  const activeFilters = {
+    category: params.get("category") || params.get("filter") || null,
+    level: params.get("level") || null
+  };
+
+  let yearSort = params.get("sort") === "oldest" ? "oldest" : "newest";
+
+  function hasActiveFilters() {
+    return Object.values(activeFilters).some(Boolean);
+  }
+
+  function getButtonGroup(btn) {
+    return btn.dataset.filterGroup || "category";
+  }
+
+  function getButtonValue(btn) {
+    return btn.dataset.filterValue || btn.dataset.filter || "all";
+  }
+
+  function getItemYear(item) {
+    const year = Number(item.dataset.year);
+    return Number.isFinite(year) ? year : 0;
+  }
+
+  function sortItemsByYear() {
+    const sortedItems = [...originalOrder].sort((a, b) => {
+      const yearA = getItemYear(a);
+      const yearB = getItemYear(b);
+      const indexA = Number(a.dataset.originalIndex) || 0;
+      const indexB = Number(b.dataset.originalIndex) || 0;
+
+      if (yearA !== yearB) {
+        return yearSort === "oldest" ? yearA - yearB : yearB - yearA;
+      }
+
+      return indexA - indexB;
+    });
+
+    sortedItems.forEach(item => projectsGrid.appendChild(item));
+  }
+
+  function updateTypeToggleState() {
+    if (!typeToggle || !typeToggleWrap) return;
+
+    const activeType = activeFilters.level || "all";
+    typeToggleWrap.dataset.typeState = activeType === "Group Project" ? "group" : activeType === "Private" ? "private" : "all";
+    typeToggle.setAttribute("aria-pressed", String(activeType === "Group Project"));
+  }
+
+  function updateYearToggleState() {
+    if (!yearToggleWrap) return;
+
+    yearToggleWrap.dataset.yearState = yearSort;
+
+    if (yearToggle) {
+      yearToggle.setAttribute("aria-pressed", String(yearSort === "oldest"));
+    }
+
+    yearChoiceButtons.forEach(button => {
+      const isActive = button.dataset.yearSortChoice === yearSort;
+      button.classList.toggle("active", isActive);
+      button.setAttribute("aria-pressed", String(isActive));
+    });
+  }
 
   function updateButtonStates() {
     filterBtns.forEach(btn => {
-      btn.classList.toggle("active", btn.dataset.filter === activeFilter);
+      const group = getButtonGroup(btn);
+      const value = getButtonValue(btn);
+      const isAllButton = value === "all";
+      const isActive = isAllButton ? !activeFilters[group] : activeFilters[group] === value;
+      btn.classList.toggle("active", isActive);
+      btn.setAttribute("aria-pressed", String(isActive));
     });
 
-    if (showAllBtn) showAllBtn.classList.toggle("active", activeFilter === null);
+    updateTypeToggleState();
+    updateYearToggleState();
+
+    if (showAllBtn) {
+      showAllBtn.classList.toggle("active", !hasActiveFilters() && yearSort === "newest");
+      showAllBtn.setAttribute("aria-pressed", String(!hasActiveFilters() && yearSort === "newest"));
+    }
   }
 
   function updateStats() {
@@ -854,39 +1367,96 @@ function initFilters() {
     originalOrder.forEach(item => projectsGrid.appendChild(item));
   }
 
-  function applyFilters() {
+  function syncUrl() {
+    const nextUrl = new URL(window.location.href);
+
+    Object.entries(activeFilters).forEach(([group, value]) => {
+      if (value) nextUrl.searchParams.set(group, value);
+      else nextUrl.searchParams.delete(group);
+    });
+
+    if (yearSort === "oldest") nextUrl.searchParams.set("sort", "oldest");
+    else nextUrl.searchParams.delete("sort");
+
+    nextUrl.searchParams.delete("filter");
+    nextUrl.searchParams.delete("year");
+    window.history.replaceState({}, "", nextUrl.toString());
+  }
+
+  function itemMatchesFilter(item, group, value) {
+    if (!value) return true;
+
+    if (group === "category") {
+      return (item.dataset.category || "").split("|").filter(Boolean).includes(value);
+    }
+
+    return safeText(item.dataset[group]).trim() === value;
+  }
+
+  function applyFilters(updateUrl = false) {
+    sortItemsByYear();
+
     projectItems.forEach(item => {
-      const categories = (item.dataset.category || "").split("|");
-      const match = activeFilter === null || categories.includes(activeFilter);
+      const match = Object.entries(activeFilters).every(([group, value]) => itemMatchesFilter(item, group, value));
       item.classList.toggle("hide", !match);
+      item.setAttribute("aria-hidden", String(!match));
     });
 
     updateButtonStates();
     updateStats();
+    if (updateUrl) syncUrl();
   }
 
   filterBtns.forEach(btn => {
     btn.addEventListener("click", () => {
-      activeFilter = btn.dataset.filter;
-      applyFilters();
+      const group = getButtonGroup(btn);
+      const value = getButtonValue(btn);
+
+      activeFilters[group] = value === "all" || activeFilters[group] === value ? null : value;
+      applyFilters(true);
     });
   });
 
+  if (typeToggle) {
+    typeToggle.addEventListener("click", () => {
+      activeFilters.level = activeFilters.level === "Group Project" ? "Private" : "Group Project";
+      applyFilters(true);
+    });
+  }
+
+  yearChoiceButtons.forEach(button => {
+    button.addEventListener("click", () => {
+      yearSort = button.dataset.yearSortChoice === "oldest" ? "oldest" : "newest";
+      applyFilters(true);
+    });
+  });
+
+  if (yearToggle) {
+    yearToggle.addEventListener("click", () => {
+      yearSort = yearSort === "oldest" ? "newest" : "oldest";
+      applyFilters(true);
+    });
+  }
+
   if (showAllBtn) {
     showAllBtn.addEventListener("click", () => {
-      activeFilter = null;
+      Object.keys(activeFilters).forEach(group => {
+        activeFilters[group] = null;
+      });
+
+      yearSort = "newest";
       restoreOriginalOrder();
-      applyFilters();
+      applyFilters(true);
     });
   }
 
   restoreOriginalOrder();
-  applyFilters();
+  applyFilters(false);
 
-  if (urlFilter) {
+  if (hasActiveFilters()) {
     const section = document.getElementById("filters");
     if (section) {
-      window.setTimeout(() => section.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+      window.setTimeout(() => section.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "start" }), 100);
     }
   }
 }
@@ -894,6 +1464,9 @@ function initFilters() {
 /* COMPARE TABS */
 function initCompareTabs() {
   qsa("[data-compare-tabs]").forEach(group => {
+    if (group.dataset.compareReady) return;
+    group.dataset.compareReady = "true";
+
     const buttons = qsa(".compare-tab-btn", group);
     const panels = qsa(".compare-tab-panel", group);
 
@@ -933,13 +1506,12 @@ function initCompareTabs() {
 
 /* PROJECT COVER EXPANSION */
 function initProjectCoverExpansion({ coverBannerEl, coverBg, coverImageFrame, coverColor }) {
-  if (!coverBannerEl || !coverBg || !coverImageFrame || !window.gsap) return;
+  if (!coverBannerEl || !coverBg || !coverImageFrame) return;
 
   if (coverBannerEl._coverExpansionCleanup) coverBannerEl._coverExpansionCleanup();
 
-  gsap.killTweensOf([coverBg, coverImageFrame]);
+  if (window.gsap) gsap.killTweensOf([coverBg, coverImageFrame]);
 
-  const root = document.documentElement;
   const controller = new AbortController();
   const EXPAND_AT = 24;
   const SHRINK_AT = 2;
@@ -973,38 +1545,62 @@ function initProjectCoverExpansion({ coverBannerEl, coverBg, coverImageFrame, co
     return `inset(0px ${sideInset}px 0px ${sideInset}px round ${radius}px)`;
   }
 
-  function setProjectBackground(background) {
-    root.style.setProperty("--project-page-bg", background);
+  function applyCoverBg(clipPath, animate = false) {
+    if (window.gsap) {
+      gsap.to(coverBg, {
+        clipPath,
+        webkitClipPath: clipPath,
+        duration: animate && !prefersReducedMotion ? 0.7 : 0,
+        ease: "power3.out",
+        overwrite: true
+      });
+      return;
+    }
+
+    coverBg.style.clipPath = clipPath;
+    coverBg.style.webkitClipPath = clipPath;
   }
 
-  function setImageFrameCollapsed(radius) {
-    gsap.set(coverImageFrame, {
-      width: `${getCollapsedWidth()}px`,
-      borderRadius: `${radius}px`
-    });
+  function syncImageFrameLayout(radius, animate = false) {
+    const width = `${getCollapsedWidth()}px`;
+    const borderRadius = `${radius}px`;
+
+    if (window.gsap) {
+      gsap.set(coverImageFrame, { width });
+      gsap.to(coverImageFrame, {
+        borderRadius,
+        duration: animate && !prefersReducedMotion ? 0.7 : 0,
+        ease: "power3.out",
+        overwrite: true
+      });
+      return;
+    }
+
+    coverImageFrame.style.width = width;
+    coverImageFrame.style.borderRadius = borderRadius;
   }
 
   function setCollapsedInstant() {
     const radius = getBannerRadius();
     const clipPath = getClipPath(getSideInset(), radius);
 
-    gsap.set(coverBg, { clipPath, webkitClipPath: clipPath });
-    setImageFrameCollapsed(radius);
+    applyCoverBg(clipPath, false);
+    syncImageFrameLayout(radius, false);
 
     isExpanded = false;
     document.body.classList.remove("is-project-cover-expanded");
-    setProjectBackground("var(--bg-main)");
+    setGlobalProjectBackground("var(--bg-main)");
   }
 
   function setExpandedInstant() {
     const clipPath = getClipPath(0, 0);
 
-    gsap.set(coverBg, { clipPath, webkitClipPath: clipPath });
-    setImageFrameCollapsed(0);
+    applyCoverBg(clipPath, false);
+    syncImageFrameLayout(0, false);
 
     isExpanded = true;
     document.body.classList.add("is-project-cover-expanded");
-    setProjectBackground(coverColor);
+    setGlobalProjectBackground(coverColor);
   }
 
   function expandCover(animate = true) {
@@ -1012,25 +1608,10 @@ function initProjectCoverExpansion({ coverBannerEl, coverBg, coverImageFrame, co
 
     isExpanded = true;
     document.body.classList.add("is-project-cover-expanded");
-    setProjectBackground(coverColor);
+    setGlobalProjectBackground(coverColor);
 
-    const clipPath = getClipPath(0, 0);
-
-    gsap.to(coverBg, {
-      clipPath,
-      webkitClipPath: clipPath,
-      duration: animate ? 0.7 : 0,
-      ease: "power3.out",
-      overwrite: true
-    });
-
-    gsap.to(coverImageFrame, {
-      width: `${getCollapsedWidth()}px`,
-      borderRadius: 0,
-      duration: animate ? 0.7 : 0,
-      ease: "power3.out",
-      overwrite: true
-    });
+    applyCoverBg(getClipPath(0, 0), animate);
+    syncImageFrameLayout(0, animate);
   }
 
   function shrinkCover(animate = true) {
@@ -1038,26 +1619,11 @@ function initProjectCoverExpansion({ coverBannerEl, coverBg, coverImageFrame, co
 
     isExpanded = false;
     document.body.classList.remove("is-project-cover-expanded");
-    setProjectBackground("var(--bg-main)");
+    setGlobalProjectBackground("var(--bg-main)");
 
     const radius = getBannerRadius();
-    const clipPath = getClipPath(getSideInset(), radius);
-
-    gsap.to(coverBg, {
-      clipPath,
-      webkitClipPath: clipPath,
-      duration: animate ? 0.7 : 0,
-      ease: "power3.out",
-      overwrite: true
-    });
-
-    gsap.to(coverImageFrame, {
-      width: `${getCollapsedWidth()}px`,
-      borderRadius: `${radius}px`,
-      duration: animate ? 0.7 : 0,
-      ease: "power3.out",
-      overwrite: true
-    });
+    applyCoverBg(getClipPath(getSideInset(), radius), animate);
+    syncImageFrameLayout(radius, animate);
   }
 
   function checkState() {
@@ -1100,7 +1666,7 @@ function initProjectCoverExpansion({ coverBannerEl, coverBg, coverImageFrame, co
   coverBannerEl._coverExpansionCleanup = () => {
     clearTimeout(resizeTimeout);
     controller.abort();
-    gsap.killTweensOf([coverBg, coverImageFrame]);
+    if (window.gsap) gsap.killTweensOf([coverBg, coverImageFrame]);
   };
 }
 
@@ -1178,16 +1744,26 @@ function applyReducedMotionState() {
 }
 
 function splitScrollRevealText(el) {
-  if (el.dataset.scrollRevealReady) return;
+  if (!el || el.dataset.scrollRevealReady) return;
 
   const originalText = el.textContent;
   const parts = originalText.split(/(\s+)/);
+  const fragment = document.createDocumentFragment();
 
-  el.innerHTML = parts.map(part => {
-    if (/^\s+$/.test(part)) return part;
-    return `<span class="word">${part}</span>`;
-  }).join("");
+  parts.forEach(part => {
+    if (/^\s+$/.test(part)) {
+      fragment.appendChild(document.createTextNode(part));
+      return;
+    }
 
+    const span = document.createElement("span");
+    span.className = "word";
+    span.textContent = part;
+    fragment.appendChild(span);
+  });
+
+  removeChildren(el);
+  el.appendChild(fragment);
   el.dataset.scrollRevealReady = "true";
 }
 
@@ -1284,12 +1860,104 @@ function initMotionSystem() {
 }
 
 /* HOVER AND POP IN */
-function initHoverEffects() {
-  if (prefersReducedMotion) return;
+function canUseFineHover() {
+  return window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+}
 
-  qsa(".project-card").forEach(card => {
-    card.addEventListener("mouseenter", () => card.classList.add("is-hovered"));
-    card.addEventListener("mouseleave", () => card.classList.remove("is-hovered"));
+function initHoverEffects() {
+  if (prefersReducedMotion || !canUseFineHover()) return;
+
+  qsa(".projects-grid, .other-projects-grid").forEach(grid => {
+    const items = qsa(".project-item", grid);
+    if (!items.length) return;
+
+    items.forEach(item => {
+      if (item.dataset.hoverReady) return;
+      item.dataset.hoverReady = "true";
+
+      const card = qs(".project-card", item);
+      if (!card) return;
+
+      item.addEventListener("mouseenter", () => {
+        grid.classList.add("has-hover");
+        item.classList.add("is-active");
+        card.classList.add("is-hovered");
+      });
+
+      item.addEventListener("mouseleave", () => {
+        item.classList.remove("is-active");
+        card.classList.remove("is-hovered");
+
+        if (!qsa(".project-item.is-active", grid).length) {
+          grid.classList.remove("has-hover");
+        }
+      });
+    });
+  });
+
+  initCasePreviewCursor();
+}
+
+function initCasePreviewCursor() {
+  if (prefersReducedMotion || !canUseFineHover() || document.body.dataset.casePreviewReady) return;
+
+  const items = qsa(".project-item[data-preview]").filter(item => !isBlank(item.dataset.preview));
+  if (!items.length) return;
+
+  document.body.dataset.casePreviewReady = "true";
+
+  const preview = document.createElement("div");
+  preview.className = "case-preview-layer";
+  preview.setAttribute("aria-hidden", "true");
+
+  const image = document.createElement("img");
+  image.className = "case-preview-image";
+  image.alt = "";
+
+  const label = document.createElement("span");
+  label.className = "case-preview-label";
+
+  preview.appendChild(image);
+  preview.appendChild(label);
+  document.body.appendChild(preview);
+
+  let targetX = 0;
+  let targetY = 0;
+  let currentX = 0;
+  let currentY = 0;
+  let rafId = null;
+
+  function animate() {
+    currentX += (targetX - currentX) * 0.16;
+    currentY += (targetY - currentY) * 0.16;
+    preview.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+    rafId = requestAnimationFrame(animate);
+  }
+
+  function move(event) {
+    targetX = event.clientX + 22;
+    targetY = event.clientY + 22;
+  }
+
+  function show(item, event) {
+    image.src = item.dataset.preview;
+    label.textContent = item.dataset.title || "View case";
+    currentX = event.clientX + 22;
+    currentY = event.clientY + 22;
+    targetX = currentX;
+    targetY = currentY;
+    preview.classList.add("is-visible");
+    if (!rafId) rafId = requestAnimationFrame(animate);
+  }
+
+  function hide() {
+    preview.classList.remove("is-visible");
+  }
+
+  items.forEach(item => {
+    item.addEventListener("mouseenter", event => show(item, event));
+    item.addEventListener("mousemove", move);
+    item.addEventListener("mouseleave", hide);
   });
 }
 
@@ -1455,6 +2123,9 @@ function initStampImages() {
 /* CUSTOM VIDEOS */
 function initCustomVideos() {
   qsa("[data-custom-video]").forEach(block => {
+    if (block.dataset.videoReady) return;
+    block.dataset.videoReady = "true";
+
     const video = qs(".custom-video-media", block);
     const playButton = qs(".custom-video-play", block);
     const blob = qs(".play-blob", block);
@@ -1463,6 +2134,7 @@ function initCustomVideos() {
     const time = qs(".video-time", block);
     const volumeButton = qs(".video-volume-btn", block);
     const volumeSlider = qs(".volume-slider", block);
+    const hasGsap = Boolean(window.gsap);
 
     if (!video || !playButton) return;
 
@@ -1539,6 +2211,10 @@ function initCustomVideos() {
       };
     }
 
+    function setBlobVars(vars) {
+      Object.entries(vars).forEach(([key, value]) => blob.style.setProperty(key, String(value)));
+    }
+
     function startFillHover() {
       clearTimeout(fillExitTimeout);
       clearTimeout(fillResetTimeout);
@@ -1569,13 +2245,22 @@ function initCustomVideos() {
       if (!block.classList.contains("is-fill-exiting")) block.classList.remove("is-near");
       killBlobTweens();
 
-      blobFollowTween = gsap.to(blob, {
-        duration: animate ? 0.2 : 0,
+      const vars = {
         "--pull-x": "0px",
         "--pull-y": "0px",
         "--blob-scale-x": 1,
         "--blob-scale-y": 1,
-        ...setBlobAngle(0),
+        ...setBlobAngle(0)
+      };
+
+      if (!hasGsap) {
+        setBlobVars(vars);
+        return;
+      }
+
+      blobFollowTween = gsap.to(blob, {
+        duration: animate ? 0.2 : 0,
+        ...vars,
         ease: "power3.out",
         overwrite: "auto"
       });
@@ -1591,7 +2276,7 @@ function initCustomVideos() {
       const dy = edgeY - videoCenterY;
       const distance = Math.sqrt(dx * dx + dy * dy);
 
-      if (distance < 1) {
+      if (distance < 1 || !hasGsap) {
         resetBlob(true);
         if (typeof onSettled === "function") onSettled();
         return;
@@ -1652,7 +2337,7 @@ function initCustomVideos() {
       volumeButton.setAttribute("aria-pressed", String(isMuted));
       volumeButton.setAttribute("aria-label", isMuted ? "Unmute video" : "Mute video");
 
-      if (animateSlider && window.gsap) {
+      if (animateSlider && hasGsap) {
         gsap.to(volumeSlider, { duration: 0.28, value: visibleVolume, ease: "power2.out" });
       } else {
         volumeSlider.value = String(visibleVolume);
@@ -1769,7 +2454,7 @@ function initCustomVideos() {
       const deadZone = 46;
       const influenceRadius = 260;
 
-      if (distance < deadZone || distance > influenceRadius) {
+      if (distance < deadZone || distance > influenceRadius || !hasGsap) {
         resetBlob(true);
         return;
       }
@@ -1846,7 +2531,7 @@ function initHeroRollSync() {
   const startTime = performance.now();
 
   let rafId = null;
-  let isActive = true;
+  let isActive = false;
 
   function easeInOut(t) {
     return 0.5 - Math.cos(Math.PI * t) / 2;
@@ -2003,7 +2688,9 @@ document.addEventListener("DOMContentLoaded", () => {
   loadFooter();
   loadLiquidEffectSVG();
   loadGooeyParticles();
+  initGooeyParticlesResize();
 
+  setupArchivePageLayout();
   const projectsLoaded = renderProjects();
   if (projectsLoaded) initFilters();
 
