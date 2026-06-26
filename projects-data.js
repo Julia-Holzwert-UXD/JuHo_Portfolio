@@ -7,9 +7,10 @@ const projectsData = {
       href: "./projectSites/headsUp.html",
       categories: ["Immersive-Experience", "Group-Project", "Accessibility", "Ethical-Design"],
       coverImage: "./pngs/Projects/HeadsUp/Logo.png",
-      coverBannerImage: "./pngs/Projects/HeadsUp/Logo.png",
+      coverBannerImage: "./pngs/Projects/HeadsUp/Logo_original.png",
       coverBackgroundColor: "#FEFEFE",
       coverZoom: 130,
+      imageScale: 1.80,
 
       detail: {
         meta: "Group Project from 2024 for 4 Months",
@@ -75,27 +76,39 @@ const projectsData = {
             ]
           }
         ],
-        extraImages: [
+        editorialArtDirectedCaseStudyImages: [
           {
-            src: "./pngs/Projects/HeadsUp/Navigation 2 - High Volume Cars.jpg",
-            alt: "HeadsUp in action"
+            src: "./pngs/Projects/HeadsUp/Editorial/Hero Statement.png",
+            alt: "Store Guide Logo"
           },
           {
-            src: "./pngs/Projects/HeadsUp/Telefonieren 1 - Anruf.jpg",
-            alt: "HeadsUp Telefonat"
+            src: "./pngs/Projects/HeadsUp/Editorial/Device Line-up.png",
+            alt: "Store Guide Add"
           },
           {
-            src: "./pngs/Projects/HeadsUp/Unfall - Frontal Kolision.jpg",
-            alt: "HeadsUp in action"
+            src: "./pngs/Projects/HeadsUp/Editorial/Conceptual Diptych.png",
+            alt: "Store Guide Another Add"
           },
           {
-            src: "./pngs/Projects/HeadsUp/Telefonieren 2 - im anruf.png",
-            alt: "HeadsUp in action"
+            src: "./pngs/Projects/HeadsUp/Editorial/Editorial Object Shot.png",
+            alt: "Store Guide Logo"
           },
           {
-            src: "./pngs/Projects/HeadsUp/Unfall - Auffahr.png",
-            alt: "HeadsUp in action"
+            src: "./pngs/Projects/HeadsUp/Editorial/Information Architecture.png",
+            alt: "Store Guide Add"
           },
+          {
+            src: "./pngs/Projects/HeadsUp/Editorial/Detail Crop.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/HeadsUp/Editorial/Desktop and Mobile System.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/HeadsUp/Editorial/Closing Mood.png",
+            alt: "Store Guide Another Add"
+          }
         ]
       }
     },
@@ -110,12 +123,13 @@ const projectsData = {
       coverBannerImage: "./pngs/Projects/CampusTalk/Logo 1.png",
       coverBackgroundColor: "linear-gradient(90deg, #2D2077 50%, #35278F 68%)",
       coverZoom: 120,
+      imageScale: 2.30,
 
       detail: {
         meta: "Group Project from 2025 for 4 Months",
 
         sections: {
-          summary: "CampusTalk is a mobile web app designed to reduce prejudice by combining guided reflection, anonymous community exchange, and curated educational content — making participation feel safe instead of accusatory.",
+          summary: "CampusTalk is a mobile web app that helps students reflect on prejudice through guided quizzes, anonymous discussion, and curated learning content. The platform avoids accusatory language and uses structured participation to make sensitive topics feel safer and easier to enter.",
 
           challenge: "The core challenge was reducing defensiveness. Students needed recognition and safe ways to share real experiences, while outsiders needed low pressure entry points that would not make them feel attacked. The second challenge was information overload: too much text, too many features, or an overly moral tone would make users leave before reflection could happen.",
 
@@ -126,7 +140,7 @@ const projectsData = {
           keyVisualSystem: "The visual system uses violet (#6E368C) as the primary identity, giving the platform a reflective and educational character without feeling institutional or political. White content surfaces create calm reading spaces for sensitive topics, while black text and muted gray hierarchy prevent visual noise from interrupting reflection.",
 
           result: [
-            "Content Architecture: Synthesized interviews into 4 personas and 5 core platform areas instead of a single social feed.",
+            "Content Architecture: Built a structured content architecture from 12 interviews, 4 personas, and card sorting insights.",
             "Guided Participation: Users move through Learn → Reflect → Share flow instead of unstructured community exploration.",
             "Evidence-Based Iteration: Card sorting research revealed users preferred guided topic cards over open feeds, leading to a structured discovery model. ",
             "Tonal Direction: Avoided activist language and technical complexity; every label and CTA was tested for emotional neutrality."
@@ -171,17 +185,37 @@ const projectsData = {
             ]
           }
         ],
-        extraImages: [
+        editorialArtDirectedCaseStudyImages: [
           {
-            src: "./pngs/Projects/Store Guide/logo.jpg",
+            src: "./pngs/Projects/CampusTalk/Editorial/Hero Statement.png",
             alt: "Store Guide Logo"
           },
           {
-            src: "./pngs/Projects/Store Guide/app.jpg",
+            src: "./pngs/Projects/CampusTalk/Editorial/Device Line-up.png",
             alt: "Store Guide Add"
           },
           {
-            src: "./pngs/Projects/Store Guide/add.jpg",
+            src: "./pngs/Projects/CampusTalk/Editorial/Conceptual Diptych.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/CampusTalk/Editorial/Editorial Object Shot.png",
+            alt: "Store Guide Logo"
+          },
+          {
+            src: "./pngs/Projects/CampusTalk/Editorial/Information Architecture.png",
+            alt: "Store Guide Add"
+          },
+          {
+            src: "./pngs/Projects/CampusTalk/Editorial/Detail Crop.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/CampusTalk/Editorial/Desktop and Mobile System.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/CampusTalk/Editorial/Closing Mood.png",
             alt: "Store Guide Another Add"
           }
         ]
@@ -198,6 +232,7 @@ const projectsData = {
       coverBannerImage: "./pngs/Projects/Aprés/Frame 59.png",
       coverBackgroundColor: "#F4EFE5",
       coverZoom: 80,
+      imageScale: 1.80,
 
       detail: {
         meta: "Private Project from 2026",
@@ -263,17 +298,37 @@ const projectsData = {
             ]
           }
         ],
-        extraImages: [
+        editorialArtDirectedCaseStudyImages: [
           {
-            src: "./pngs/Projects/Store Guide/logo.jpg",
+            src: "./pngs/Projects/Aprés/Editorial/Hero Statement.png",
             alt: "Store Guide Logo"
           },
           {
-            src: "./pngs/Projects/Store Guide/app.jpg",
+            src: "./pngs/Projects/Aprés/Editorial/Device Line-up.png",
             alt: "Store Guide Add"
           },
           {
-            src: "./pngs/Projects/Store Guide/add.jpg",
+            src: "./pngs/Projects/Aprés/Editorial/Conceptual Diptych.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/Aprés/Editorial/Editorial Object Shot.png",
+            alt: "Store Guide Logo"
+          },
+          {
+            src: "./pngs/Projects/Aprés/Editorial/Information Architecture.png",
+            alt: "Store Guide Add"
+          },
+          {
+            src: "./pngs/Projects/Aprés/Editorial/Detail Crop.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/Aprés/Editorial/Desktop and Mobile System.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/Aprés/Editorial/Closing Mood.png",
             alt: "Store Guide Another Add"
           }
         ]
@@ -370,17 +425,37 @@ const projectsData = {
           },
   
         ],
-        extraImages: [
+        editorialArtDirectedCaseStudyImages: [
           {
-            src: "./pngs/Projects/Store Guide/logo.jpg",
+            src: "./pngs/Projects/DAZN/Editorial/Hero Statement.png",
             alt: "Store Guide Logo"
           },
           {
-            src: "./pngs/Projects/Store Guide/app.jpg",
+            src: "./pngs/Projects/DAZN/Editorial/Device Line-up.png",
             alt: "Store Guide Add"
           },
           {
-            src: "./pngs/Projects/Store Guide/add.jpg",
+            src: "./pngs/Projects/DAZN/Editorial/Conceptual Diptych.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/DAZN/Editorial/Editorial Object Shot.png",
+            alt: "Store Guide Logo"
+          },
+          {
+            src: "./pngs/Projects/DAZN/Editorial/Information Architecture.png",
+            alt: "Store Guide Add"
+          },
+          {
+            src: "./pngs/Projects/DAZN/Editorial/Detail Crop.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/DAZN/Editorial/Desktop and Mobile System.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/DAZN/Editorial/Closing Mood.png",
             alt: "Store Guide Another Add"
           }
         ]
@@ -397,6 +472,7 @@ const projectsData = {
       coverBannerImage: "./pngs/Projects/Bodique/Logo.png",
       coverBackgroundColor: "#FEFEFE",
       coverZoom: 40,
+      imageScale: 1.30,
 
       detail: {
         meta: "Group Project from Winter Semester 2025/2026 for 4 months",
@@ -467,17 +543,37 @@ const projectsData = {
             ]
           }
         ],
-        extraImages: [
+        editorialArtDirectedCaseStudyImages: [
           {
-            src: "./pngs/Projects/Store Guide/logo.jpg",
+            src: "./pngs/Projects/Bodique/Editorial/Hero Statement.png",
             alt: "Store Guide Logo"
           },
           {
-            src: "./pngs/Projects/Store Guide/app.jpg",
+            src: "./pngs/Projects/Bodique/Editorial/Device Line-up.png",
             alt: "Store Guide Add"
           },
           {
-            src: "./pngs/Projects/Store Guide/add.jpg",
+            src: "./pngs/Projects/Bodique/Editorial/Conceptual Diptych.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/Bodique/Editorial/Editorial Object Shot.png",
+            alt: "Store Guide Logo"
+          },
+          {
+            src: "./pngs/Projects/Bodique/Editorial/Information Architecture.png",
+            alt: "Store Guide Add"
+          },
+          {
+            src: "./pngs/Projects/Bodique/Editorial/Detail Crop.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/Bodique/Editorial/Desktop and Mobile System.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/Bodique/Editorial/Closing Mood.png",
             alt: "Store Guide Another Add"
           }
         ]
@@ -494,6 +590,7 @@ const projectsData = {
       coverBannerImage: "./pngs/Projects/Store Guide/cover.png",
       coverBackgroundColor: "#30782F",
       coverZoom: 90,
+      imageScale: 1.80,
 
       detail: {
         meta: "Group Project from 2023/24 for 4 Months",
@@ -543,17 +640,37 @@ const projectsData = {
           }
 
         ],
-        extraImages: [
+        editorialArtDirectedCaseStudyImages: [
           {
-            src: "./pngs/Projects/Store Guide/logo.jpg",
+            src: "./pngs/Projects/Store Guide/Editorial/Hero Statement.png",
             alt: "Store Guide Logo"
           },
           {
-            src: "./pngs/Projects/Store Guide/app.jpg",
+            src: "./pngs/Projects/Store Guide/Editorial/Device Line-up.png",
             alt: "Store Guide Add"
           },
           {
-            src: "./pngs/Projects/Store Guide/add.jpg",
+            src: "./pngs/Projects/Store Guide/Editorial/Conceptual Diptych.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/Store Guide/Editorial/Editorial Object Shot.png",
+            alt: "Store Guide Logo"
+          },
+          {
+            src: "./pngs/Projects/Store Guide/Editorial/Information Architecture.png",
+            alt: "Store Guide Add"
+          },
+          {
+            src: "./pngs/Projects/Store Guide/Editorial/Detail Crop.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/Store Guide/Editorial/Mobile System.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/Store Guide/Editorial/Closing Mood.png",
             alt: "Store Guide Another Add"
           }
         ]
@@ -565,13 +682,14 @@ const projectsData = {
     //Printer Interface Redesign
     {
       slug: "printerInterface",
-      title: "Printer Interface Redesign",
+      title: "Printer Interface",
       href: "./projectSites/printerInterface.html",
       categories: ["Redesign"],
       coverImage: "./pngs/Projects/Printer Display Redesign/logo.png",
       coverBannerImage: "./pngs/Projects/Printer Display Redesign/logo.png",
       coverBackgroundColor: "#ffffff",
       coverZoom: 20,
+      imageScale: 1.30,
 
       detail: {
         meta: "Private Project from 2024",
@@ -632,97 +750,41 @@ const projectsData = {
             ]
           }
         ],
-        extraImages: [
+        editorialArtDirectedCaseStudyImages: [
           {
-            src: "./pngs/Projects/Printer Display Redesign/Frame 1-min.jpg",
-            alt: "Printer Interfaces"
+            src: "./pngs/Projects/Printer Display Redesign/Editorial/Hero Statement.png",
+            alt: "Store Guide Logo"
           },
           {
-            src: "./pngs/Projects/Printer Display Redesign/MicrosoftTeams-image20521.jpg",
-            alt: "Printer in Use"
+            src: "./pngs/Projects/Printer Display Redesign/Editorial/Device Line-up.png",
+            alt: "Store Guide Add"
           },
           {
-            src: "./pngs/Projects/Printer Display Redesign/Xerox-Used-Office-Copier-Printer.jpg",
-            alt: "Printer in Foreground"
+            src: "./pngs/Projects/Printer Display Redesign/Editorial/Conceptual Diptych.png",
+            alt: "Store Guide Another Add"
           },
           {
-            src: "./pngs/Projects/Printer Display Redesign/office-printers-and-mfps-data.jpg",
-            alt: "Printer in Foreground"
+            src: "./pngs/Projects/Printer Display Redesign/Editorial/Editorial Object Shot.png",
+            alt: "Store Guide Logo"
+          },
+          {
+            src: "./pngs/Projects/Printer Display Redesign/Editorial/Information Architecture.png",
+            alt: "Store Guide Add"
+          },
+          {
+            src: "./pngs/Projects/Printer Display Redesign/Editorial/Detail Crop.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/Printer Display Redesign/Editorial/Mobile System.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/Printer Display Redesign/Editorial/Closing Mood.png",
+            alt: "Store Guide Another Add"
           }
         ]
       }
-    },
-
-    //INVG App Redesign
-    {
-      slug: "invg",
-      title: "INVG App Redesign",
-      href: "./projectSites/invg.html",
-      categories: ["Mobile-App", "Public-Transport", "Redesign"],
-      coverImage: "./pngs/Projects/INVG App Redesign/Logo.png",
-      coverBannerImage: "./pngs/Projects/INVG App Redesign/Logo.png",
-      coverBackgroundColor: "#ffffff",
-      coverZoom: 20,
-
-      detail: {
-        meta: "Private Project from 2026 for 2 Weeks",
-        sections: {
-          summary: "The same interface, three entirely different experiences. - The INVG app gives users quick access to local transport information — but its existing design left room for both visual and structural improvement. Rather than producing a single redesign, this project used the INVG app as a foundation to explore how visual design language shapes usability, perception, and trust across three distinct design systems.",
-          challenge: "Applying strong visual styles to a functional transit app without breaking its usability is harder than it sounds. Each design system — Glassmorphism, Bauhaus, and Material Design — carries its own rules around hierarchy, contrast, spacing, and interaction. The challenge was not simply aesthetic translation, but ensuring that each version remained legible, navigable, and fit for real transit conditions: quick glances, moving environments, and users under time pressure.",
-          approach: "I began by deconstructing the original INVG interface, mapping its information architecture, user flows, and hierarchy before touching any visuals. That foundation stayed constant across all three versions. From there, each redesign was built on the core principles of its respective system — Glassmorphism's layered depth and soft transparency, Bauhaus's bold geometry and typographic discipline, and Material Design's structured clarity and component logic. In each case, contrast and visual weight were calibrated to surface critical information — next departure, platform, delay — within seconds of opening the app.",
-
-          creativeDirection: "The creative direction positions the INVG App Redesign as a study in visual trust under real transport pressure. The project had to show how the same transit information can feel different depending on the design system, without weakening speed, legibility, or orientation. Each version uses its own visual logic: layered transparency for Glassmorphism, geometric discipline for Bauhaus, and structured component clarity for Material Design. I avoided treating the styles as surface decoration because public transport interfaces depend on fast recognition and confidence. The key judgement was to keep the functional core stable while letting visual language change perception, proving that style affects usability when applied with restraint.",
-          keyVisualSystem: "",
-          result: [
-            "Three Distinct Experiences, One Functional Core: Each version delivered a different visual tone and emotional register while preserving identical usability and navigation logic.",
-            "Design System Fluency: The project demonstrated the ability to work fluidly across visual languages — adapting layout, typography, and interaction patterns without defaulting to personal style.",
-            "Usability Under Constraint: All three interfaces were tested against real transit use conditions, confirming that bold visual choices and functional clarity are not mutually exclusive.",
-            "Deeper Design Thinking: Redesigning the same product three times revealed how much visual language influences user confidence and perceived reliability — even when the underlying information is identical."
-          ],
-          takeawayTitle: "Takeaway",
-          takeaway: "This project is a study in design systems and adaptive thinking. Understanding how visual language shapes user perception — not just appearance — is what separates surface-level styling from considered interface design.",
-          link: "../Booklets/Booklet Final Holzwert Julia.pdf"
-        },
-        images: [
-
-          {
-            layout: "one",
-            items: [
-              {
-                type: "compare",
-                before: "../pngs/Projects/INVG App Redesign/before.png",
-                after: "../pngs/Projects/INVG App Redesign/Frame 2.jpg",
-                altBefore: "INVG before redesign",
-                altAfter: "INVG after redesign"
-              }
-            ]
-          },
-
-          {
-            layout: "two",
-            items: [
-              {
-                src: "../pngs/Projects/INVG App Redesign/frame 3.png",
-                alt: "invg2"
-              },
-              {
-                src: "../pngs/Projects/INVG App Redesign/frame 1.png",
-                alt: "invg3"
-              }
-            ]
-          },
-          {
-            layout: "one",
-            items: [
-              {
-                src: "../pngs/Projects/INVG App Redesign/Bus-VGI-1-Foto-INVG.png",
-                alt: "invg4"
-              }
-            ]
-          },
-        ]
-      }
-
     },
 
     //MemoWe
@@ -735,6 +797,7 @@ const projectsData = {
       coverBannerImage: "./pngs/Projects/MemoWe/Logo.png",
       coverBackgroundColor: "#30BAC7",
       coverZoom: 110,
+      imageScale: 2.10,
 
       detail: {
         meta: "Private Project from 2024 for 6 Months",
@@ -794,22 +857,38 @@ const projectsData = {
             ]
           }
         ],
-        extraImages: [
+        editorialArtDirectedCaseStudyImages: [
           {
-            src: "./pngs/Projects/MemoWe/Frame_151.jpg",
-            alt: "MemoWe Screens"
+            src: "./pngs/Projects/MemoWe/Editorial/Hero Statement.png",
+            alt: "Store Guide Logo"
           },
           {
-            src: "./pngs/Projects/MemoWe/Memowe_laptop.png",
-            alt: "MemoWe Social Media"
+            src: "./pngs/Projects/MemoWe/Editorial/Device Line-up.png",
+            alt: "Store Guide Add"
           },
           {
-            src: "./pngs/Projects/MemoWe/picture gallery.jpg",
-            alt: "MemoWe Photo Gallery"
+            src: "./pngs/Projects/MemoWe/Editorial/Conceptual Diptych.png",
+            alt: "Store Guide Another Add"
           },
           {
-            src: "./pngs/Projects/MemoWe/activity.jpg",
-            alt: "MemoWe Activity"
+            src: "./pngs/Projects/MemoWe/Editorial/Editorial Object Shot.png",
+            alt: "Store Guide Logo"
+          },
+          {
+            src: "./pngs/Projects/MemoWe/Editorial/Information Architecture.png",
+            alt: "Store Guide Add"
+          },
+          {
+            src: "./pngs/Projects/MemoWe/Editorial/Detail Crop.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/MemoWe/Editorial/Mobile System.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/MemoWe/Editorial/Closing Mood.png",
+            alt: "Store Guide Another Add"
           }
         ]
       }
@@ -818,13 +897,14 @@ const projectsData = {
     //PikBre 3D - Remote Control
     {
       slug: "pikBre3D-RemoteControl",
-      title: "PikBre 3D - Remote Control",
+      title: "PikBre 3D - Remote",
       href: "./projectSites/pikBre3D-RemoteControl.html",
       categories: ["Product-Design", "Group-Project"],
       coverImage: "./pngs/Projects/PikBre 3D - Remote Control/logo.png",
       coverBannerImage: "./pngs/Projects/PikBre 3D - Remote Control/logo.png",
       coverBackgroundColor: "#FEFEFE",
       coverZoom: 30,
+      imageScale: 1.30,
 
       detail: {
         meta: "Group Project from 2026 for 5 Weeks",
@@ -882,17 +962,37 @@ const projectsData = {
             ]
           }
         ],
-        extraImages: [
+        editorialArtDirectedCaseStudyImages: [
           {
-            src: "./pngs/Projects/PikBre 3D - Remote Control/in use.jpeg",
+            src: "./pngs/Projects/MemoWe/Editorial/Hero Statement.png",
             alt: "Store Guide Logo"
           },
           {
-            src: "./pngs/Projects/PikBre 3D - Remote Control/anzeichen.jpeg",
+            src: "./pngs/Projects/MemoWe/Editorial/Device Line-up.png",
             alt: "Store Guide Add"
           },
           {
-            src: "./pngs/Projects/PikBre 3D - Remote Control/produkt.jpg",
+            src: "./pngs/Projects/MemoWe/Editorial/Conceptual Diptych.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/MemoWe/Editorial/Editorial Object Shot.png",
+            alt: "Store Guide Logo"
+          },
+          {
+            src: "./pngs/Projects/MemoWe/Editorial/Information Architecture.png",
+            alt: "Store Guide Add"
+          },
+          {
+            src: "./pngs/Projects/MemoWe/Editorial/Detail Crop.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/MemoWe/Editorial/Mobile System.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/MemoWe/Editorial/Closing Mood.png",
             alt: "Store Guide Another Add"
           }
         ]
@@ -902,13 +1002,14 @@ const projectsData = {
     //DB Navigator Redesign
     {
       slug: "DBNavigatorRedesign",
-      title: "DB Navigator Redesign",
+      title: "DB Navigator Accessibility",
       href: "./projectSites/DBNavigatorRedesign.html",
-      categories: ["Accessibility", "Mobile-App", "Public-Transport", "Redesign"],
+      categories: ["Accessibility", "Mobile-App", "Redesign"],
       coverImage: "./pngs/Projects/DB Navigator Redesign/Logo.png",
       coverBannerImage: "./pngs/Projects/DB Navigator Redesign/Logo.png",
       coverBackgroundColor: "#ffffff",
       coverZoom: 50,
+      imageScale: 2.30,
 
       detail: {
         meta: "Private Project from 2026",
@@ -989,7 +1090,7 @@ const projectsData = {
           }
 
         ],
-        extraImages: [
+        editorialArtDirectedCaseStudyImages: [
           {
             src: "./pngs/Projects/Store Guide/logo.jpg",
             alt: "Store Guide Logo"
@@ -1059,7 +1160,7 @@ const projectsData = {
             ]
           }
         ],
-        extraImages: [
+        editorialArtDirectedCaseStudyImages: [
           {
             src: "./pngs/Projects/Store Guide/logo.jpg",
             alt: "Store Guide Logo"
@@ -1083,9 +1184,10 @@ const projectsData = {
       href: "./projectSites/healthyStart.html",
       categories: ["Health-Tech", "Data-Privacy", "Mobile-App"],
       coverImage: "./pngs/Projects/HealthyStart/Logo.png",
-      coverBannerImage: "./pngs/Projects/HealthyStart/Logo.png",
+      coverBannerImage: "./pngs/Projects/HealthyStart/Logo_original.png",
       coverBackgroundColor: "#FAFAF8",
       coverZoom: 0,
+      imageScale: 2.05,
 
       detail: {
         meta: "Private Project from 2024",
@@ -1145,7 +1247,7 @@ const projectsData = {
             ]
           }
         ],
-        extraImages: [
+        editorialArtDirectedCaseStudyImages: [
           {
             src: "./pngs/Projects/Store Guide/logo.jpg",
             alt: "Store Guide Logo"
