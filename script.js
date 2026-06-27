@@ -95,11 +95,19 @@ function getProjectLevel(project) {
 
 function getProjectPreviewSrc(project, base = getBasePath()) {
   const detail = project.detail || {};
-  const editorial = Array.isArray(detail.editorialArtDirectedCaseStudyImages)
+
+  const firstEditorialImage = Array.isArray(detail.editorialArtDirectedCaseStudyImages)
     ? detail.editorialArtDirectedCaseStudyImages.find(image => image && !isBlank(image.src))
     : null;
 
-  const preview = project.previewImage || project.archivePreview || project.coverBannerImage || project.coverImage || (editorial && editorial.src) || "";
+  const preview =
+    (firstEditorialImage && firstEditorialImage.src) ||
+    project.previewImage ||
+    project.archivePreview ||
+    project.coverBannerImage ||
+    project.coverImage ||
+    "";
+
   return normalizePath(preview, base);
 }
 
@@ -334,9 +342,8 @@ function setCssVar(el, name, value) {
 }
 
 function setGlobalProjectBackground(background) {
-  const value = background || "var(--bg-main)";
-  document.documentElement.style.setProperty("--projects-page-bg", value);
-  document.documentElement.style.setProperty("--project-page-bg", value);
+  document.documentElement.style.setProperty("--projects-page-bg", "var(--bg-main)");
+  document.documentElement.style.setProperty("--project-page-bg", "var(--bg-main)");
 }
 
 function debounce(fn, delay = 160) {
@@ -379,7 +386,7 @@ function loadLiquidEffectSVG() {
   template.innerHTML = `
     <svg style="position:absolute;width:0;height:0;overflow:hidden;" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <filter id="liquid-effect">
+        <filter id="liquid-effect" x="-50%" y="-50%" width="200%" height="200%">
           <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur" />
           <feColorMatrix
             in="blur"
@@ -949,22 +956,66 @@ function renderProjectImages(project) {
   if (!imagesEl) return;
 
   removeChildren(imagesEl);
-  const fragment = document.createDocumentFragment();
+
   const base = getBasePath();
+  const fragment = document.createDocumentFragment();
+  const detail = project.detail || {};
+  const rows = Array.isArray(detail.images) ? detail.images : [];
 
-  (project.detail.images || []).forEach(row => {
+  let renderedSomething = false;
+
+  rows.forEach(row => {
+    const items = Array.isArray(row.items) ? row.items.filter(item => item && (!isBlank(item.src) || item.type === "video" || item.type === "compare")) : [];
+    if (!items.length) return;
+
     const rowEl = document.createElement("div");
-    rowEl.className = `image-row ${safeText(row.layout)}`.trim();
+    rowEl.className = `image-row ${safeText(row.layout || (items.length > 1 ? "two" : "one"))}`.trim();
 
-    (row.items || []).forEach(item => {
+    items.forEach(item => {
       const mediaItem = createProjectMediaItem(item, base);
       if (mediaItem) rowEl.appendChild(mediaItem);
     });
 
-    if (rowEl.children.length) fragment.appendChild(rowEl);
+    if (rowEl.children.length) {
+      renderedSomething = true;
+      fragment.appendChild(rowEl);
+    }
   });
 
+  if (!renderedSomething) {
+    const fallbackImages = [];
+
+    if (Array.isArray(detail.editorialArtDirectedCaseStudyImages)) {
+      fallbackImages.push(...detail.editorialArtDirectedCaseStudyImages);
+    }
+
+    if (Array.isArray(detail.extraImages)) {
+      fallbackImages.push(...detail.extraImages);
+    }
+
+    fallbackImages
+      .filter(image => image && !isBlank(image.src) && !isPlaceholderExtraImage(project, image))
+      .slice(0, 6)
+      .forEach(image => {
+        const rowEl = document.createElement("div");
+        rowEl.className = "image-row one";
+
+        const img = document.createElement("img");
+        img.src = normalizePath(image.src, base);
+        img.alt = safeText(image.alt || project.title);
+        img.loading = "lazy";
+        img.decoding = "async";
+
+        rowEl.appendChild(img);
+        fragment.appendChild(rowEl);
+        renderedSomething = true;
+      });
+  }
+
   imagesEl.appendChild(fragment);
+
+  const projectImages = qs(".project-images");
+  if (projectImages) projectImages.hidden = !renderedSomething;
 }
 
 function createProjectMediaItem(item, base = getBasePath()) {
@@ -978,6 +1029,16 @@ function createProjectMediaItem(item, base = getBasePath()) {
   img.alt = safeText(item.alt);
   img.loading = "lazy";
   img.decoding = "async";
+
+  img.addEventListener("load", () => {
+    if (window.ScrollTrigger) ScrollTrigger.refresh();
+  }, { once: true });
+
+  img.addEventListener("error", () => {
+    img.closest(".image-row")?.remove();
+    if (window.ScrollTrigger) ScrollTrigger.refresh();
+  }, { once: true });
+
   return img;
 }
 
@@ -1148,8 +1209,8 @@ function renderProjectExtraSlider(project) {
   const sliderWrap = document.createElement("div");
   sliderWrap.className = "project-extra-slider-wrap";
 
-  const leftArrow = createExtraArrow("project-extra-arrow-left", "Previous image", "‹");
-  const rightArrow = createExtraArrow("project-extra-arrow-right", "Next image", "›");
+  const leftArrow = createExtraArrow("project-extra-arrow-left", "Previous image", "←");
+const rightArrow = createExtraArrow("project-extra-arrow-right", "Next image", "→");
 
   const extraRect = document.createElement("div");
   extraRect.className = "project-extra-rect";
@@ -1180,7 +1241,7 @@ function renderProjectExtraSlider(project) {
   sliderWrap.appendChild(extraRect);
   sliderWrap.appendChild(rightArrow);
   extraRectEl.appendChild(sliderWrap);
-
+  
   initExtraImageSlider(sliderWrap);
 }
 
@@ -1207,11 +1268,44 @@ function initExtraImageSlider(sliderWrap) {
   if (!track || !items.length || !leftArrow || !rightArrow) return;
 
   let currentIndex = 0;
+  let scrollRaf = null;
   const controller = new AbortController();
 
+  function getMaxScroll() {
+    return Math.max(0, track.scrollWidth - track.clientWidth);
+  }
+
+  function getNearestIndex() {
+    const trackCenter = track.scrollLeft + track.clientWidth / 2;
+
+    let nearestIndex = 0;
+    let nearestDistance = Infinity;
+
+    items.forEach((item, index) => {
+      const itemCenter = item.offsetLeft + item.offsetWidth / 2;
+      const distance = Math.abs(itemCenter - trackCenter);
+
+      if (distance < nearestDistance) {
+        nearestDistance = distance;
+        nearestIndex = index;
+      }
+    });
+
+    return nearestIndex;
+  }
+
   function updateArrows() {
-    leftArrow.hidden = currentIndex === 0;
-    rightArrow.hidden = currentIndex >= items.length - 1;
+    const maxScroll = getMaxScroll();
+    const atStart = track.scrollLeft <= 2;
+    const atEnd = track.scrollLeft >= maxScroll - 2;
+
+    currentIndex = getNearestIndex();
+
+    leftArrow.hidden = atStart || maxScroll <= 2;
+    rightArrow.hidden = atEnd || maxScroll <= 2;
+
+    leftArrow.setAttribute("aria-hidden", String(leftArrow.hidden));
+    rightArrow.setAttribute("aria-hidden", String(rightArrow.hidden));
   }
 
   function scrollToImage(index, behavior = "smooth") {
@@ -1222,27 +1316,57 @@ function initExtraImageSlider(sliderWrap) {
       ? 0
       : item.offsetLeft + item.offsetWidth / 2 - track.clientWidth / 2;
 
-    track.scrollTo({ left: targetScroll, behavior });
-    updateArrows();
+    track.scrollTo({
+      left: Math.max(0, Math.min(targetScroll, getMaxScroll())),
+      behavior
+    });
+
+    window.setTimeout(updateArrows, behavior === "smooth" ? 420 : 0);
   }
 
-  leftArrow.addEventListener("click", () => scrollToImage(currentIndex - 1), { signal: controller.signal });
-  rightArrow.addEventListener("click", () => scrollToImage(currentIndex + 1), { signal: controller.signal });
+  leftArrow.addEventListener("click", () => {
+    scrollToImage(currentIndex - 1);
+  }, { signal: controller.signal });
 
-  window.addEventListener("resize", debounce(() => scrollToImage(currentIndex, "auto"), 120), { signal: controller.signal });
+  rightArrow.addEventListener("click", () => {
+    scrollToImage(currentIndex + 1);
+  }, { signal: controller.signal });
+
+  track.addEventListener("scroll", () => {
+    if (scrollRaf) return;
+
+    scrollRaf = requestAnimationFrame(() => {
+      updateArrows();
+      scrollRaf = null;
+    });
+  }, { passive: true, signal: controller.signal });
+
+  window.addEventListener("resize", debounce(() => {
+    scrollToImage(currentIndex, "auto");
+    updateArrows();
+  }, 120), { signal: controller.signal });
 
   items.forEach(item => {
     const img = qs("img", item);
+
     if (img && !img.complete) {
-      img.addEventListener("load", () => scrollToImage(currentIndex, "auto"), {
+      img.addEventListener("load", () => {
+        scrollToImage(currentIndex, "auto");
+        updateArrows();
+      }, {
         once: true,
         signal: controller.signal
       });
     }
   });
 
-  sliderWrap._sliderCleanup = () => controller.abort();
+  sliderWrap._sliderCleanup = () => {
+    controller.abort();
+    if (scrollRaf) cancelAnimationFrame(scrollRaf);
+  };
+
   scrollToImage(0, "auto");
+  updateArrows();
 }
 
 /* FILTERS */
@@ -1506,11 +1630,14 @@ function initCompareTabs() {
 
 /* PROJECT COVER EXPANSION */
 function initProjectCoverExpansion({ coverBannerEl, coverBg, coverImageFrame, coverColor }) {
-  if (!coverBannerEl || !coverBg || !coverImageFrame) return;
+  if (!coverBannerEl) return;
 
   if (coverBannerEl._coverExpansionCleanup) coverBannerEl._coverExpansionCleanup();
 
-  if (window.gsap) gsap.killTweensOf([coverBg, coverImageFrame]);
+  const wrapper = qs(".project-cover-wrapper", coverBannerEl);
+  if (!wrapper) return;
+
+  if (window.gsap) gsap.killTweensOf(wrapper);
 
   const controller = new AbortController();
   const EXPAND_AT = 24;
@@ -1532,75 +1659,55 @@ function initProjectCoverExpansion({ coverBannerEl, coverBg, coverImageFrame, co
     return 32;
   }
 
+  function getAvailableWidth() {
+    return Math.max(0, window.innerWidth - getBannerPadding() * 2);
+  }
+
   function getCollapsedWidth() {
-    const padding = getBannerPadding();
-    return Math.round(Math.min(window.innerWidth - padding * 2, 1400));
+    const available = getAvailableWidth();
+
+    if (window.innerWidth <= 1000) return available;
+
+    const preferred = Math.round(window.innerWidth * 0.76);
+    return Math.min(available, Math.max(900, Math.min(preferred, 1400)));
   }
 
-  function getSideInset() {
-    return Math.max((window.innerWidth - getCollapsedWidth()) / 2, 0);
+  function getExpandedWidth() {
+    return getAvailableWidth();
   }
 
-  function getClipPath(sideInset, radius) {
-    return `inset(0px ${sideInset}px 0px ${sideInset}px round ${radius}px)`;
-  }
+  function applyBannerWidth(width, animate = false) {
+    const target = {
+      width: `${Math.round(width)}px`,
+      borderRadius: `${getBannerRadius()}px`
+    };
 
-  function applyCoverBg(clipPath, animate = false) {
     if (window.gsap) {
-      gsap.to(coverBg, {
-        clipPath,
-        webkitClipPath: clipPath,
-        duration: animate && !prefersReducedMotion ? 0.7 : 0,
+      gsap.to(wrapper, {
+        ...target,
+        duration: animate && !prefersReducedMotion ? 1.15 : 0,
         ease: "power3.out",
         overwrite: true
       });
       return;
     }
 
-    coverBg.style.clipPath = clipPath;
-    coverBg.style.webkitClipPath = clipPath;
-  }
-
-  function syncImageFrameLayout(radius, animate = false) {
-    const width = `${getCollapsedWidth()}px`;
-    const borderRadius = `${radius}px`;
-
-    if (window.gsap) {
-      gsap.set(coverImageFrame, { width });
-      gsap.to(coverImageFrame, {
-        borderRadius,
-        duration: animate && !prefersReducedMotion ? 0.7 : 0,
-        ease: "power3.out",
-        overwrite: true
-      });
-      return;
-    }
-
-    coverImageFrame.style.width = width;
-    coverImageFrame.style.borderRadius = borderRadius;
+    wrapper.style.width = target.width;
+    wrapper.style.borderRadius = target.borderRadius;
   }
 
   function setCollapsedInstant() {
-    const radius = getBannerRadius();
-    const clipPath = getClipPath(getSideInset(), radius);
-
-    applyCoverBg(clipPath, false);
-    syncImageFrameLayout(radius, false);
-
     isExpanded = false;
     document.body.classList.remove("is-project-cover-expanded");
     setGlobalProjectBackground("var(--bg-main)");
+    applyBannerWidth(getCollapsedWidth(), false);
   }
 
   function setExpandedInstant() {
-    const clipPath = getClipPath(0, 0);
-
-    applyCoverBg(clipPath, false);
-    syncImageFrameLayout(0, false);
-
     isExpanded = true;
     document.body.classList.add("is-project-cover-expanded");
-    setGlobalProjectBackground(coverColor);
+    setGlobalProjectBackground("var(--bg-main)");
+    applyBannerWidth(getExpandedWidth(), false);
   }
 
   function expandCover(animate = true) {
@@ -1608,10 +1715,8 @@ function initProjectCoverExpansion({ coverBannerEl, coverBg, coverImageFrame, co
 
     isExpanded = true;
     document.body.classList.add("is-project-cover-expanded");
-    setGlobalProjectBackground(coverColor);
-
-    applyCoverBg(getClipPath(0, 0), animate);
-    syncImageFrameLayout(0, animate);
+    setGlobalProjectBackground("var(--bg-main)");
+    applyBannerWidth(getExpandedWidth(), animate);
   }
 
   function shrinkCover(animate = true) {
@@ -1620,10 +1725,7 @@ function initProjectCoverExpansion({ coverBannerEl, coverBg, coverImageFrame, co
     isExpanded = false;
     document.body.classList.remove("is-project-cover-expanded");
     setGlobalProjectBackground("var(--bg-main)");
-
-    const radius = getBannerRadius();
-    applyCoverBg(getClipPath(getSideInset(), radius), animate);
-    syncImageFrameLayout(radius, animate);
+    applyBannerWidth(getCollapsedWidth(), animate);
   }
 
   function checkState() {
@@ -1666,7 +1768,7 @@ function initProjectCoverExpansion({ coverBannerEl, coverBg, coverImageFrame, co
   coverBannerEl._coverExpansionCleanup = () => {
     clearTimeout(resizeTimeout);
     controller.abort();
-    if (window.gsap) gsap.killTweensOf([coverBg, coverImageFrame]);
+    if (window.gsap) gsap.killTweensOf(wrapper);
   };
 }
 
@@ -1914,11 +2016,7 @@ function initCasePreviewCursor() {
   image.className = "case-preview-image";
   image.alt = "";
 
-  const label = document.createElement("span");
-  label.className = "case-preview-label";
-
   preview.appendChild(image);
-  preview.appendChild(label);
   document.body.appendChild(preview);
 
   let targetX = 0;
@@ -1941,7 +2039,6 @@ function initCasePreviewCursor() {
 
   function show(item, event) {
     image.src = item.dataset.preview;
-    label.textContent = item.dataset.title || "View case";
     currentX = event.clientX + 22;
     currentY = event.clientY + 22;
     targetX = currentX;

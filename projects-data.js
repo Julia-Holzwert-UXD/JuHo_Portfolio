@@ -973,35 +973,35 @@ const projectsData = {
         ],
         editorialArtDirectedCaseStudyImages: [
           {
-            src: "./pngs/Projects/MemoWe/Editorial/Hero Statement.png",
+            src: "./pngs/Projects/PikBre 3D - Remote Control/Editorial/Hero Statement.png",
             alt: "Store Guide Logo"
           },
           {
-            src: "./pngs/Projects/MemoWe/Editorial/Device Line-up.png",
+            src: "./pngs/Projects/PikBre 3D - Remote Control/Editorial/Device Line-up.png",
             alt: "Store Guide Add"
           },
           {
-            src: "./pngs/Projects/MemoWe/Editorial/Conceptual Diptych.png",
+            src: "./pngs/Projects/PikBre 3D - Remote Control/Editorial/Conceptual Diptych.png",
             alt: "Store Guide Another Add"
           },
           {
-            src: "./pngs/Projects/MemoWe/Editorial/Editorial Object Shot.png",
+            src: "./pngs/Projects/PikBre 3D - Remote Control/Editorial/Editorial Object Shot.png",
             alt: "Store Guide Logo"
           },
           {
-            src: "./pngs/Projects/MemoWe/Editorial/Information Architecture.png",
+            src: "./pngs/Projects/PikBre 3D - Remote Control/Editorial/Information Architecture.png",
             alt: "Store Guide Add"
           },
           {
-            src: "./pngs/Projects/MemoWe/Editorial/Detail Crop.png",
+            src: "./pngs/Projects/PikBre 3D - Remote Control/Editorial/Detail Crop.png",
             alt: "Store Guide Another Add"
           },
           {
-            src: "./pngs/Projects/MemoWe/Editorial/Mobile System.png",
+            src: "./pngs/Projects/PikBre 3D - Remote Control/Editorial/Mobile System.png",
             alt: "Store Guide Another Add"
           },
           {
-            src: "./pngs/Projects/MemoWe/Editorial/Closing Mood.png",
+            src: "./pngs/Projects/PikBre 3D - Remote Control/Editorial/Closing Mood.png",
             alt: "Store Guide Another Add"
           }
         ]
@@ -1102,15 +1102,35 @@ const projectsData = {
         ],
         editorialArtDirectedCaseStudyImages: [
           {
-            src: "./pngs/Projects/Store Guide/logo.jpg",
+            src: "./pngs/Projects/DB Navigator Redesign/Editorial/Hero Statement.png",
             alt: "Store Guide Logo"
           },
           {
-            src: "./pngs/Projects/Store Guide/app.jpg",
+            src: "./pngs/Projects/DB Navigator Redesign/Editorial/Device Line-up.png",
             alt: "Store Guide Add"
           },
           {
-            src: "./pngs/Projects/Store Guide/add.jpg",
+            src: "./pngs/Projects/DB Navigator Redesign/Editorial/Conceptual Diptych.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/DB Navigator Redesign/Editorial/Editorial Object Shot.png",
+            alt: "Store Guide Logo"
+          },
+          {
+            src: "./pngs/Projects/DB Navigator Redesign/Editorial/Information Architecture.png",
+            alt: "Store Guide Add"
+          },
+          {
+            src: "./pngs/Projects/DB Navigator Redesign/Editorial/Detail Crop.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/DB Navigator Redesign/Editorial/Mobile System.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/DB Navigator Redesign/Editorial/Closing Mood.png",
             alt: "Store Guide Another Add"
           }
         ]
@@ -1260,15 +1280,35 @@ const projectsData = {
         ],
         editorialArtDirectedCaseStudyImages: [
           {
-            src: "./pngs/Projects/Store Guide/logo.jpg",
+            src: "./pngs/Projects/HealthyStart/Editorial/Hero Statement.png",
             alt: "Store Guide Logo"
           },
           {
-            src: "./pngs/Projects/Store Guide/app.jpg",
+            src: "./pngs/Projects/HealthyStart/Editorial/Device Line-up.png",
             alt: "Store Guide Add"
           },
           {
-            src: "./pngs/Projects/Store Guide/add.jpg",
+            src: "./pngs/Projects/HealthyStart/Editorial/Conceptual Diptych.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/HealthyStart/Editorial/Editorial Object Shot.png",
+            alt: "Store Guide Logo"
+          },
+          {
+            src: "./pngs/Projects/HealthyStart/Editorial/Information Architecture.png",
+            alt: "Store Guide Add"
+          },
+          {
+            src: "./pngs/Projects/HealthyStart/Editorial/Detail Crop.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/HealthyStart/Editorial/Mobile System.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/HealthyStart/Editorial/Closing Mood.png",
             alt: "Store Guide Another Add"
           }
         ]
