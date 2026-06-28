@@ -10,7 +10,7 @@ const projectsData = {
       coverBannerImage: "./pngs/Projects/HeadsUp/Logo_original.png",
       coverBackgroundColor: "#FEFEFE",
       coverZoom: 130,
-      imageScale: 1.80,
+      imageScale: 2.15,
       cardCategory: "Automotive HUD concept",
 
       detail: {
@@ -120,11 +120,11 @@ const projectsData = {
       title: "CampusTalk",
       href: "./projectSites/campusTalk.html",
       categories: ["Group-Project", "Ethical-Design"],
-      coverImage: "./pngs/Projects/CampusTalk/Logo.png",
+      coverImage: "./pngs/Projects/CampusTalk/Logo 1.png",
       coverBannerImage: "./pngs/Projects/CampusTalk/Logo 1.png",
       coverBackgroundColor: "linear-gradient(90deg, #2D2077 50%, #35278F 68%)",
       coverZoom: 120,
-      imageScale: 2.30,
+      imageScale: 3.00,
       cardCategory: "Social media for reflecting prejudice",
 
       detail: {
@@ -229,16 +229,16 @@ const projectsData = {
       slug: "Après",
       title: "Après",
       href: "./projectSites/Après.html",
-      categories: ["Immersive-Experience"],
-      coverImage: "./pngs/Projects/Aprés/Frame 59.png",
-      coverBannerImage: "./pngs/Projects/Aprés/Frame 59.png",
+      categories: ["Data-Privacy"],
+      coverImage: "./pngs/Projects/Aprés/Frame 59 1.png",
+      coverBannerImage: "./pngs/Projects/Aprés/Frame 59 1.png",
       coverBackgroundColor: "#F4EFE5",
       coverZoom: 80,
-      imageScale: 1.80,
+      imageScale: 2.30,
       cardCategory: "Post-Purchase experience",
 
       detail: {
-        meta: "Private Project from 2026",
+        meta: "Independent Concept Project from 2026",
         sections: {
           summary: "“Buying a luxury watch is just the start — the real experience happens after the purchase.” Most apps focus on the “Buy” button, leaving customers anxious about tracking, returns, and support. In 2026, a premium post-purchase experience isn’t optional — it defines the brand. ",
           challenge: "Making post-purchase simple, transparent, and reassuring. Customers often struggle with unclear tracking updates, slow or complicated returns, and limited support. Critical flows like “My package missing” create frustration and stress. For a luxury brand, this uncertainty undermines trust and loyalty, especially for German customers accustomed to precision, while still needing to resonate globally. ",
@@ -476,7 +476,7 @@ const projectsData = {
       coverBannerImage: "./pngs/Projects/Bodique/Logo.png",
       coverBackgroundColor: "#FEFEFE",
       coverZoom: 40,
-      imageScale: 1.30,
+      imageScale: 1.50,
       cardCategory: "Digital-Twin shopping experience",
 
       detail: {
@@ -591,7 +591,7 @@ const projectsData = {
       title: "Store Guide",
       href: "./projectSites/storeGuide.html",
       categories: ["Mobile-App", "Group-Project"],
-      coverImage: "./pngs/Projects/Store Guide/cover.png",
+      coverImage: "./pngs/Projects/Store Guide/cover 1.png",
       coverBannerImage: "./pngs/Projects/Store Guide/cover.png",
       coverBackgroundColor: "#30782F",
       coverZoom: 90,
@@ -699,7 +699,7 @@ const projectsData = {
       cardCategory: "PaperCut X THI",
 
       detail: {
-        meta: "Private Project from 2024",
+        meta: "Independent Concept Project from 2024 · Unofficial PaperCut Redesign",
         sections: {
           summary: "This project redesigned a campus printer interface to reduce friction in an urgent, high-pressure context — transforming a cluttered institutional tool into something intuitive and consistent with the university's visual identity.",
           challenge: "Campus printers serve a wide range of users under time pressure. The existing interface presented too many options at once, lacked clear visual hierarchy, and offered no coherent connection between the web-based preparation tool and the physical printer display. The result was confusion, slower print jobs, and underuse of available features. The challenge was consolidating a fragmented system into a single, cohesive experience without sacrificing the flexibility users needed.",
@@ -800,8 +800,8 @@ const projectsData = {
       title: "MemoWe",
       href: "./projectSites/memowe.html",
       categories: ["Health-Tech", "Accessibility"],
-      coverImage: "./pngs/Projects/MemoWe/Logo.png",
-      coverBannerImage: "./pngs/Projects/MemoWe/Logo.png",
+      coverImage: "./pngs/Projects/MemoWe/Logo 4.png",
+      coverBannerImage: "./pngs/Projects/MemoWe/Logo 4.png",
       coverBackgroundColor: "#30BAC7",
       coverZoom: 110,
       imageScale: 2.10,
@@ -912,11 +912,11 @@ const projectsData = {
       coverBannerImage: "./pngs/Projects/PikBre 3D - Remote Control/logo.png",
       coverBackgroundColor: "#FEFEFE",
       coverZoom: 30,
-      imageScale: 1.30,
+      imageScale: 1.50,
       cardCategory: "Gaming enviromental remote control",
 
       detail: {
-        meta: "Group Project from 2026 for 5 Weeks",
+        meta: "Group Project from 2025 for 5 Weeks",
         sections: {
           summary: "PikBre is an expressive ambient remote control designed to be visible and playful in gaming environments — balancing functional symbols with a memorable sculptural identity that blends into a collector's space.",
           challenge: "Delivering a complete product design process within a tight five-week window, alongside other academic commitments, required both disciplined time management and clear team coordination. Beyond logistics, the real design challenge was developing a coherent visual and functional language for an everyday object — one where every formal decision needed to be grounded in design theory, from aesthetic principles to sign and symbol function.",
@@ -1018,11 +1018,11 @@ const projectsData = {
       coverBannerImage: "./pngs/Projects/DB Navigator Redesign/Logo.png",
       coverBackgroundColor: "#ffffff",
       coverZoom: 50,
-      imageScale: 2.30,
+      imageScale: 1.85,
       cardCategory: "Digital Accessibility with WCAG AAA",
 
       detail: {
-        meta: "Private Project from 2026",
+        meta: "Independent Concept Project from 2026 · Unofficial DAZN Redesign",
         sections: {
           summary: "This project improves DB Navigator accessibility for elderly passengers and disabled users — redesigning connection results, journey details, and travel information with stronger contrast, clearer hierarchy, and integrated accessibility features.",
 
@@ -1217,11 +1217,11 @@ const projectsData = {
       coverBannerImage: "./pngs/Projects/HealthyStart/Logo_original.png",
       coverBackgroundColor: "#FAFAF8",
       coverZoom: 0,
-      imageScale: 2.05,
+      imageScale: 2.55,
       cardCategory: "DSGVO Privacy with UI",
 
       detail: {
-        meta: "Private Project from 2026",
+        meta: "Independent Concept Project from 2026",
         sections: {
           summary: "“Privacy is the first product.” For apps handling sensitive data, users hesitate at the first step: onboarding. HealthyStart focuses on explaining permissions, security, and data use in a way that feels transparent, reassuring, and easy to understand, even for non-technical users. ",
           challenge: "Designing an onboarding experience that communicates privacy clearly to non-technical users while respecting regional expectations. German users expect precision, control, and compliance with strict privacy standards like GDPR, but the interface also needed to feel approachable and intuitive for international audiences. Users often hesitate at first because health data is sensitive, and poor explanations can reduce adoption. ",
