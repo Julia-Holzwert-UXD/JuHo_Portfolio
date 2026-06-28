@@ -244,7 +244,7 @@ function renderArchiveFilters(projects) {
   const categories = getUniqueProjectValues(projects, project => project.categories || []).filter(category => category !== "Group-Project").sort((a, b) => a.localeCompare(b));
   inner.appendChild(reset);
   appendArchiveYearToggle(inner);
-  appendArchiveFilterGroup(inner, "Category", "category", categories, "All Categories");
+  appendArchiveFilterGroup(inner, "Project Type", "category", categories, "All Types");
   appendArchiveTypeToggle(inner);
 
   filterSection.appendChild(inner);
@@ -258,7 +258,7 @@ function appendArchiveTypeToggle(root) {
 
   const heading = document.createElement("p");
   heading.className = "archive-filter-label";
-  heading.textContent = "Type";
+  heading.textContent = "Mode";
 
   const toggle = document.createElement("div");
   toggle.className = "archive-type-toggle";
@@ -785,6 +785,17 @@ function renderProjectDetail() {
 
   renderProjectHeader(project);
   renderProjectCover(project);
+
+  const editorialRendered = renderEditorialProject(project);
+
+  if (editorialRendered) {
+    setLegacyProjectDetailVisible(false);
+    hideProjectExtraSlider();
+    return;
+  }
+
+  removeEditorialProject();
+  setLegacyProjectDetailVisible(true);
   renderProjectText(project);
   renderProjectImages(project);
   renderProjectExtraSlider(project);
@@ -1017,7 +1028,623 @@ function renderProjectImages(project) {
   const projectImages = qs(".project-images");
   if (projectImages) projectImages.hidden = !renderedSomething;
 }
+/* EDITORIAL CASE STORY */
+function getEditorialConfig(project) {
+  const editorial = project && project.detail && project.detail.editorial;
+  if (!editorial || typeof editorial !== "object") return null;
 
+  const blocks = Array.isArray(editorial.blocks)
+    ? editorial.blocks.filter(block => block && typeof block === "object")
+    : [];
+
+  if (!blocks.length) return null;
+
+  return editorial;
+}
+
+function setLegacyProjectDetailVisible(isVisible) {
+  const detailSection = qs(".project-detail-section");
+  if (!detailSection) return;
+  detailSection.hidden = !isVisible;
+}
+
+function hideProjectExtraSlider() {
+  const extraRectEl = document.getElementById("projectExtraRect");
+  if (!extraRectEl) return;
+
+  qsa(".project-extra-slider-wrap", extraRectEl).forEach(sliderWrap => {
+    if (sliderWrap._sliderCleanup) {
+      sliderWrap._sliderCleanup();
+      sliderWrap._sliderCleanup = null;
+    }
+  });
+
+  removeChildren(extraRectEl);
+  extraRectEl.hidden = true;
+}
+
+function ensureCaseStorySection() {
+  let section = document.getElementById("caseStory");
+  if (section) return section;
+
+  const otherProjects = qs(".other-projects-section");
+  const projectDetailSection = qs(".project-detail-section");
+
+  if (!otherProjects && !projectDetailSection) return null;
+
+  section = document.createElement("section");
+  section.className = "case-story-section";
+  section.id = "caseStory";
+  section.hidden = true;
+
+  if (otherProjects && otherProjects.parentNode) {
+    otherProjects.parentNode.insertBefore(section, otherProjects);
+    return section;
+  }
+
+  projectDetailSection.insertAdjacentElement("afterend", section);
+  return section;
+}
+
+function removeEditorialProject() {
+  cleanupCaseStoryScrollTriggers();
+
+  const section = document.getElementById("caseStory");
+  if (!section) return;
+
+  removeChildren(section);
+  section.hidden = true;
+  delete section.dataset.editorialReady;
+  delete section.dataset.editorialVariant;
+  delete section.dataset.wowModule;
+}
+
+function cleanupCaseStoryScrollTriggers() {
+  if (window.ScrollTrigger) {
+    ScrollTrigger.getAll().forEach(trigger => {
+      const id = safeText(trigger.vars && trigger.vars.id);
+      if (id.startsWith("caseStory:")) trigger.kill();
+    });
+  }
+
+  const section = document.getElementById("caseStory");
+  if (section && window.gsap) {
+    gsap.killTweensOf(qsa(".case-route-line, .case-block, .case-marker, .case-block-label, .case-support-visual, .case-block-stat", section));
+  }
+}
+
+function renderEditorialProject(project) {
+  const editorial = getEditorialConfig(project);
+  if (!editorial) return false;
+
+  const section = ensureCaseStorySection();
+  if (!section) return false;
+
+  cleanupCaseStoryScrollTriggers();
+  removeChildren(section);
+
+  const blocks = editorial.blocks.slice(0, 7);
+  if (!blocks.length) return false;
+
+  section.hidden = false;
+  section.classList.add("case-story-section");
+  section.dataset.editorialReady = "true";
+  section.dataset.editorialVariant = safeText(editorial.variant || "default");
+  section.dataset.wowModule = safeText(editorial.wowFactor && editorial.wowFactor.module);
+
+  const inner = document.createElement("div");
+  inner.className = "case-story-inner";
+
+  const routeLayer = document.createElement("div");
+  routeLayer.className = "case-story-route-layer";
+  routeLayer.setAttribute("aria-hidden", "true");
+
+  const routeLine = document.createElement("span");
+  routeLine.className = "case-route-line";
+  routeLine.dataset.caseRouteLine = "";
+  routeLayer.appendChild(routeLine);
+
+  const header = renderEditorialHeader(project, editorial);
+
+  inner.appendChild(routeLayer);
+  if (header) inner.appendChild(header);
+
+  blocks.forEach((block, index) => {
+    const blockEl = renderEditorialBlock(block, index);
+    if (blockEl) inner.appendChild(blockEl);
+  });
+
+  section.appendChild(inner);
+
+  if (!qsa("[data-case-block]", section).length) {
+    removeEditorialProject();
+    return false;
+  }
+
+  refreshCaseStoryAfterImages(section);
+initCaseWowFactor(project);
+
+if (typeof initCompareTabs === "function") initCompareTabs();
+if (typeof initCustomVideos === "function") initCustomVideos();
+
+return true;
+}
+
+function renderEditorialHeader(project, editorial) {
+  const header = document.createElement("header");
+  header.className = "case-story-header";
+
+  const kicker = document.createElement("p");
+  kicker.className = "case-story-kicker";
+  kicker.textContent = safeText(editorial.projectType || project.title || "Case Story");
+
+  const thesis = document.createElement("h2");
+  thesis.className = "case-story-thesis";
+  thesis.textContent = safeText(editorial.thesis || project.title);
+
+  header.appendChild(kicker);
+  header.appendChild(thesis);
+
+  if (!isBlank(editorial.scopeNote)) {
+    const scope = document.createElement("p");
+    scope.className = "case-story-scope";
+    scope.textContent = safeText(editorial.scopeNote);
+    header.appendChild(scope);
+  }
+
+  return header;
+}
+
+function renderEditorialBlock(block, index = 0) {
+  if (!block || typeof block !== "object") return null;
+
+  const article = document.createElement("article");
+  const allowedTypes = ["poster", "problem", "spread", "sticky", "system", "proof", "outcome", "closing"];
+  const rawType = safeText(block.type || "proof").trim();
+  const type = allowedTypes.includes(rawType) ? rawType : "proof";
+  const id = safeText(block.id || `case-block-${index + 1}`).trim();
+
+  article.className = `case-block case-block-${type}`;
+  article.dataset.caseBlock = "";
+  article.dataset.caseBlockId = id;
+
+  const copy = document.createElement("div");
+  copy.className = "case-block-copy";
+
+  const number = document.createElement("span");
+  number.className = "case-block-index";
+  number.textContent = String(index + 1).padStart(2, "0");
+  number.setAttribute("aria-hidden", "true");
+  copy.appendChild(number);
+
+  if (!isBlank(block.claim)) {
+    const claim = document.createElement("p");
+    claim.className = "case-block-claim";
+    claim.textContent = safeText(block.claim);
+    copy.appendChild(claim);
+  }
+
+  if (!isBlank(block.headline)) {
+    const headline = document.createElement("h3");
+    headline.className = "case-block-headline";
+    headline.textContent = safeText(block.headline);
+    copy.appendChild(headline);
+  }
+
+  if (!isBlank(block.body)) {
+    const body = document.createElement("p");
+    body.className = "case-block-body";
+    body.textContent = safeText(block.body);
+    copy.appendChild(body);
+  }
+
+  const labels = renderEditorialLabels(block.labels);
+  if (labels) copy.appendChild(labels);
+
+  const stats = renderEditorialStats(block.stats);
+  if (stats) copy.appendChild(stats);
+
+  const media = document.createElement("div");
+  media.className = "case-block-media";
+
+  const dominant = renderEditorialVisual(block.dominantVisual, block.markers);
+  if (dominant) media.appendChild(dominant);
+
+  const mobileMarkers = renderCaseMarkerList(block.markers);
+  if (mobileMarkers) media.appendChild(mobileMarkers);
+
+  const support = renderEditorialSupportVisuals(block.supportVisuals);
+  if (support) media.appendChild(support);
+
+  const detailCrops = renderEditorialDetailCrops(block.detailCrops);
+  if (detailCrops) media.appendChild(detailCrops);
+
+  article.appendChild(copy);
+  article.appendChild(media);
+
+  if (!dominant && !support && !detailCrops) {
+    article.classList.add("case-block-no-visual");
+  }
+
+  return article;
+}
+
+function renderEditorialVisual(visual, markers = []) {
+  if (!visual || typeof visual !== "object") return null;
+
+  if (visual.type === "compare" && typeof createCompareBlock === "function") {
+    return createCompareBlock(visual, getBasePath());
+  }
+
+  if (isBlank(visual.src)) return null;
+
+  const frame = document.createElement("figure");
+  frame.className = "case-visual-frame";
+
+  const img = document.createElement("img");
+  img.className = "case-visual-img";
+  img.src = normalizePath(visual.src, getBasePath());
+  img.alt = safeText(visual.alt || "");
+  img.loading = "lazy";
+  img.decoding = "async";
+
+  img.addEventListener("error", () => {
+    frame.remove();
+    if (window.ScrollTrigger) ScrollTrigger.refresh();
+  }, { once: true });
+
+  img.addEventListener("load", () => {
+    if (window.ScrollTrigger) ScrollTrigger.refresh();
+  }, { once: true });
+
+  frame.appendChild(img);
+
+  const markerLayer = renderCaseMarkers(markers);
+  if (markerLayer) frame.appendChild(markerLayer);
+
+  return frame;
+}
+
+function renderEditorialLabels(labels) {
+  const values = Array.isArray(labels)
+    ? labels.filter(label => !isBlank(label)).slice(0, 5)
+    : [];
+
+  if (!values.length) return null;
+
+  const wrap = document.createElement("div");
+  wrap.className = "case-block-labels";
+
+  values.forEach(value => {
+    const item = document.createElement("span");
+    item.className = "case-block-label";
+    item.textContent = safeText(value);
+    wrap.appendChild(item);
+  });
+
+  return wrap;
+}
+
+function renderEditorialStats(stats) {
+  const values = Array.isArray(stats)
+    ? stats.filter(stat => stat && (!isBlank(stat.value) || !isBlank(stat.label))).slice(0, 3)
+    : [];
+
+  if (!values.length) return null;
+
+  const wrap = document.createElement("div");
+  wrap.className = "case-block-stats";
+
+  values.forEach(stat => {
+    const card = document.createElement("div");
+    card.className = "case-block-stat";
+
+    if (!isBlank(stat.value)) {
+      const value = document.createElement("span");
+      value.className = "case-block-stat-value";
+      value.textContent = safeText(stat.value);
+      card.appendChild(value);
+    }
+
+    if (!isBlank(stat.label)) {
+      const label = document.createElement("span");
+      label.className = "case-block-stat-label";
+      label.textContent = safeText(stat.label);
+      card.appendChild(label);
+    }
+
+    wrap.appendChild(card);
+  });
+
+  return wrap;
+}
+
+function renderEditorialSupportVisuals(supportVisuals) {
+  const visuals = Array.isArray(supportVisuals)
+    ? supportVisuals.filter(visual => visual && !isBlank(visual.src)).slice(0, 3)
+    : [];
+
+  if (!visuals.length) return null;
+
+  const wrap = document.createElement("div");
+  wrap.className = "case-support-visuals";
+
+  visuals.forEach(visual => {
+    const figure = document.createElement("figure");
+    figure.className = "case-support-visual";
+
+    const img = document.createElement("img");
+    img.className = "case-support-img";
+    img.src = normalizePath(visual.src, getBasePath());
+    img.alt = safeText(visual.alt || "");
+    img.loading = "lazy";
+    img.decoding = "async";
+
+    img.addEventListener("error", () => {
+      figure.remove();
+      if (window.ScrollTrigger) ScrollTrigger.refresh();
+    }, { once: true });
+
+    img.addEventListener("load", () => {
+      if (window.ScrollTrigger) ScrollTrigger.refresh();
+    }, { once: true });
+
+    figure.appendChild(img);
+    wrap.appendChild(figure);
+  });
+
+  return wrap;
+}
+
+function renderEditorialDetailCrops(detailCrops) {
+  const values = Array.isArray(detailCrops)
+    ? detailCrops.filter(crop => crop && !isBlank(crop.label)).slice(0, 5)
+    : [];
+
+  if (!values.length) return null;
+
+  const wrap = document.createElement("div");
+  wrap.className = "case-detail-crops";
+
+  values.forEach(crop => {
+    const item = document.createElement("span");
+    item.className = "case-detail-crop";
+    item.textContent = safeText(crop.label);
+    if (!isBlank(crop.source)) item.title = safeText(crop.source);
+    wrap.appendChild(item);
+  });
+
+  return wrap;
+}
+
+function renderCaseMarkers(markers) {
+  const values = normalizeCaseMarkers(markers);
+  if (!values.length) return null;
+
+  const layer = document.createElement("div");
+  layer.className = "case-marker-layer";
+  layer.setAttribute("aria-hidden", "true");
+
+  values.forEach(marker => {
+    const item = document.createElement("span");
+    item.className = `case-marker case-marker-${marker.type}`;
+    item.style.setProperty("--case-marker-x", marker.x);
+    item.style.setProperty("--case-marker-y", marker.y);
+    item.style.setProperty("--case-marker-w", marker.w);
+    item.style.setProperty("--case-marker-h", marker.h);
+
+    if (marker.type === "chip" || marker.type === "note") {
+      item.textContent = marker.label;
+    } else if (!isBlank(marker.label)) {
+      item.setAttribute("aria-label", marker.label);
+      item.title = marker.label;
+    }
+
+    layer.appendChild(item);
+  });
+
+  return layer;
+}
+
+function renderCaseMarkerList(markers) {
+  const values = normalizeCaseMarkers(markers);
+  if (!values.length) return null;
+
+  const list = document.createElement("div");
+  list.className = "case-marker-list";
+
+  values.forEach(marker => {
+    if (isBlank(marker.label)) return;
+
+    const item = document.createElement("span");
+    item.className = "case-marker-list-item";
+    item.textContent = safeText(marker.label);
+    list.appendChild(item);
+  });
+
+  return list.children.length ? list : null;
+}
+
+function normalizeCaseMarkers(markers) {
+  const allowedTypes = ["circle", "line", "plus", "underline", "chip", "note", "divider"];
+
+  return (Array.isArray(markers) ? markers : [])
+    .filter(marker => marker && typeof marker === "object")
+    .slice(0, 4)
+    .map(marker => {
+      const type = allowedTypes.includes(marker.type) ? marker.type : "note";
+
+      return {
+        type,
+        x: clampMarkerValue(marker.x, 0),
+        y: clampMarkerValue(marker.y, 0),
+        w: clampMarkerValue(marker.w, type === "line" || type === "divider" ? 18 : 12),
+        h: clampMarkerValue(marker.h, type === "line" || type === "divider" ? 2 : 8),
+        label: safeText(marker.label)
+      };
+    });
+}
+
+function clampMarkerValue(value, fallback) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return fallback;
+  return Math.max(0, Math.min(100, number));
+}
+
+function initCaseWowFactor(project) {
+  const editorial = getEditorialConfig(project);
+  const section = document.getElementById("caseStory");
+
+  if (!editorial || !section || section.hidden) return;
+
+  cleanupCaseStoryScrollTriggers();
+
+  const wow = editorial.wowFactor || {};
+  const module = safeText(wow.module).trim();
+
+  if (prefersReducedMotion || !window.gsap || !window.ScrollTrigger) {
+    section.classList.add("case-story-reduced-motion");
+    initStaticCaseStory(section);
+    return;
+  }
+
+  section.classList.remove("case-story-reduced-motion");
+
+  const config = {
+    idPrefix: `caseStory:${safeText(project.slug || "project")}`,
+    wow
+  };
+
+  if (module === "growingLine") {
+    initGrowingLine(section, config);
+    return;
+  }
+
+  if (module === "stickyReveal") {
+    initStickyReveal(section, config);
+    return;
+  }
+
+  if (module === "layerToggle") {
+    initLayerToggle(section, config);
+    return;
+  }
+
+  if (module === "stateMorph") {
+    initStateMorph(section, config);
+    return;
+  }
+
+  initStaticCaseStory(section);
+}
+
+function initGrowingLine(container, config = {}) {
+  if (!container || !window.gsap || !window.ScrollTrigger) return;
+
+  const line = qs("[data-case-route-line]", container);
+  const blocks = qsa("[data-case-block]", container);
+
+  if (!line || !blocks.length) {
+    initStaticCaseStory(container);
+    return;
+  }
+
+  gsap.set(line, {
+    scaleY: 0,
+    opacity: 1,
+    transformOrigin: "top center",
+    force3D: true
+  });
+
+  ScrollTrigger.create({
+    id: `${config.idPrefix || "caseStory"}:growingLine`,
+    trigger: container,
+    start: "top 72%",
+    end: "bottom 84%",
+    scrub: true,
+    invalidateOnRefresh: true,
+    animation: gsap.to(line, {
+      scaleY: 1,
+      ease: "none"
+    })
+  });
+
+  blocks.forEach((block, index) => {
+    const revealItems = qsa(".case-marker, .case-block-label, .case-support-visual, .case-block-stat", block);
+    if (!revealItems.length) return;
+
+    gsap.set(revealItems, {
+      opacity: 0,
+      y: 18,
+      force3D: true
+    });
+
+    gsap.to(revealItems, {
+      opacity: 1,
+      y: 0,
+      duration: .55,
+      ease: "power2.out",
+      stagger: .035,
+      scrollTrigger: {
+        id: `${config.idPrefix || "caseStory"}:block:${index + 1}`,
+        trigger: block,
+        start: "top 68%",
+        once: true
+      }
+    });
+  });
+}
+
+function initStickyReveal(container, config = {}) {
+  initStaticCaseStory(container, config);
+}
+
+function initLayerToggle(container, config = {}) {
+  initStaticCaseStory(container, config);
+}
+
+function initStateMorph(container, config = {}) {
+  initStaticCaseStory(container, config);
+}
+
+function initStaticCaseStory(container) {
+  if (!container) return;
+
+  qsa(".case-route-line, .case-block, .case-marker, .case-block-label, .case-support-visual, .case-block-stat", container).forEach(el => {
+    el.style.opacity = "1";
+    el.style.transform = "none";
+  });
+}
+
+function refreshCaseStoryAfterImages(container) {
+  if (!container) return;
+
+  const refresh = debounce(() => {
+    if (window.ScrollTrigger) ScrollTrigger.refresh();
+  }, 80);
+
+  const images = qsa("img", container);
+  let pending = images.filter(img => !img.complete).length;
+
+  if (!pending) {
+    requestAnimationFrame(refresh);
+    return;
+  }
+
+  images.forEach(img => {
+    if (img.complete) return;
+
+    const done = () => {
+      pending -= 1;
+      if (pending <= 0) refresh();
+    };
+
+    img.addEventListener("load", done, { once: true });
+    img.addEventListener("error", done, { once: true });
+  });
+
+  window.setTimeout(refresh, 1200);
+}
 function createProjectMediaItem(item, base = getBasePath()) {
   if (!item) return null;
   if (item.type === "video") return createCustomVideoBlock(item, base);
