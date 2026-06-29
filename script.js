@@ -789,10 +789,10 @@ function renderProjectDetail() {
   const editorialRendered = renderEditorialProject(project);
 
   if (editorialRendered) {
-    setLegacyProjectDetailVisible(false);
-    hideProjectExtraSlider();
-    return;
-  }
+  setLegacyProjectDetailVisible(true);
+  hideProjectExtraSlider();
+  return;
+}
 
   removeEditorialProject();
   setLegacyProjectDetailVisible(true);
@@ -1109,7 +1109,7 @@ function cleanupCaseStoryScrollTriggers() {
 
   const section = document.getElementById("caseStory");
   if (section && window.gsap) {
-    gsap.killTweensOf(qsa(".case-route-line, .case-block, .case-marker, .case-block-label, .case-support-visual, .case-block-stat", section));
+    gsap.killTweensOf(qsa(".case-route-line, .case-block-route-path, .case-block, .case-marker, .case-block-label, .case-support-visual, .case-block-stat", section));
   }
 }
 
@@ -1135,21 +1135,34 @@ function renderEditorialProject(project) {
   const inner = document.createElement("div");
   inner.className = "case-story-inner";
 
-  const routeLayer = document.createElement("div");
-  routeLayer.className = "case-story-route-layer";
-  routeLayer.setAttribute("aria-hidden", "true");
-
-  const routeLine = document.createElement("span");
-  routeLine.className = "case-route-line";
-  routeLine.dataset.caseRouteLine = "";
-  routeLayer.appendChild(routeLine);
+  const isDbRouteMap =
+    normalizeSlug(project.slug) === "dbnavigatorredesign" &&
+    safeText(editorial.variant) === "routeMapEditorial";
 
   const header = renderEditorialHeader(project, editorial);
+  const renderBlocks = isDbRouteMap ? getDbBlocksWithShiftedSupport(blocks) : blocks;
 
-  inner.appendChild(routeLayer);
+  if (!isDbRouteMap) {
+    const routeLayer = document.createElement("div");
+    routeLayer.className = "case-story-route-layer";
+    routeLayer.setAttribute("aria-hidden", "true");
+
+    const routeLine = document.createElement("span");
+    routeLine.className = "case-route-line";
+    routeLine.dataset.caseRouteLine = "";
+    routeLayer.appendChild(routeLine);
+
+    inner.appendChild(routeLayer);
+  }
+
   if (header) inner.appendChild(header);
 
-  blocks.forEach((block, index) => {
+  if (isDbRouteMap) {
+    const heroStatement = renderDbHeroStatementStrip(project, blocks);
+    if (heroStatement) inner.appendChild(heroStatement);
+  }
+
+  renderBlocks.forEach((block, index) => {
     const blockEl = renderEditorialBlock(block, index);
     if (blockEl) inner.appendChild(blockEl);
   });
@@ -1166,8 +1179,68 @@ initCaseWowFactor(project);
 
 if (typeof initCompareTabs === "function") initCompareTabs();
 if (typeof initCustomVideos === "function") initCustomVideos();
+if (typeof initDbSupportPreview === "function") initDbSupportPreview(section);
 
 return true;
+}
+
+
+function findDbHeroStatementVisual(project, blocks = []) {
+  const detail = project && project.detail ? project.detail : {};
+  const editorialImages = Array.isArray(detail.editorialArtDirectedCaseStudyImages)
+    ? detail.editorialArtDirectedCaseStudyImages
+    : [];
+
+  const image = editorialImages.find(item => safeText(item && item.src).toLowerCase().includes("hero statement"));
+  if (image && !isBlank(image.src)) return image;
+
+  const firstBlockSupport = blocks[0] && Array.isArray(blocks[0].supportVisuals)
+    ? blocks[0].supportVisuals.find(item => item && safeText(item.src).toLowerCase().includes("hero statement"))
+    : null;
+
+  return firstBlockSupport || null;
+}
+
+function renderDbHeroStatementStrip(project, blocks = []) {
+  const visual = findDbHeroStatementVisual(project, blocks);
+  if (!visual || isBlank(visual.src)) return null;
+
+  const figure = document.createElement("figure");
+  figure.className = "case-story-hero-statement-strip";
+
+  const img = document.createElement("img");
+  img.className = "case-story-hero-statement-img";
+  img.src = normalizePath(visual.src, getBasePath());
+  img.alt = safeText(visual.alt || "DB Navigator accessibility hero statement");
+  img.loading = "lazy";
+  img.decoding = "async";
+
+  img.addEventListener("load", () => {
+    if (window.ScrollTrigger) ScrollTrigger.refresh();
+  }, { once: true });
+
+  img.addEventListener("error", () => {
+    figure.remove();
+    if (window.ScrollTrigger) ScrollTrigger.refresh();
+  }, { once: true });
+
+  figure.appendChild(img);
+  return figure;
+}
+
+function getDbBlocksWithShiftedSupport(blocks = []) {
+  return blocks.map((block, index) => {
+    const nextBlock = blocks[index + 1];
+    const nextSupport = nextBlock && Array.isArray(nextBlock.supportVisuals)
+      ? nextBlock.supportVisuals
+      : [];
+
+    return {
+      ...block,
+      supportVisuals: index === blocks.length - 1 ? [] : nextSupport.slice(0, 3),
+      detailCrops: []
+    };
+  });
 }
 
 function renderEditorialHeader(project, editorial) {
@@ -1208,6 +1281,35 @@ function renderEditorialBlock(block, index = 0) {
   article.dataset.caseBlock = "";
   article.dataset.caseBlockId = id;
 
+  const layoutRole = safeText(block.layoutRole).trim();
+  const hasRailLeft = layoutRole.includes("rail-left");
+  const hasRailRight = layoutRole.includes("rail-right");
+
+
+  if (hasRailLeft || hasRailRight) {
+  const railSide = hasRailRight ? "right" : "left";
+
+  article.classList.add("case-block-rail");
+  article.classList.add(`case-block-rail-${railSide}`);
+  article.dataset.railSide = railSide;
+
+  const rail = document.createElement("div");
+  rail.className = "case-block-route-rail";
+  rail.setAttribute("aria-hidden", "true");
+
+  const railPath = document.createElement("span");
+  railPath.className = "case-block-route-path";
+  railPath.dataset.caseBlockRoutePath = "";
+
+  const station = document.createElement("span");
+  station.className = "case-block-route-station";
+  station.textContent = String(index + 1).padStart(2, "0");
+
+  rail.appendChild(railPath);
+  rail.appendChild(station);
+  article.appendChild(rail);
+}
+
   const copy = document.createElement("div");
   copy.className = "case-block-copy";
 
@@ -1247,11 +1349,16 @@ function renderEditorialBlock(block, index = 0) {
   const media = document.createElement("div");
   media.className = "case-block-media";
 
-  const dominant = renderEditorialVisual(block.dominantVisual, block.markers);
+  const hideImageMarkersForDb = normalizeSlug(document.body.dataset.projectSlug) === "dbnavigatorredesign";
+  const imageMarkers = hideImageMarkersForDb ? [] : block.markers;
+
+  const dominant = renderEditorialVisual(block.dominantVisual, imageMarkers);
   if (dominant) media.appendChild(dominant);
 
-  const mobileMarkers = renderCaseMarkerList(block.markers);
-  if (mobileMarkers) media.appendChild(mobileMarkers);
+  if (!hideImageMarkersForDb) {
+    const mobileMarkers = renderCaseMarkerList(block.markers);
+    if (mobileMarkers) media.appendChild(mobileMarkers);
+  }
 
   const support = renderEditorialSupportVisuals(block.supportVisuals);
   if (support) media.appendChild(support);
@@ -1339,6 +1446,11 @@ function renderEditorialStats(stats) {
     const card = document.createElement("div");
     card.className = "case-block-stat";
 
+    const normalizedValue = safeText(stat.value).trim().toLowerCase();
+    if (normalizedValue === "10/15") card.classList.add("case-block-stat-score-high");
+    if (normalizedValue === "7/15") card.classList.add("case-block-stat-score-medium");
+    if (normalizedValue === "3/15") card.classList.add("case-block-stat-score-low");
+
     if (!isBlank(stat.value)) {
       const value = document.createElement("span");
       value.className = "case-block-stat-value";
@@ -1417,27 +1529,54 @@ function renderEditorialDetailCrops(detailCrops) {
   return wrap;
 }
 
+function shouldUseDbGuideMarkers() {
+  const section = document.getElementById("caseStory");
+  const isDbProject = normalizeSlug(document.body.dataset.projectSlug) === "dbnavigatorredesign";
+  const isRouteEditorial = section && section.dataset.editorialVariant === "routeMapEditorial";
+  return Boolean(isDbProject && isRouteEditorial);
+}
+
+function getDbGuideMarkerType(marker) {
+  if (!marker || typeof marker !== "object") return "line";
+
+  if (marker.type === "circle") return "circle";
+  if (marker.type === "underline") return "underline";
+  if (marker.type === "divider") return "divider";
+
+  return "line";
+}
+
 function renderCaseMarkers(markers) {
   const values = normalizeCaseMarkers(markers);
   if (!values.length) return null;
 
+  const useDbGuideMarkers = shouldUseDbGuideMarkers();
   const layer = document.createElement("div");
-  layer.className = "case-marker-layer";
+  layer.className = useDbGuideMarkers
+    ? "case-marker-layer case-marker-layer-db-guide"
+    : "case-marker-layer";
   layer.setAttribute("aria-hidden", "true");
 
   values.forEach(marker => {
+    const visualType = useDbGuideMarkers ? getDbGuideMarkerType(marker) : marker.type;
     const item = document.createElement("span");
-    item.className = `case-marker case-marker-${marker.type}`;
+    item.className = useDbGuideMarkers
+      ? `case-marker case-marker-${visualType} case-marker-db-guide-item`
+      : `case-marker case-marker-${visualType}`;
+
     item.style.setProperty("--case-marker-x", marker.x);
     item.style.setProperty("--case-marker-y", marker.y);
     item.style.setProperty("--case-marker-w", marker.w);
     item.style.setProperty("--case-marker-h", marker.h);
 
-    if (marker.type === "chip" || marker.type === "note") {
-      item.textContent = marker.label;
-    } else if (!isBlank(marker.label)) {
+    if (!isBlank(marker.label)) {
+      item.dataset.markerLabel = marker.label;
       item.setAttribute("aria-label", marker.label);
       item.title = marker.label;
+    }
+
+    if (!useDbGuideMarkers && (marker.type === "chip" || marker.type === "note")) {
+      item.textContent = marker.label;
     }
 
     layer.appendChild(item);
@@ -1537,12 +1676,17 @@ function initCaseWowFactor(project) {
 
   initStaticCaseStory(section);
 }
-
 function initGrowingLine(container, config = {}) {
   if (!container || !window.gsap || !window.ScrollTrigger) return;
 
+  const blockPaths = qsa("[data-case-block-route-path]", container);
   const line = qs("[data-case-route-line]", container);
   const blocks = qsa("[data-case-block]", container);
+
+  if (blockPaths.length) {
+    initAlternatingBlockRails(container, config);
+    return;
+  }
 
   if (!line || !blocks.length) {
     initStaticCaseStory(container);
@@ -1595,6 +1739,63 @@ function initGrowingLine(container, config = {}) {
   });
 }
 
+function initAlternatingBlockRails(container, config = {}) {
+  const paths = qsa("[data-case-block-route-path]", container);
+  const blocks = qsa("[data-case-block]", container);
+
+  if (!paths.length || !blocks.length) {
+    initStaticCaseStory(container);
+    return;
+  }
+
+  paths.forEach((path, index) => {
+    gsap.set(path, {
+      scaleY: 0,
+      opacity: 1,
+      transformOrigin: "top center",
+      force3D: true
+    });
+
+    ScrollTrigger.create({
+      id: `${config.idPrefix || "caseStory"}:blockRail:${index + 1}`,
+      trigger: path.closest("[data-case-block]") || path,
+      start: "top 72%",
+      end: "bottom 58%",
+      scrub: true,
+      invalidateOnRefresh: true,
+      animation: gsap.to(path, {
+        scaleY: 1,
+        ease: "none"
+      })
+    });
+  });
+
+  blocks.forEach((block, index) => {
+    const revealItems = qsa(".case-marker, .case-block-label, .case-support-visual, .case-block-stat", block);
+    if (!revealItems.length) return;
+
+    gsap.set(revealItems, {
+      opacity: 0,
+      y: 18,
+      force3D: true
+    });
+
+    gsap.to(revealItems, {
+      opacity: 1,
+      y: 0,
+      duration: .55,
+      ease: "power2.out",
+      stagger: .035,
+      scrollTrigger: {
+        id: `${config.idPrefix || "caseStory"}:block:${index + 1}`,
+        trigger: block,
+        start: "top 68%",
+        once: true
+      }
+    });
+  });
+}
+
 function initStickyReveal(container, config = {}) {
   initStaticCaseStory(container, config);
 }
@@ -1610,7 +1811,7 @@ function initStateMorph(container, config = {}) {
 function initStaticCaseStory(container) {
   if (!container) return;
 
-  qsa(".case-route-line, .case-block, .case-marker, .case-block-label, .case-support-visual, .case-block-stat", container).forEach(el => {
+  qsa(".case-route-line, .case-block-route-path, .case-block, .case-marker, .case-block-label, .case-support-visual, .case-block-stat", container).forEach(el => {
     el.style.opacity = "1";
     el.style.transform = "none";
   });
@@ -2254,7 +2455,78 @@ function initCompareTabs() {
     });
   });
 }
+function initDbSupportPreview(root = document) {
+  const isDbProject = normalizeSlug(document.body.dataset.projectSlug) === "dbnavigatorredesign";
+  if (!isDbProject) return;
 
+  const supportImages = qsa(".case-story-section[data-editorial-variant='routeMapEditorial'] .case-support-img", root);
+  if (!supportImages.length) return;
+
+  let preview = document.querySelector(".db-support-preview");
+
+  if (!preview) {
+    preview = document.createElement("div");
+    preview.className = "db-support-preview";
+    preview.setAttribute("aria-hidden", "true");
+    preview.setAttribute("role", "dialog");
+    preview.setAttribute("aria-label", "Image preview");
+
+    const inner = document.createElement("div");
+    inner.className = "db-support-preview-inner";
+
+    const image = document.createElement("img");
+    image.className = "db-support-preview-img";
+    image.alt = "";
+
+    inner.appendChild(image);
+    preview.appendChild(inner);
+    document.body.appendChild(preview);
+
+    preview.addEventListener("click", () => {
+      preview.classList.remove("is-visible");
+      preview.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("is-db-support-preview-open");
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.key !== "Escape") return;
+      preview.classList.remove("is-visible");
+      preview.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("is-db-support-preview-open");
+    });
+  }
+
+  const previewImage = qs(".db-support-preview-img", preview);
+
+  supportImages.forEach(image => {
+    if (image.dataset.dbPreviewReady) return;
+    image.dataset.dbPreviewReady = "true";
+
+    const trigger = image.closest(".case-support-visual") || image;
+    trigger.setAttribute("tabindex", "0");
+    trigger.setAttribute("role", "button");
+    trigger.setAttribute("aria-label", "Open image preview");
+
+    function openPreview() {
+      previewImage.src = image.currentSrc || image.src;
+      previewImage.alt = image.alt || "";
+      preview.classList.add("is-visible");
+      preview.setAttribute("aria-hidden", "false");
+      document.body.classList.add("is-db-support-preview-open");
+    }
+
+    trigger.addEventListener("click", event => {
+      event.preventDefault();
+      openPreview();
+    });
+
+    trigger.addEventListener("keydown", event => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      openPreview();
+    });
+  });
+}
 /* PROJECT COVER EXPANSION */
 function initProjectCoverExpansion({ coverBannerEl, coverBg, coverImageFrame, coverColor }) {
   if (!coverBannerEl) return;

@@ -1039,7 +1039,7 @@ const projectsData = {
       coverBackgroundColor: "#ffffff",
       coverZoom: 50,
       imageScale: 1.85,
-      cardCategory: "Digital Accessibility with WCAG AAA",
+      cardCategory: "Accessibility-focused route comparison",
 
       detail: {
         meta: "Independent Concept Project · 2026 · Unofficial DB Navigator Redesign",
@@ -1156,426 +1156,482 @@ const projectsData = {
         ],
 
         editorial: {
-          variant: "routeMapEditorial",
-          projectType: "Interaction System",
-          specification: "Barrierefreie Reiseentscheidung im Mobility-Kontext.",
-          thesis: "Accessibility should not be a separate mode. It should be visible inside every journey.",
-          layoutPrinciple: "Route-map editorial",
+  variant: "routeMapEditorial",
+  projectType: "Interaction System",
+  specification: "Accessible route decisions inside a familiar mobility app.",
+  thesis: "Accessibility becomes strongest when it is visible inside the route decision.",
+  layoutPrinciple: "Alternating rail route editorial",
 
-          scopeNote: "No user testing was conducted. The concept is argued through heuristic improvement, WCAG contrast checks, route-level information, and visible decision support.",
+  scopeNote: "Independent concept redesign. Evaluated through heuristic accessibility review, WCAG contrast checks, route-level information, and visible decision support. No user testing was conducted.",
 
-          markerSystem: [
-            {
-              id: "db-line",
-              name: "DB-Linie",
-              function: "Führt durch die Case Study und verbindet alle Beweise."
-            },
-            {
-              id: "station-points",
-              name: "Bahnhofspunkte",
-              function: "Markieren Story-Stationen entlang der Reiseentscheidung."
-            },
-            {
-              id: "accessibility-score",
-              name: "Accessibility-Score-Marker",
-              function: "Zeigen 10/15, 7/15 und 3/15 als Reisevergleich."
-            },
-            {
-              id: "wcag-proof",
-              name: "WCAG-Ratio-Tags",
-              function: "Liefern technischen WCAG-Proof."
-            },
-            {
-              id: "route-level-chips",
-              name: "Route-Level-Chips",
-              function: "Zeigen verfügbare, eingeschränkte und fehlende Accessibility-Merkmale."
-            },
-            {
-              id: "status-labels",
-              name: "Statuslabels",
-              function: "Verhindern, dass Bedeutung nur über Farbe entsteht."
-            }
-          ],
-
-          wowFactor: {
-            module: "growingLine",
-            variant: "Route Reveal",
-            trigger: "scroll",
-            implementationLevel: "GSAP ScrollTrigger with static fallback",
-            reducedMotion: "Show the full DB-Linie, station markers, Accessibility-Score cards, WCAG-Ratio-Tags and Route-Level-Chips statically without scroll animation."
-          },
-
-          blocks: [
-  {
-    id: "db-editorial-hero-poster",
-    type: "poster",
-    claim: "Accessibility belongs inside every journey.",
-    headline: "Inside every journey.",
-    body: "Accessibility becomes visible inside the normal travel decision.",
-    dominantVisual: {
-      src: "./pngs/Projects/DB Navigator Redesign/Editorial/Conceptual Diptych.png",
-      alt: "DB Navigator Accessibility conceptual diptych",
-      role: "dominantVisual"
+  markerSystem: [
+    {
+      id: "db-route-line",
+      name: "DB route line",
+      function: "Guides the case study like a railway route and connects each proof point."
     },
-    supportVisuals: [
-      {
-        src: "./pngs/Projects/DB Navigator Redesign/Editorial/Hero Statement.png",
-        alt: "DB Navigator Accessibility hero statement",
-        role: "supportVisual"
-      }
-    ],
-    labels: [
-      "Accessibility",
-      "Journey",
-      "DB-Linie"
-    ],
-    markers: [
-      {
-        type: "line",
-        x: 8,
-        y: 78,
-        w: 42,
-        h: 2,
-        label: "DB-Linie starts here"
-      }
-    ],
-    layoutRole: "opening",
-    visualBehavior: "The DB-Linie starts as a quiet editorial guide.",
-    wowRelation: "Introduces Route Reveal without repeating the thesis."
+    {
+      id: "station-markers",
+      name: "Station markers",
+      function: "Mark the seven story stops along the route decision."
+    },
+    {
+      id: "access-score-badges",
+      name: "Access score badges",
+      function: "Show conceptual access clarity as 10/15, 7/15, and 3/15."
+    },
+    {
+      id: "contrast-proof-tags",
+      name: "Contrast proof tags",
+      function: "Support the visual system through contrast-led proof without claiming a full audit."
+    },
+    {
+      id: "route-detail-chips",
+      name: "Route-level detail chips",
+      function: "Explain available, limited, and missing access conditions."
+    }
+  ],
+
+  wowFactor: {
+    module: "growingLine",
+    variant: "Route Reveal",
+    trigger: "scroll",
+    implementationLevel: "GSAP ScrollTrigger with static fallback",
+    reducedMotion: "Show the full DB route line, station markers, access score badges, contrast proof tags, and route-level detail chips statically without scroll animation."
   },
 
-  {
-    id: "db-editorial-known-flow",
-    type: "problem",
-    claim: "Der bestehende Reisevergleich bleibt vertraut.",
-    headline: "The familiar flow stays intact.",
-    body: "The known DB Navigator structure remains recognizable while accessibility becomes easier to scan.",
-    dominantVisual: {
-      src: "../pngs/Projects/DB Navigator Redesign/Lightmode.png",
-      alt: "DB Navigator lightmode connection flow",
-      role: "dominantVisual"
-    },
-    supportVisuals: [
-      {
-        src: "../pngs/Projects/DB Navigator Redesign/Darkmode.png",
-        alt: "DB Navigator darkmode connection flow",
-        role: "supportVisual"
-      }
-    ],
-    labels: [
-      "Known flow",
-      "Connection cards",
-      "Lightmode",
-      "Darkmode"
-    ],
-    markers: [],
-    layoutRole: "quietContext",
-    visualBehavior: "A calm context block shows that the redesign keeps the learned DB structure.",
-    wowRelation: "Gives Route Reveal a familiar starting point without visual overload."
-  },
-
-  {
-    id: "db-editorial-accessibility-entry",
-    type: "sticky",
-    claim: "Accessibility wird über Optionen aktivierbar, nicht versteckt.",
-    headline: "Accessibility enters through the options flow.",
-    body: "Users select relevant accessibility needs before comparing routes.",
-    dominantVisual: {
-      src: "./pngs/Projects/DB Navigator Redesign/Editorial/Device Line-up.png",
-      alt: "DB Navigator Accessibility device line-up",
-      role: "dominantVisual"
-    },
-    supportVisuals: [
-      {
-        src: "../pngs/Projects/DB Navigator Redesign/Acc Infos(1).png",
-        alt: "DB Navigator Accessibility information lightmode",
-        role: "supportVisual"
-      }
-    ],
-    labels: [
-      "Options",
-      "Accessibility-Infos",
-      "Toggles",
-      "Categories"
-    ],
-    markers: [
-      {
-        type: "line",
-        x: 38,
-        y: 76,
-        w: 42,
-        h: 2,
-        label: "Flow from options to results"
-      }
-    ],
-    layoutRole: "entry",
-    visualBehavior: "The line connects the screen sequence instead of decorating the image.",
-    wowRelation: "Shows the first clear moment where Accessibility enters the normal DB flow."
-  },
-
-  {
-    id: "db-editorial-route-comparison",
-    type: "spread",
-    claim: "Accessibility wird direkt im Reisevergleich sichtbar.",
-    headline: "The route can now be compared by accessibility.",
-    body: "The Accessibility-Score becomes a visible decision criterion beside classic travel information.",
-    dominantVisual: {
-      src: "./pngs/Projects/DB Navigator Redesign/Editorial/Mobile System.png",
-      alt: "DB Navigator Accessibility mobile system",
-      role: "dominantVisual"
-    },
-    supportVisuals: [],
-    labels: [
-      "Route comparison",
-      "Accessibility-Score",
-      "10/15",
-      "7/15",
-      "3/15"
-    ],
-    stats: [
-      {
-        value: "10/15",
-        label: "High accessibility score"
+  blocks: [
+    {
+      id: "db-route-stop-01",
+      type: "poster",
+      claim: "Accessibility becomes part of the route decision.",
+      headline: "Making accessibility visible inside route comparison.",
+      body: "An independent DB Navigator concept that keeps the familiar journey flow, while making access conditions easier to compare before choosing a route.",
+      dominantVisual: {
+        src: "./pngs/Projects/DB Navigator Redesign/Editorial/Conceptual Diptych.png",
+        alt: "DB Navigator accessibility conceptual diptych",
+        role: "dominantVisual"
       },
-      {
-        value: "7/15",
-        label: "Medium accessibility score"
-      },
-      {
-        value: "3/15",
-        label: "Low accessibility score"
-      }
-    ],
-    markers: [
-      {
-        type: "chip",
-        x: 12,
-        y: 18,
-        w: 22,
-        h: 8,
-        label: "10/15"
-      },
-      {
-        type: "chip",
-        x: 12,
-        y: 30,
-        w: 22,
-        h: 8,
-        label: "7/15"
-      },
-      {
-        type: "chip",
-        x: 12,
-        y: 42,
-        w: 22,
-        h: 8,
-        label: "3/15"
-      }
-    ],
-    layoutRole: "coreProof",
-    visualBehavior: "Mobile System becomes the single visual peak of the case study.",
-    wowRelation: "This is the main Route Reveal proof: accessibility becomes comparable."
-  },
-
-  {
-    id: "db-editorial-route-level-details",
-    type: "proof",
-    claim: "Der Accessibility-Score bleibt erklärbar.",
-    headline: "The score opens into Route-Level-Details.",
-    body: "Route-Level-Details explain which accessibility conditions are available, limited or missing.",
-    dominantVisual: {
-      src: "./pngs/Projects/DB Navigator Redesign/Editorial/Detail Crop.png",
-      alt: "DB Navigator Accessibility detail crop",
-      role: "dominantVisual"
-    },
-    supportVisuals: [
-      {
-        src: "../pngs/Projects/DB Navigator Redesign/Acc Infos(1).png",
-        alt: "DB Navigator Accessibility information lightmode",
-        role: "supportVisual"
-      }
-    ],
-    labels: [
-      "Route-Level-Details",
-      "Accessibility-Chips",
-      "Available",
-      "Limited",
-      "Missing"
-    ],
-    detailCrops: [
-      {
-        label: "Accessibility-Chips",
-        source: "./pngs/Projects/DB Navigator Redesign/Editorial/Detail Crop.png"
-      },
-      {
-        label: "Available / Limited / Missing",
-        source: "./pngs/Projects/DB Navigator Redesign/Editorial/Detail Crop.png"
-      }
-    ],
-    markers: [
-      {
-        type: "chip",
-        x: 10,
-        y: 70,
-        w: 24,
-        h: 8,
-        label: "Available"
-      },
-      {
-        type: "chip",
-        x: 38,
-        y: 70,
-        w: 24,
-        h: 8,
-        label: "Limited"
-      },
-      {
-        type: "chip",
-        x: 66,
-        y: 70,
-        w: 24,
-        h: 8,
-        label: "Missing"
-      }
-    ],
-    layoutRole: "explanation",
-    visualBehavior: "The detail layer explains why a route receives its Accessibility-Score.",
-    wowRelation: "Route Reveal changes from comparison into explanation."
-  },
-
-  {
-    id: "db-editorial-wcag-system-proof",
-    type: "system",
-    claim: "Die visuelle Verbesserung ist technisch begründet.",
-    headline: "WCAG-Proof makes the redesign accountable.",
-    body: "The concept relies on WCAG-Proof, heuristic improvement and visible system logic.",
-    dominantVisual: {
-      src: "./pngs/Projects/DB Navigator Redesign/Editorial/Information Architecture.png",
-      alt: "DB Navigator Accessibility information architecture",
-      role: "dominantVisual"
-    },
-    supportVisuals: [],
-    labels: [
-      "WCAG-Proof",
-      "AA",
-      "AAA",
-      "Contrast",
-      "Statuslabels"
-    ],
-    detailCrops: [
-      {
-        label: "WCAG-Ratio-Tags",
-        source: "./pngs/Projects/DB Navigator Redesign/Editorial/Information Architecture.png"
-      },
-      {
-        label: "Statuslabels",
-        source: "./pngs/Projects/DB Navigator Redesign/Editorial/Information Architecture.png"
-      },
-      {
-        label: "Icon-Kategorien",
-        source: "./pngs/Projects/DB Navigator Redesign/Editorial/Information Architecture.png"
-      }
-    ],
-    markers: [
-      {
-        type: "chip",
-        x: 10,
-        y: 16,
-        w: 22,
-        h: 8,
-        label: "WCAG AA"
-      },
-      {
-        type: "chip",
-        x: 36,
-        y: 16,
-        w: 22,
-        h: 8,
-        label: "WCAG AAA"
-      }
-    ],
-    layoutRole: "systemProof",
-    visualBehavior: "The system spread stays calm and lets the WCAG proof carry the argument.",
-    wowRelation: "Completes Route Reveal with accountable system evidence."
-  },
-
-  {
-    id: "db-editorial-closing-route",
-    type: "closing",
-    claim: "A familiar app, made more inclusive.",
-    headline: "A familiar app, made more inclusive.",
-    body: "The journey stays familiar, but the travel decision becomes more inclusive.",
-    dominantVisual: {
-      src: "./pngs/Projects/DB Navigator Redesign/Editorial/Closing Mood.png",
-      alt: "DB Navigator Accessibility closing mood",
-      role: "dominantVisual"
-    },
-    supportVisuals: [],
-    labels: [
-      "Completed route",
-      "Inclusive decision",
-      "Reduced proof"
-    ],
-    detailCrops: [],
-    markers: [
-      {
-        type: "line",
-        x: 10,
-        y: 72,
-        w: 52,
-        h: 2,
-        label: "Completed DB-Linie"
-      }
-    ],
-    layoutRole: "closing",
-    visualBehavior: "The DB-Linie ends with a calm final statement.",
-    wowRelation: "Closes Route Reveal without adding new proof."
-  }
-],
-
-          doNotShow: [
-            {
-              item: "DB Logo as standalone section",
-              reason: "It is branding, not proof.",
-              alternativeUse: "Use only as cover or small support visual."
-            },
-            {
-              item: "Full gallery of all screens",
-              reason: "A gallery weakens the Route-map editorial structure.",
-              alternativeUse: "Use one dominant visual per block and small support visuals only where they prove the claim."
-            },
-            {
-              item: "Repeated explanation that Accessibility is integrated",
-              reason: "The thesis should be proven visually through Route Reveal.",
-              alternativeUse: "State the thesis once in the hero and prove it through blocks."
-            },
-            {
-              item: "Three similar Accessibility-Score screens at equal size",
-              reason: "Equal sizing makes the hierarchy unclear.",
-              alternativeUse: "Use Mobile System as dominant proof and smaller score screens as support."
-            },
-            {
-              item: "WCAG values as large text wall",
-              reason: "The proof would become hard to scan.",
-              alternativeUse: "Use WCAG-Ratio-Tags, small labels and focused detail crops."
-            },
-            {
-              item: "StoreGuide-like store route logic",
-              reason: "DB Navigator must stay clearly separated from StoreGuide.",
-              alternativeUse: "Use Bahnlinie, Reisevergleich, Accessibility-Score, Route-Level-Details and WCAG-Proof."
-            },
-            {
-              item: "Generic lines, circles or plus markers",
-              reason: "Markers must carry product meaning.",
-              alternativeUse: "Use DB-Linie, Bahnhofspunkte, Accessibility-Score-Marker, WCAG-Ratio-Tags and Route-Level-Chips."
-            },
-            {
-              item: "User testing claim",
-              reason: "No user testing was conducted.",
-              alternativeUse: "Use the scope note about heuristic improvement, WCAG contrast checks and visible decision support."
-            }
-          ]
+      supportVisuals: [
+        {
+          src: "./pngs/Projects/DB Navigator Redesign/Editorial/Hero Statement.png",
+          alt: "DB Navigator accessibility hero statement",
+          role: "supportVisual"
         }
+      ],
+      labels: [
+        "Independent concept",
+        "Interaction System",
+        "Route comparison"
+      ],
+      markers: [
+        {
+          type: "note",
+          x: 6,
+          y: 10,
+          w: 24,
+          h: 8,
+          label: "Station 01"
+        }
+      ],
+      layoutRole: "rail-left opening",
+      visualBehavior: "The first station introduces the red DB route line as an argument structure, not as decoration.",
+      wowRelation: "Starts the Route Reveal with the thesis before moving into proof."
+    },
+
+    {
+      id: "db-route-stop-02",
+      type: "problem",
+      claim: "The familiar DB structure stays recognizable.",
+      headline: "The flow stays familiar.",
+      body: "Search, connection results, and journey details stay close to the learned DB Navigator structure. The redesign improves clarity inside the existing flow instead of replacing it.",
+      dominantVisual: {
+        src: "./pngs/Projects/DB Navigator Redesign/Editorial/Device Line-up.png",
+        alt: "DB Navigator accessibility device line-up",
+        role: "dominantVisual"
+      },
+      supportVisuals: [
+        {
+          src: "../pngs/Projects/DB Navigator Redesign/Lightmode.png",
+          alt: "DB Navigator light mode connection result screen",
+          role: "supportVisual"
+        },
+        {
+          src: "../pngs/Projects/DB Navigator Redesign/Darkmode.png",
+          alt: "DB Navigator dark mode connection result screen",
+          role: "supportVisual"
+        }
+      ],
+      labels: [
+        "Known flow",
+        "Connection results",
+        "Journey details"
+      ],
+      markers: [
+        {
+          type: "note",
+          x: 72,
+          y: 10,
+          w: 24,
+          h: 8,
+          label: "Station 02"
+        }
+      ],
+      layoutRole: "rail-right knownFlow",
+      visualBehavior: "This block should feel calm and analytical, proving that the redesign does not break learned patterns.",
+      wowRelation: "The route line moves to the opposite side and frames the existing flow as the starting point."
+    },
+
+    {
+      id: "db-route-stop-03",
+      type: "sticky",
+      claim: "Access needs enter before comparison.",
+      headline: "Accessibility enters through the options flow.",
+      body: "Users can surface relevant access needs before comparing routes, instead of searching for them later in separated details.",
+      dominantVisual: {
+        src: "./pngs/Projects/DB Navigator Redesign/Editorial/Information Architecture.png",
+        alt: "DB Navigator accessibility information architecture",
+        role: "dominantVisual"
+      },
+      supportVisuals: [
+        {
+          src: "../pngs/Projects/DB Navigator Redesign/Acc Infos(1).png",
+          alt: "DB Navigator accessibility information screen in light mode",
+          role: "supportVisual"
+        },
+        {
+          src: "../pngs/Projects/DB Navigator Redesign/Acc Infos(2).png",
+          alt: "DB Navigator accessibility information screen in dark mode",
+          role: "supportVisual"
+        }
+      ],
+      labels: [
+        "Options flow",
+        "Access needs",
+        "Categories"
+      ],
+      markers: [
+        {
+          type: "chip",
+          x: 8,
+          y: 14,
+          w: 26,
+          h: 8,
+          label: "Access options"
+        },
+        {
+          type: "note",
+          x: 6,
+          y: 10,
+          w: 24,
+          h: 8,
+          label: "Station 03"
+        }
+      ],
+      layoutRole: "rail-left entry",
+      visualBehavior: "The block should connect options, categories, and route comparison without feeling like a separate settings page.",
+      wowRelation: "Shows the first moment where accessibility enters the normal travel flow."
+    },
+
+    {
+      id: "db-route-stop-04",
+      type: "spread",
+      claim: "Accessibility becomes comparable.",
+      headline: "Access scores turn routes into decisions.",
+      body: "A conceptual score makes access conditions visible beside classic travel information, so routes can be compared beyond time, changes, and duration.",
+      dominantVisual: {
+        src: "./pngs/Projects/DB Navigator Redesign/Editorial/Mobile System.png",
+        alt: "DB Navigator accessibility mobile system with route comparison",
+        role: "dominantVisual"
+      },
+      supportVisuals: [
+        {
+          src: "../pngs/Projects/DB Navigator Redesign/Fahrten 100_(1).png",
+          alt: "DB Navigator route list with accessibility information",
+          role: "supportVisual"
+        },
+        {
+          src: "../pngs/Projects/DB Navigator Redesign/Fahrten 100_.png",
+          alt: "DB Navigator route list in dark mode",
+          role: "supportVisual"
+        }
+      ],
+      labels: [
+        "Conceptual model",
+        "Route comparison",
+        "Access clarity"
+      ],
+      stats: [
+        {
+          value: "10/15",
+          label: "High access clarity"
+        },
+        {
+          value: "7/15",
+          label: "Medium access clarity"
+        },
+        {
+          value: "3/15",
+          label: "Low access clarity"
+        }
+      ],
+      markers: [
+        {
+          type: "chip",
+          x: 10,
+          y: 18,
+          w: 22,
+          h: 8,
+          label: "10/15"
+        },
+        {
+          type: "chip",
+          x: 10,
+          y: 30,
+          w: 22,
+          h: 8,
+          label: "7/15"
+        },
+        {
+          type: "chip",
+          x: 10,
+          y: 42,
+          w: 22,
+          h: 8,
+          label: "3/15"
+        },
+        {
+          type: "note",
+          x: 72,
+          y: 10,
+          w: 24,
+          h: 8,
+          label: "Station 04"
+        }
+      ],
+      layoutRole: "rail-right coreProof",
+      visualBehavior: "This is the main visual peak. The Mobile System image should dominate, with small high-fidelity screens below it.",
+      wowRelation: "Main Route Reveal proof: accessibility becomes visible as decision data."
+    },
+
+    {
+      id: "db-route-stop-05",
+      type: "proof",
+      claim: "The score stays explainable.",
+      headline: "The score opens into route-level details.",
+      body: "Available, limited, and missing access conditions explain why a route receives its conceptual access score.",
+      dominantVisual: {
+        src: "./pngs/Projects/DB Navigator Redesign/Editorial/Detail Crop.png",
+        alt: "DB Navigator accessibility detail crop explaining route-level conditions",
+        role: "dominantVisual"
+      },
+      supportVisuals: [
+        {
+          src: "../pngs/Projects/DB Navigator Redesign/Acc Infos(1).png",
+          alt: "DB Navigator accessibility information screen in light mode",
+          role: "supportVisual"
+        },
+        {
+          src: "../pngs/Projects/DB Navigator Redesign/Fahrten 100_(1).png",
+          alt: "DB Navigator route details with accessibility information",
+          role: "supportVisual"
+        }
+      ],
+      labels: [
+        "Available",
+        "Limited",
+        "Missing",
+        "Route-level details"
+      ],
+      detailCrops: [
+        {
+          label: "Access condition chips",
+          source: "./pngs/Projects/DB Navigator Redesign/Editorial/Detail Crop.png"
+        },
+        {
+          label: "Available / Limited / Missing",
+          source: "./pngs/Projects/DB Navigator Redesign/Editorial/Detail Crop.png"
+        }
+      ],
+      markers: [
+        {
+          type: "chip",
+          x: 10,
+          y: 72,
+          w: 24,
+          h: 8,
+          label: "Available"
+        },
+        {
+          type: "chip",
+          x: 38,
+          y: 72,
+          w: 24,
+          h: 8,
+          label: "Limited"
+        },
+        {
+          type: "chip",
+          x: 66,
+          y: 72,
+          w: 24,
+          h: 8,
+          label: "Missing"
+        },
+        {
+          type: "note",
+          x: 6,
+          y: 10,
+          w: 24,
+          h: 8,
+          label: "Station 05"
+        }
+      ],
+      layoutRole: "rail-left explanation",
+      visualBehavior: "The block works like a zoom into the route card. It should feel like a detail argument, not another overview.",
+      wowRelation: "The route line shifts from comparison into explanation."
+    },
+
+    {
+      id: "db-route-stop-06",
+      type: "system",
+      claim: "Visual clarity needs accountable proof.",
+      headline: "Contrast checks make the system accountable.",
+      body: "The concept uses contrast checks, status labels, icon categories, and clearer hierarchy to make dense travel information easier to scan.",
+      dominantVisual: {
+        src: "./pngs/Projects/DB Navigator Redesign/Editorial/Information Architecture.png",
+        alt: "DB Navigator accessibility information architecture and contrast logic",
+        role: "dominantVisual"
+      },
+      supportVisuals: [
+        {
+          src: "../pngs/Projects/DB Navigator Redesign/Lightmode.png",
+          alt: "DB Navigator light mode contrast state",
+          role: "supportVisual"
+        },
+        {
+          src: "../pngs/Projects/DB Navigator Redesign/Darkmode.png",
+          alt: "DB Navigator dark mode contrast state",
+          role: "supportVisual"
+        }
+      ],
+      labels: [
+        "Contrast checks",
+        "Status labels",
+        "Icon categories"
+      ],
+      detailCrops: [
+        {
+          label: "Contrast-led hierarchy",
+          source: "./pngs/Projects/DB Navigator Redesign/Editorial/Information Architecture.png"
+        },
+        {
+          label: "Status labels",
+          source: "./pngs/Projects/DB Navigator Redesign/Editorial/Information Architecture.png"
+        },
+        {
+          label: "Icon categories",
+          source: "./pngs/Projects/DB Navigator Redesign/Editorial/Information Architecture.png"
+        }
+      ],
+      markers: [
+        {
+          type: "chip",
+          x: 10,
+          y: 16,
+          w: 28,
+          h: 8,
+          label: "Contrast check"
+        },
+        {
+          type: "chip",
+          x: 42,
+          y: 16,
+          w: 22,
+          h: 8,
+          label: "Labels"
+        },
+        {
+          type: "note",
+          x: 72,
+          y: 10,
+          w: 24,
+          h: 8,
+          label: "Station 06"
+        }
+      ],
+      layoutRole: "rail-right systemProof",
+      visualBehavior: "The block should feel like a technical data sheet, not a large WCAG marketing claim.",
+      wowRelation: "Completes the Route Reveal with system evidence."
+    },
+
+    {
+      id: "db-route-stop-07",
+      type: "closing",
+      claim: "A familiar app, made more inclusive.",
+      headline: "A familiar app, made more inclusive.",
+      body: "The journey stays familiar. The decision becomes clearer, more comparable, and more inclusive.",
+      dominantVisual: {
+        src: "./pngs/Projects/DB Navigator Redesign/Editorial/Closing Mood.png",
+        alt: "DB Navigator accessibility closing mood",
+        role: "dominantVisual"
+      },
+      supportVisuals: [
+        {
+          src: "../pngs/Projects/DB Navigator Redesign/Fahrten 100_(1).png",
+          alt: "Final DB Navigator route comparison concept screen",
+          role: "supportVisual"
+        }
+      ],
+      labels: [
+        "Outcome",
+        "Inclusive route decision",
+        "Concept redesign"
+      ],
+      markers: [
+        {
+          type: "note",
+          x: 6,
+          y: 10,
+          w: 24,
+          h: 8,
+          label: "Station 07"
+        }
+      ],
+      layoutRole: "rail-left closing",
+      visualBehavior: "The route ends calmly. No new proof is introduced here.",
+      wowRelation: "Closes the route after the decision model has been explained."
+    }
+  ],
+
+  doNotShow: [
+    {
+      item: "DB Logo as standalone editorial section",
+      reason: "It is branding, not design proof.",
+      alternativeUse: "Use only as cover or small contextual support."
+    },
+    {
+      item: "Full gallery of all screens",
+      reason: "A gallery weakens the route-based case structure.",
+      alternativeUse: "Use one dominant visual per stop and only small high-fidelity support images below it."
+    },
+    {
+      item: "WCAG AAA as a global project claim",
+      reason: "The project does not document a full WCAG audit.",
+      alternativeUse: "Use contrast checks, contrast-led redesign, and scope notes."
+    },
+    {
+      item: "User testing claim",
+      reason: "No user testing was conducted.",
+      alternativeUse: "Use heuristic accessibility review, contrast checks, and concept scope."
+    },
+    {
+      item: "Generic decorative markers",
+      reason: "Markers must work like station signs, score badges, or route detail proof.",
+      alternativeUse: "Use DB route line, station markers, access score badges, contrast proof tags, and route-level chips."
+    }
+  ]
+}
       }
     },
 
