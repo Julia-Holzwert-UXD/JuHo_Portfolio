@@ -3666,7 +3666,50 @@ function initHeroDecryptAnimation() {
     }, startDelay);
   });
 }
+function initProjectScrollIndicator() {
+  if (document.querySelector(".project-scroll-indicator")) return;
 
+  const indicator = document.createElement("div");
+  indicator.className = "project-scroll-indicator";
+  indicator.setAttribute("aria-hidden", "true");
+
+  const fill = document.createElement("div");
+  fill.className = "project-scroll-fill";
+
+  const percent = document.createElement("span");
+  percent.className = "project-scroll-percent";
+  percent.textContent = "0%";
+
+  indicator.appendChild(fill);
+  indicator.appendChild(percent);
+  document.body.appendChild(indicator);
+
+  let ticking = false;
+
+  function update() {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    const progress = Math.min(1, Math.max(0, scrollTop / maxScroll));
+    const roundedProgress = Math.round(progress * 100);
+
+    indicator.style.setProperty("--project-scroll-progress", progress.toFixed(4));
+    percent.textContent = `${roundedProgress}%`;
+
+    ticking = false;
+  }
+
+  function requestUpdate() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }
+
+  update();
+
+  window.addEventListener("scroll", requestUpdate, { passive: true });
+  window.addEventListener("resize", requestUpdate);
+  window.addEventListener("load", requestUpdate);
+}
 /* INIT */
 document.addEventListener("DOMContentLoaded", () => {
   registerScrollTrigger();
@@ -3676,6 +3719,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initThemeToggle();
   initMobileMenu();
   initNavbarScrollState();
+  initProjectScrollIndicator();
 
   cloneHeroOutlineLayer();
   initHeroDecryptAnimation();
@@ -3702,6 +3746,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initProjectPopIn();
   initScrollToTop();
 
+  
   requestAnimationFrame(() => {
     if (window.ScrollTrigger) ScrollTrigger.refresh();
   });

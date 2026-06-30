@@ -22,9 +22,9 @@ p{font-size:clamp(16px,1.2vw,22px);line-height:1.8;color:var(--text-muted);margi
 .navbar a{color:var(--text-light);text-decoration:none;position:relative;transition:color .25s}
 .navbar a::after{content:"";position:absolute;left:0;bottom:-4px;width:0;height:2px;background:currentColor;transition:width .25s}
 .navbar a:hover::after{width:100%}
-.navbar.scrolled{background:rgba(245,243,255,.62);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);border-bottom:1px solid rgba(167,139,250,.22);box-shadow:0 10px 30px rgba(0,0,0,.1),inset 0 1px 0 rgba(255,255,255,.26)}
+.navbar.scrolled{background:rgba(245,243,255,.62);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);box-shadow:0 10px 30px rgba(0,0,0,.1),inset 0 1px 0 rgba(255,255,255,.26)}
 .navbar.scrolled a{color:var(--text-dark)}
-body.darkmode .navbar.scrolled{background:rgba(13,11,20,.62);border-bottom:1px solid rgba(167,139,250,.22);box-shadow:0 10px 34px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.08)}
+body.darkmode .navbar.scrolled{background:rgba(13,11,20,.62);box-shadow:0 10px 34px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.08)}
 .nav-wrapper{display:flex;justify-content:space-between;align-items:center;padding:20px}
 .nav-left,.nav-right{display:flex}
 .nav-left a{margin-right:25px}
@@ -350,11 +350,59 @@ body.darkmode .archive-year-switch:hover{background:rgba(255,255,255,.08)}
 .archive-year-switch:focus-visible,.archive-layout .archive-year-option:focus-visible{outline:2px solid var(--archive-text);outline-offset:3px}
 
 
-/* PROJECT SCROLL INDICATOR*/
-.project-scroll-indicator{--project-scroll-progress:0;--project-scroll-top:72px;position:fixed;left:0;top:var(--project-scroll-top);width:100%;height:4px;z-index:2000;pointer-events:none;background:color-mix(in srgb,var(--accent) 22%,transparent)}
-.project-scroll-fill{width:100%;height:100%;background:var(--accent-strong);transform:scaleX(var(--project-scroll-progress));transform-origin:left center}
-.project-scroll-percent{position:absolute;right:20px;top:10px;padding:6px 10px;border-radius:999px;background:var(--bg-main);color:var(--accent-strong);font-size:12px;font-weight:700;line-height:1;box-shadow:0 8px 22px rgba(0,0,0,.12)}
+/* PROJECT SCROLL INDICATOR */
+.project-scroll-indicator{
+  --project-scroll-progress:0;
+  position:fixed;
+  left:0;
+  top:0;
+  width:100%;
+  height:4px;
+  z-index:3000;
+  pointer-events:none;
+  background:color-mix(in srgb,var(--accent) 20%,transparent);
+  overflow:hidden;
+}
 
+.project-scroll-fill{
+  width:100%;
+  height:100%;
+  background:var(--accent-strong);
+  transform:scaleX(var(--project-scroll-progress));
+  transform-origin:left center;
+  will-change:transform;
+}
+
+.project-scroll-percent{
+  position:absolute;
+  right:14px;
+  top:8px;
+  padding:6px 9px;
+  border-radius:999px;
+  background:color-mix(in srgb,var(--bg-main) 88%,transparent);
+  color:var(--accent-strong);
+  font-size:11px;
+  font-weight:700;
+  line-height:1;
+  box-shadow:0 8px 22px rgba(0,0,0,.12);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+}
+
+body.darkmode .project-scroll-percent{
+  background:color-mix(in srgb,var(--bg-main) 82%,transparent);
+  box-shadow:0 10px 24px rgba(0,0,0,.32);
+}
+
+@media (max-width:640px){
+  .project-scroll-indicator{
+    height:3px;
+  }
+
+  .project-scroll-percent{
+    display:none;
+  }
+}
 /* HERO GRID SECTION*/
 .hero-grid-section{--nav-height:72px;--hero-bg:var(--bg-main);--hero-text:var(--text-dark);--hero-muted:rgba(15,15,15,.72);--hero-line:rgba(15,15,15,.2);--hero-stroke:clamp(1px,.12vw,1.7px);--hero-bust-src:url("pngs/About/background removed.png");--hero-bust-render-height:clamp(527px,91.8svh,952px);--hero-bust-bottom:20px;--hero-mask-y:-20px;--hero-roll-y:0em;--hero-contact-bg:var(--hero-text);--hero-contact-text:var(--hero-bg);--hero-contact-hover-bg:var(--accent-strong);--hero-contact-hover-text:#FFFFFF;--hero-contact-dot-bg:var(--hero-contact-bg);--hero-contact-dot-border:var(--hero-contact-text);position:relative;width:100%;height:100svh;min-height:100svh;margin:0;padding-top:0;overflow:hidden;isolation:isolate;color:var(--hero-text);background:radial-gradient(circle at 50% 48%,rgba(167,139,250,.26),rgba(167,139,250,.08) 22%,transparent 46%),radial-gradient(circle at 50% 52%,rgba(255,255,255,.12),transparent 28%),linear-gradient(90deg,rgba(0,0,0,.1),transparent 18%,transparent 82%,rgba(0,0,0,.1)),var(--hero-bg)}
 body.darkmode .hero-grid-section{--hero-bg:#0D0B14;--hero-text:#FFFFFF;--hero-muted:rgba(255,255,255,.72);--hero-line:rgba(255,255,255,.22);--hero-contact-bg:#FFFFFF;--hero-contact-text:#0D0B14;--hero-contact-hover-bg:var(--accent-strong);--hero-contact-hover-text:#FFFFFF;--hero-contact-dot-bg:var(--hero-contact-bg);--hero-contact-dot-border:var(--hero-contact-text)}
@@ -1611,8 +1659,6 @@ body[data-project-slug="DBNavigatorRedesign"] .case-story-section[data-editorial
 body[data-project-slug="DBNavigatorRedesign"] .case-story-section[data-editorial-variant="routeMapEditorial"] .case-block-rail-left .case-support-visuals{justify-self:end}
 body[data-project-slug="DBNavigatorRedesign"] .case-story-section[data-editorial-variant="routeMapEditorial"] .case-block-rail-right .case-support-visuals{justify-self:start}
 body[data-project-slug="DBNavigatorRedesign"] .case-story-section[data-editorial-variant="routeMapEditorial"] .case-support-visual{cursor:zoom-in}
-body[data-project-slug="DBNavigatorRedesign"] .case-story-section[data-editorial-variant="routeMapEditorial"] .case-support-visual:hover,body[data-project-slug="DBNavigatorRedesign"] .case-story-section[data-editorial-variant="routeMapEditorial"] .case-support-visual:focus-within{transform:translateY(-3px) scale(1.04);box-shadow:0 14px 36px rgba(0,0,0,.16)}
-body[data-project-slug="DBNavigatorRedesign"] .case-story-section[data-editorial-variant="routeMapEditorial"] .case-support-img{object-fit:cover}
 
 /* DB SUPPORT PREVIEW MODAL*/
 .db-support-preview{position:fixed;inset:0;z-index:5000;display:grid;place-items:center;padding:clamp(18px,4vw,64px);background:rgba(0,0,0,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);cursor:zoom-out;opacity:0;pointer-events:none;transition:opacity .24s ease}
@@ -1640,3 +1686,4 @@ body[data-project-slug="DBNavigatorRedesign"] .case-story-section[data-editorial
 .db-support-preview-inner{max-height:82vh}
 .db-support-preview-img{max-height:82vh}
 }
+
