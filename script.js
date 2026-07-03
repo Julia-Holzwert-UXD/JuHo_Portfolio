@@ -789,10 +789,10 @@ function renderProjectDetail() {
   const editorialRendered = renderEditorialProject(project);
 
   if (editorialRendered) {
-  setLegacyProjectDetailVisible(true);
-  hideProjectExtraSlider();
-  return;
-}
+    setLegacyProjectDetailVisible(true);
+    hideProjectExtraSlider();
+    return;
+  }
 
   removeEditorialProject();
   setLegacyProjectDetailVisible(true);
@@ -1175,13 +1175,13 @@ function renderEditorialProject(project) {
   }
 
   refreshCaseStoryAfterImages(section);
-initCaseWowFactor(project);
+  initCaseWowFactor(project);
 
-if (typeof initCompareTabs === "function") initCompareTabs();
-if (typeof initCustomVideos === "function") initCustomVideos();
-if (typeof initDbSupportPreview === "function") initDbSupportPreview(section);
+  if (typeof initCompareTabs === "function") initCompareTabs();
+  if (typeof initCustomVideos === "function") initCustomVideos();
+  if (typeof initDbSupportPreview === "function") initDbSupportPreview(section);
 
-return true;
+  return true;
 }
 
 
@@ -1287,28 +1287,28 @@ function renderEditorialBlock(block, index = 0) {
 
 
   if (hasRailLeft || hasRailRight) {
-  const railSide = hasRailRight ? "right" : "left";
+    const railSide = hasRailRight ? "right" : "left";
 
-  article.classList.add("case-block-rail");
-  article.classList.add(`case-block-rail-${railSide}`);
-  article.dataset.railSide = railSide;
+    article.classList.add("case-block-rail");
+    article.classList.add(`case-block-rail-${railSide}`);
+    article.dataset.railSide = railSide;
 
-  const rail = document.createElement("div");
-  rail.className = "case-block-route-rail";
-  rail.setAttribute("aria-hidden", "true");
+    const rail = document.createElement("div");
+    rail.className = "case-block-route-rail";
+    rail.setAttribute("aria-hidden", "true");
 
-  const railPath = document.createElement("span");
-  railPath.className = "case-block-route-path";
-  railPath.dataset.caseBlockRoutePath = "";
+    const railPath = document.createElement("span");
+    railPath.className = "case-block-route-path";
+    railPath.dataset.caseBlockRoutePath = "";
 
-  const station = document.createElement("span");
-  station.className = "case-block-route-station";
-  station.textContent = String(index + 1).padStart(2, "0");
+    const station = document.createElement("span");
+    station.className = "case-block-route-station";
+    station.textContent = String(index + 1).padStart(2, "0");
 
-  rail.appendChild(railPath);
-  rail.appendChild(station);
-  article.appendChild(rail);
-}
+    rail.appendChild(railPath);
+    rail.appendChild(station);
+    article.appendChild(rail);
+  }
 
   const copy = document.createElement("div");
   copy.className = "case-block-copy";
@@ -2038,7 +2038,7 @@ function renderProjectExtraSlider(project) {
   sliderWrap.className = "project-extra-slider-wrap";
 
   const leftArrow = createExtraArrow("project-extra-arrow-left", "Previous image", "←");
-const rightArrow = createExtraArrow("project-extra-arrow-right", "Next image", "→");
+  const rightArrow = createExtraArrow("project-extra-arrow-right", "Next image", "→");
 
   const extraRect = document.createElement("div");
   extraRect.className = "project-extra-rect";
@@ -2069,7 +2069,7 @@ const rightArrow = createExtraArrow("project-extra-arrow-right", "Next image", "
   sliderWrap.appendChild(extraRect);
   sliderWrap.appendChild(rightArrow);
   extraRectEl.appendChild(sliderWrap);
-  
+
   initExtraImageSlider(sliderWrap);
 }
 
@@ -3746,7 +3746,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initProjectPopIn();
   initScrollToTop();
 
-  
+
   requestAnimationFrame(() => {
     if (window.ScrollTrigger) ScrollTrigger.refresh();
   });
