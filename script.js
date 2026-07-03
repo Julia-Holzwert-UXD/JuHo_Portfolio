@@ -495,6 +495,7 @@ function loadNavbar() {
       <nav class="menu-block menu-top" aria-label="Mobile navigation">
         <a href="${base}index.html">Home</a>
         <a href="${base}projects.html">Works</a>
+
       </nav>
       <div class="menu-separator" aria-hidden="true"></div>
       <nav class="menu-block" aria-label="Mobile external links">
@@ -804,7 +805,39 @@ function renderProjectHeader(project) {
   const tagsEl = document.getElementById("projectTags");
   const metaEl = document.getElementById("projectMeta");
 
-  if (titleEl) titleEl.textContent = safeText(project.title);
+  if (titleEl) {
+  const titleText = safeText(project.title).trim();
+  const titleLength = titleText.length;
+  const wordCount = titleText.split(/\s+/).filter(Boolean).length;
+  const introBlock = qs(".intro-block");
+
+  titleEl.textContent = titleText;
+
+  titleEl.classList.remove(
+    "project-title-short",
+    "project-title-long",
+    "project-title-extra-long"
+  );
+
+  if (introBlock) {
+    introBlock.classList.remove(
+      "has-short-title",
+      "has-long-title",
+      "has-extra-long-title"
+    );
+  }
+
+  if (titleLength > 22 || wordCount >= 3) {
+  titleEl.classList.add("project-title-extra-long");
+  if (introBlock) introBlock.classList.add("has-extra-long-title");
+} else if (titleLength > 12 || wordCount >= 2) {
+  titleEl.classList.add("project-title-long");
+  if (introBlock) introBlock.classList.add("has-long-title");
+} else {
+  titleEl.classList.add("project-title-short");
+  if (introBlock) introBlock.classList.add("has-short-title");
+}
+}
   if (metaEl) metaEl.textContent = safeText(project.detail.meta);
 
   if (!tagsEl) return;
@@ -822,77 +855,125 @@ function renderProjectHeader(project) {
   });
 }
 
-function renderProjectCover(project) {
-  const introBlock = qs(".intro-block");
-  let coverBannerEl = document.getElementById("projectCoverBanner");
+function ensureProjectIntroComposition() {
+  const introBlock = qs(".intro-block")
+  if (!introBlock) return null
 
-  if (!coverBannerEl && introBlock) {
-    coverBannerEl = document.createElement("section");
-    coverBannerEl.id = "projectCoverBanner";
-    introBlock.insertAdjacentElement("afterend", coverBannerEl);
+  const introContainer = qs(".intro-container", introBlock)
+  if (!introContainer) return null
+
+  introBlock.classList.add("project-intro-block")
+
+  let layout = qs(".project-intro-layout", introContainer)
+  let copy = qs(".project-intro-copy", introContainer)
+  let media = qs(".project-intro-media", introContainer)
+
+  if (!layout) {
+    layout = document.createElement("div")
+    layout.className = "project-intro-layout"
+
+    copy = document.createElement("div")
+    copy.className = "project-intro-copy"
+
+    media = document.createElement("div")
+    media.className = "project-intro-media"
+
+    Array.from(introContainer.children).forEach(child => {
+      if (child.id !== "projectCoverBanner") {
+        copy.appendChild(child)
+      }
+    })
+
+    layout.appendChild(copy)
+    layout.appendChild(media)
+    introContainer.appendChild(layout)
   }
 
-  if (!coverBannerEl) return;
+  if (!copy) {
+    copy = document.createElement("div")
+    copy.className = "project-intro-copy"
+    layout.insertBefore(copy, layout.firstChild)
+  }
+
+  if (!media) {
+    media = document.createElement("div")
+    media.className = "project-intro-media"
+    layout.appendChild(media)
+  }
+
+  return media
+}
+
+function renderProjectCover(project) {
+  const coverSlot = ensureProjectIntroComposition()
+  let coverBannerEl = document.getElementById("projectCoverBanner")
+
+  if (!coverBannerEl && coverSlot) {
+    coverBannerEl = document.createElement("div")
+    coverBannerEl.id = "projectCoverBanner"
+    coverSlot.appendChild(coverBannerEl)
+  }
+
+  if (coverBannerEl && coverSlot && coverBannerEl.parentNode !== coverSlot) {
+    coverSlot.appendChild(coverBannerEl)
+  }
+
+  if (!coverBannerEl) return
 
   if (coverBannerEl._coverExpansionCleanup) {
-    coverBannerEl._coverExpansionCleanup();
-    coverBannerEl._coverExpansionCleanup = null;
+    coverBannerEl._coverExpansionCleanup()
+    coverBannerEl._coverExpansionCleanup = null
   }
 
-  const base = getBasePath();
-  const coverColor = getProjectCoverBg(project);
-  const coverSrc = normalizePath(project.coverBannerImage || project.coverImage || "", base);
-  const coverZoom = Number.isFinite(Number(project.coverZoom)) ? Number(project.coverZoom) : 0;
-  const coverScale = 1 + coverZoom / 100;
+  const base = getBasePath()
+  const coverColor = getProjectCoverBg(project)
+  const coverSrc = normalizePath(project.coverBannerImage || project.coverImage || "", base)
+  const coverZoom = Number.isFinite(Number(project.coverZoom)) ? Number(project.coverZoom) : 0
+  const coverScale = 1 + coverZoom / 100
 
-  removeChildren(coverBannerEl);
-  coverBannerEl.style.background = "var(--projects-page-bg)";
+  removeChildren(coverBannerEl)
+  coverBannerEl.style.background = "transparent"
 
   if (!coverSrc) {
-    coverBannerEl.hidden = true;
-    coverBannerEl.style.background = "var(--bg-main)";
-    document.body.classList.remove("is-project-cover-expanded", "has-project-cover");
-    setGlobalProjectBackground("var(--bg-main)");
-    warnLog(`Project cover missing for ${safeText(project.title)}`);
-    return;
+    coverBannerEl.hidden = true
+    coverBannerEl.style.background = "transparent"
+    document.body.classList.remove("is-project-cover-expanded", "has-project-cover")
+    setGlobalProjectBackground("var(--bg-main)")
+    warnLog(`Project cover missing for ${safeText(project.title)}`)
+    return
   }
 
-  coverBannerEl.hidden = false;
-  coverBannerEl.classList.add("project-cover-banner");
-  document.body.classList.add("has-project-cover");
-  setCssVar(coverBannerEl, "--project-cover-bg", coverColor);
-  setCssVar(coverBannerEl, "--project-cover-color", coverColor);
-  setCssVar(coverBannerEl, "--project-cover-image-scale", coverScale);
+  coverBannerEl.hidden = false
+  coverBannerEl.classList.add("project-cover-banner")
+  document.body.classList.add("has-project-cover", "is-project-cover-expanded")
+  setGlobalProjectBackground("var(--bg-main)")
 
-  const wrapper = document.createElement("div");
-  wrapper.className = "project-cover-wrapper";
+  setCssVar(coverBannerEl, "--project-cover-bg", coverColor)
+  setCssVar(coverBannerEl, "--project-cover-color", coverColor)
+  setCssVar(coverBannerEl, "--project-cover-image-scale", coverScale)
 
-  const coverBg = document.createElement("div");
-  coverBg.className = "project-cover-bg";
-  coverBg.setAttribute("aria-hidden", "true");
-  coverBg.style.background = coverColor;
+  const wrapper = document.createElement("div")
+  wrapper.className = "project-cover-wrapper"
 
-  const coverImageFrame = document.createElement("div");
-  coverImageFrame.className = "project-cover-image-frame";
+  const coverBg = document.createElement("div")
+  coverBg.className = "project-cover-bg"
+  coverBg.setAttribute("aria-hidden", "true")
+  coverBg.style.background = coverColor
 
-  const img = document.createElement("img");
-  img.className = "project-cover-img";
-  img.src = coverSrc;
-  img.alt = `${safeText(project.title)} cover image`;
-  img.decoding = "async";
-  img.style.setProperty("--project-cover-image-scale", String(coverScale));
-  coverImageFrame.appendChild(img);
+  const coverImageFrame = document.createElement("div")
+  coverImageFrame.className = "project-cover-image-frame"
 
-  wrapper.appendChild(coverBg);
-  wrapper.appendChild(coverImageFrame);
-  coverBannerEl.appendChild(wrapper);
+  const img = document.createElement("img")
+  img.className = "project-cover-img"
+  img.src = coverSrc
+  img.alt = `${safeText(project.title)} cover image`
+  img.decoding = "async"
+  img.style.setProperty("--project-cover-image-scale", String(coverScale))
 
-  initProjectCoverExpansion({
-    coverBannerEl,
-    coverBg,
-    coverImageFrame,
-    coverColor
-  });
+  coverImageFrame.appendChild(img)
+  wrapper.appendChild(coverBg)
+  wrapper.appendChild(coverImageFrame)
+  coverBannerEl.appendChild(wrapper)
 }
 
 function renderProjectText(project) {
