@@ -460,7 +460,6 @@ function loadNavbar() {
         <nav class="nav-left" aria-label="Primary navigation">
           <a href="${base}index.html">Home</a>
           <a href="${base}projects.html">Works</a>
-          <a href="${base}about.html">About</a>
         </nav>
 
         <div class="nav-center"></div>
@@ -496,7 +495,6 @@ function loadNavbar() {
       <nav class="menu-block menu-top" aria-label="Mobile navigation">
         <a href="${base}index.html">Home</a>
         <a href="${base}projects.html">Works</a>
-        <a href="${base}about.html">About</a>
       </nav>
       <div class="menu-separator" aria-hidden="true"></div>
       <nav class="menu-block" aria-label="Mobile external links">
