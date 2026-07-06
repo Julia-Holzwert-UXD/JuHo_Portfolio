@@ -731,12 +731,12 @@ function renderProjectDetail() {
   const mode = getProjectViewMode(project);
   renderProjectViewMode(project, mode);
 }
+function hasEditorialProject(project) {
+  return Boolean(project && getEditorialConfig(project));
+}
+
 function isDbEditorialProject(project) {
-  return (
-    project &&
-    normalizeSlug(project.slug) === "dbnavigatorredesign" &&
-    getEditorialConfig(project)
-  );
+  return hasEditorialProject(project);
 }
 
 function getProjectViewModeKey(project) {
@@ -771,6 +771,7 @@ function setProjectViewMode(project, mode) {
 function renderProjectViewMode(project, mode) {
   const nextMode = mode === "detail" ? "detail" : "editorial";
 
+  document.body.dataset.projectView = nextMode;
   document.body.dataset.dbProjectView = nextMode;
 
   if (isDbEditorialProject(project) && nextMode === "editorial") {
@@ -1212,16 +1213,215 @@ function renderProjectImages(project) {
 }
 /* EDITORIAL CASE STORY */
 function getEditorialConfig(project) {
-  const editorial = project && project.detail && project.detail.editorial;
-  if (!editorial || typeof editorial !== "object") return null;
+  if (!project || !project.detail) return null;
 
-  const blocks = Array.isArray(editorial.blocks)
-    ? editorial.blocks.filter(block => block && typeof block === "object")
-    : [];
+  const editorial = project.detail.editorial;
+
+  if (editorial && typeof editorial === "object") {
+    const blocks = Array.isArray(editorial.blocks)
+      ? editorial.blocks.filter(block => block && typeof block === "object")
+      : [];
+
+    if (blocks.length) {
+      return {
+        ...editorial,
+        variant: editorial.variant || "routeMapEditorial",
+        wowFactor: editorial.wowFactor || { module: "growingLine" },
+        blocks
+      };
+    }
+  }
+
+  return buildAutoEditorialConfig(project);
+}
+
+function buildAutoEditorialConfig(project) {
+  const detail = project.detail || {};
+  const sections = detail.sections || {};
+
+  if (!sections || isBlank(sections.summary)) return null;
+
+  const title = safeText(project.title).trim();
+  const category = safeText(getProjectCategoryText(project)).trim();
+  const visualSet = getAutoEditorialVisualSet(project);
+
+  const visual = (names, fallbackIndex) => findAutoEditorialVisual(project, names, visualSet, fallbackIndex);
+  const resultText = getEditorialResultText(sections.result);
+  const level = getProjectLevel(project);
+
+  const blocks = [
+    {
+      id: `${normalizeSlug(project.slug)}-editorial-flow`,
+      type: "problem",
+      layoutRole: "rail-left knownFlow",
+      claim: "The product starts with the user situation.",
+      headline: `${title} makes the core flow easier to understand.`,
+      body: getEditorialExcerpt(sections.summary, 340),
+      labels: compactEditorialLabels([category, level, getProjectYear(project)]),
+      dominantVisual: visual(["device line-up", "device lineup", "mobile system", "desktop and mobile system"], 0)
+    },
+    {
+      id: `${normalizeSlug(project.slug)}-editorial-challenge`,
+      type: "proof",
+      layoutRole: "rail-right opening",
+      claim: "The challenge defines what needs to be removed.",
+      headline: "Less friction, clearer decisions.",
+      body: getEditorialExcerpt(sections.challenge || sections.summary, 340),
+      labels: ["Challenge", "Friction", "Clarity"],
+      dominantVisual: visual(["conceptual diptych", "hero statement"], 1)
+    },
+    {
+      id: `${normalizeSlug(project.slug)}-editorial-direction`,
+      type: "proof",
+      layoutRole: "rail-left objectProof",
+      claim: "The direction turns the idea into a product attitude.",
+      headline: "The experience needs a clear visual stance.",
+      body: getEditorialExcerpt(sections.creativeDirection || sections.approach || sections.summary, 360),
+      labels: ["Creative direction", "Tone", "Product layer"],
+      dominantVisual: visual(["editorial object shot", "object shot"], 2)
+    },
+    {
+      id: `${normalizeSlug(project.slug)}-editorial-structure`,
+      type: "sticky",
+      layoutRole: "rail-right entry",
+      claim: "The structure carries the experience.",
+      headline: "The system is shaped around the main user flow.",
+      body: getEditorialExcerpt(sections.approach || sections.summary, 360),
+      labels: ["Information architecture", "Flow", "System logic"],
+      dominantVisual: visual(["information architecture", "architecture"], 3)
+    },
+    {
+      id: `${normalizeSlug(project.slug)}-editorial-detail`,
+      type: "proof",
+      layoutRole: "rail-left explanation",
+      claim: "Small interface decisions make the logic readable.",
+      headline: "The details turn the concept into something usable.",
+      body: getEditorialExcerpt(sections.keyVisualSystem || sections.approach || sections.summary, 360),
+      labels: ["Visual system", "Hierarchy", "Interaction detail"],
+      dominantVisual: visual(["detail crop", "detail"], 4)
+    },
+    {
+      id: `${normalizeSlug(project.slug)}-editorial-system`,
+      type: "spread",
+      layoutRole: "rail-right coreProof",
+      claim: "The proof is the connected system.",
+      headline: `${title} works across the key moments of the journey.`,
+      body: getEditorialExcerpt(resultText || sections.takeaway || sections.summary, 360),
+      labels: ["Outcome", "System proof", "Connected flow"],
+      dominantVisual: visual(["desktop and mobile system", "mobile system", "system"], 5)
+    }
+  ].filter(block => !isBlank(block.body) || block.dominantVisual);
 
   if (!blocks.length) return null;
 
-  return editorial;
+  return {
+    variant: "routeMapEditorial",
+    thesis: createAutoEditorialThesis(project, sections),
+    scopeNote: createAutoEditorialScopeNote(project, sections),
+    wowFactor: { module: "growingLine" },
+    blocks
+  };
+}
+
+function createAutoEditorialThesis(project, sections) {
+  const title = safeText(project.title).trim();
+  const summary = getEditorialExcerpt(sections.summary, 150);
+  if (!summary) return `${title} turns a complex product situation into a clearer system.`;
+  return summary;
+}
+
+function createAutoEditorialScopeNote(project, sections) {
+  const title = safeText(project.title).trim();
+  const meta = safeText(project.detail && project.detail.meta).trim();
+  const category = safeText(getProjectCategoryText(project)).trim();
+  const pieces = compactEditorialLabels([meta, category]);
+  return pieces.length ? `${title}. ${pieces.join(" · ")}.` : `${title}. Editorial case study generated from the existing project detail content.`;
+}
+
+function getEditorialExcerpt(value, maxLength = 320) {
+  const text = safeText(value).replace(/\s+/g, " ").trim();
+  if (!text) return "";
+  if (text.length <= maxLength) return text;
+
+  const sentences = text.match(/[^.!?]+[.!?]+/g) || [];
+  let result = "";
+
+  sentences.forEach(sentence => {
+    const candidate = `${result}${sentence}`.trim();
+    if (!result || candidate.length <= maxLength) result = candidate;
+  });
+
+  if (result && result.length <= maxLength + 40) return result;
+
+  const clipped = text.slice(0, maxLength).replace(/\s+\S*$/, "").trim();
+  return clipped ? `${clipped}.` : text;
+}
+
+function getEditorialResultText(result) {
+  if (Array.isArray(result)) {
+    return result.filter(item => !isBlank(item)).slice(0, 3).map(item => safeText(item).trim()).join(" ");
+  }
+
+  return safeText(result).trim();
+}
+
+function compactEditorialLabels(values) {
+  return Array.from(new Set((values || []).map(value => safeText(value).trim()).filter(Boolean))).slice(0, 5);
+}
+
+function getAutoEditorialVisualSet(project) {
+  const detail = project.detail || {};
+  const visuals = [];
+
+  getProjectEditorialArtImages(project).forEach(image => visuals.push(image));
+
+  if (!isBlank(project.coverBannerImage || project.coverImage)) {
+    visuals.push({
+      src: project.coverBannerImage || project.coverImage,
+      alt: `${safeText(project.title)} cover visual`
+    });
+  }
+
+  const rows = Array.isArray(detail.images) ? detail.images : [];
+
+  rows.forEach(row => {
+    const items = Array.isArray(row.items) ? row.items : [];
+
+    items.forEach(item => {
+      if (!item || item.type === "video") return;
+
+      if (!isBlank(item.src)) {
+        visuals.push({ src: item.src, alt: item.alt || project.title });
+      }
+
+      if (item.type === "compare") {
+        if (!isBlank(item.after)) visuals.push({ src: item.after, alt: item.altAfter || project.title });
+        if (!isBlank(item.before)) visuals.push({ src: item.before, alt: item.altBefore || project.title });
+      }
+    });
+  });
+
+  const used = new Set();
+
+  return visuals.filter(image => {
+    const src = safeText(image && image.src).trim();
+    if (!src || used.has(src)) return false;
+    used.add(src);
+    return true;
+  });
+}
+
+function findAutoEditorialVisual(project, names, visualSet, fallbackIndex = 0) {
+  const list = Array.isArray(visualSet) ? visualSet : getAutoEditorialVisualSet(project);
+  const searchNames = (Array.isArray(names) ? names : [names]).map(name => safeText(name).toLowerCase()).filter(Boolean);
+
+  const matched = list.find(image => {
+    const src = safeText(image && image.src).toLowerCase();
+    const alt = safeText(image && image.alt).toLowerCase();
+    return searchNames.some(name => src.includes(name) || alt.includes(name));
+  });
+
+  return matched || list[fallbackIndex] || list[0] || null;
 }
 
 function setLegacyProjectDetailVisible(isVisible) {
@@ -1323,13 +1523,11 @@ function renderEditorialProject(project) {
   const inner = document.createElement("div");
   inner.className = "case-story-inner";
 
-  const isDbRouteMap =
-    normalizeSlug(project.slug) === "dbnavigatorredesign" &&
-    safeText(editorial.variant) === "routeMapEditorial";
+  const isRouteMapEditorial = safeText(editorial.variant) === "routeMapEditorial";
 
   const header = renderEditorialHeader(project, editorial);
 
-  if (!isDbRouteMap) {
+  if (!isRouteMapEditorial) {
     const routeLayer = document.createElement("div");
     routeLayer.className = "case-story-route-layer";
     routeLayer.setAttribute("aria-hidden", "true");
@@ -1344,16 +1542,16 @@ function renderEditorialProject(project) {
 
   if (header) inner.appendChild(header);
 
-  if (isDbRouteMap) {
+  if (isRouteMapEditorial) {
     const heroStatement = renderDbEditorialFullImage(project, "hero statement", {
       className: "case-story-hero-statement-strip",
       imageClassName: "case-story-hero-statement-img",
-      fallbackAlt: "DB Navigator accessibility hero statement"
+      fallbackAlt: `${safeText(project.title)} hero statement`
     });
 
     if (heroStatement) inner.appendChild(heroStatement);
 
-    getDbImageDrivenBlocks(project, blocks).forEach((block, index) => {
+    getRouteMapImageDrivenBlocks(project, blocks).forEach((block, index) => {
       const blockEl = renderEditorialBlock(block, index);
       if (blockEl) inner.appendChild(blockEl);
     });
@@ -1361,7 +1559,7 @@ function renderEditorialProject(project) {
     const closingMood = renderDbEditorialFullImage(project, "closing mood", {
       className: "case-story-closing-mood-strip",
       imageClassName: "case-story-closing-mood-img",
-      fallbackAlt: "DB Navigator accessibility closing mood"
+      fallbackAlt: `${safeText(project.title)} closing mood`
     });
 
     if (closingMood) inner.appendChild(closingMood);
@@ -1459,6 +1657,28 @@ function createDbImageBlock(baseBlock, visual, overrides = {}) {
     visualBehavior: overrides.visualBehavior || safeText(baseBlock && baseBlock.visualBehavior),
     wowRelation: overrides.wowRelation || safeText(baseBlock && baseBlock.wowRelation)
   };
+}
+
+function getRouteMapImageDrivenBlocks(project, blocks = []) {
+  if (normalizeSlug(project.slug) === "dbnavigatorredesign") {
+    return getDbImageDrivenBlocks(project, blocks);
+  }
+
+  return blocks.map((block, index) => {
+    const layoutRole = safeText(block.layoutRole) || (index % 2 === 0 ? "rail-left" : "rail-right");
+    const visual = block.dominantVisual || findAutoEditorialVisual(project, [], getAutoEditorialVisualSet(project), index);
+
+    return createDbImageBlock(block, visual, {
+      id: block.id || `${normalizeSlug(project.slug)}-editorial-${index + 1}`,
+      layoutRole,
+      type: block.type || (index === blocks.length - 1 ? "spread" : "proof"),
+      claim: block.claim,
+      headline: block.headline,
+      body: block.body,
+      labels: block.labels,
+      stats: block.stats || []
+    });
+  });
 }
 
 function getDbImageDrivenBlocks(project, blocks = []) {
@@ -1666,13 +1886,14 @@ function renderEditorialBlock(block, index = 0) {
   const media = document.createElement("div");
   media.className = "case-block-media";
 
-  const hideImageMarkersForDb = normalizeSlug(document.body.dataset.projectSlug) === "dbnavigatorredesign";
-  const imageMarkers = hideImageMarkersForDb ? [] : block.markers;
+  const caseStorySection = document.getElementById("caseStory");
+  const hideImageMarkersForRouteMap = caseStorySection && caseStorySection.dataset.editorialVariant === "routeMapEditorial";
+  const imageMarkers = hideImageMarkersForRouteMap ? [] : block.markers;
 
   const dominant = renderEditorialVisual(block.dominantVisual, imageMarkers);
   if (dominant) media.appendChild(dominant);
 
-  if (!hideImageMarkersForDb) {
+  if (!hideImageMarkersForRouteMap) {
     const mobileMarkers = renderCaseMarkerList(block.markers);
     if (mobileMarkers) media.appendChild(mobileMarkers);
   }
@@ -1809,9 +2030,8 @@ function renderEditorialDetailCrops(detailCrops) {
 }
 function shouldUseDbGuideMarkers() {
   const section = document.getElementById("caseStory");
-  const isDbProject = normalizeSlug(document.body.dataset.projectSlug) === "dbnavigatorredesign";
   const isRouteEditorial = section && section.dataset.editorialVariant === "routeMapEditorial";
-  return Boolean(isDbProject && isRouteEditorial);
+  return Boolean(isRouteEditorial);
 }
 function getDbGuideMarkerType(marker) {
   if (!marker || typeof marker !== "object") return "line";
