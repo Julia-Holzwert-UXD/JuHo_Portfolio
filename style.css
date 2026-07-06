@@ -1358,7 +1358,7 @@ body.darkmode .case-story-section .case-marker-note {
 
 body[data-project-slug="DBNavigatorRedesign"] .case-story-section[data-editorial-variant="routeMapEditorial"] {
   --db-route-red: #EC0016;
-  --db-route-bg: #F7F7F4;
+  --db-route-bg: var(--bg-main);
   --db-route-text: #111111;
   --db-route-muted: rgba(17,17,17,.64);
   --db-route-line: rgba(17,17,17,.14);
@@ -4155,4 +4155,161 @@ body.darkmode[data-project-slug="DBNavigatorRedesign"] .project-intro-block .pro
     padding:0 22px!important;
     font-size:15px!important;
   }
+}
+
+
+/* ARCHIVE FILTER HOVER CLARITY ONLY */
+
+.archive-layout .filter-btn:hover{
+  border-color:var(--accent-strong)!important;
+  transform:translateY(-1px)!important;
+  box-shadow:
+    0 0 0 1px var(--accent-strong),
+    0 0 22px rgba(167,139,250,.34)!important;
+}
+
+/* Aktiver Button bleibt wie vorher, solange er nicht gehovert wird */
+.archive-layout .filter-btn.active:not(:hover),
+.archive-layout .filter-btn[aria-pressed="true"]:not(:hover){
+  background:var(--archive-text)!important;
+  color:var(--archive-bg)!important;
+  border-color:var(--archive-text)!important;
+  transform:none!important;
+  box-shadow:none!important;
+}
+
+/* Wenn der aktive Button selbst gehovert wird, bekommt auch er den Accent-Hinweis */
+.archive-layout .filter-btn.active:hover,
+.archive-layout .filter-btn[aria-pressed="true"]:hover{
+  border-color:var(--accent-strong)!important;
+  transform:translateY(-1px)!important;
+  box-shadow:
+    0 0 0 1px var(--accent-strong),
+    0 0 22px rgba(167,139,250,.34)!important;
+}
+
+/* Darkmode gleicher Effekt, nur minimal stärker sichtbar */
+body.darkmode .archive-layout .filter-btn:hover{
+  border-color:var(--accent-strong)!important;
+  box-shadow:
+    0 0 0 1px var(--accent-strong),
+    0 0 24px rgba(167,139,250,.42)!important;
+}
+
+/* COMPARE TAB BUTTONS - ARCHIVE FILTER LOGIC */
+
+.compare-tab-btn{
+  border:1px solid var(--archive-line)!important;
+  border-radius:999px!important;
+  background:transparent!important;
+  color:var(--archive-text)!important;
+  box-shadow:none!important;
+
+  transform:none!important;
+
+  transition:
+    background .22s ease,
+    color .22s ease,
+    border-color .22s ease,
+    box-shadow .28s ease,
+    transform .25s ease!important;
+}
+
+/* Unteren Active-Strich entfernen */
+.compare-tab-btn.active::after{
+  content:none!important;
+  display:none!important;
+}
+
+/* Hover: gleicher Grundzustand wie Active, aber mit Accent-Hinweis */
+.compare-tab-btn:hover{
+  background:var(--archive-text)!important;
+  color:var(--archive-bg)!important;
+  border-color:var(--accent-strong)!important;
+  transform:translateY(-1px)!important;
+  box-shadow:
+    0 0 0 1px var(--accent-strong),
+    0 0 22px rgba(167,139,250,.34)!important;
+}
+
+/* Active: schwarz/weiß gefüllt, ohne Glow */
+.compare-tab-btn.active{
+  background:var(--archive-text)!important;
+  color:var(--archive-bg)!important;
+  border-color:var(--archive-text)!important;
+  transform:none!important;
+  box-shadow:none!important;
+}
+
+/* Active + Hover: bleibt aktiv, bekommt aber den Hover-Hinweis */
+.compare-tab-btn.active:hover{
+  background:var(--archive-text)!important;
+  color:var(--archive-bg)!important;
+  border-color:var(--accent-strong)!important;
+  transform:translateY(-1px)!important;
+  box-shadow:
+    0 0 0 1px var(--accent-strong),
+    0 0 22px rgba(167,139,250,.34)!important;
+}
+
+/* Focus sauber halten */
+.compare-tab-btn:focus-visible{
+  outline:none!important;
+  box-shadow:
+    0 0 0 1px var(--accent-strong),
+    0 0 0 4px rgba(167,139,250,.24),
+    0 0 22px rgba(167,139,250,.34)!important;
+}
+
+/* Darkmode */
+body.darkmode .compare-tab-btn{
+  border-color:var(--archive-line)!important;
+  background:transparent!important;
+  color:var(--archive-text)!important;
+  box-shadow:none!important;
+}
+
+body.darkmode .compare-tab-btn:hover{
+  background:var(--archive-text)!important;
+  color:var(--archive-bg)!important;
+  border-color:var(--accent-strong)!important;
+  box-shadow:
+    0 0 0 1px var(--accent-strong),
+    0 0 24px rgba(167,139,250,.42)!important;
+}
+
+body.darkmode .compare-tab-btn.active{
+  background:var(--archive-text)!important;
+  color:var(--archive-bg)!important;
+  border-color:var(--archive-text)!important;
+  box-shadow:none!important;
+}
+
+body.darkmode .compare-tab-btn.active:hover{
+  background:var(--archive-text)!important;
+  color:var(--archive-bg)!important;
+  border-color:var(--accent-strong)!important;
+  box-shadow:
+    0 0 0 1px var(--accent-strong),
+    0 0 24px rgba(167,139,250,.42)!important;
+}
+
+/* PROJECT TEXT INFO BLOCK SPACING */
+
+.project-text{
+  --project-info-block-gap:clamp(36px,4vw,72px);
+  --project-heading-text-gap:12px;
+}
+
+.project-text h3{
+  margin:0 0 var(--project-heading-text-gap)!important;
+}
+
+.project-text p{
+  margin:0!important;
+}
+
+.project-text p + h3,
+.project-text ul + h3{
+  margin-top:var(--project-info-block-gap)!important;
 }

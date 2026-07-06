@@ -848,7 +848,6 @@ function renderProjectViewMode(project, mode) {
   setLegacyProjectDetailVisible(true);
   renderProjectText(project);
   renderProjectImages(project);
-  renderProjectExtraSlider(project);
 
   if (typeof initCompareTabs === "function") initCompareTabs();
   if (typeof initCustomVideos === "function") initCustomVideos();
