@@ -11,7 +11,7 @@ const projectsData = {
       coverImage: "./pngs/Projects/HeadsUp/Logo.png",
       coverBannerImage: "./pngs/Projects/HeadsUp/Logo_original.png",
       coverBackgroundColor: "#FEFEFE",
-      coverZoom: 130,
+      coverZoom: 110,
       imageScale: 2.15,
       cardCategory: "Automotive HUD concept",
 
@@ -127,7 +127,7 @@ const projectsData = {
       coverImage: "./pngs/Projects/CampusTalk/Logo 1.png",
       coverBannerImage: "./pngs/Projects/CampusTalk/Logo 1.png",
       coverBackgroundColor: "linear-gradient(90deg, #2D2077 50%, #35278F 68%)",
-      coverZoom: 120,
+      coverZoom: 100,
       imageScale: 3.00,
       cardCategory: "Social media for reflecting prejudice",
 
@@ -239,7 +239,7 @@ const projectsData = {
       coverImage: "./pngs/Projects/Aprés/Frame 59 1.png",
       coverBannerImage: "./pngs/Projects/Aprés/Frame 59 1.png",
       coverBackgroundColor: "#F4EFE5",
-      coverZoom: 80,
+      coverZoom: 70,
       imageScale: 2.30,
       cardCategory: "Post-Purchase experience",
 
@@ -485,7 +485,7 @@ const projectsData = {
       coverImage: "./pngs/Projects/Bodique/Logo.png",
       coverBannerImage: "./pngs/Projects/Bodique/Logo.png",
       coverBackgroundColor: "#FEFEFE",
-      coverZoom: 40,
+      coverZoom: 35,
       imageScale: 1.50,
       cardCategory: "Digital-Twin shopping experience",
 
@@ -606,7 +606,7 @@ const projectsData = {
       coverImage: "./pngs/Projects/Store Guide/cover 1.png",
       coverBannerImage: "./pngs/Projects/Store Guide/cover.png",
       coverBackgroundColor: "#30782F",
-      coverZoom: 90,
+      coverZoom: 50,
       imageScale: 1.80,
       cardCategory: "In-Store Navigation App",
 
@@ -708,7 +708,7 @@ const projectsData = {
       coverImage: "./pngs/Projects/Printer Display Redesign/logo.png",
       coverBannerImage: "./pngs/Projects/Printer Display Redesign/logo.png",
       coverBackgroundColor: "#ffffff",
-      coverZoom: 20,
+      coverZoom: 0,
       imageScale: 1.30,
       cardCategory: "PaperCut X THI",
 
@@ -819,12 +819,12 @@ const projectsData = {
       coverImage: "./pngs/Projects/MemoWe/Logo 4.png",
       coverBannerImage: "./pngs/Projects/MemoWe/Logo 4.png",
       coverBackgroundColor: "#30BAC7",
-      coverZoom: 110,
+      coverZoom: 70,
       imageScale: 2.10,
       cardCategory: "Healthcare product for dementia patients",
 
       detail: {
-        meta: "Private Project from 2024 for 6 Months",
+        meta: "Independent Concept Project 2024 for 6 Months",
         sections: {
           summary: "Memory loss shouldn't mean losing connection - For individuals living with dementia and their families, staying in touch and maintaining a daily routine is both essential and increasingly difficult. MemoWe was designed to bridge that gap — offering a product that supports both patients and their loved ones without adding complexity to already demanding lives.",
           challenge: "Designing for users with dementia requires an entirely different standard of clarity. Cognitive load, visual noise, and inconsistent patterns are not just inconveniences — they are genuine barriers. At the same time, the product needed to serve family members who may be less tech-savvy or emotionally overwhelmed. The challenge was creating a single, unified experience that felt intuitive, warm, and reliable for both audiences simultaneously.",
@@ -929,7 +929,7 @@ const projectsData = {
       coverImage: "./pngs/Projects/PikBre 3D - Remote Control/logo.png",
       coverBannerImage: "./pngs/Projects/PikBre 3D - Remote Control/logo.png",
       coverBackgroundColor: "#FEFEFE",
-      coverZoom: 30,
+      coverZoom: 10,
       imageScale: 1.50,
       cardCategory: "Gaming enviromental remote control",
 
@@ -1649,7 +1649,7 @@ const projectsData = {
       coverBannerImage: "",
 
       detail: {
-        meta: "Private Project from 2026",
+        meta: "Independent Concept Project 2026",
         sections: {
           summary: "“Productivity tools shouldn’t be limited to a screen.” In 2026, AR and VR offer the chance to rethink how people organize tasks and time. By extending a simple to-do list into a spatial interface, users can interact with their tasks in three dimensions, creating context, awareness, and presence while staying immersed in their environment. ",
           challenge: "Transforming a basic to-do list into a spatial experience without overwhelming the user. Traditional lists work linearly, but in AR/VR, poorly structured overlays can feel cluttered, distracting, or confusing. Tasks need to feel tangible, easy to prioritize, and always accessible without breaking immersion. The challenge was balancing functionality, comfort, and spatial cognition. ",

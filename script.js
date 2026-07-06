@@ -784,13 +784,64 @@ function renderProjectDetail() {
 
   renderProjectHeader(project);
   renderProjectCover(project);
+  renderProjectViewToggle(project);
 
-  const editorialRendered = renderEditorialProject(project);
+  const mode = getProjectViewMode(project);
+  renderProjectViewMode(project, mode);
+}
+function isDbEditorialProject(project) {
+  return (
+    project &&
+    normalizeSlug(project.slug) === "dbnavigatorredesign" &&
+    getEditorialConfig(project)
+  );
+}
 
-  if (editorialRendered) {
-    setLegacyProjectDetailVisible(true);
-    hideProjectExtraSlider();
-    return;
+function getProjectViewModeKey(project) {
+  return `projectViewMode:${normalizeSlug(project.slug)}`;
+}
+
+function getProjectViewMode(project) {
+  if (!isDbEditorialProject(project)) return "detail";
+
+  try {
+    const savedMode = sessionStorage.getItem(getProjectViewModeKey(project));
+    if (savedMode === "detail" || savedMode === "editorial") return savedMode;
+  } catch (error) {
+    warnLog("Could not read project view mode");
+  }
+
+  return "editorial";
+}
+
+function setProjectViewMode(project, mode) {
+  const nextMode = mode === "detail" ? "detail" : "editorial";
+
+  try {
+    sessionStorage.setItem(getProjectViewModeKey(project), nextMode);
+  } catch (error) {
+    warnLog("Could not save project view mode");
+  }
+
+  return nextMode;
+}
+
+function renderProjectViewMode(project, mode) {
+  const nextMode = mode === "detail" ? "detail" : "editorial";
+
+  document.body.dataset.dbProjectView = nextMode;
+
+  if (isDbEditorialProject(project) && nextMode === "editorial") {
+    const editorialRendered = renderEditorialProject(project);
+
+    if (editorialRendered) {
+      setLegacyProjectDetailVisible(false);
+      hideProjectExtraSlider();
+      updateProjectViewToggle(project, "editorial");
+
+      if (window.ScrollTrigger) ScrollTrigger.refresh();
+      return;
+    }
   }
 
   removeEditorialProject();
@@ -798,8 +849,91 @@ function renderProjectDetail() {
   renderProjectText(project);
   renderProjectImages(project);
   renderProjectExtraSlider(project);
+
+  if (typeof initCompareTabs === "function") initCompareTabs();
+  if (typeof initCustomVideos === "function") initCustomVideos();
+  if (typeof initProjectImagePreview === "function") initProjectImagePreview(document);
+
+  updateProjectViewToggle(project, "detail");
+
+  if (window.ScrollTrigger) ScrollTrigger.refresh();
+}
+function renderProjectViewToggle(project) {
+  if (!isDbEditorialProject(project)) {
+    removeProjectViewToggle();
+    return;
+  }
+
+  const introCopy = qs(".project-intro-copy");
+  const introContainer = qs(".intro-container");
+  const target = introCopy || introContainer;
+  if (!target) return;
+
+  let button = document.getElementById("projectViewToggle");
+
+  if (!button) {
+    button = document.createElement("button");
+    button.type = "button";
+    button.id = "projectViewToggle";
+    button.className = "project-view-toggle hero-contact-button";
+
+    const text = document.createElement("span");
+    text.className = "hero-contact-text project-view-toggle-text";
+
+    const arrow = document.createElement("span");
+    arrow.className = "hero-contact-arrow";
+    arrow.setAttribute("aria-hidden", "true");
+    arrow.textContent = "→";
+
+    ["corner-tl", "corner-tr", "corner-bl", "corner-br"].forEach(position => {
+      const corner = document.createElement("span");
+      corner.className = `hero-contact-corner ${position}`;
+      corner.setAttribute("aria-hidden", "true");
+      button.appendChild(corner);
+    });
+
+    button.appendChild(text);
+    button.appendChild(arrow);
+
+    button.addEventListener("click", () => {
+      const currentMode = getProjectViewMode(project);
+      const nextMode = currentMode === "editorial" ? "detail" : "editorial";
+
+      setProjectViewMode(project, nextMode);
+      renderProjectViewMode(project, nextMode);
+    });
+  }
+
+  if (button.parentNode !== target) {
+    target.appendChild(button);
+  }
+
+  updateProjectViewToggle(project, getProjectViewMode(project));
 }
 
+function updateProjectViewToggle(project, mode) {
+  const button = document.getElementById("projectViewToggle");
+  if (!button || !isDbEditorialProject(project)) return;
+
+  const text = qs(".project-view-toggle-text", button);
+  const arrow = qs(".hero-contact-arrow", button);
+  const isEditorial = mode === "editorial";
+
+  const targetLabel = isEditorial
+    ? "Projectdetails"
+    : "Editorial";
+
+  if (text) text.textContent = targetLabel;
+  if (arrow) arrow.textContent = "→";
+
+  button.dataset.currentMode = mode;
+  button.setAttribute("aria-label", `Switch to ${targetLabel}`);
+}
+
+function removeProjectViewToggle() {
+  const button = document.getElementById("projectViewToggle");
+  if (button) button.remove();
+}
 function renderProjectHeader(project) {
   const titleEl = document.getElementById("projectTitle");
   const tagsEl = document.getElementById("projectTags");
@@ -845,14 +979,24 @@ function renderProjectHeader(project) {
   removeChildren(tagsEl);
   const base = getBasePath();
 
-  (project.categories || []).forEach((category, index) => {
-    if (index > 0) tagsEl.appendChild(document.createTextNode(" | "));
+  const headerTags = getProjectTagList(project).slice(0, 3);
 
-    const link = document.createElement("a");
-    link.href = `${base}projects.html?filter=${encodeURIComponent(category)}#filters`;
-    link.textContent = category;
-    tagsEl.appendChild(link);
-  });
+headerTags.forEach(tag => {
+  const link = document.createElement("a");
+  const isYear = /^\d{4}$/.test(tag);
+  const isLevel = tag === "Private" || tag === "Group Project";
+
+  if (isLevel) {
+    link.href = `${base}projects.html?level=${encodeURIComponent(tag)}#filters`;
+  } else if (isYear) {
+    link.href = `${base}projects.html#filters`;
+  } else {
+    link.href = `${base}projects.html?filter=${encodeURIComponent(tag)}#filters`;
+  }
+
+  link.textContent = tag;
+  tagsEl.appendChild(link);
+});
 }
 
 function ensureProjectIntroComposition() {
@@ -928,8 +1072,14 @@ function renderProjectCover(project) {
   const base = getBasePath()
   const coverColor = getProjectCoverBg(project)
   const coverSrc = normalizePath(project.coverBannerImage || project.coverImage || "", base)
-  const coverZoom = Number.isFinite(Number(project.coverZoom)) ? Number(project.coverZoom) : 0
-  const coverScale = 1 + coverZoom / 100
+  const coverZoom = Number(project.coverZoom)
+const imageScale = Number(project.imageScale)
+
+const coverScale = Number.isFinite(coverZoom)
+  ? 1 + coverZoom / 100
+  : Number.isFinite(imageScale)
+    ? imageScale
+    : 1
 
   removeChildren(coverBannerEl)
   coverBannerEl.style.background = "transparent"
@@ -951,7 +1101,7 @@ function renderProjectCover(project) {
   setCssVar(coverBannerEl, "--project-cover-bg", coverColor)
   setCssVar(coverBannerEl, "--project-cover-color", coverColor)
   setCssVar(coverBannerEl, "--project-cover-image-scale", coverScale)
-
+  setCssVar(coverBannerEl, "--intro-logo-scale", coverScale)
   const wrapper = document.createElement("div")
   wrapper.className = "project-cover-wrapper"
 
@@ -1219,7 +1369,6 @@ function renderEditorialProject(project) {
     safeText(editorial.variant) === "routeMapEditorial";
 
   const header = renderEditorialHeader(project, editorial);
-  const renderBlocks = isDbRouteMap ? getDbBlocksWithShiftedSupport(blocks) : blocks;
 
   if (!isDbRouteMap) {
     const routeLayer = document.createElement("div");
@@ -1237,18 +1386,38 @@ function renderEditorialProject(project) {
   if (header) inner.appendChild(header);
 
   if (isDbRouteMap) {
-    const heroStatement = renderDbHeroStatementStrip(project, blocks);
-    if (heroStatement) inner.appendChild(heroStatement);
-  }
+    const heroStatement = renderDbEditorialFullImage(project, "hero statement", {
+      className: "case-story-hero-statement-strip",
+      imageClassName: "case-story-hero-statement-img",
+      fallbackAlt: "DB Navigator accessibility hero statement"
+    });
 
-  renderBlocks.forEach((block, index) => {
-    const blockEl = renderEditorialBlock(block, index);
-    if (blockEl) inner.appendChild(blockEl);
-  });
+    if (heroStatement) inner.appendChild(heroStatement);
+
+    const dbBlocks = getDbImageDrivenBlocks(project, blocks);
+
+    dbBlocks.forEach((block, index) => {
+      const blockEl = renderEditorialBlock(block, index);
+      if (blockEl) inner.appendChild(blockEl);
+    });
+
+    const closingMood = renderDbEditorialFullImage(project, "closing mood", {
+      className: "case-story-closing-mood-strip",
+      imageClassName: "case-story-closing-mood-img",
+      fallbackAlt: "DB Navigator accessibility closing mood"
+    });
+
+    if (closingMood) inner.appendChild(closingMood);
+  } else {
+    blocks.forEach((block, index) => {
+      const blockEl = renderEditorialBlock(block, index);
+      if (blockEl) inner.appendChild(blockEl);
+    });
+  }
 
   section.appendChild(inner);
 
-  if (!qsa("[data-case-block]", section).length) {
+  if (!qsa("[data-case-block], .case-story-hero-statement-strip, .case-story-closing-mood-strip", section).length) {
     removeEditorialProject();
     return false;
   }
@@ -1258,39 +1427,47 @@ function renderEditorialProject(project) {
 
   if (typeof initCompareTabs === "function") initCompareTabs();
   if (typeof initCustomVideos === "function") initCustomVideos();
-  if (typeof initDbSupportPreview === "function") initDbSupportPreview(section);
+
+  if (typeof initProjectImagePreview === "function") {
+    initProjectImagePreview(section);
+  } else if (typeof initDbSupportPreview === "function") {
+    initDbSupportPreview(section);
+  }
 
   return true;
 }
 
+function getProjectEditorialArtImages(project) {
+  const images = project &&
+    project.detail &&
+    Array.isArray(project.detail.editorialArtDirectedCaseStudyImages)
+      ? project.detail.editorialArtDirectedCaseStudyImages
+      : [];
 
-function findDbHeroStatementVisual(project, blocks = []) {
-  const detail = project && project.detail ? project.detail : {};
-  const editorialImages = Array.isArray(detail.editorialArtDirectedCaseStudyImages)
-    ? detail.editorialArtDirectedCaseStudyImages
-    : [];
-
-  const image = editorialImages.find(item => safeText(item && item.src).toLowerCase().includes("hero statement"));
-  if (image && !isBlank(image.src)) return image;
-
-  const firstBlockSupport = blocks[0] && Array.isArray(blocks[0].supportVisuals)
-    ? blocks[0].supportVisuals.find(item => item && safeText(item.src).toLowerCase().includes("hero statement"))
-    : null;
-
-  return firstBlockSupport || null;
+  return images.filter(image => image && !isBlank(image.src));
 }
 
-function renderDbHeroStatementStrip(project, blocks = []) {
-  const visual = findDbHeroStatementVisual(project, blocks);
+function findProjectEditorialArtImage(project, name) {
+  const search = safeText(name).toLowerCase();
+
+  return getProjectEditorialArtImages(project).find(image => {
+    const src = safeText(image.src).toLowerCase();
+    const alt = safeText(image.alt).toLowerCase();
+    return src.includes(search) || alt.includes(search);
+  }) || null;
+}
+
+function renderDbEditorialFullImage(project, name, options = {}) {
+  const visual = findProjectEditorialArtImage(project, name);
   if (!visual || isBlank(visual.src)) return null;
 
   const figure = document.createElement("figure");
-  figure.className = "case-story-hero-statement-strip";
+  figure.className = `case-story-fullbleed-strip ${safeText(options.className)}`.trim();
 
   const img = document.createElement("img");
-  img.className = "case-story-hero-statement-img";
+  img.className = `case-story-fullbleed-img ${safeText(options.imageClassName)}`.trim();
   img.src = normalizePath(visual.src, getBasePath());
-  img.alt = safeText(visual.alt || "DB Navigator accessibility hero statement");
+  img.alt = safeText(visual.alt || options.fallbackAlt || "");
   img.loading = "lazy";
   img.decoding = "async";
 
@@ -1307,34 +1484,139 @@ function renderDbHeroStatementStrip(project, blocks = []) {
   return figure;
 }
 
-function getDbBlocksWithShiftedSupport(blocks = []) {
-  return blocks.map((block, index) => {
-    const nextBlock = blocks[index + 1];
-    const nextSupport = nextBlock && Array.isArray(nextBlock.supportVisuals)
-      ? nextBlock.supportVisuals
-      : [];
-
-    return {
-      ...block,
-      supportVisuals: index === blocks.length - 1 ? [] : nextSupport.slice(0, 3),
-      detailCrops: []
-    };
-  });
+function createDbImageBlock(baseBlock, visual, overrides = {}) {
+  return {
+    ...(baseBlock || {}),
+    id: overrides.id || safeText(baseBlock && baseBlock.id),
+    type: overrides.type || safeText(baseBlock && baseBlock.type) || "proof",
+    claim: overrides.claim || safeText(baseBlock && baseBlock.claim),
+    headline: overrides.headline || safeText(baseBlock && baseBlock.headline),
+    body: overrides.body || safeText(baseBlock && baseBlock.body),
+    labels: overrides.labels || (baseBlock && baseBlock.labels) || [],
+    stats: overrides.stats || (baseBlock && baseBlock.stats) || [],
+    markers: [],
+    supportVisuals: [],
+    detailCrops: [],
+    dominantVisual: visual,
+    layoutRole: overrides.layoutRole || safeText(baseBlock && baseBlock.layoutRole),
+    visualBehavior: overrides.visualBehavior || safeText(baseBlock && baseBlock.visualBehavior),
+    wowRelation: overrides.wowRelation || safeText(baseBlock && baseBlock.wowRelation)
+  };
 }
 
+function getDbImageDrivenBlocks(project, blocks = []) {
+  const deviceLineup = findProjectEditorialArtImage(project, "device line-up");
+  const conceptualDiptych = findProjectEditorialArtImage(project, "conceptual diptych");
+  const editorialObjectShot = findProjectEditorialArtImage(project, "editorial object shot");
+  const informationArchitecture = findProjectEditorialArtImage(project, "information architecture");
+  const detailCrop = findProjectEditorialArtImage(project, "detail crop");
+  const mobileSystem = findProjectEditorialArtImage(project, "mobile system");
+
+  const sourceOpening = blocks[0] || {};
+  const sourceKnownFlow = blocks[1] || {};
+  const sourceOptions = blocks[2] || {};
+  const sourceCoreProof = blocks[3] || {};
+  const sourceDetail = blocks[4] || {};
+  const sourceSystem = blocks[5] || {};
+
+  const result = [];
+
+  if (deviceLineup) {
+    result.push(createDbImageBlock(sourceKnownFlow, deviceLineup, {
+      id: "db-editorial-device-lineup",
+      type: "problem",
+      layoutRole: "rail-left knownFlow",
+      claim: "The familiar DB structure stays recognizable.",
+      headline: "The flow stays familiar.",
+      body: "Search, connection results, and journey details stay close to the learned DB Navigator structure. The redesign improves clarity inside the existing flow instead of replacing it.",
+      labels: ["Known flow", "Connection results", "Journey details"]
+    }));
+  }
+
+  if (conceptualDiptych) {
+    result.push(createDbImageBlock(sourceOpening, conceptualDiptych, {
+      id: "db-editorial-conceptual-diptych",
+      type: "proof",
+      layoutRole: "rail-right opening",
+      claim: "Accessibility becomes part of the route decision.",
+      headline: "Making accessibility visible inside route comparison.",
+      body: "An independent DB Navigator concept that keeps the familiar journey flow, while making access conditions easier to compare before choosing a route.",
+      labels: ["Independent concept", "Interaction System", "Route comparison"]
+    }));
+  }
+
+  if (editorialObjectShot) {
+    result.push(createDbImageBlock(sourceSystem, editorialObjectShot, {
+      id: "db-editorial-object-shot",
+      type: "proof",
+      layoutRole: "rail-left objectProof",
+      claim: "The system needs a clear visual anchor.",
+      headline: "Accessibility becomes a visible product layer.",
+      body: "The editorial object shot gives the redesign a calmer product moment between abstract concept and interface proof. It helps the case study feel designed, not just documented.",
+      labels: ["Editorial object", "Product layer", "Visual anchor"]
+    }));
+  }
+
+  if (informationArchitecture) {
+    result.push(createDbImageBlock(sourceOptions, informationArchitecture, {
+      id: "db-editorial-information-architecture",
+      type: "sticky",
+      layoutRole: "rail-right entry",
+      claim: "Access needs enter before comparison.",
+      headline: "Accessibility enters through the options flow.",
+      body: "Users can surface relevant access needs before comparing routes, instead of searching for them later in separated details.",
+      labels: ["Options flow", "Access needs", "Categories"]
+    }));
+  }
+
+  if (detailCrop) {
+    result.push(createDbImageBlock(sourceDetail, detailCrop, {
+      id: "db-editorial-detail-crop",
+      type: "proof",
+      layoutRole: "rail-left explanation",
+      claim: "The score stays explainable.",
+      headline: "The score opens into route-level details.",
+      body: "Available, limited, and missing access conditions explain why a route receives its conceptual access score.",
+      labels: ["Available", "Limited", "Missing", "Route-level details"]
+    }));
+  }
+
+  if (mobileSystem) {
+    result.push(createDbImageBlock(sourceCoreProof, mobileSystem, {
+      id: "db-editorial-mobile-system",
+      type: "spread",
+      layoutRole: "rail-right coreProof",
+      claim: "Accessibility becomes comparable.",
+      headline: "Access scores turn routes into decisions.",
+      body: "A conceptual score makes access conditions visible beside classic travel information, so routes can be compared beyond time, changes, and duration.",
+      labels: ["Conceptual model", "Route comparison", "Access clarity"],
+      stats: [
+        {
+          value: "10/15",
+          label: "High access clarity"
+        },
+        {
+          value: "7/15",
+          label: "Medium access clarity"
+        },
+        {
+          value: "3/15",
+          label: "Low access clarity"
+        }
+      ]
+    }));
+  }
+
+  return result;
+}
 function renderEditorialHeader(project, editorial) {
   const header = document.createElement("header");
   header.className = "case-story-header";
-
-  const kicker = document.createElement("p");
-  kicker.className = "case-story-kicker";
-  kicker.textContent = safeText(editorial.projectType || project.title || "Case Story");
 
   const thesis = document.createElement("h2");
   thesis.className = "case-story-thesis";
   thesis.textContent = safeText(editorial.thesis || project.title);
 
-  header.appendChild(kicker);
   header.appendChild(thesis);
 
   if (!isBlank(editorial.scopeNote)) {
@@ -1346,7 +1628,6 @@ function renderEditorialHeader(project, editorial) {
 
   return header;
 }
-
 function renderEditorialBlock(block, index = 0) {
   if (!block || typeof block !== "object") return null;
 
@@ -1454,7 +1735,6 @@ function renderEditorialBlock(block, index = 0) {
 
   return article;
 }
-
 function renderEditorialVisual(visual, markers = []) {
   if (!visual || typeof visual !== "object") return null;
 
@@ -1490,7 +1770,6 @@ function renderEditorialVisual(visual, markers = []) {
 
   return frame;
 }
-
 function renderEditorialLabels(labels) {
   const values = Array.isArray(labels)
     ? labels.filter(label => !isBlank(label)).slice(0, 5)
@@ -1510,7 +1789,6 @@ function renderEditorialLabels(labels) {
 
   return wrap;
 }
-
 function renderEditorialStats(stats) {
   const values = Array.isArray(stats)
     ? stats.filter(stat => stat && (!isBlank(stat.value) || !isBlank(stat.label))).slice(0, 3)
@@ -1549,44 +1827,9 @@ function renderEditorialStats(stats) {
 
   return wrap;
 }
-
 function renderEditorialSupportVisuals(supportVisuals) {
-  const visuals = Array.isArray(supportVisuals)
-    ? supportVisuals.filter(visual => visual && !isBlank(visual.src)).slice(0, 3)
-    : [];
-
-  if (!visuals.length) return null;
-
-  const wrap = document.createElement("div");
-  wrap.className = "case-support-visuals";
-
-  visuals.forEach(visual => {
-    const figure = document.createElement("figure");
-    figure.className = "case-support-visual";
-
-    const img = document.createElement("img");
-    img.className = "case-support-img";
-    img.src = normalizePath(visual.src, getBasePath());
-    img.alt = safeText(visual.alt || "");
-    img.loading = "lazy";
-    img.decoding = "async";
-
-    img.addEventListener("error", () => {
-      figure.remove();
-      if (window.ScrollTrigger) ScrollTrigger.refresh();
-    }, { once: true });
-
-    img.addEventListener("load", () => {
-      if (window.ScrollTrigger) ScrollTrigger.refresh();
-    }, { once: true });
-
-    figure.appendChild(img);
-    wrap.appendChild(figure);
-  });
-
-  return wrap;
+  return null;
 }
-
 function renderEditorialDetailCrops(detailCrops) {
   const values = Array.isArray(detailCrops)
     ? detailCrops.filter(crop => crop && !isBlank(crop.label)).slice(0, 5)
@@ -1607,14 +1850,12 @@ function renderEditorialDetailCrops(detailCrops) {
 
   return wrap;
 }
-
 function shouldUseDbGuideMarkers() {
   const section = document.getElementById("caseStory");
   const isDbProject = normalizeSlug(document.body.dataset.projectSlug) === "dbnavigatorredesign";
   const isRouteEditorial = section && section.dataset.editorialVariant === "routeMapEditorial";
   return Boolean(isDbProject && isRouteEditorial);
 }
-
 function getDbGuideMarkerType(marker) {
   if (!marker || typeof marker !== "object") return "line";
 
@@ -1624,7 +1865,6 @@ function getDbGuideMarkerType(marker) {
 
   return "line";
 }
-
 function renderCaseMarkers(markers) {
   const values = normalizeCaseMarkers(markers);
   if (!values.length) return null;
@@ -1663,7 +1903,6 @@ function renderCaseMarkers(markers) {
 
   return layer;
 }
-
 function renderCaseMarkerList(markers) {
   const values = normalizeCaseMarkers(markers);
   if (!values.length) return null;
@@ -2534,54 +2773,72 @@ function initCompareTabs() {
     });
   });
 }
-function initDbSupportPreview(root = document) {
-  const isDbProject = normalizeSlug(document.body.dataset.projectSlug) === "dbnavigatorredesign";
-  if (!isDbProject) return;
+function initProjectImagePreview(root = document) {
+  const previewImages = qsa(`
+    .project-detail-section .project-images img,
+    .project-detail-section .compare-tab-panel img,
+    .project-detail-section .before-after-slider img,
+    .case-story-section .case-visual-img,
+    .case-story-section .case-story-hero-statement-img,
+    .case-story-section .compare-tab-panel img,
+    .case-story-section .before-after-slider img
+  `, root).filter(image => {
+    if (!image || !image.src) return false;
+    if (image.closest("#projectCoverBanner")) return false;
+    if (image.closest(".project-card")) return false;
+    if (image.closest(".other-projects-section")) return false;
+    return true;
+  });
 
-  const supportImages = qsa(".case-story-section[data-editorial-variant='routeMapEditorial'] .case-support-img", root);
-  if (!supportImages.length) return;
+  if (!previewImages.length) return;
 
-  let preview = document.querySelector(".db-support-preview");
+  let preview = document.querySelector(".project-image-preview");
 
   if (!preview) {
     preview = document.createElement("div");
-    preview.className = "db-support-preview";
+    preview.className = "project-image-preview";
     preview.setAttribute("aria-hidden", "true");
     preview.setAttribute("role", "dialog");
     preview.setAttribute("aria-label", "Image preview");
 
     const inner = document.createElement("div");
-    inner.className = "db-support-preview-inner";
+    inner.className = "project-image-preview-inner";
 
     const image = document.createElement("img");
-    image.className = "db-support-preview-img";
+    image.className = "project-image-preview-img";
     image.alt = "";
 
     inner.appendChild(image);
     preview.appendChild(inner);
     document.body.appendChild(preview);
 
-    preview.addEventListener("click", () => {
+    function closePreview() {
       preview.classList.remove("is-visible");
       preview.setAttribute("aria-hidden", "true");
-      document.body.classList.remove("is-db-support-preview-open");
-    });
+      document.body.classList.remove("is-project-image-preview-open");
+    }
+
+    preview.addEventListener("click", closePreview);
 
     document.addEventListener("keydown", event => {
-      if (event.key !== "Escape") return;
-      preview.classList.remove("is-visible");
-      preview.setAttribute("aria-hidden", "true");
-      document.body.classList.remove("is-db-support-preview-open");
+      if (event.key === "Escape") closePreview();
     });
   }
 
-  const previewImage = qs(".db-support-preview-img", preview);
+  const previewImage = qs(".project-image-preview-img", preview);
 
-  supportImages.forEach(image => {
-    if (image.dataset.dbPreviewReady) return;
-    image.dataset.dbPreviewReady = "true";
+  previewImages.forEach(image => {
+    if (image.dataset.projectPreviewReady) return;
+    image.dataset.projectPreviewReady = "true";
 
-    const trigger = image.closest(".case-support-visual") || image;
+    const trigger =
+      image.closest(".case-visual-frame") ||
+      image.closest(".case-story-hero-statement-strip") ||
+      image.closest(".compare-tab-panel") ||
+      image.closest(".before-after-slider") ||
+      image.closest(".image-row") ||
+      image;
+
     trigger.setAttribute("tabindex", "0");
     trigger.setAttribute("role", "button");
     trigger.setAttribute("aria-label", "Open image preview");
@@ -2591,7 +2848,7 @@ function initDbSupportPreview(root = document) {
       previewImage.alt = image.alt || "";
       preview.classList.add("is-visible");
       preview.setAttribute("aria-hidden", "false");
-      document.body.classList.add("is-db-support-preview-open");
+      document.body.classList.add("is-project-image-preview-open");
     }
 
     trigger.addEventListener("click", event => {
