@@ -802,11 +802,8 @@ body.darkmode .custom-video{--video-button-fill:#FFFFFF;--video-icon:#000000;--v
 
 /* FOOTER*/
 .footer-section{background:var(--accent-strong);margin-top:var(--project-footer-gap);position:relative}
-.gooey-animations{position:absolute;top:0;left:-10%;width:120%;height:6rem;background:var(--accent-strong);transform:translateY(-99%);filter:url("#liquid-effect");pointer-events:none}
-.particle{position:absolute;top:50%;left:var(--pos-x,50%);width:var(--dim,5rem);height:var(--dim,5rem);background:var(--accent-strong);border-radius:50%;transform:translate(-50%,-50%);animation:float-up var(--dur,4s) ease-in infinite;animation-delay:var(--delay,0s)}
 .footer-content{text-align:center;padding:4rem 2rem;position:relative;z-index:2}
 .footer-text{color:var(--text-light);font-size:1rem;line-height:1.5}
-@keyframes float-up{0%{top:50%;transform:translate(-50%,-50%) scale(1)}100%{top:calc(var(--uplift,8rem) * -1);transform:translate(-50%,-50%) scale(0)}}
 
 /* TO TOP BUTTON*/
 #toTop{position:fixed;bottom:30px;right:30px;z-index:2100;width:45px;height:45px;border:none;border-radius:50%;background:var(--accent-strong);color:var(--text-light);cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s}
@@ -1373,7 +1370,7 @@ body[data-project-slug="DBNavigatorRedesign"] .case-story-section[data-editorial
 }
 
 body.darkmode[data-project-slug="DBNavigatorRedesign"] .case-story-section[data-editorial-variant="routeMapEditorial"] {
-  --db-route-bg: #0D0F12;
+  --db-route-bg: var(--bg-main);
   --db-route-text: #F7F7F4;
   --db-route-muted: rgba(247,247,244,.64);
   --db-route-line: rgba(247,247,244,.16);
@@ -1715,108 +1712,7 @@ body[data-project-slug="DBNavigatorRedesign"] .case-story-section[data-editorial
     opacity: 1 !important;
   }
 }
-/* =========================================================
-   DB Navigator marker refinement
-   Append this at the end of style.css
-   Goal: markers behave like subtle editorial guide lines, not labels on top of the image.
-========================================================= */
 
-body[data-project-slug="DBNavigatorRedesign"]
-.case-story-section[data-editorial-variant="routeMapEditorial"]
-.case-marker-layer-db-guide {
-  z-index: 2;
-  opacity: .78;
-  pointer-events: none;
-}
-
-body[data-project-slug="DBNavigatorRedesign"]
-.case-story-section[data-editorial-variant="routeMapEditorial"]
-.case-marker-db-guide-item {
-  color: var(--db-route-red, #EC0016);
-  background: transparent;
-  border: 0;
-  box-shadow: none;
-  text-indent: -9999px;
-  overflow: hidden;
-}
-
-body[data-project-slug="DBNavigatorRedesign"]
-.case-story-section[data-editorial-variant="routeMapEditorial"]
-.case-marker-layer-db-guide .case-marker-line,
-body[data-project-slug="DBNavigatorRedesign"]
-.case-story-section[data-editorial-variant="routeMapEditorial"]
-.case-marker-layer-db-guide .case-marker-divider {
-  height: 2px;
-  min-height: 2px;
-  border-radius: 999px;
-  background: currentColor;
-  transform-origin: left center;
-}
-
-body[data-project-slug="DBNavigatorRedesign"]
-.case-story-section[data-editorial-variant="routeMapEditorial"]
-.case-marker-layer-db-guide .case-marker-underline {
-  height: 3px;
-  min-height: 3px;
-  border-radius: 999px;
-  background: currentColor;
-}
-
-body[data-project-slug="DBNavigatorRedesign"]
-.case-story-section[data-editorial-variant="routeMapEditorial"]
-.case-marker-layer-db-guide .case-marker-circle {
-  border: 1.5px solid currentColor;
-  border-radius: 999px;
-  background: transparent;
-}
-
-body[data-project-slug="DBNavigatorRedesign"]
-.case-story-section[data-editorial-variant="routeMapEditorial"]
-.case-marker-layer-db-guide .case-marker-plus::before,
-body[data-project-slug="DBNavigatorRedesign"]
-.case-story-section[data-editorial-variant="routeMapEditorial"]
-.case-marker-layer-db-guide .case-marker-plus::after {
-  height: 2px;
-  background: currentColor;
-}
-
-/* On small screens, keep the image clean and move marker meaning into the marker list below the image. */
-@media (max-width: 1000px) {
-  body[data-project-slug="DBNavigatorRedesign"]
-  .case-story-section[data-editorial-variant="routeMapEditorial"]
-  .case-marker-layer-db-guide {
-    display: none;
-  }
-
-  body[data-project-slug="DBNavigatorRedesign"]
-  .case-story-section[data-editorial-variant="routeMapEditorial"]
-  .case-marker-list {
-    display: flex;
-  }
-}
-/* =========================================================
-   DB Navigator final rail adjustments
-   Add this at the very end of style.css
-========================================================= */
-
-body[data-project-slug="DBNavigatorRedesign"]
-.case-story-section[data-editorial-variant="routeMapEditorial"]
-.case-story-hero-statement-strip {
-  width: 100%;
-  margin: clamp(28px, 4vw, 64px) 0 clamp(48px, 6vw, 96px);
-  border: 1px solid var(--db-route-line, rgba(17,17,17,.14));
-  background: var(--db-route-soft, #ECECEA);
-  overflow: hidden;
-}
-
-body[data-project-slug="DBNavigatorRedesign"]
-.case-story-section[data-editorial-variant="routeMapEditorial"]
-.case-story-hero-statement-img {
-  display: block;
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-}
 
 /* Detail crops are removed from DB visually as well, even if old data still exists. */
 body[data-project-slug="DBNavigatorRedesign"]
@@ -1924,42 +1820,6 @@ body[data-project-slug="DBNavigatorRedesign"]
     object-fit: cover;
     transform: none;
   }
-}
-/* DB CASE STORY INNER VISIBLE*/
-body[data-project-slug="DBNavigatorRedesign"] .case-story-section[data-editorial-variant="routeMapEditorial"] .case-story-inner{display:block;visibility:visible;opacity:1}
-
-/* DB SUPPORT VISUAL ALIGNMENT*/
-body[data-project-slug="DBNavigatorRedesign"] .case-story-section[data-editorial-variant="routeMapEditorial"] .case-block-media{display:grid;grid-template-columns:1fr;align-items:start}
-body[data-project-slug="DBNavigatorRedesign"] .case-story-section[data-editorial-variant="routeMapEditorial"] .case-support-visuals{width:min(620px,100%);margin-top:12px}
-body[data-project-slug="DBNavigatorRedesign"] .case-story-section[data-editorial-variant="routeMapEditorial"] .case-block-rail-left .case-support-visuals{justify-self:end}
-body[data-project-slug="DBNavigatorRedesign"] .case-story-section[data-editorial-variant="routeMapEditorial"] .case-block-rail-right .case-support-visuals{justify-self:start}
-body[data-project-slug="DBNavigatorRedesign"] .case-story-section[data-editorial-variant="routeMapEditorial"] .case-support-visual{cursor:zoom-in}
-
-/* DB SUPPORT PREVIEW MODAL*/
-.db-support-preview{position:fixed;inset:0;z-index:5000;display:grid;place-items:center;padding:clamp(18px,4vw,64px);background:rgba(0,0,0,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);cursor:zoom-out;opacity:0;pointer-events:none;transition:opacity .24s ease}
-.db-support-preview.is-visible{opacity:1;pointer-events:auto}
-.db-support-preview-inner{width:min(1440px,100%);max-height:min(86vh,900px);display:grid;place-items:center;background:var(--db-route-bg,#F7F7F4);border:1px solid rgba(255,255,255,.18);box-shadow:0 32px 90px rgba(0,0,0,.38);overflow:hidden}
-.db-support-preview-img{display:block;width:100%;height:100%;max-height:min(86vh,900px);object-fit:contain;object-position:center}
-body.darkmode .db-support-preview-inner{background:#0D0F12}
-body.is-db-support-preview-open{overflow:hidden}
-body.is-db-support-preview-open .navbar{filter:brightness(.38);pointer-events:none}
-
-/* DB COMPARE VIEW SIDE BY SIDE*/
-body[data-project-slug="DBNavigatorRedesign"] .case-story-section[data-editorial-variant="routeMapEditorial"] .compare-tabs{width:100%}
-body[data-project-slug="DBNavigatorRedesign"] .case-story-section[data-editorial-variant="routeMapEditorial"] .compare-tabs-controls{display:none}
-body[data-project-slug="DBNavigatorRedesign"] .case-story-section[data-editorial-variant="routeMapEditorial"] .compare-tabs-panels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-body[data-project-slug="DBNavigatorRedesign"] .case-story-section[data-editorial-variant="routeMapEditorial"] .compare-tab-panel,body[data-project-slug="DBNavigatorRedesign"] .case-story-section[data-editorial-variant="routeMapEditorial"] .compare-tab-panel[hidden]{display:block!important}
-body[data-project-slug="DBNavigatorRedesign"] .case-story-section[data-editorial-variant="routeMapEditorial"] .compare-tab-panel{border:1px solid var(--db-route-line);background:var(--db-route-card);overflow:hidden}
-body[data-project-slug="DBNavigatorRedesign"] .case-story-section[data-editorial-variant="routeMapEditorial"] .compare-tab-panel .image-row{margin:0}
-body[data-project-slug="DBNavigatorRedesign"] .case-story-section[data-editorial-variant="routeMapEditorial"] .compare-tab-panel img{display:block;width:100%;height:auto;object-fit:contain}
-
-/* DB MOBILE SUPPORT AND COMPARE*/
-@media (max-width:1000px){
-body[data-project-slug="DBNavigatorRedesign"] .case-story-section[data-editorial-variant="routeMapEditorial"] .case-block-rail-left .case-support-visuals,body[data-project-slug="DBNavigatorRedesign"] .case-story-section[data-editorial-variant="routeMapEditorial"] .case-block-rail-right .case-support-visuals{justify-self:stretch;width:100%}
-body[data-project-slug="DBNavigatorRedesign"] .case-story-section[data-editorial-variant="routeMapEditorial"] .compare-tabs-panels{grid-template-columns:1fr}
-.db-support-preview{padding:18px}
-.db-support-preview-inner{max-height:82vh}
-.db-support-preview-img{max-height:82vh}
 }
 
 /* PROJECT CARD BORDER GLOW ONLY*/
@@ -3930,40 +3790,7 @@ body.is-project-image-preview-open .navbar{
   cursor:zoom-in;
 }
 
-/* DB EDITORIAL IMAGE-DRIVEN FLOW */
 
-body[data-project-slug="DBNavigatorRedesign"]
-.case-story-section[data-editorial-variant="routeMapEditorial"]
-.case-story-fullbleed-strip{
-  width:100%;
-  margin:clamp(28px,4vw,64px) 0 clamp(56px,7vw,108px);
-  border:1px solid var(--db-route-line,rgba(17,17,17,.14));
-  background:var(--db-route-soft,#ECECEA);
-  overflow:hidden;
-}
-
-body[data-project-slug="DBNavigatorRedesign"]
-.case-story-section[data-editorial-variant="routeMapEditorial"]
-.case-story-fullbleed-img{
-  display:block;
-  width:100%;
-  height:auto;
-  object-fit:contain;
-  object-position:center;
-}
-
-body[data-project-slug="DBNavigatorRedesign"]
-.case-story-section[data-editorial-variant="routeMapEditorial"]
-.case-story-hero-statement-strip{
-  margin-top:clamp(28px,4vw,64px);
-}
-
-body[data-project-slug="DBNavigatorRedesign"]
-.case-story-section[data-editorial-variant="routeMapEditorial"]
-.case-story-closing-mood-strip{
-  margin-top:clamp(42px,6vw,104px);
-  margin-bottom:0;
-}
 
 /* keine kleinen Support-Bilder mehr */
 body[data-project-slug="DBNavigatorRedesign"]
@@ -4312,4 +4139,243 @@ body.darkmode .compare-tab-btn.active:hover{
 .project-text p + h3,
 .project-text ul + h3{
   margin-top:var(--project-info-block-gap)!important;
+}
+
+/* PROJECT INTRO TAGS - ARCHIVE / COMPARE BUTTON LOGIC */
+
+body[data-project-slug] .project-intro-block .project-tags{
+  display:flex!important;
+  flex-wrap:wrap!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:10px!important;
+  width:100%!important;
+  max-width:100%!important;
+  margin:0!important;
+  padding:0!important;
+  text-align:left!important;
+  font-size:0!important;
+  line-height:1!important;
+}
+
+body[data-project-slug] .project-intro-block .project-tags a{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+
+  min-height:31px!important;
+  padding:6px 13px!important;
+
+  border:1px solid var(--archive-line)!important;
+  border-radius:999px!important;
+  background:transparent!important;
+  color:var(--archive-text)!important;
+
+  box-shadow:none!important;
+
+  font-family:var(--font-body)!important;
+  font-size:13px!important;
+  line-height:1!important;
+  font-weight:500!important;
+  letter-spacing:-.02em!important;
+  text-transform:none!important;
+  text-decoration:none!important;
+  white-space:nowrap!important;
+
+  cursor:pointer!important;
+  transform:none!important;
+
+  transition:
+    background .22s ease,
+    color .22s ease,
+    border-color .22s ease,
+    box-shadow .28s ease,
+    transform .25s ease,
+    opacity .22s ease!important;
+}
+
+body[data-project-slug] .project-intro-block .project-tags a::after{
+  content:none!important;
+  display:none!important;
+}
+
+/* Hover: wie Archive-Filter und Before/After */
+body[data-project-slug] .project-intro-block .project-tags a:hover{
+  background:var(--archive-text)!important;
+  color:var(--archive-bg)!important;
+  border-color:var(--accent-strong)!important;
+  transform:translateY(-1px)!important;
+  box-shadow:
+    0 0 0 1px var(--accent-strong),
+    0 0 22px rgba(167,139,250,.34)!important;
+}
+
+/* Active: Project Type ist am Anfang aktiv */
+body[data-project-slug] .project-intro-block .project-tags a.is-active,
+body[data-project-slug] .project-intro-block .project-tags a[aria-current="true"]{
+  background:var(--archive-text)!important;
+  color:var(--archive-bg)!important;
+  border-color:var(--archive-text)!important;
+  transform:none!important;
+  box-shadow:none!important;
+}
+
+/* Active + Hover: aktiv bleibt aktiv, bekommt aber Accent-Hinweis */
+body[data-project-slug] .project-intro-block .project-tags a.is-active:hover,
+body[data-project-slug] .project-intro-block .project-tags a[aria-current="true"]:hover{
+  background:var(--archive-text)!important;
+  color:var(--archive-bg)!important;
+  border-color:var(--accent-strong)!important;
+  transform:translateY(-1px)!important;
+  box-shadow:
+    0 0 0 1px var(--accent-strong),
+    0 0 22px rgba(167,139,250,.34)!important;
+}
+
+/* Darkmode */
+body.darkmode[data-project-slug] .project-intro-block .project-tags a{
+  border-color:var(--archive-line)!important;
+  background:transparent!important;
+  color:var(--archive-text)!important;
+  box-shadow:none!important;
+}
+
+body.darkmode[data-project-slug] .project-intro-block .project-tags a:hover{
+  background:var(--archive-text)!important;
+  color:var(--archive-bg)!important;
+  border-color:var(--accent-strong)!important;
+  box-shadow:
+    0 0 0 1px var(--accent-strong),
+    0 0 24px rgba(167,139,250,.42)!important;
+}
+
+body.darkmode[data-project-slug] .project-intro-block .project-tags a.is-active,
+body.darkmode[data-project-slug] .project-intro-block .project-tags a[aria-current="true"]{
+  background:var(--archive-text)!important;
+  color:var(--archive-bg)!important;
+  border-color:var(--archive-text)!important;
+  box-shadow:none!important;
+}
+
+body.darkmode[data-project-slug] .project-intro-block .project-tags a.is-active:hover,
+body.darkmode[data-project-slug] .project-intro-block .project-tags a[aria-current="true"]:hover{
+  background:var(--archive-text)!important;
+  color:var(--archive-bg)!important;
+  border-color:var(--accent-strong)!important;
+  box-shadow:
+    0 0 0 1px var(--accent-strong),
+    0 0 24px rgba(167,139,250,.42)!important;
+}
+
+@media (max-width:640px){
+  body[data-project-slug] .project-intro-block .project-tags{
+    gap:8px!important;
+  }
+
+  body[data-project-slug] .project-intro-block .project-tags a{
+    min-height:30px!important;
+    padding:6px 12px!important;
+    font-size:12px!important;
+  }
+}
+
+/* MODE OPTIONS SAME VISUAL LANGUAGE AS YEAR OPTIONS */
+
+.archive-layout .archive-type-option{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+
+  min-height:auto!important;
+  height:auto!important;
+  padding:0!important;
+
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  color:var(--archive-muted)!important;
+  box-shadow:none!important;
+
+  font-size:10px!important;
+  line-height:1!important;
+  font-weight:700!important;
+  letter-spacing:-.03em!important;
+  text-transform:uppercase!important;
+
+  transform:none!important;
+  opacity:1!important;
+  cursor:pointer!important;
+
+  transition:color .22s ease, opacity .22s ease!important;
+}
+
+.archive-layout .archive-type-option:hover{
+  background:transparent!important;
+  color:var(--archive-text)!important;
+  border:0!important;
+  box-shadow:none!important;
+  transform:none!important;
+}
+
+.archive-type-toggle[data-type-state="private"] .archive-type-option-private,
+.archive-type-toggle[data-type-state="group"] .archive-type-option-group,
+.archive-layout .archive-type-option.active,
+.archive-layout .archive-type-option[aria-pressed="true"]{
+  background:transparent!important;
+  color:var(--archive-text)!important;
+  border:0!important;
+  box-shadow:none!important;
+  transform:none!important;
+}
+
+/* PROJECT DETAIL SPACING + NARROWER TEXT */
+
+.project-detail-section{
+  --project-image-gap:clamp(34px,4vw,72px);
+  --project-text-width:46ch;
+}
+
+.project-detail-wrapper{
+  column-gap:clamp(64px,7vw,120px)!important;
+}
+
+.project-text p,
+.project-text ul{
+  max-width:var(--project-text-width)!important;
+}
+
+.image-grid{
+  gap:var(--project-image-gap)!important;
+}
+
+.image-row{
+  gap:var(--project-image-gap)!important;
+}
+
+.image-row.two img,
+.image-row.two video{
+  width:calc(50% - (var(--project-image-gap) / 2))!important;
+}
+
+@media (max-width:1000px){
+  .project-detail-wrapper{
+    row-gap:clamp(38px,6vw,72px)!important;
+  }
+
+  .project-detail-section{
+    --project-image-gap:clamp(26px,5vw,48px);
+    --project-text-width:52ch;
+  }
+}
+
+@media (max-width:640px){
+  .project-detail-section{
+    --project-image-gap:24px;
+    --project-text-width:34ch;
+  }
+
+  .image-row.two img,
+  .image-row.two video{
+    width:100%!important;
+  }
 }

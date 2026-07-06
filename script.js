@@ -264,8 +264,13 @@ function appendArchiveTypeToggle(root) {
   toggle.className = "archive-type-toggle";
   toggle.dataset.typeState = "all";
 
-  const privateButton = createFilterButton("Private", "level", "Private");
-  privateButton.classList.add("archive-type-option", "archive-type-option-private");
+  const privateButton = document.createElement("button");
+  privateButton.className = "archive-type-option archive-type-option-private";
+  privateButton.type = "button";
+  privateButton.dataset.filterGroup = "level";
+  privateButton.dataset.filterValue = "Private";
+  privateButton.dataset.filter = "Private";
+  privateButton.textContent = "Private";
 
   const switchButton = document.createElement("button");
   switchButton.className = "archive-type-switch";
@@ -275,8 +280,13 @@ function appendArchiveTypeToggle(root) {
   switchButton.setAttribute("aria-pressed", "false");
   switchButton.innerHTML = '<span class="archive-type-knob" aria-hidden="true"></span>';
 
-  const groupButton = createFilterButton("Group Project", "level", "Group Project");
-  groupButton.classList.add("archive-type-option", "archive-type-option-group");
+  const groupButton = document.createElement("button");
+  groupButton.className = "archive-type-option archive-type-option-group";
+  groupButton.type = "button";
+  groupButton.dataset.filterGroup = "level";
+  groupButton.dataset.filterValue = "Group Project";
+  groupButton.dataset.filter = "Group Project";
+  groupButton.textContent = "Group Project";
 
   toggle.appendChild(privateButton);
   toggle.appendChild(switchButton);
@@ -377,74 +387,6 @@ function loadFooter() {
   footer.appendChild(particles);
   footer.appendChild(content);
   document.body.appendChild(footer);
-}
-
-function loadLiquidEffectSVG() {
-  if (document.getElementById("liquid-effect")) return;
-
-  const template = document.createElement("template");
-  template.innerHTML = `
-    <svg style="position:absolute;width:0;height:0;overflow:hidden;" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <filter id="liquid-effect" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur" />
-          <feColorMatrix
-            in="blur"
-            mode="matrix"
-            values="1 0 0 0 0
-                    0 1 0 0 0
-                    0 0 1 0 0
-                    0 0 0 19 -9"
-            result="liquid" />
-        </filter>
-      </defs>
-    </svg>
-  `;
-
-  document.body.appendChild(template.content);
-}
-
-function getParticleCount() {
-  if (window.innerWidth <= 640) return 25;
-  if (window.innerWidth <= 1100) return 40;
-  return 100;
-}
-
-function loadGooeyParticles() {
-  const container = document.getElementById("particle-container");
-  if (!container) return;
-
-  removeChildren(container);
-
-  const fragment = document.createDocumentFragment();
-  const particleCount = getParticleCount();
-
-  for (let i = 0; i < particleCount; i++) {
-    const span = document.createElement("span");
-    span.className = "particle";
-
-    setCssVar(span, "--dim", `${3 + Math.random() * 6}rem`);
-    setCssVar(span, "--uplift", `${10 + Math.random() * 15}rem`);
-    setCssVar(span, "--pos-x", `${Math.random() * 100}%`);
-    setCssVar(span, "--dur", `${3 + Math.random() * 3}s`);
-    setCssVar(span, "--delay", `${-1 * Math.random() * 10}s`);
-
-    fragment.appendChild(span);
-  }
-
-  container.appendChild(fragment);
-}
-
-function initGooeyParticlesResize() {
-  let lastCount = getParticleCount();
-
-  window.addEventListener("resize", debounce(() => {
-    const nextCount = getParticleCount();
-    if (nextCount === lastCount) return;
-
-    lastCount = nextCount;
-    loadGooeyParticles();
-  }, 220), { passive: true });
 }
 
 /* NAVBAR */
@@ -980,17 +922,29 @@ function renderProjectHeader(project) {
 
   const headerTags = getProjectTagList(project).slice(0, 3);
 
-headerTags.forEach(tag => {
+headerTags.forEach((tag, index) => {
   const link = document.createElement("a");
   const isYear = /^\d{4}$/.test(tag);
   const isLevel = tag === "Private" || tag === "Group Project";
+  const isProjectType = !isYear && !isLevel;
+
+  link.className = "project-tag-filter";
+  link.dataset.tagIndex = String(index + 1);
 
   if (isLevel) {
     link.href = `${base}projects.html?level=${encodeURIComponent(tag)}#filters`;
+    link.dataset.tagType = "level";
   } else if (isYear) {
     link.href = `${base}projects.html#filters`;
+    link.dataset.tagType = "year";
   } else {
     link.href = `${base}projects.html?filter=${encodeURIComponent(tag)}#filters`;
+    link.dataset.tagType = "project-type";
+  }
+
+  if (isProjectType) {
+    link.classList.add("is-active");
+    link.setAttribute("aria-current", "true");
   }
 
   link.textContent = tag;
@@ -1336,8 +1290,14 @@ function cleanupCaseStoryScrollTriggers() {
   }
 
   const section = document.getElementById("caseStory");
+
   if (section && window.gsap) {
-    gsap.killTweensOf(qsa(".case-route-line, .case-block-route-path, .case-block, .case-marker, .case-block-label, .case-support-visual, .case-block-stat", section));
+    gsap.killTweensOf(
+      qsa(
+        ".case-route-line, .case-block-route-path, .case-block, .case-marker, .case-block-label, .case-block-stat",
+        section
+      )
+    );
   }
 }
 
@@ -1377,8 +1337,8 @@ function renderEditorialProject(project) {
     const routeLine = document.createElement("span");
     routeLine.className = "case-route-line";
     routeLine.dataset.caseRouteLine = "";
-    routeLayer.appendChild(routeLine);
 
+    routeLayer.appendChild(routeLine);
     inner.appendChild(routeLayer);
   }
 
@@ -1393,9 +1353,7 @@ function renderEditorialProject(project) {
 
     if (heroStatement) inner.appendChild(heroStatement);
 
-    const dbBlocks = getDbImageDrivenBlocks(project, blocks);
-
-    dbBlocks.forEach((block, index) => {
+    getDbImageDrivenBlocks(project, blocks).forEach((block, index) => {
       const blockEl = renderEditorialBlock(block, index);
       if (blockEl) inner.appendChild(blockEl);
     });
@@ -1416,7 +1374,12 @@ function renderEditorialProject(project) {
 
   section.appendChild(inner);
 
-  if (!qsa("[data-case-block], .case-story-hero-statement-strip, .case-story-closing-mood-strip", section).length) {
+  const hasContent = qsa(
+    "[data-case-block], .case-story-fullbleed-strip",
+    section
+  ).length;
+
+  if (!hasContent) {
     removeEditorialProject();
     return false;
   }
@@ -1426,12 +1389,7 @@ function renderEditorialProject(project) {
 
   if (typeof initCompareTabs === "function") initCompareTabs();
   if (typeof initCustomVideos === "function") initCustomVideos();
-
-  if (typeof initProjectImagePreview === "function") {
-    initProjectImagePreview(section);
-  } else if (typeof initDbSupportPreview === "function") {
-    initDbSupportPreview(section);
-  }
+  if (typeof initProjectImagePreview === "function") initProjectImagePreview(section);
 
   return true;
 }
@@ -2521,7 +2479,7 @@ function initFilters() {
 
   const projectItems = qsa(".project-item", projectsGrid);
   const originalOrder = [...projectItems];
-  const filterBtns = qsa(".filter-btn").filter(btn => btn.dataset.filterValue || btn.dataset.filter);
+  const filterBtns = qsa(".filter-btn, .archive-type-option").filter(btn => btn.dataset.filterValue || btn.dataset.filter);
   const showAllBtn = document.getElementById("showAllBtn");
   const typeToggle = qs("[data-type-toggle]");
   const typeToggleWrap = qs(".archive-type-toggle");
@@ -4061,9 +4019,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initHeroRollSync();
 
   loadFooter();
-  loadLiquidEffectSVG();
-  loadGooeyParticles();
-  initGooeyParticlesResize();
+  
 
   setupArchivePageLayout();
   const projectsLoaded = renderProjects();
