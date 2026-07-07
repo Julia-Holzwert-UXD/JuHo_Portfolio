@@ -1181,8 +1181,10 @@ const projectsData = {
       categories: ["Spatial Experience"],
 
       level: "Private",
-      coverImage: "",
-      coverBannerImage: "",
+      coverImage: "./pngs/Projects/Spatial To-Do/Logo 1.png",
+      coverBackgroundColor: "#F2E8E3",
+      coverZoom: 10,
+      imageScale: 1.25,
 
       detail: {
         meta: "Independent Concept Project 2026",
@@ -1207,36 +1209,79 @@ const projectsData = {
             layout: "one",
             items: [
               {
-                src: "../pngs/Projects/Printer Display Redesign/Xerox-Used-Office-Copier-Printer.jpg",
-                alt: "Printer Interface overview"
+                src: "../pngs/Projects/Spatial To-Do/primäres Sichtfeld.png",
+                alt: "Spatial To-Do Primary Field of View"
               }
             ]
           },
           {
-            layout: "two",
+            layout: "one",
             items: [
               {
-                src: "../pngs/your-image-2.jpg",
-                alt: "Printer detail 1"
-              },
+                src: "../pngs/Projects/Spatial To-Do/kontextuelle Verankerung.png",
+                alt: "Spatial To-Do Contextual Anchoring"
+              }
+            ]
+          },
+          {
+            layout: "one",
+            items: [
               {
-                src: "../pngs/your-image-3.jpg",
-                alt: "Printer detail 2"
+                src: "../pngs/Projects/Spatial To-Do/die drei zentralen Gesten.png",
+                alt: "Spatial To-Do Three Central Gestures"
+              }
+            ]
+          },
+          {
+            layout: "one",
+            items: [
+              {
+                src: "../pngs/Projects/Spatial To-Do/räumliche Logik.png",
+                alt: "Spatial To-Do Spatial Logic"
+              }
+            ]
+          },
+          {
+            layout: "one",
+            items: [
+              {
+                src: "../pngs/Projects/Spatial To-Do/Dringlichkeitssystem.png",
+                alt: "Spatial To-Do Urgency System"
               }
             ]
           }
         ],
         editorialArtDirectedCaseStudyImages: [
           {
-            src: "./pngs/Projects/Store Guide/logo.jpg",
+            src: "./pngs/Projects/Spatial To-Do/Editorial/Hero Statement.png",
             alt: "Store Guide Logo"
           },
           {
-            src: "./pngs/Projects/Store Guide/app.jpg",
+            src: "./pngs/Projects/Spatial To-Do/Editorial/Device Line-up.png",
             alt: "Store Guide Add"
           },
           {
-            src: "./pngs/Projects/Store Guide/add.jpg",
+            src: "./pngs/Projects/Spatial To-Do/Editorial/Conceptual Diptych.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/Spatial To-Do/Editorial/Editorial Object Shot.png",
+            alt: "Store Guide Logo"
+          },
+          {
+            src: "./pngs/Projects/Spatial To-Do/Editorial/Information Architecture.png",
+            alt: "Store Guide Add"
+          },
+          {
+            src: "./pngs/Projects/Spatial To-Do/Editorial/Detail Crop.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/Spatial To-Do/Editorial/Mobile System.png",
+            alt: "Store Guide Another Add"
+          },
+          {
+            src: "./pngs/Projects/Spatial To-Do/Editorial/Closing Mood.png",
             alt: "Store Guide Another Add"
           }
         ]
