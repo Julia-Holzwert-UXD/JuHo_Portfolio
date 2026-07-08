@@ -114,6 +114,8 @@ const projectsData = {
           }
         ],
         editorial: {
+          color: "#00AEEF",
+
           variant: "routeMapEditorial",
 
           thesis: "Safety-critical interfaces become stronger when they remove decisions before the driver has to make them.",
@@ -304,6 +306,7 @@ const projectsData = {
           }
         ],
         editorial: {
+          color: "#6E368C",
           variant: "routeMapEditorial",
 
           thesis: "Sensitive topics become easier to enter when reflection feels guided, not confrontational.",
@@ -498,6 +501,7 @@ const projectsData = {
           }
         ],
         editorial: {
+          color: "#8B6B47",
           variant: "routeMapEditorial",
 
           thesis: "Luxury trust is built after checkout, when uncertainty turns into guided care.",
@@ -706,6 +710,7 @@ const projectsData = {
           }
         ],
         editorial: {
+          color: "#D6FF00",
           variant: "routeMapEditorial",
 
           thesis: "Subscription trust grows when users can understand, manage, and leave without pressure.",
@@ -905,6 +910,7 @@ const projectsData = {
           }
         ],
         editorial: {
+          color: "#8FAF9F",
           variant: "routeMapEditorial",
 
           thesis: "Fit technology only creates value when users trust what they see before they buy.",
@@ -1083,6 +1089,7 @@ const projectsData = {
           }
         ],
         editorial: {
+          color: "#30782F",
           variant: "routeMapEditorial",
 
           thesis: "In-store guidance becomes useful when users can find, compare, and decide without breaking their route.",
@@ -1273,6 +1280,7 @@ const projectsData = {
           }
         ],
         editorial: {
+          color: "#005CA9",
           variant: "routeMapEditorial",
 
           thesis: "Campus utilities become better when users can complete urgent tasks without decoding the interface.",
@@ -1461,6 +1469,7 @@ const projectsData = {
           }
         ],
         editorial: {
+          color: "#00A099",
           variant: "routeMapEditorial",
 
           thesis: "Care products become stronger when trust, routine, and recognition come before features.",
@@ -1647,6 +1656,7 @@ const projectsData = {
           }
         ],
         editorial: {
+          color: "#74F24A",
           variant: "routeMapEditorial",
 
           thesis: "Functional objects become memorable when form, culture, and interaction speak the same language.",
@@ -1986,6 +1996,7 @@ const projectsData = {
           }
         ],
         editorial: {
+          color: "#C88D7E",
           variant: "routeMapEditorial",
 
           thesis: "Spatial productivity becomes useful when space creates priority instead of clutter.",
@@ -2172,6 +2183,7 @@ const projectsData = {
           }
         ],
         editorial: {
+          color: "#2D7D6F",
           variant: "routeMapEditorial",
 
           thesis: "Health onboarding builds trust when users understand data use before they give permission.",

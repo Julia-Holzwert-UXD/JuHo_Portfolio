@@ -1520,6 +1520,11 @@ function renderEditorialProject(project) {
   section.dataset.editorialVariant = safeText(editorial.variant || "default");
   section.dataset.wowModule = safeText(editorial.wowFactor && editorial.wowFactor.module);
 
+  const editorialColor = editorial.color || project.editorialColor || "var(--accent-strong)";
+
+section.style.setProperty("--db-route-red", editorialColor);
+section.style.setProperty("--case-story-line", editorialColor);
+
   const inner = document.createElement("div");
   inner.className = "case-story-inner";
 
@@ -1590,6 +1595,7 @@ function renderEditorialProject(project) {
   if (typeof initProjectImagePreview === "function") initProjectImagePreview(section);
 
   return true;
+  
 }
 
 function getProjectEditorialArtImages(project) {
