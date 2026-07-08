@@ -112,7 +112,85 @@ const projectsData = {
             src: "./pngs/Projects/HeadsUp/Editorial/Closing Mood.png",
             alt: "Store Guide Another Add"
           }
-        ]
+        ],
+        editorial: {
+          variant: "routeMapEditorial",
+
+          thesis: "Safety-critical interfaces become stronger when they remove decisions before the driver has to make them.",
+
+          scopeNote: "Group HUD concept from 2025. Evaluated through prototype testing with 12 participants, task-flow iteration, hierarchy review, and warning-state checks. Not a production-ready automotive system.",
+
+          wowFactor: {
+            module: "growingLine"
+          },
+
+          blocks: [
+            {
+              claim: "The problem is not missing information. It is too much at the wrong moment.",
+              headline: "Driving interfaces fail when they make users search.",
+              body: "Drivers need navigation, calls, setup, transfer, rear camera access, and warnings without losing focus. If every action has the same weight, hesitation becomes a safety problem.",
+              labels: ["Driving context", "Distraction risk", "Visual overload"]
+            },
+            {
+              claim: "Subtraction over density.",
+              headline: "The decision: Show only what the situation needs.",
+              body: "Instead of building a futuristic dashboard full of modules, HeadsUp reduces the interface to task-specific states. The HUD reacts to the driving moment, not to decoration.",
+              labels: ["Design decision", "Adaptive HUD", "Calm safety interface"]
+            },
+            {
+              claim: "One system connects phone setup, HUD feedback, and driving states.",
+              headline: "Layer 1: The HUD becomes a connected flow.",
+              body: "Setup, profile selection, data transfer, navigation, calls, rear camera access, and warnings follow one logic. Drivers do not jump between separate systems.",
+              labels: ["Phone setup", "HUD display", "Transfer logic", "Warning states"]
+            },
+            {
+              claim: "Users need confirmation before the road takes priority.",
+              headline: "Layer 2: Setup becomes explicit before driving.",
+              body: "Testing showed hesitation when setup and transfer actions looked equally important. The iteration added clearer wording, stronger hierarchy, and a saved profile overview.",
+              labels: ["User testing", "Setup hierarchy", "Profile confirmation"],
+              stats: [
+                {
+                  value: "12",
+                  label: "Participants tested"
+                },
+                {
+                  value: "12%",
+                  label: "Setup hesitation after iteration"
+                },
+                {
+                  value: "40%",
+                  label: "Task completion increase"
+                }
+              ]
+            },
+            {
+              claim: "Critical details appear only when they matter.",
+              headline: "Layer 3: Warning states explain priority without overload.",
+              body: "Blue guides active navigation, green confirms safe states, and red is reserved for critical warnings. Drivers learn the priority system without reading the whole interface.",
+              labels: ["Blue guidance", "Green confirmation", "Red warnings"]
+            },
+            {
+              claim: "Validated concept. Production risk still open.",
+              headline: "Scope: Tested interaction logic, not a road-ready system.",
+              body: "HeadsUp shows how an adaptive HUD can reduce hesitation through hierarchy, confirmation, and situational modules. It does not claim regulatory approval, real-road validation, or production implementation.",
+              labels: ["Group concept", "Prototype tested", "Not production-ready"],
+              stats: [
+                {
+                  value: "Proves",
+                  label: "Hierarchy reduces setup hesitation"
+                },
+                {
+                  value: "Shows",
+                  label: "HUD states can stay calm"
+                },
+                {
+                  value: "Open",
+                  label: "Road testing and regulation"
+                }
+              ]
+            }
+          ]
+        }
       }
     },
 
@@ -224,7 +302,85 @@ const projectsData = {
             src: "./pngs/Projects/CampusTalk/Editorial/Closing Mood.png",
             alt: "Store Guide Another Add"
           }
-        ]
+        ],
+        editorial: {
+          variant: "routeMapEditorial",
+
+          thesis: "Sensitive topics become easier to enter when reflection feels guided, not confrontational.",
+
+          scopeNote: "Group communication concept from 2025. Built from 12 interviews, 4 personas, card sorting insights, content architecture, and tone review. No live community testing was conducted.",
+
+          wowFactor: {
+            module: "growingLine"
+          },
+
+          blocks: [
+            {
+              claim: "The problem is defensiveness before reflection can start.",
+              headline: "Students need safety before they share honestly.",
+              body: "Prejudice is personal, sensitive, and easy to reject when the interface sounds accusatory. CampusTalk lowers the entry barrier through calm language, guided topics, and anonymous participation.",
+              labels: ["Sensitive context", "Student voices", "Low-pressure entry"]
+            },
+            {
+              claim: "Guidance over confrontation.",
+              headline: "The decision: Structure participation before discussion.",
+              body: "Instead of opening with an unfiltered feed, users move through Learn, Reflect, and Share. The platform gives users a path before asking them to take a position.",
+              labels: ["Design decision", "Guided flow", "Reflection first"]
+            },
+            {
+              claim: "Five content areas turn a sensitive topic into a usable system.",
+              headline: "Layer 1: The platform becomes structured.",
+              body: "Learn, Reflect, Share Anonymously, Community Forum, and Profile separate different participation needs. Users can read, think, contribute, or discuss without being pushed into one mode.",
+              labels: ["Learn", "Reflect", "Share", "Forum", "Profile"]
+            },
+            {
+              claim: "Users enter through topics, not through pressure.",
+              headline: "Layer 2: Topic cards guide exploration.",
+              body: "Card sorting showed that users preferred guided discovery over open feeds. Topic cards make the first step smaller, clearer, and easier to trust.",
+              labels: ["Topic cards", "Card sorting", "Guided discovery"],
+              stats: [
+                {
+                  value: "12",
+                  label: "Interviews synthesized"
+                },
+                {
+                  value: "4",
+                  label: "Personas created"
+                },
+                {
+                  value: "5",
+                  label: "Core content areas"
+                }
+              ]
+            },
+            {
+              claim: "Depth appears after trust is built.",
+              headline: "Layer 3: Quizzes and anonymous posts create safer reflection.",
+              body: "Quizzes use progress feedback to make reflection feel contained. Anonymous sharing lets users contribute real experiences without exposing themselves immediately.",
+              labels: ["Quiz flow", "Anonymous sharing", "Moderation logic"]
+            },
+            {
+              claim: "Research-backed concept. Live validation still open.",
+              headline: "Scope: Structured concept, not a tested community product.",
+              body: "CampusTalk shows how tone, content architecture, and guided participation can reduce resistance around prejudice. It does not claim measured behavior change, long-term moderation success, or live platform validation.",
+              labels: ["Group concept", "Research-based", "No live testing"],
+              stats: [
+                {
+                  value: "Proves",
+                  label: "Structure lowers entry pressure"
+                },
+                {
+                  value: "Shows",
+                  label: "Tone can reduce defensiveness"
+                },
+                {
+                  value: "Open",
+                  label: "Live testing and moderation"
+                }
+              ]
+            }
+          ]
+        }
       }
     },
 
@@ -340,7 +496,85 @@ const projectsData = {
             src: "./pngs/Projects/Aprés/Editorial/Closing Mood.png",
             alt: "Store Guide Another Add"
           }
-        ]
+        ],
+        editorial: {
+          variant: "routeMapEditorial",
+
+          thesis: "Luxury trust is built after checkout, when uncertainty turns into guided care.",
+
+          scopeNote: "Independent service concept from 2026. Built through post-purchase journey mapping, alert-state logic, return-flow design, and premium visual system definition. No user testing or live logistics validation was conducted.",
+
+          wowFactor: {
+            module: "growingLine"
+          },
+
+          blocks: [
+            {
+              claim: "The problem starts after the purchase.",
+              headline: "Luxury customers lose trust when tracking, returns, and support feel unclear.",
+              body: "A customer who just bought a premium watch should not feel anxious about delivery, customs, or returns. Unclear updates turn a luxury moment into a support problem.",
+              labels: ["Post-purchase anxiety", "Luxury service", "Support gap"]
+            },
+            {
+              claim: "Care over logistics.",
+              headline: "The decision: Treat post-purchase as part of the brand.",
+              body: "Instead of ending the experience at checkout, Après turns tracking, alerts, returns, warranty, and care into one guided service flow. The customer feels supported, not handed off.",
+              labels: ["Design decision", "Service experience", "Brand trust"]
+            },
+            {
+              claim: "Six screens turn uncertainty into a service system.",
+              headline: "Layer 1: The post-purchase journey becomes structured.",
+              body: "Dashboard, tracking, alert states, return flow, care guide, and warranty management cover the moments where customers need reassurance most.",
+              labels: ["Dashboard", "Tracking", "Returns", "Warranty", "Care"]
+            },
+            {
+              claim: "Customers see progress instead of waiting blindly.",
+              headline: "Layer 2: The 3D tracker makes delivery visible.",
+              body: "The shipment journey shows each stage from Bavarian workshop to doorstep. Customers can understand where the watch is and what happens next without contacting support.",
+              labels: ["3D tracker", "Workshop to doorstep", "Delivery clarity"],
+              stats: [
+                {
+                  value: "6",
+                  label: "Core service screens"
+                },
+                {
+                  value: "1",
+                  label: "Connected post-purchase flow"
+                },
+                {
+                  value: "24/7",
+                  label: "Self-service reassurance"
+                }
+              ]
+            },
+            {
+              claim: "Problems need guidance, not panic.",
+              headline: "Layer 3: Alerts and returns explain the next step.",
+              body: "The missing package flow, customs delay alerts, and return concierge give users clear actions before frustration grows. Color, icons, and microcopy support accessibility without making the interface feel technical.",
+              labels: ["Missing package", "Proactive alerts", "Return concierge"]
+            },
+            {
+              claim: "Concept first. Service validation still open.",
+              headline: "Scope: A premium service concept, not an operational product.",
+              body: "Après shows how post-purchase care can become a luxury brand touchpoint through clarity, reassurance, and structured support. It does not claim measured loyalty impact, real logistics integration, or production readiness.",
+              labels: ["Independent concept", "Service logic", "No user testing"],
+              stats: [
+                {
+                  value: "Proves",
+                  label: "Post-purchase can define trust"
+                },
+                {
+                  value: "Shows",
+                  label: "Support flows can feel premium"
+                },
+                {
+                  value: "Open",
+                  label: "Testing and logistics validation"
+                }
+              ]
+            }
+          ]
+        }
       }
     },
 
@@ -470,7 +704,85 @@ const projectsData = {
             src: "./pngs/Projects/DAZN/Editorial/Closing Mood.png",
             alt: "Store Guide Another Add"
           }
-        ]
+        ],
+        editorial: {
+          variant: "routeMapEditorial",
+
+          thesis: "Subscription trust grows when users can understand, manage, and leave without pressure.",
+
+          scopeNote: "Independent DAZN concept redesign from 2026. Built through subscription journey mapping, cancellation-flow analysis, plan-comparison logic, and transparency-focused microcopy. No user testing or business validation was conducted.",
+
+          wowFactor: {
+            module: "growingLine"
+          },
+
+          blocks: [
+            {
+              claim: "The problem is not the subscription. It is the loss of control.",
+              headline: "Users lose trust when costs, terms, and exit options feel unclear.",
+              body: "DAZN users compare price, contract length, renewal dates, and included sports under time pressure. If cancellation or billing details feel hidden, the product starts to feel risky.",
+              labels: ["Subscription clarity", "Billing trust", "User control"]
+            },
+            {
+              claim: "Transparency over friction.",
+              headline: "The decision: Make account control part of the product experience.",
+              body: "Instead of using unclear terms or blocked cancellation paths, the redesign keeps plan details, billing dates, and account actions visible. Retention works through relevant alternatives, not pressure.",
+              labels: ["Design decision", "Transparent UX", "Respectful retention"]
+            },
+            {
+              claim: "One hub turns the subscription lifecycle into a system.",
+              headline: "Layer 1: Plan, billing, and account actions become connected.",
+              body: "The subscription hub shows the active plan, monthly price, billing cycle, next payment date, commitment period, and available actions in one place.",
+              labels: ["Subscription hub", "Active plan", "Billing cycle", "Account actions"]
+            },
+            {
+              claim: "Users compare plans before they commit.",
+              headline: "Layer 2: Plan cards make financial decisions scannable.",
+              body: "Monthly and annual options use the same structure for price, duration, renewal behavior, and included sports content. Users can compare value without decoding different wording.",
+              labels: ["Plan comparison", "Price clarity", "Included content"],
+              stats: [
+                {
+                  value: "1",
+                  label: "Central account hub"
+                },
+                {
+                  value: "3",
+                  label: "Retention alternatives"
+                },
+                {
+                  value: "0",
+                  label: "Forced cancellation barriers"
+                }
+              ]
+            },
+            {
+              claim: "Cancellation needs clarity, not guilt.",
+              headline: "Layer 3: Retention offers stay optional.",
+              body: "Users can pause, downgrade, or accept a relevant offer, but every option can be skipped. The final confirmation shows the end date, remaining access, and billing impact before the user confirms.",
+              labels: ["Pause", "Downgrade", "Offer", "End date"]
+            },
+            {
+              claim: "Concept first. Business validation still open.",
+              headline: "Scope: A transparency concept, not a tested retention model.",
+              body: "This redesign shows how DAZN could protect trust while still supporting conversion and retention. It does not claim measured churn reduction, legal validation, user testing, or production readiness.",
+              labels: ["Independent concept", "No user testing", "Unofficial redesign"],
+              stats: [
+                {
+                  value: "Proves",
+                  label: "Control can support trust"
+                },
+                {
+                  value: "Shows",
+                  label: "Retention can stay respectful"
+                },
+                {
+                  value: "Open",
+                  label: "Testing and business impact"
+                }
+              ]
+            }
+          ]
+        }
       }
     },
 
@@ -591,7 +903,85 @@ const projectsData = {
             src: "./pngs/Projects/Bodique/Editorial/Closing Mood.png",
             alt: "Store Guide Another Add"
           }
-        ]
+        ],
+        editorial: {
+          variant: "routeMapEditorial",
+
+          thesis: "Fit technology only creates value when users trust what they see before they buy.",
+
+          scopeNote: "Group digital-twin concept from Winter Semester 2026. Built through Lean UX hypotheses, competitor analysis, prototype testing with 8 participants, interface iteration, and trust-focused fit evaluation. No live retail integration or return-rate validation was conducted.",
+
+          wowFactor: {
+            module: "growingLine"
+          },
+
+          blocks: [
+            {
+              claim: "The problem is fit uncertainty before checkout.",
+              headline: "Fashion returns happen when customers cannot trust the size decision.",
+              body: "Customers want speed, but they still need confidence that the garment fits their real body. If the visualization feels unrealistic, the recommendation loses credibility.",
+              labels: ["Fit uncertainty", "Return risk", "Customer trust"]
+            },
+            {
+              claim: "Trust over spectacle.",
+              headline: "The decision: Make the digital twin a fitting assistant, not a gimmick.",
+              body: "Instead of using playful effects to impress users, Bodique focuses on realistic body representation and clear fit guidance. The interface supports the purchase decision instead of distracting from it.",
+              labels: ["Design decision", "Virtual try-on", "Realistic fit"]
+            },
+            {
+              claim: "One system connects body, garment, and recommendation.",
+              headline: "Layer 1: The fitting experience becomes structured.",
+              body: "The digital twin, garment preview, size recommendation, and control settings work as one product system. Users can judge silhouette, fit, and guidance without switching context.",
+              labels: ["Digital twin", "Garment preview", "Size guidance", "Fit logic"]
+            },
+            {
+              claim: "Users need control over how much guidance they see.",
+              headline: "Layer 2: Modular controls reduce visual overload.",
+              body: "Testing showed that users preferred clear visualization over a dense sidebar. The redesign introduced modular controls and a compact strip for different guidance levels.",
+              labels: ["Modular controls", "Compact strip", "Guidance levels"],
+              stats: [
+                {
+                  value: "8",
+                  label: "Participants tested"
+                },
+                {
+                  value: "3",
+                  label: "Competitor hypotheses"
+                },
+                {
+                  value: "2",
+                  label: "Control modes"
+                }
+              ]
+            },
+            {
+              claim: "Recommendation clarity decides whether users believe the system.",
+              headline: "Layer 3: Fit details explain the size decision.",
+              body: "Users can compare how the garment sits on their body and understand why a size is recommended. The system makes fit visible before the user has to trust the algorithm.",
+              labels: ["Fit preview", "Size recommendation", "Trust signal"]
+            },
+            {
+              claim: "Prototype validated. Retail impact still open.",
+              headline: "Scope: A tested concept, not a proven return-reduction product.",
+              body: "Bodique shows how realistic visualization and modular guidance can make virtual fitting more credible. It does not claim measured return reduction, live store integration, or production readiness.",
+              labels: ["Group concept", "Prototype tested", "No retail validation"],
+              stats: [
+                {
+                  value: "Proves",
+                  label: "Realistic visuals build trust"
+                },
+                {
+                  value: "Shows",
+                  label: "Guidance can stay flexible"
+                },
+                {
+                  value: "Open",
+                  label: "Return data and integration"
+                }
+              ]
+            }
+          ]
+        }
       }
     },
 
@@ -691,8 +1081,85 @@ const projectsData = {
             src: "./pngs/Projects/Store Guide/Editorial/Closing Mood.png",
             alt: "Store Guide Another Add"
           }
-        ]
+        ],
+        editorial: {
+          variant: "routeMapEditorial",
 
+          thesis: "In-store guidance becomes useful when users can find, compare, and decide without breaking their route.",
+
+          scopeNote: "Group service concept from 2023. Built through core interaction modeling, route-step design, product comparison logic, and visual hierarchy definition. No user testing or live store validation was conducted.",
+
+          wowFactor: {
+            module: "growingLine"
+          },
+
+          blocks: [
+            {
+              claim: "The problem is orientation under time pressure.",
+              headline: "Shoppers lose patience when finding a product becomes the task.",
+              body: "Users enter the store with a goal, but unclear layouts and manual searching slow them down. If product details are separated from navigation, every decision interrupts the route.",
+              labels: ["In-store friction", "Time pressure", "Product search"]
+            },
+            {
+              claim: "Guidance over exploration.",
+              headline: "The decision: Make routing the main interaction.",
+              body: "Instead of building a feature-heavy shopping companion, StoreGuide focuses on step-by-step navigation. Product comparison stays inside the route, so users can decide without losing orientation.",
+              labels: ["Design decision", "Guided routing", "Clear task flow"]
+            },
+            {
+              claim: "One flow connects search, route, and product decision.",
+              headline: "Layer 1: Navigation becomes a service system.",
+              body: "Users search for a product, follow clear route steps, and compare options in the same journey. The app reduces switching between map, product page, and decision view.",
+              labels: ["Search", "Route steps", "Product comparison", "Decision flow"]
+            },
+            {
+              claim: "Users need predictable next steps.",
+              headline: "Layer 2: Step indicators make movement clear.",
+              body: "Simple route instructions show where users are, where they go next, and when they reach the product. The interface supports quick action instead of long reading.",
+              labels: ["Step indicators", "Route clarity", "Fast orientation"],
+              stats: [
+                {
+                  value: "1",
+                  label: "Guided route flow"
+                },
+                {
+                  value: "2",
+                  label: "Core tasks, find and compare"
+                },
+                {
+                  value: "0",
+                  label: "Separate decision break"
+                }
+              ]
+            },
+            {
+              claim: "Comparison works best when it stays close to the shelf.",
+              headline: "Layer 3: Product details support the route.",
+              body: "Users can compare relevant product information before or during the route. Details help them choose without turning navigation into a separate research task.",
+              labels: ["Product details", "Comparison", "Shelf decision"]
+            },
+            {
+              claim: "Structured concept. Real-store proof still open.",
+              headline: "Scope: A navigation concept, not a validated retail system.",
+              body: "StoreGuide shows how in-store routing and product comparison can reduce shopping friction. It does not claim measured time savings, indoor positioning accuracy, or live store implementation.",
+              labels: ["Group concept", "No user testing", "No live validation"],
+              stats: [
+                {
+                  value: "Proves",
+                  label: "Routing can reduce friction"
+                },
+                {
+                  value: "Shows",
+                  label: "Comparison can stay in flow"
+                },
+                {
+                  value: "Open",
+                  label: "Testing and localization accuracy"
+                }
+              ]
+            }
+          ]
+        }
       }
 
     },
@@ -804,7 +1271,85 @@ const projectsData = {
             src: "./pngs/Projects/Printer Display Redesign/Editorial/Closing Mood.png",
             alt: "Store Guide Another Add"
           }
-        ]
+        ],
+        editorial: {
+          variant: "routeMapEditorial",
+
+          thesis: "Campus utilities become better when users can complete urgent tasks without decoding the interface.",
+
+          scopeNote: "Independent PaperCut redesign from 2024. Built through interface hierarchy redesign, web-to-printer flow mapping, THI visual identity adaptation, and menu simplification. No user testing or live printer validation was conducted.",
+
+          wowFactor: {
+            module: "growingLine"
+          },
+
+          blocks: [
+            {
+              claim: "The problem is friction in an urgent moment.",
+              headline: "Students need to print quickly, not understand a machine interface.",
+              body: "Campus printers are used under time pressure by users with different levels of experience. Too many options, weak hierarchy, and unclear actions make a simple print job feel stressful.",
+              labels: ["Campus utility", "Time pressure", "Interface friction"]
+            },
+            {
+              claim: "Clarity over feature density.",
+              headline: "The decision: Make the printer feel like one predictable system.",
+              body: "Instead of showing every function at once, the redesign gives active tasks visual priority. Users see what matters now without losing access to secondary options.",
+              labels: ["Design decision", "Clear hierarchy", "Predictable use"]
+            },
+            {
+              claim: "One flow connects web preparation and printer display.",
+              headline: "Layer 1: The fragmented print process becomes structured.",
+              body: "Preparation, transfer, login, settings, and print confirmation follow the same interface logic. What users set up online translates clearly to the physical display.",
+              labels: ["Web flow", "Printer display", "Print setup", "Confirmation"]
+            },
+            {
+              claim: "Users need visible next actions.",
+              headline: "Layer 2: THI blue guides attention through the task.",
+              body: "Primary actions, active states, and guidance use THI blue as a structural signal. Inactive options stay visible, but no longer compete with the current step.",
+              labels: ["THI identity", "Active guidance", "Primary actions"],
+              stats: [
+                {
+                  value: "2",
+                  label: "Connected touchpoints"
+                },
+                {
+                  value: "1",
+                  label: "Shared interface logic"
+                },
+                {
+                  value: "0",
+                  label: "Competing active states"
+                }
+              ]
+            },
+            {
+              claim: "Advanced options should support the task, not interrupt it.",
+              headline: "Layer 3: Menus stay flexible without becoming noisy.",
+              body: "Reusable modules and fixed zones keep printing, sending, and settings predictable. Users can access deeper controls without losing the main path.",
+              labels: ["Reusable modules", "Fixed zones", "Menu clarity"]
+            },
+            {
+              claim: "Concept redesign. Usage proof still open.",
+              headline: "Scope: A clearer interface model, not a validated campus system.",
+              body: "This redesign shows how institutional printer software can become faster and more coherent through hierarchy, consistency, and brand alignment. It does not claim measured print-time reduction, user testing, or PaperCut implementation.",
+              labels: ["Independent concept", "Unofficial redesign", "No user testing"],
+              stats: [
+                {
+                  value: "Proves",
+                  label: "Hierarchy can reduce friction"
+                },
+                {
+                  value: "Shows",
+                  label: "Brand identity can guide use"
+                },
+                {
+                  value: "Open",
+                  label: "Testing and implementation"
+                }
+              ]
+            }
+          ]
+        }
       }
     },
 
@@ -914,7 +1459,85 @@ const projectsData = {
             src: "./pngs/Projects/MemoWe/Editorial/Closing Mood.png",
             alt: "Store Guide Another Add"
           }
-        ]
+        ],
+        editorial: {
+          variant: "routeMapEditorial",
+
+          thesis: "Care products become stronger when trust, routine, and recognition come before features.",
+
+          scopeNote: "Independent care concept from 2024. Built through cognitive accessibility principles, information architecture, early family feedback, predictable navigation patterns, and high-contrast interface design. No clinical validation or patient outcome testing was conducted.",
+
+          wowFactor: {
+            module: "growingLine"
+          },
+
+          blocks: [
+            {
+              claim: "The problem is cognitive pressure in daily connection.",
+              headline: "People with dementia need clarity that stays familiar.",
+              body: "Memory loss can make communication, routines, and digital navigation harder to manage. MemoWe reduces visual noise so patients and families can stay connected without extra complexity.",
+              labels: ["Dementia care", "Family connection", "Cognitive load"]
+            },
+            {
+              claim: "Trust before functionality.",
+              headline: "The decision: Make every interaction predictable.",
+              body: "Instead of building a feature-heavy health app, MemoWe focuses on repeated patterns, large readable elements, and calm guidance. Users should recognize the next step before they have to think about it.",
+              labels: ["Design decision", "Predictable flows", "Calm support"]
+            },
+            {
+              claim: "One system supports patients and family members together.",
+              headline: "Layer 1: Connection and routine become structured.",
+              body: "Profiles, uploads, memories, activity tracking, and daily routines follow one simple product logic. Both audiences can use the system without needing technical confidence.",
+              labels: ["Profiles", "Memories", "Daily routine", "Activity tracking"]
+            },
+            {
+              claim: "Families need easy ways to add meaning.",
+              headline: "Layer 2: Uploads turn care into shared participation.",
+              body: "Family members can add familiar photos, memories, and updates that help patients reconnect with people and moments. The flow stays direct so emotional tasks do not become technical tasks.",
+              labels: ["Family uploads", "Shared memories", "Low effort care"],
+              stats: [
+                {
+                  value: "2",
+                  label: "Core audiences"
+                },
+                {
+                  value: "1",
+                  label: "Shared care system"
+                },
+                {
+                  value: "0",
+                  label: "Complex dashboards"
+                }
+              ]
+            },
+            {
+              claim: "Routine creates safety through repetition.",
+              headline: "Layer 3: Daily structure reduces uncertainty.",
+              body: "Activity tracking and routine features give users a stable overview of the day. Warm colors, high contrast, and repeated layouts support recognition without making the product feel clinical.",
+              labels: ["Routine support", "High contrast", "Recognition patterns"]
+            },
+            {
+              claim: "Care concept. Clinical proof still open.",
+              headline: "Scope: An accessibility driven product concept, not a medical device.",
+              body: "MemoWe shows how trust, predictable navigation, and family participation can shape a calmer support system. It does not claim clinical effectiveness, dementia treatment impact, or production readiness.",
+              labels: ["Independent concept", "Care focused", "No clinical validation"],
+              stats: [
+                {
+                  value: "Proves",
+                  label: "Predictability reduces interface pressure"
+                },
+                {
+                  value: "Shows",
+                  label: "Connection can stay simple"
+                },
+                {
+                  value: "Open",
+                  label: "Clinical and long-term testing"
+                }
+              ]
+            }
+          ]
+        }
       }
     },
 
@@ -1022,7 +1645,85 @@ const projectsData = {
             src: "./pngs/Projects/PikBre 3D - Remote Control/Editorial/Closing Mood.png",
             alt: "Store Guide Another Add"
           }
-        ]
+        ],
+        editorial: {
+          variant: "routeMapEditorial",
+
+          thesis: "Functional objects become memorable when form, culture, and interaction speak the same language.",
+
+          scopeNote: "Group product concept from 2025. Built through form exploration, interaction logic, symbolic function mapping, 3D modeling, and theory-based design defense. No ergonomic testing or production validation was conducted.",
+
+          wowFactor: {
+            module: "growingLine"
+          },
+
+          blocks: [
+            {
+              claim: "The problem is neutrality in a space built on identity.",
+              headline: "Gaming objects should feel visible, not disposable.",
+              body: "A remote control in a gaming setup is often treated as a hidden utility. PikBre turns it into a collectible object that still communicates function clearly.",
+              labels: ["Gaming space", "Object identity", "Functional visibility"]
+            },
+            {
+              claim: "Expression over neutrality.",
+              headline: "The decision: Make the remote part of the gaming environment.",
+              body: "Instead of designing a generic peripheral, PikBre uses a Pikmin-inspired flower silhouette, black body, and green illumination to fit collector culture and gaming rooms.",
+              labels: ["Design decision", "Ambient controller", "Collector object"]
+            },
+            {
+              claim: "One form language connects shape, symbols, and controls.",
+              headline: "Layer 1: The object becomes a readable system.",
+              body: "The flower silhouette, honeycomb control area, leaf buttons, and glowing power signal follow one visual logic. Users can understand function through form before interaction.",
+              labels: ["Flower silhouette", "Honeycomb controls", "Leaf buttons", "Power signal"]
+            },
+            {
+              claim: "Controls need character without losing clarity.",
+              headline: "Layer 2: Symbolic buttons guide use.",
+              body: "Leaf-shaped buttons and grouped control zones make the remote expressive while staying readable. The object avoids standard remote layouts without becoming confusing.",
+              labels: ["Symbolic cues", "Grouped controls", "Readable interaction"],
+              stats: [
+                {
+                  value: "5 weeks",
+                  label: "Project timeline"
+                },
+                {
+                  value: "1",
+                  label: "Coherent form system"
+                },
+                {
+                  value: "0",
+                  label: "Generic remote layout"
+                }
+              ]
+            },
+            {
+              claim: "Detail makes the object feel intentional.",
+              headline: "Layer 3: Materials and light define the product character.",
+              body: "Black surfaces place the remote in gaming culture, while green illumination creates a clear active state. The object feels playful, but the interaction logic stays controlled.",
+              labels: ["Black body", "Green illumination", "Active state"]
+            },
+            {
+              claim: "Concept model. Product proof still open.",
+              headline: "Scope: A theory-driven form study, not a market-ready remote.",
+              body: "PikBre shows how expressive form language can make a functional object more memorable and display-worthy. It does not claim ergonomic validation, technical feasibility, or production readiness.",
+              labels: ["Group concept", "3D product study", "No ergonomic testing"],
+              stats: [
+                {
+                  value: "Proves",
+                  label: "Form can communicate function"
+                },
+                {
+                  value: "Shows",
+                  label: "Culture can shape product identity"
+                },
+                {
+                  value: "Open",
+                  label: "Ergonomics and production"
+                }
+              ]
+            }
+          ]
+        }
       }
     },
 
@@ -1154,7 +1855,6 @@ const projectsData = {
             alt: "DB Navigator accessibility closing mood"
           }
         ],
-
         editorial: {
           variant: "routeMapEditorial",
 
@@ -1284,7 +1984,85 @@ const projectsData = {
             src: "./pngs/Projects/Spatial To-Do/Editorial/Closing Mood.png",
             alt: "Store Guide Another Add"
           }
-        ]
+        ],
+        editorial: {
+          variant: "routeMapEditorial",
+
+          thesis: "Spatial productivity becomes useful when space creates priority instead of clutter.",
+
+          scopeNote: "Independent spatial interface concept from 2026. Built through AR/VR interaction logic, spatial hierarchy, gesture mapping, contextual anchoring, and urgency-state design. No headset testing or usability validation was conducted.",
+
+          wowFactor: {
+            module: "growingLine"
+          },
+
+          blocks: [
+            {
+              claim: "The problem is turning a flat list into spatial noise.",
+              headline: "Tasks become harder to manage when AR only adds overlays.",
+              body: "A normal to-do list works because it is simple. In AR/VR, too many floating elements can distract users and break focus instead of improving productivity.",
+              labels: ["Spatial clutter", "Task focus", "Cognitive load"]
+            },
+            {
+              claim: "Space over screens.",
+              headline: "The decision: Use depth as the task hierarchy.",
+              body: "Instead of placing a 2D list into AR, Spatial To-Do turns tasks into spatial objects. Important tasks stay in the primary field of view while lower-priority items move into peripheral zones.",
+              labels: ["Design decision", "Spatial hierarchy", "Priority zones"]
+            },
+            {
+              claim: "One system connects focus, priority, and environment.",
+              headline: "Layer 1: Tasks become spatial objects.",
+              body: "Floating task cards, depth, fading, and anchoring create a structure users can see and arrange. The interface uses space to show what matters now and what can wait.",
+              labels: ["Floating tasks", "Depth logic", "Peripheral fading", "Anchoring"]
+            },
+            {
+              claim: "Users act through movement, gaze, and simple gestures.",
+              headline: "Layer 2: Interaction becomes physical.",
+              body: "Users can move, expand, complete, or reprioritize tasks through gestures and eye focus. The system reduces menu searching by making actions feel direct in 3D space.",
+              labels: ["Gesture control", "Eye tracking", "Direct action"],
+              stats: [
+                {
+                  value: "3",
+                  label: "Core gestures"
+                },
+                {
+                  value: "2",
+                  label: "Priority zones"
+                },
+                {
+                  value: "1",
+                  label: "Spatial task layer"
+                }
+              ]
+            },
+            {
+              claim: "Context makes reminders easier to understand.",
+              headline: "Layer 3: Tasks attach to real-world cues.",
+              body: "A reminder can anchor to a desk, door, or object in the room. Color, light, and subtle urgency cues show deadlines without turning the environment into a dashboard.",
+              labels: ["Contextual reminders", "Urgency cues", "Real-world anchors"]
+            },
+            {
+              claim: "Concept first. Spatial validation still open.",
+              headline: "Scope: A spatial UX concept, not a tested AR product.",
+              body: "Spatial To-Do shows how task management could use depth, context, and gestures to reduce screen dependence. It does not claim measured productivity gains, comfort validation, or headset-ready implementation.",
+              labels: ["Independent concept", "No headset testing", "No usability validation"],
+              stats: [
+                {
+                  value: "Proves",
+                  label: "Space can structure priority"
+                },
+                {
+                  value: "Shows",
+                  label: "Tasks can become contextual"
+                },
+                {
+                  value: "Open",
+                  label: "Testing and comfort validation"
+                }
+              ]
+            }
+          ]
+        }
       }
     },
 
@@ -1392,7 +2170,85 @@ const projectsData = {
             src: "./pngs/Projects/HealthyStart/Editorial/Closing Mood.png",
             alt: "Store Guide Another Add"
           }
-        ]
+        ],
+        editorial: {
+          variant: "routeMapEditorial",
+
+          thesis: "Health onboarding builds trust when users understand data use before they give permission.",
+
+          scopeNote: "Independent privacy onboarding concept from 2026. Built through permission grouping, plain-language security explanation, GDPR-aware microcopy, privacy-first defaults, and interactive settings preview. No user testing, legal review, or compliance validation was conducted.",
+
+          wowFactor: {
+            module: "growingLine"
+          },
+
+          blocks: [
+            {
+              claim: "The problem is hesitation before onboarding starts.",
+              headline: "Users pause when health data feels unclear or risky.",
+              body: "Health apps ask for sensitive information early. If users do not understand what is collected, why it is needed, or how it is protected, trust breaks before the product can prove value.",
+              labels: ["Health data", "User hesitation", "Privacy trust"]
+            },
+            {
+              claim: "Explanation before permission.",
+              headline: "The decision: Make privacy the first product experience.",
+              body: "Instead of treating permissions as a technical checklist, HealthyStart explains data use before asking for commitment. Users can review, adjust, and understand settings before completing onboarding.",
+              labels: ["Design decision", "Privacy-first", "Clear consent"]
+            },
+            {
+              claim: "One system connects permissions, security, and control.",
+              headline: "Layer 1: Privacy becomes structured.",
+              body: "Permissions are grouped by type, purpose, and impact. Required and optional data stay clearly separated, so users can understand what matters and what they can control.",
+              labels: ["Permission groups", "Required data", "Optional data", "User control"]
+            },
+            {
+              claim: "Users need plain language, not legal density.",
+              headline: "Layer 2: Security becomes understandable.",
+              body: "Encryption, secure storage, and two-factor authentication are explained through simple cues and calm microcopy. The interface reduces technical distance without hiding important details.",
+              labels: ["Security cues", "Plain language", "Calm microcopy"],
+              stats: [
+                {
+                  value: "3",
+                  label: "Core privacy questions"
+                },
+                {
+                  value: "2",
+                  label: "Data levels, required and optional"
+                },
+                {
+                  value: "1",
+                  label: "Preview before completion"
+                }
+              ]
+            },
+            {
+              claim: "Trust grows when settings can be previewed.",
+              headline: "Layer 3: Users see the effect before they continue.",
+              body: "The interactive privacy preview lets users adjust choices and understand what changes. Privacy becomes an action they can control, not a document they have to accept.",
+              labels: ["Privacy preview", "Adjustable settings", "Onboarding completion"]
+            },
+            {
+              claim: "Concept first. Validation still open.",
+              headline: "Scope: A privacy UX concept, not a certified compliance product.",
+              body: "HealthyStart shows how health onboarding can reduce hesitation through clarity, control, and privacy-first defaults. It does not claim legal GDPR compliance, measured onboarding improvement, or production readiness.",
+              labels: ["Independent concept", "GDPR-aware", "No legal validation"],
+              stats: [
+                {
+                  value: "Proves",
+                  label: "Privacy can build trust"
+                },
+                {
+                  value: "Shows",
+                  label: "Consent can feel understandable"
+                },
+                {
+                  value: "Open",
+                  label: "Testing and legal review"
+                }
+              ]
+            }
+          ]
+        }
       }
     },
   ]

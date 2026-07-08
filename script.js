@@ -882,38 +882,38 @@ function renderProjectHeader(project) {
   const metaEl = document.getElementById("projectMeta");
 
   if (titleEl) {
-  const titleText = safeText(project.title).trim();
-  const titleLength = titleText.length;
-  const wordCount = titleText.split(/\s+/).filter(Boolean).length;
-  const introBlock = qs(".intro-block");
+    const titleText = safeText(project.title).trim();
+    const titleLength = titleText.length;
+    const wordCount = titleText.split(/\s+/).filter(Boolean).length;
+    const introBlock = qs(".intro-block");
 
-  titleEl.textContent = titleText;
+    titleEl.textContent = titleText;
 
-  titleEl.classList.remove(
-    "project-title-short",
-    "project-title-long",
-    "project-title-extra-long"
-  );
-
-  if (introBlock) {
-    introBlock.classList.remove(
-      "has-short-title",
-      "has-long-title",
-      "has-extra-long-title"
+    titleEl.classList.remove(
+      "project-title-short",
+      "project-title-long",
+      "project-title-extra-long"
     );
-  }
 
-  if (titleLength > 22 || wordCount >= 3) {
-  titleEl.classList.add("project-title-extra-long");
-  if (introBlock) introBlock.classList.add("has-extra-long-title");
-} else if (titleLength > 12 || wordCount >= 2) {
-  titleEl.classList.add("project-title-long");
-  if (introBlock) introBlock.classList.add("has-long-title");
-} else {
-  titleEl.classList.add("project-title-short");
-  if (introBlock) introBlock.classList.add("has-short-title");
-}
-}
+    if (introBlock) {
+      introBlock.classList.remove(
+        "has-short-title",
+        "has-long-title",
+        "has-extra-long-title"
+      );
+    }
+
+    if (titleLength > 22 || wordCount >= 3) {
+      titleEl.classList.add("project-title-extra-long");
+      if (introBlock) introBlock.classList.add("has-extra-long-title");
+    } else if (titleLength > 12 || wordCount >= 2) {
+      titleEl.classList.add("project-title-long");
+      if (introBlock) introBlock.classList.add("has-long-title");
+    } else {
+      titleEl.classList.add("project-title-short");
+      if (introBlock) introBlock.classList.add("has-short-title");
+    }
+  }
   if (metaEl) metaEl.textContent = safeText(project.detail.meta);
 
   if (!tagsEl) return;
@@ -923,34 +923,34 @@ function renderProjectHeader(project) {
 
   const headerTags = getProjectTagList(project).slice(0, 3);
 
-headerTags.forEach((tag, index) => {
-  const link = document.createElement("a");
-  const isYear = /^\d{4}$/.test(tag);
-  const isLevel = tag === "Private" || tag === "Group Project";
-  const isProjectType = !isYear && !isLevel;
+  headerTags.forEach((tag, index) => {
+    const link = document.createElement("a");
+    const isYear = /^\d{4}$/.test(tag);
+    const isLevel = tag === "Private" || tag === "Group Project";
+    const isProjectType = !isYear && !isLevel;
 
-  link.className = "project-tag-filter";
-  link.dataset.tagIndex = String(index + 1);
+    link.className = "project-tag-filter";
+    link.dataset.tagIndex = String(index + 1);
 
-  if (isLevel) {
-    link.href = `${base}projects.html?level=${encodeURIComponent(tag)}#filters`;
-    link.dataset.tagType = "level";
-  } else if (isYear) {
-    link.href = `${base}projects.html#filters`;
-    link.dataset.tagType = "year";
-  } else {
-    link.href = `${base}projects.html?filter=${encodeURIComponent(tag)}#filters`;
-    link.dataset.tagType = "project-type";
-  }
+    if (isLevel) {
+      link.href = `${base}projects.html?level=${encodeURIComponent(tag)}#filters`;
+      link.dataset.tagType = "level";
+    } else if (isYear) {
+      link.href = `${base}projects.html#filters`;
+      link.dataset.tagType = "year";
+    } else {
+      link.href = `${base}projects.html?filter=${encodeURIComponent(tag)}#filters`;
+      link.dataset.tagType = "project-type";
+    }
 
-  if (isProjectType) {
-    link.classList.add("is-active");
-    link.setAttribute("aria-current", "true");
-  }
+    if (isProjectType) {
+      link.classList.add("is-active");
+      link.setAttribute("aria-current", "true");
+    }
 
-  link.textContent = tag;
-  tagsEl.appendChild(link);
-});
+    link.textContent = tag;
+    tagsEl.appendChild(link);
+  });
 }
 
 function ensureProjectIntroComposition() {
@@ -1027,13 +1027,13 @@ function renderProjectCover(project) {
   const coverColor = getProjectCoverBg(project)
   const coverSrc = normalizePath(project.coverBannerImage || project.coverImage || "", base)
   const coverZoom = Number(project.coverZoom)
-const imageScale = Number(project.imageScale)
+  const imageScale = Number(project.imageScale)
 
-const coverScale = Number.isFinite(coverZoom)
-  ? 1 + coverZoom / 100
-  : Number.isFinite(imageScale)
-    ? imageScale
-    : 1
+  const coverScale = Number.isFinite(coverZoom)
+    ? 1 + coverZoom / 100
+    : Number.isFinite(imageScale)
+      ? imageScale
+      : 1
 
   removeChildren(coverBannerEl)
   coverBannerEl.style.background = "transparent"
@@ -1596,8 +1596,8 @@ function getProjectEditorialArtImages(project) {
   const images = project &&
     project.detail &&
     Array.isArray(project.detail.editorialArtDirectedCaseStudyImages)
-      ? project.detail.editorialArtDirectedCaseStudyImages
-      : [];
+    ? project.detail.editorialArtDirectedCaseStudyImages
+    : [];
 
   return images.filter(image => image && !isBlank(image.src));
 }
@@ -1699,50 +1699,64 @@ function getDbImageDrivenBlocks(project, blocks = []) {
   const result = [];
 
   if (deviceLineup) {
-    result.push(createDbImageBlock(sourceKnownFlow, deviceLineup, {
+    result.push(createDbImageBlock(sourceOpening, deviceLineup, {
       id: "db-editorial-device-lineup",
       type: "problem",
-      layoutRole: "rail-left knownFlow",
-      claim: "The familiar DB structure stays recognizable.",
-      headline: "The flow stays familiar.",
-      body: "Search, connection results, and journey details stay close to the learned DB Navigator structure. The redesign improves clarity inside the existing flow instead of replacing it.",
-      labels: ["Known flow", "Connection results", "Journey details"]
+      layoutRole: "rail-left opening",
+      claim: "Accessibility information is hidden, not integrated.",
+      headline: "The problem: Accessibility isn't part of route comparison.",
+      body: "An elderly passenger may need wheelchair access and an accessible toilet. In the current flow, they have to leave route comparison to check both. The route looks valid before access is clear.",
+      labels: ["Hidden access info", "Elderly passengers", "Disabled users"]
     }));
   }
 
   if (conceptualDiptych) {
-    result.push(createDbImageBlock(sourceOpening, conceptualDiptych, {
+    result.push(createDbImageBlock(sourceKnownFlow, conceptualDiptych, {
       id: "db-editorial-conceptual-diptych",
       type: "proof",
-      layoutRole: "rail-right opening",
-      claim: "Accessibility becomes part of the route decision.",
-      headline: "Making accessibility visible inside route comparison.",
-      body: "An independent DB Navigator concept that keeps the familiar journey flow, while making access conditions easier to compare before choosing a route.",
-      labels: ["Independent concept", "Interaction System", "Route comparison"]
+      layoutRole: "rail-right knownFlow",
+      claim: "Integration over separation.",
+      headline: "The decision: Bring accessibility into route comparison.",
+      body: "Instead of a separate accessibility mode, access indicators live inside the route cards. Users compare wheelchair access, toilets, and hearing loops where they already compare time and changes.",
+      labels: ["Design decision", "Journey flow", "Route comparison"]
     }));
   }
 
   if (editorialObjectShot) {
-    result.push(createDbImageBlock(sourceSystem, editorialObjectShot, {
+    result.push(createDbImageBlock(sourceOptions, editorialObjectShot, {
       id: "db-editorial-object-shot",
       type: "proof",
       layoutRole: "rail-left objectProof",
-      claim: "The system needs a clear visual anchor.",
-      headline: "Accessibility becomes a visible product layer.",
-      body: "The editorial object shot gives the redesign a calmer product moment between abstract concept and interface proof. It helps the case study feel designed, not just documented.",
-      labels: ["Editorial object", "Product layer", "Visual anchor"]
+      claim: "Four categories turn scattered data into a system.",
+      headline: "Layer 1: Access needs become scannable.",
+      body: "15 conditions are grouped into Mobility, Sanitary, Sensory, and Assistance. A user looking for a wheelchair-accessible toilet can scan Mobility and Sanitary first.",
+      labels: ["Mobility", "Sanitary", "Sensory", "Assistance"]
     }));
   }
 
   if (informationArchitecture) {
-    result.push(createDbImageBlock(sourceOptions, informationArchitecture, {
+    result.push(createDbImageBlock(sourceCoreProof, informationArchitecture, {
       id: "db-editorial-information-architecture",
       type: "sticky",
       layoutRole: "rail-right entry",
-      claim: "Access needs enter before comparison.",
-      headline: "Accessibility enters through the options flow.",
-      body: "Users can surface relevant access needs before comparing routes, instead of searching for them later in separated details.",
-      labels: ["Options flow", "Access needs", "Categories"]
+      claim: "Users set their access needs before results appear.",
+      headline: "Layer 2: The options flow personalizes comparison.",
+      body: "Before searching, users select what matters to them. If wheelchair access and accessible toilets are required, the results highlight those conditions first instead of showing every indicator equally.",
+      labels: ["Options flow", "Personalized results", "Required conditions"],
+      stats: [
+        {
+          value: "4",
+          label: "Access categories"
+        },
+        {
+          value: "15",
+          label: "Route conditions"
+        },
+        {
+          value: "1x",
+          label: "Setup before comparison"
+        }
+      ]
     }));
   }
 
@@ -1751,34 +1765,34 @@ function getDbImageDrivenBlocks(project, blocks = []) {
       id: "db-editorial-detail-crop",
       type: "proof",
       layoutRole: "rail-left explanation",
-      claim: "The score stays explainable.",
-      headline: "The score opens into route-level details.",
-      body: "Available, limited, and missing access conditions explain why a route receives its conceptual access score.",
-      labels: ["Available", "Limited", "Missing", "Route-level details"]
+      claim: "The score is visible, but the reasoning stays accessible.",
+      headline: "Layer 3: Progressive details explain the score.",
+      body: "Each route shows a quick access score. One tap opens the condition list. A second level shows where access is available, limited, or missing across stations and route steps.",
+      labels: ["Access score", "Available", "Limited", "Missing"]
     }));
   }
 
   if (mobileSystem) {
-    result.push(createDbImageBlock(sourceCoreProof, mobileSystem, {
+    result.push(createDbImageBlock(sourceSystem, mobileSystem, {
       id: "db-editorial-mobile-system",
       type: "spread",
       layoutRole: "rail-right coreProof",
-      claim: "Accessibility becomes comparable.",
-      headline: "Access scores turn routes into decisions.",
-      body: "A conceptual score makes access conditions visible beside classic travel information, so routes can be compared beyond time, changes, and duration.",
-      labels: ["Conceptual model", "Route comparison", "Access clarity"],
+      claim: "Concept first. Validation still open.",
+      headline: "Scope: A heuristic concept, not a validated product.",
+      body: "This independent redesign explores how DB Navigator could integrate accessibility into route comparison. It was shaped through heuristic review and WCAG contrast checks, not user testing.",
+      labels: ["Independent concept", "Heuristic-based", "No user testing"],
       stats: [
         {
-          value: "10/15",
-          label: "High access clarity"
+          value: "Proves",
+          label: "Integration can reduce separation"
         },
         {
-          value: "7/15",
-          label: "Medium access clarity"
+          value: "Shows",
+          label: "Existing flows can hold more clarity"
         },
         {
-          value: "3/15",
-          label: "Low access clarity"
+          value: "Open",
+          label: "User testing and validation"
         }
       ]
     }));
@@ -4239,7 +4253,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initHeroRollSync();
 
   loadFooter();
-  
+
 
   setupArchivePageLayout();
   const projectsLoaded = renderProjects();
