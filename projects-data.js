@@ -358,7 +358,7 @@ const projectsData = {
           },
         ],
         editorial: {
-          color: "#00AEEF",
+          color: "#007AFF",
 
           variant: "routeMapEditorial",
 
@@ -582,7 +582,7 @@ const projectsData = {
           },
         ],
         editorial: {
-          color: "#6E368C",
+          color: "#5743D5",
           variant: "routeMapEditorial",
 
           thesis:
@@ -1024,7 +1024,7 @@ const projectsData = {
           },
         ],
         editorial: {
-          color: "#D6FF00",
+          color: "#E6B636",
           variant: "routeMapEditorial",
 
           thesis:
@@ -1251,7 +1251,7 @@ const projectsData = {
           },
         ],
         editorial: {
-          color: "#8FAF9F",
+          color: "#B092CC",
           variant: "routeMapEditorial",
 
           thesis:
@@ -1870,7 +1870,7 @@ const projectsData = {
           },
         ],
         editorial: {
-          color: "#00A099",
+          color: "#23B5C4",
           variant: "routeMapEditorial",
 
           thesis:
@@ -2081,7 +2081,7 @@ const projectsData = {
           },
         ],
         editorial: {
-          color: "#74F24A",
+          color: "#067E3B",
           variant: "routeMapEditorial",
 
           thesis:
@@ -2326,6 +2326,7 @@ const projectsData = {
           },
         ],
         editorial: {
+          color: "#E90201",
           variant: "routeMapEditorial",
 
           thesis:

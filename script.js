@@ -3750,15 +3750,9 @@ function initCustomVideos() {
     video.addEventListener("contextmenu", event => event.preventDefault());
 
     let controlsTimeout = null;
-    let blobReturnTween = null;
-    let blobFollowTween = null;
-    let fillExitTimeout = null;
-    let fillResetTimeout = null;
     let previousVolume = 1;
 
-    const FILL_EXIT_DURATION = 780;
-    const FILL_RESET_DELAY = 180;
-    const FILL_AFTER_BLOB_DELAY = 260;
+    const PLAY_BUTTON_EDGE = 58;
 
     video.volume = 1;
     video.muted = false;
@@ -3766,8 +3760,12 @@ function initCustomVideos() {
 
     function formatTime(seconds) {
       if (!Number.isFinite(seconds)) return "0:00";
+
       const minutes = Math.floor(seconds / 60);
-      const remainingSeconds = Math.floor(seconds % 60).toString().padStart(2, "0");
+      const remainingSeconds = Math.floor(seconds % 60)
+        .toString()
+        .padStart(2, "0");
+
       return `${minutes}:${remainingSeconds}`;
     }
 
@@ -3776,6 +3774,7 @@ function initCustomVideos() {
 
       controls.hidden = false;
       block.classList.add("is-controls-visible");
+
       clearTimeout(controlsTimeout);
 
       controlsTimeout = setTimeout(() => {
@@ -3787,7 +3786,9 @@ function initCustomVideos() {
       block.classList.remove("is-controls-visible");
 
       window.setTimeout(() => {
-        if (!block.classList.contains("is-controls-visible")) controls.hidden = true;
+        if (!block.classList.contains("is-controls-visible")) {
+          controls.hidden = true;
+        }
       }, 280);
     }
 
@@ -3795,137 +3796,35 @@ function initCustomVideos() {
       return Math.min(Math.max(value, min), max);
     }
 
-    function killBlobTweens() {
-      if (blobReturnTween) blobReturnTween.kill();
-      if (blobFollowTween) blobFollowTween.kill();
-      blobReturnTween = null;
-      blobFollowTween = null;
+    function centerPlayButton() {
+      playButton.style.setProperty("--play-x", "50%");
+      playButton.style.setProperty("--play-y", "50%");
     }
 
-    function setBlobAngle(angle) {
-      const inverse = Number.isFinite(angle) ? angle * -1 : 0;
-      return {
-        "--blob-angle": `${angle || 0}rad`,
-        "--blob-angle-inverse": `${inverse}rad`
-      };
-    }
+    function movePlayButton(event) {
+      if (event.pointerType === "touch") return;
 
-    function setBlobVars(vars) {
-      Object.entries(vars).forEach(([key, value]) => blob.style.setProperty(key, String(value)));
-    }
-
-    function startFillHover() {
-      clearTimeout(fillExitTimeout);
-      clearTimeout(fillResetTimeout);
-      block.classList.remove("is-fill-exiting", "is-fill-resetting");
-      block.classList.add("is-video-hovered");
-    }
-
-    function playFillExit() {
-      clearTimeout(fillExitTimeout);
-      clearTimeout(fillResetTimeout);
-      block.classList.remove("is-fill-exiting", "is-fill-resetting");
-      block.classList.add("is-video-hovered");
-      void block.offsetWidth;
-      block.classList.remove("is-video-hovered");
-      block.classList.add("is-fill-exiting");
-
-      fillExitTimeout = setTimeout(() => {
-        block.classList.remove("is-fill-exiting");
-        block.classList.add("is-fill-resetting");
-
-        fillResetTimeout = setTimeout(() => {
-          block.classList.remove("is-fill-resetting");
-        }, FILL_RESET_DELAY);
-      }, FILL_EXIT_DURATION);
-    }
-
-    function resetBlob(animate = true) {
-      if (!block.classList.contains("is-fill-exiting")) block.classList.remove("is-near");
-      killBlobTweens();
-
-      const vars = {
-        "--pull-x": "0px",
-        "--pull-y": "0px",
-        "--blob-scale-x": 1,
-        "--blob-scale-y": 1,
-        ...setBlobAngle(0)
-      };
-
-      if (!hasGsap) {
-        setBlobVars(vars);
-        return;
-      }
-
-      blobFollowTween = gsap.to(blob, {
-        duration: animate ? 0.2 : 0,
-        ...vars,
-        ease: "power3.out",
-        overwrite: "auto"
-      });
-    }
-
-    function releaseBlobFromVideoEdge(event, onSettled = null) {
       const rect = block.getBoundingClientRect();
-      const videoCenterX = rect.left + rect.width / 2;
-      const videoCenterY = rect.top + rect.height / 2;
-      const edgeX = clamp(event.clientX, rect.left, rect.right);
-      const edgeY = clamp(event.clientY, rect.top, rect.bottom);
-      const dx = edgeX - videoCenterX;
-      const dy = edgeY - videoCenterY;
-      const distance = Math.sqrt(dx * dx + dy * dy);
 
-      if (distance < 1 || !hasGsap) {
-        resetBlob(true);
-        if (typeof onSettled === "function") onSettled();
-        return;
-      }
+      const minX = Math.min(PLAY_BUTTON_EDGE, rect.width / 2);
+      const minY = Math.min(PLAY_BUTTON_EDGE, rect.height / 2);
+      const maxX = Math.max(minX, rect.width - PLAY_BUTTON_EDGE);
+      const maxY = Math.max(minY, rect.height - PLAY_BUTTON_EDGE);
 
-      const dirX = dx / distance;
-      const dirY = dy / distance;
-      const maxDistance = Math.sqrt(Math.pow(rect.width / 2, 2) + Math.pow(rect.height / 2, 2));
-      const edgeStrength = Math.min(distance / maxDistance, 1);
-      const startPull = 46 + edgeStrength * 20;
-      const overshootPull = 6 + edgeStrength * 4;
+      const x = clamp(
+        event.clientX - rect.left,
+        minX,
+        maxX
+      );
 
-      killBlobTweens();
-      block.classList.add("is-near");
+      const y = clamp(
+        event.clientY - rect.top,
+        minY,
+        maxY
+      );
 
-      gsap.set(blob, {
-        "--pull-x": `${dirX * startPull}px`,
-        "--pull-y": `${dirY * startPull}px`,
-        "--blob-scale-x": 1.06,
-        "--blob-scale-y": 1.06,
-        ...setBlobAngle(0)
-      });
-
-      blobReturnTween = gsap.timeline({
-        defaults: { overwrite: true },
-        onComplete: () => {
-          block.classList.remove("is-near");
-          if (typeof onSettled === "function") onSettled();
-        }
-      });
-
-      blobReturnTween
-        .to(blob, {
-          duration: 0.48,
-          "--pull-x": `${dirX * -overshootPull}px`,
-          "--pull-y": `${dirY * -overshootPull}px`,
-          "--blob-scale-x": 0.98,
-          "--blob-scale-y": 0.98,
-          ...setBlobAngle(0),
-          ease: "power3.out"
-        })
-        .to(blob, {
-          duration: 0.82,
-          "--pull-x": "0px",
-          "--pull-y": "0px",
-          "--blob-scale-x": 1,
-          "--blob-scale-y": 1,
-          ...setBlobAngle(0),
-          ease: "power4.out"
-        });
+      playButton.style.setProperty("--play-x", `${x}px`);
+      playButton.style.setProperty("--play-y", `${y}px`);
     }
 
     function updateVolumeUI(animateSlider = true) {
@@ -3933,11 +3832,19 @@ function initCustomVideos() {
       const visibleVolume = isMuted ? 0 : video.volume;
 
       block.classList.toggle("is-muted", isMuted);
+
       volumeButton.setAttribute("aria-pressed", String(isMuted));
-      volumeButton.setAttribute("aria-label", isMuted ? "Unmute video" : "Mute video");
+      volumeButton.setAttribute(
+        "aria-label",
+        isMuted ? "Unmute video" : "Mute video"
+      );
 
       if (animateSlider && hasGsap) {
-        gsap.to(volumeSlider, { duration: 0.28, value: visibleVolume, ease: "power2.out" });
+        gsap.to(volumeSlider, {
+          duration: 0.28,
+          value: visibleVolume,
+          ease: "power2.out"
+        });
       } else {
         volumeSlider.value = String(visibleVolume);
       }
@@ -3952,17 +3859,27 @@ function initCustomVideos() {
     }
 
     function toggleVideo() {
-      if (video.paused) playVideo();
-      else video.pause();
+      if (video.paused) {
+        playVideo();
+      } else {
+        video.pause();
+      }
     }
 
     playButton.addEventListener("click", event => {
       event.preventDefault();
+      event.stopPropagation();
       toggleVideo();
     });
 
     block.addEventListener("click", event => {
-      if (event.target.closest(".custom-video-play") || event.target.closest(".custom-video-controls")) return;
+      if (
+        event.target.closest(".custom-video-play") ||
+        event.target.closest(".custom-video-controls")
+      ) {
+        return;
+      }
+
       toggleVideo();
     });
 
@@ -3974,7 +3891,10 @@ function initCustomVideos() {
         video.muted = false;
         video.volume = previousVolume || 0.8;
       } else {
-        previousVolume = video.volume > 0 ? video.volume : previousVolume;
+        previousVolume = video.volume > 0
+          ? video.volume
+          : previousVolume;
+
         video.muted = true;
       }
 
@@ -3984,23 +3904,47 @@ function initCustomVideos() {
 
     volumeSlider.addEventListener("input", event => {
       event.stopPropagation();
+
       const nextVolume = Number(volumeSlider.value);
+
       video.volume = nextVolume;
       video.muted = nextVolume === 0;
-      if (nextVolume > 0) previousVolume = nextVolume;
+
+      if (nextVolume > 0) {
+        previousVolume = nextVolume;
+      }
+
       updateVolumeUI(false);
       showControls();
     });
 
     ["click", "pointerdown"].forEach(type => {
-      volumeSlider.addEventListener(type, event => event.stopPropagation());
+      volumeSlider.addEventListener(type, event => {
+        event.stopPropagation();
+      });
+    });
+
+    progress.addEventListener("input", event => {
+      event.stopPropagation();
+
+      if (!video.duration) return;
+
+      video.currentTime =
+        (Number(progress.value) / 100) * video.duration;
+
+      showControls();
+    });
+
+    ["click", "pointerdown"].forEach(type => {
+      progress.addEventListener(type, event => {
+        event.stopPropagation();
+      });
     });
 
     video.addEventListener("play", () => {
-      clearTimeout(fillExitTimeout);
-      clearTimeout(fillResetTimeout);
       block.classList.add("is-playing");
-      block.classList.remove("is-near", "is-video-hovered", "is-fill-exiting", "is-fill-resetting");
+      block.classList.remove("is-video-hovered");
+
       controls.hidden = false;
       showControls();
     });
@@ -4008,97 +3952,74 @@ function initCustomVideos() {
     video.addEventListener("pause", () => {
       block.classList.remove("is-playing");
       hideControls();
-      resetBlob();
+
+      if (block.matches(":hover")) {
+        block.classList.add("is-video-hovered");
+      }
     });
 
     video.addEventListener("ended", () => {
       block.classList.remove("is-playing");
+
       progress.value = 0;
       video.currentTime = 0;
+
       hideControls();
-      resetBlob();
+
+      if (block.matches(":hover")) {
+        block.classList.add("is-video-hovered");
+      } else {
+        centerPlayButton();
+      }
     });
 
     video.addEventListener("loadedmetadata", () => {
+      progress.value = 0;
       time.textContent = "0:00";
     });
 
     video.addEventListener("timeupdate", () => {
       if (!video.duration) return;
-      progress.value = (video.currentTime / video.duration) * 100;
+
+      progress.value =
+        (video.currentTime / video.duration) * 100;
+
       time.textContent = formatTime(video.currentTime);
     });
 
-    progress.addEventListener("input", () => {
-      if (!video.duration) return;
-      video.currentTime = (progress.value / 100) * video.duration;
-      showControls();
-    });
+    block.addEventListener("pointerenter", event => {
+      if (event.pointerType === "touch") return;
 
-    block.addEventListener("mouseenter", () => {
-      if (!block.classList.contains("is-playing")) startFillHover();
-      if (!video.paused) showControls();
-    });
+      movePlayButton(event);
 
-    block.addEventListener("mousemove", event => {
-      showControls();
-      if (block.classList.contains("is-playing")) return;
-
-      const buttonRect = playButton.getBoundingClientRect();
-      const centerX = buttonRect.left + buttonRect.width / 2;
-      const centerY = buttonRect.top + buttonRect.height / 2;
-      const dx = event.clientX - centerX;
-      const dy = event.clientY - centerY;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      const deadZone = 46;
-      const influenceRadius = 260;
-
-      if (distance < deadZone || distance > influenceRadius || !hasGsap) {
-        resetBlob(true);
-        return;
+      if (video.paused) {
+        block.classList.add("is-video-hovered");
+      } else {
+        showControls();
       }
-
-      if (blobReturnTween) {
-        blobReturnTween.kill();
-        blobReturnTween = null;
-      }
-
-      const rawStrength = (distance - deadZone) / (influenceRadius - deadZone);
-      const strength = Math.pow(rawStrength, 0.85);
-      const angle = Math.atan2(dy, dx);
-      const pullX = dx * strength * 0.3;
-      const pullY = dy * strength * 0.3;
-      const scaleX = 1 + strength * 0.28;
-      const scaleY = 1 - strength * 0.14;
-
-      block.classList.add("is-near");
-
-      blobFollowTween = gsap.to(blob, {
-        duration: 0.24,
-        "--pull-x": `${pullX}px`,
-        "--pull-y": `${pullY}px`,
-        "--blob-scale-x": scaleX,
-        "--blob-scale-y": scaleY,
-        ...setBlobAngle(angle),
-        ease: "power3.out",
-        overwrite: "auto"
-      });
     });
 
-    block.addEventListener("mouseleave", event => {
-      if (!block.classList.contains("is-playing")) {
-        releaseBlobFromVideoEdge(event, () => {
-          window.setTimeout(() => {
-            if (!block.matches(":hover") && !block.classList.contains("is-playing")) {
-              playFillExit();
-            }
-          }, FILL_AFTER_BLOB_DELAY);
-        });
-      }
+    block.addEventListener("pointermove", event => {
+      if (event.pointerType === "touch") return;
 
-      if (!video.paused) hideControls();
+      movePlayButton(event);
+
+      if (!video.paused) {
+        showControls();
+      }
     });
 
+    block.addEventListener("pointerleave", event => {
+      if (event.pointerType === "touch") return;
+
+      block.classList.remove("is-video-hovered");
+
+      if (!video.paused) {
+        hideControls();
+      }
+    });
+
+    centerPlayButton();
     updateVolumeUI(false);
   });
 }
