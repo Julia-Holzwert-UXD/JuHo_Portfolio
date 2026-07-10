@@ -1958,8 +1958,6 @@ body[data-project-slug="healthyStart"] .project-intro-block #projectCoverBanner{
   place-items:center;
   padding:clamp(18px,4vw,64px);
   background:rgba(0,0,0,.72);
-  backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);
   cursor:zoom-out;
   opacity:0;
   pointer-events:none;
@@ -1972,28 +1970,32 @@ body[data-project-slug="healthyStart"] .project-intro-block #projectCoverBanner{
 }
 
 .project-image-preview-inner{
-  width:min(1440px,100%);
-  max-height:min(86vh,900px);
+  width:auto;
+  height:auto;
+  max-width:100%;
+  max-height:100%;
   display:grid;
   place-items:center;
-  background:var(--bg-main);
-  border:1px solid rgba(255,255,255,.18);
-  box-shadow:0 32px 90px rgba(0,0,0,.38);
-  overflow:hidden;
+  background:transparent;
+  border:0;
+  box-shadow:none;
+  overflow:visible;
 }
 
 .project-image-preview-img{
   display:block;
-  width:100%;
-  height:100%;
-  max-height:min(86vh,900px);
+  width:auto;
+  height:auto;
+  max-width:calc(100vw - clamp(36px,8vw,128px));
+  max-height:calc(100vh - clamp(36px,8vw,128px));
   object-fit:contain;
   object-position:center;
+  background:transparent;
+  border:0;
+  border-radius:0;
+  box-shadow:none;
 }
 
-body.darkmode .project-image-preview-inner{
-  background:#0D0B14;
-}
 
 body.is-project-image-preview-open{
   overflow:hidden;

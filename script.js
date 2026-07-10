@@ -2994,6 +2994,7 @@ function initProjectImagePreview(root = document) {
     .project-detail-section .before-after-slider img,
     .case-story-section .case-visual-img,
     .case-story-section .case-story-hero-statement-img,
+    .case-story-section .case-story-closing-mood-img,
     .case-story-section .compare-tab-panel img,
     .case-story-section .before-after-slider img
   `, root).filter(image => {
@@ -3026,16 +3027,54 @@ function initProjectImagePreview(root = document) {
     preview.appendChild(inner);
     document.body.appendChild(preview);
 
+    function lockPreviewScroll() {
+      if (document.body.classList.contains("is-project-image-preview-open")) {
+        return;
+      }
+
+      const scrollY = window.scrollY;
+
+      preview.dataset.lockedScrollY = String(scrollY);
+
+      document.body.style.top = `-${scrollY}px`;
+      document.body.classList.add("is-project-image-preview-open");
+
+      if (lenis) {
+        lenis.stop();
+      }
+    }
+
+    function unlockPreviewScroll() {
+      const scrollY = Number(preview.dataset.lockedScrollY) || 0;
+
+      document.body.classList.remove("is-project-image-preview-open");
+      document.body.style.top = "";
+
+      window.scrollTo(0, scrollY);
+
+      if (lenis) {
+        lenis.start();
+      }
+
+      delete preview.dataset.lockedScrollY;
+    }
+
     function closePreview() {
       preview.classList.remove("is-visible");
       preview.setAttribute("aria-hidden", "true");
-      document.body.classList.remove("is-project-image-preview-open");
+
+      unlockPreviewScroll();
     }
 
     preview.addEventListener("click", closePreview);
 
     document.addEventListener("keydown", event => {
-      if (event.key === "Escape") closePreview();
+      if (
+        event.key === "Escape" &&
+        preview.classList.contains("is-visible")
+      ) {
+        closePreview();
+      }
     });
   }
 
@@ -3043,11 +3082,13 @@ function initProjectImagePreview(root = document) {
 
   previewImages.forEach(image => {
     if (image.dataset.projectPreviewReady) return;
+
     image.dataset.projectPreviewReady = "true";
 
     const trigger =
       image.closest(".case-visual-frame") ||
       image.closest(".case-story-hero-statement-strip") ||
+      image.closest(".case-story-closing-mood-strip") ||
       image.closest(".compare-tab-panel") ||
       image.closest(".before-after-slider") ||
       image.closest(".image-row") ||
@@ -3058,11 +3099,22 @@ function initProjectImagePreview(root = document) {
     trigger.setAttribute("aria-label", "Open image preview");
 
     function openPreview() {
+      const scrollY = window.scrollY;
+
       previewImage.src = image.currentSrc || image.src;
       previewImage.alt = image.alt || "";
+
+      preview.dataset.lockedScrollY = String(scrollY);
+
+      document.body.style.top = `-${scrollY}px`;
+      document.body.classList.add("is-project-image-preview-open");
+
+      if (lenis) {
+        lenis.stop();
+      }
+
       preview.classList.add("is-visible");
       preview.setAttribute("aria-hidden", "false");
-      document.body.classList.add("is-project-image-preview-open");
     }
 
     trigger.addEventListener("click", event => {
@@ -3072,6 +3124,7 @@ function initProjectImagePreview(root = document) {
 
     trigger.addEventListener("keydown", event => {
       if (event.key !== "Enter" && event.key !== " ") return;
+
       event.preventDefault();
       openPreview();
     });
