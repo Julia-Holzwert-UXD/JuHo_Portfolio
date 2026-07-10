@@ -1670,14 +1670,31 @@ function getRouteMapImageDrivenBlocks(project, blocks = []) {
     return getDbImageDrivenBlocks(project, blocks);
   }
 
+  const editorialImages = getProjectEditorialArtImages(project);
+
+  // Bild 1 ist das Hero-Bild.
+  // Bild 8 ist das Closing-Mood-Bild.
+  // Die sechs Bilder dazwischen gehören zu den sechs Inhaltsblöcken.
+  const contentImages = editorialImages.slice(1, -1);
+
   return blocks.map((block, index) => {
-    const layoutRole = safeText(block.layoutRole) || (index % 2 === 0 ? "rail-left" : "rail-right");
-    const visual = block.dominantVisual || findAutoEditorialVisual(project, [], getAutoEditorialVisualSet(project), index);
+    const layoutRole =
+      safeText(block.layoutRole) ||
+      (index % 2 === 0 ? "rail-left" : "rail-right");
+
+    const visual =
+      block.dominantVisual ||
+      contentImages[index] ||
+      null;
 
     return createDbImageBlock(block, visual, {
-      id: block.id || `${normalizeSlug(project.slug)}-editorial-${index + 1}`,
+      id:
+        block.id ||
+        `${normalizeSlug(project.slug)}-editorial-${index + 1}`,
       layoutRole,
-      type: block.type || (index === blocks.length - 1 ? "spread" : "proof"),
+      type:
+        block.type ||
+        (index === blocks.length - 1 ? "spread" : "proof"),
       claim: block.claim,
       headline: block.headline,
       body: block.body,
